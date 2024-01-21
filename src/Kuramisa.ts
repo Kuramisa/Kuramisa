@@ -37,12 +37,12 @@ export default class Kuramisa extends SapphireClient {
             loadDefaultErrorListeners: true,
             logger: {
                 level:
-                    NODE_ENV === "development" ? LogLevel.Debug : LogLevel.Info,
+                    NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
             },
         });
 
         logs(this, {
-            debug: NODE_ENV === "development",
+            debug: NODE_ENV === "production" ? false : true,
         });
 
         this.logger.info("Starting Kuramisa...");
