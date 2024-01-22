@@ -3,6 +3,8 @@ import { ActivityType, TextChannel, type PresenceData } from "discord.js";
 import { CronJob } from "cron";
 import type { BotStaff } from "../../@types";
 
+const { NODE_ENV } = process.env;
+
 export class ReadyListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
         super(ctx, {
@@ -117,7 +119,11 @@ export class ReadyListener extends Listener {
 
             await this.clearEmptyDynamicChannels();
 
-            await valorant.init();
+            if (NODE_ENV !== "production") {
+                await valorant.init();
+            }
+
+            //await valorant.init();
 
             await this.initStaff();
 
