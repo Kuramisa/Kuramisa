@@ -6,6 +6,7 @@ export class ValorantCommand extends Command {
             ...opts,
             name: "valorant",
             description: "Valorant commands",
+            preconditions: ["InDevelopment"],
         });
     }
 
