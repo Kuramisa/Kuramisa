@@ -201,9 +201,9 @@ export default class Valorant {
 
             logger.debug("[Valorant] Fetching skins");
 
-            /*this.skins = new Skins(
+            this.skins = new Skins(
                 (await assets.Weapons.getSkins()).data.data!
-            );*/
+            );
 
             logger.debug("[Valorant] Skins fetched");
 
@@ -245,9 +245,9 @@ export default class Valorant {
 
             logger.debug("[Valorant] Fetching player cards");
 
-            /*this.playerCards = new PlayerCards(
+            this.playerCards = new PlayerCards(
                 (await assets.PlayerCards.get()).data.data!
-            );*/
+            );
 
             logger.debug("[Valorant] Player cards fetched");
 
