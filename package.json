@@ -1,6 +1,11 @@
 {
   "name": "kuramisa-bun",
   "module": "src/index.ts",
+  "scripts": {
+    "start": "bun run src/index.ts",
+    "dev": "tsc && bun start"
+  },
+  "type": "module",
   "dependencies": {
     "@apollo/server": "^4.10.0",
     "@discord-player/extractor": "^4.4.6",
@@ -58,10 +63,5 @@
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
-  },
-  "scripts": {
-    "start": "bun run src/index.ts",
-    "dev": "tsc && bun start"
-  },
-  "type": "module"
+  }
 }
