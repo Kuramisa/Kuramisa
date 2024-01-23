@@ -336,6 +336,8 @@ export default class Valorant {
         let deletedCount = 0;
         let allAccounts = 0;
 
+        console.log(valorant.accounts);
+
         for (const account of valorant.accounts) {
             if (accounts.has(account.username)) continue;
             allAccounts++;
@@ -399,8 +401,8 @@ export default class Valorant {
             logger.debug(
                 `[Valorant] ${user.username} loaded ${account.username} for valorant`
             );
-
-            return allAccounts === deletedCount;
         }
+
+        return allAccounts === deletedCount;
     }
 }
