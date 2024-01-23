@@ -46,6 +46,8 @@ export default {
             return skins;
         },
         store: async (_: any, { auth: authData }: { auth: any }) => {
+            if (!authData) throw new GraphQLError("You are not logged in");
+
             const {
                 dashboard: { auth },
                 games: { valorant },
