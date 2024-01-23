@@ -25,6 +25,9 @@
     "useUnknownInCatchVariables": true,
     
     "paths": {
+      "@kuramisa": [
+        "./src/Kuramisa"
+      ],
       "@dashboard": [
         "./src/dashboard/index"
       ],
@@ -41,5 +44,6 @@
         "./src/schemas/*"
       ],
     }
-  }
+  },
+  "exclude": ["node_modules"]
 }
