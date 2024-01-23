@@ -6,7 +6,6 @@ export class ValorantCommand extends Command {
             ...opts,
             name: "valorant",
             description: "Valorant commands",
-            preconditions: ["InDevelopment"],
         });
     }
 
@@ -119,10 +118,10 @@ export class ValorantCommand extends Command {
                                 .setRequired(true)
                                 .setChoices(
                                     { name: "Public", value: "public" },
-                                    {
+                                    /*{
                                         name: "Friends (Valorant Friends)",
                                         value: "friends",
-                                    },
+                                    },*/
                                     { name: "Private", value: "private" }
                                 )
                         )

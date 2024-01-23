@@ -68,7 +68,7 @@ type Query {
 
     skins(weaponUuid: String!, sortAlphabetically: Boolean): Data!
 
-    store(auth: String): Data!
+    dailyStore(auth: String, userId: String): Data!
 }
 
 type Mutation {

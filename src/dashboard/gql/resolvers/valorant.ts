@@ -1,4 +1,5 @@
 import { container } from "@sapphire/pieces";
+import { User } from "discord.js";
 import { GraphQLError } from "graphql";
 
 export default {
@@ -45,10 +46,13 @@ export default {
 
             return skins;
         },
-        store: async (_: any, { auth: authData }: { auth: any }) => {
-            if (!authData) throw new GraphQLError("You are not logged in");
-
+        dailyStore: async (
+            _: any,
+            { auth: authData, userId }: { auth?: string; userId?: string }
+        ) => {
             const {
+                client,
+                database,
                 dashboard: { auth },
                 games: { valorant },
             } = container;
@@ -56,24 +60,43 @@ export default {
             if (!valorant.initialized)
                 throw new GraphQLError("Valorant is not initialized");
 
-            const user = await auth.authUser(authData);
+            if (!authData)
+                throw new GraphQLError(
+                    "You must be logged in to view the store"
+                );
 
-            if (!user) throw new GraphQLError("Invalid auth token");
+            const authed = await auth.authUser(authData);
 
-            if (!valorant.accounts.get(user.id)) {
-                const allDeleted = await valorant.loadAccounts(user.id);
+            if (!authed) throw new GraphQLError("Invalid auth token");
+
+            if (!userId) userId = authed.id;
+
+            if (userId !== authed.id) {
+                const { valorant } = await database.users.fetch(userId);
+                if (valorant.privacy.daily !== "public")
+                    throw new GraphQLError(
+                        "This user's daily store is private"
+                    );
+            }
+
+            let user = client.users.cache.get(userId);
+            if (!user) user = await client.users.fetch(userId);
+            if (!user) throw new GraphQLError("User not found");
+
+            if (!valorant.accounts.get(userId)) {
+                const allDeleted = await valorant.loadAccounts(userId);
                 if (allDeleted)
                     throw new GraphQLError(
                         "Your accounts were removed from the database, because their login expired. Please login again with the bot on Discord!"
                     );
             }
 
-            if (valorant.accounts.get(user.id)!.size < 1)
+            if (valorant.accounts.get(userId)!.size < 1)
                 throw new GraphQLError(
                     "You are not logged in to any accounts. Please login with the bot on Discord!"
                 );
 
-            const accounts = valorant.accounts.get(user.id);
+            const accounts = valorant.accounts.get(userId);
 
             if (!accounts)
                 throw new GraphQLError(
@@ -85,7 +108,7 @@ export default {
                     "You do not have any accounts logged in. Please login with the bot on Discord!"
                 );
 
-            const stores = [];
+            const store = [];
 
             for (let i = 0; i < accounts.size; i++) {
                 const account = accounts.at(i);
@@ -141,7 +164,7 @@ export default {
                     });
                 }
 
-                stores.push({
+                store.push({
                     account: {
                         name: account.player.acct.game_name,
                         tag: account.player.acct.tag_line,
@@ -153,7 +176,7 @@ export default {
                 });
             }
 
-            return stores;
+            return store;
         },
     },
 };
