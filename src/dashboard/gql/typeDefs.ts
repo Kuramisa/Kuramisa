@@ -64,7 +64,9 @@ type Query {
     
     weapons: Data!
     weapon(weaponUuid: String!, withSkins: Boolean): Data!
-    skins(weaponUuid: String!): Data!
+
+
+    skins(weaponUuid: String!, sortAlphabetically: Boolean): Data!
 }
 
 type Mutation {

@@ -23,10 +23,26 @@ export default {
             const { skins, ...weaponWithoutSkins } = weapon;
             return weaponWithoutSkins;
         },
-        skins: (_: any, { weaponUuid }: { weaponUuid: string }) => {
+        skins: (
+            _: any,
+            {
+                weaponUuid,
+                sortAlphabetically = false,
+            }: { weaponUuid: string; sortAlphabetically: boolean }
+        ) => {
             const weapon = container.games.valorant.weapons.getByID(weaponUuid);
             if (!weapon) return null;
-            return weapon.skins;
+
+            let skins = weapon.skins
+                .filter((skin) => !skin.displayName.includes("Standard"))
+                .filter((skin) => !skin.displayName.includes("Random"));
+
+            if (sortAlphabetically)
+                skins = skins.sort((a, b) =>
+                    a.displayName.localeCompare(b.displayName)
+                );
+
+            return skins;
         },
     },
 };
