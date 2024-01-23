@@ -1,7 +1,7 @@
 import { Command } from "@sapphire/framework";
 import { ButtonStyle, ComponentType } from "discord.js";
 import moment from "moment";
-import { GameInfo, UserBans, UserPlaytime, UserSummary } from "steamapi";
+//import { GameInfo, UserBans, UserPlaytime, UserSummary } from "steamapi";
 
 export class SteamCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -9,6 +9,7 @@ export class SteamCommand extends Command {
             ...opts,
             name: "steam",
             description: "Steam Helper",
+            preconditions: ["InDevelopment"],
         });
     }
 
@@ -34,7 +35,7 @@ export class SteamCommand extends Command {
      */
 
     // TODO: Fix the Last 2 weeks played on Steam Games
-    async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+    /*async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
             games: { steam },
             logger,
@@ -290,5 +291,5 @@ export class SteamCommand extends Command {
         return embed;
     }
 
-    private yesNo = (bool: boolean) => (bool ? "Yes" : "No");
+    private yesNo = (bool: boolean) => (bool ? "Yes" : "No");*/
 }

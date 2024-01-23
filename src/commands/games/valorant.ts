@@ -151,7 +151,7 @@ export class ValorantCommand extends Command {
                 options.getSubcommandGroup() ?? options.getSubcommand()
             )
         ) {
-            const allDeleted = await valorant.loadAccounts(user);
+            const allDeleted = await valorant.loadAccounts(user.id);
             if (allDeleted)
                 return interaction.reply({
                     content:

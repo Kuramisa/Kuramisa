@@ -1,4 +1,4 @@
-import type { IStaff } from "@schemas/Staff";
+import type { IStaff } from "../schemas/Staff";
 import type {
     ActionRowBuilder,
     ChatInputCommandInteraction,

@@ -7,7 +7,7 @@ import {
     type Snowflake,
 } from "discord.js";
 
-import DBGuild, { type GuildDocument } from "@schemas/Guild";
+import DBGuild, { type GuildDocument } from "../../schemas/Guild";
 
 export default class DatabaseGuilds {
     readonly cache: Collection<string, GuildDocument>;

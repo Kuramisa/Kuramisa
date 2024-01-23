@@ -1,5 +1,5 @@
 import { container } from "@sapphire/framework";
-import Valorant from "@struct/games/valorant";
+import Valorant from "./index";
 import {
     ButtonBuilder,
     ButtonStyle,

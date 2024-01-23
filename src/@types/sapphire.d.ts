@@ -1,12 +1,12 @@
-import type Kuramisa from "@kuramisa";
-import type Database from "@struct/Database";
-import type Moderation from "@struct/Moderation";
-import type Kanvas from "@struct/Kanvas";
-import type Games from "@struct/Games";
-import type Systems from "@struct/Systems";
-import type Util from "@struct/Util";
+import type Kuramisa from "../Kuramisa";
+import type Database from "../struct/Database";
+import type Moderation from "../struct/Moderation";
+import type Kanvas from "../struct/Kanvas";
+import type Games from "../struct/Games";
+import type Systems from "../struct/Systems";
+import type Util from "../struct/Util";
 import type { Collection, Emoji, Guild, TextChannel, User } from "discord.js";
-import type Dashboard from "@dashboard";
+import type Dashboard from "../dashboard";
 
 declare module "@sapphire/pieces" {
     interface Container {

@@ -1,8 +1,8 @@
 import { container } from "@sapphire/framework";
 import { Collection, User, type Snowflake } from "discord.js";
 
-import DBUser, { type UserDocument } from "@schemas/User";
-import DBStaff from "@schemas/Staff";
+import DBUser, { type UserDocument } from "../../schemas/User";
+import DBStaff from "../../schemas/Staff";
 
 export default class DatabaseUsers {
     readonly cache: Collection<string, UserDocument>;

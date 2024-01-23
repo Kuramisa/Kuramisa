@@ -1,4 +1,4 @@
-import Kanvas from "@struct/Kanvas";
+import Kanvas from "../Kanvas";
 
 import { createCanvas, loadImage } from "@napi-rs/canvas";
 import { GuildMember } from "discord.js";

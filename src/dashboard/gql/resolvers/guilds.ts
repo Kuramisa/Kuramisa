@@ -1,5 +1,5 @@
 import { container } from "@sapphire/pieces";
-import Dashboard from "@dashboard";
+import Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
 import {

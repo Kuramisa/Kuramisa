@@ -33,7 +33,7 @@ export class ValorantAutocomplete extends Listener {
         switch (focused.name) {
             case "your_val_account": {
                 if (!valorant.accounts.get(user.id))
-                    await valorant.loadAccounts(user);
+                    await valorant.loadAccounts(user.id);
                 const accounts = valorant.accounts.get(user.id);
                 if (!accounts || accounts.size === 0) return;
 

@@ -25,8 +25,12 @@ import {
     Themes,
     Weapons,
     Version,
-} from "@struct/games/valorant/assets/index";
-import { ChatInputCommandInteraction, Collection, User } from "discord.js";
+} from "./assets";
+import {
+    ChatInputCommandInteraction,
+    Collection,
+    type Snowflake,
+} from "discord.js";
 import { WebClient } from "valorant.ts";
 
 import ValorantAuth from "./Auth";
@@ -300,8 +304,10 @@ export default class Valorant {
         });
     }
 
-    async loadAccounts(user: User) {
+    async loadAccounts(userId: Snowflake) {
         const { database, logger } = container;
+
+        const user = await container.client.users.fetch(userId);
 
         const db = await database.users.fetch(user.id);
         const { valorant } = db;
@@ -335,7 +341,7 @@ export default class Valorant {
             allAccounts++;
 
             const web = WebClient.fromJSON(account.json, {
-                version: this.version?.version,
+                version: this.version?.riotClient,
             });
 
             const refreshResult = await web

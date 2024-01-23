@@ -1,7 +1,7 @@
 import { Command } from "@sapphire/framework";
 import { ButtonStyle, TextInputStyle } from "discord-api-types/v10";
 
-import DbStaff from "@schemas/Staff";
+import DbStaff from "../../schemas/Staff";
 
 export class BotStaffCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {

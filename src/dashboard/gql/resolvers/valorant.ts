@@ -1,4 +1,5 @@
 import { container } from "@sapphire/pieces";
+import { GraphQLError } from "graphql";
 
 export default {
     Query: {
@@ -43,6 +44,114 @@ export default {
                 );
 
             return skins;
+        },
+        store: async (_: any, { auth: authData }: { auth: any }) => {
+            const {
+                dashboard: { auth },
+                games: { valorant },
+            } = container;
+
+            if (!valorant.initialized)
+                throw new GraphQLError("Valorant is not initialized");
+
+            const user = await auth.authUser(authData);
+
+            if (!user) throw new GraphQLError("Invalid auth token");
+
+            if (!valorant.accounts.get(user.id)) {
+                const allDeleted = await valorant.loadAccounts(user.id);
+                if (allDeleted)
+                    throw new GraphQLError(
+                        "Your accounts were removed from the database, because their login expired. Please login again with the bot on Discord!"
+                    );
+            }
+
+            if (valorant.accounts.get(user.id)!.size < 1)
+                throw new GraphQLError(
+                    "You are not logged in to any accounts. Please login with the bot on Discord!"
+                );
+
+            const accounts = valorant.accounts.get(user.id);
+
+            if (!accounts)
+                throw new GraphQLError(
+                    "You do not have any accounts logged in. Please login with the bot on Discord!"
+                );
+
+            if (accounts.size === 0)
+                throw new GraphQLError(
+                    "You do not have any accounts logged in. Please login with the bot on Discord!"
+                );
+
+            const stores = [];
+
+            for (let i = 0; i < accounts.size; i++) {
+                const account = accounts.at(i);
+                if (!account) continue;
+                const expired = account.auth.getExpirationDate() < Date.now();
+                if (expired) await account.auth.refresh();
+
+                const { auth } = account;
+
+                const storeRequest = await auth.Store.getStorefront(
+                    account.player.sub
+                );
+
+                if (!storeRequest) continue;
+
+                const {
+                    SkinsPanelLayout: {
+                        SingleItemStoreOffers: offers,
+                        SingleItemOffersRemainingDurationInSeconds: seconds,
+                    },
+                } = storeRequest.data;
+
+                const {
+                    data: { Identity: identity },
+                } = await auth.Personalization.getPlayerLoadout(
+                    account.player.sub
+                );
+
+                const { contentTiers, playerCards, playerTitles } = valorant;
+
+                const card = playerCards.getByID(identity.PlayerCardID);
+                const title = playerTitles.getByID(identity.PlayerTitleID);
+
+                const offerArr = [];
+
+                for (const offer of offers) {
+                    const skin = valorant.skins.all.find(
+                        (weapon) => offer.OfferID === weapon.levels[0].uuid
+                    );
+
+                    if (!skin) continue;
+
+                    const contentTier = contentTiers.getByID(
+                        skin.contentTierUuid
+                    );
+
+                    if (!contentTier) continue;
+
+                    offerArr.push({
+                        skin,
+                        ...offer,
+                        contentTier,
+                    });
+                }
+
+                stores.push({
+                    account: {
+                        name: account.player.acct.game_name,
+                        tag: account.player.acct.tag_line,
+                        card,
+                        title,
+                    },
+                    seconds,
+                    offers: offerArr,
+                });
+            }
+
+            return stores;
         },
     },
 };

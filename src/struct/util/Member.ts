@@ -1,5 +1,5 @@
 import { container } from "@sapphire/framework";
-import type { IUser } from "@schemas/User";
+import type { IUser } from "../../schemas/User";
 import { ButtonStyle, type GuildMember, type PresenceStatus } from "discord.js";
 
 export default class UtilMember {

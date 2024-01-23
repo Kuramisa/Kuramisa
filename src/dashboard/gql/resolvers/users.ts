@@ -1,6 +1,6 @@
 import { container } from "@sapphire/pieces";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import Dashboard from "@dashboard";
+import Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
 import { User } from "discord.js";

@@ -5,14 +5,14 @@ import { Collection, Partials } from "discord.js";
 
 import logs from "discord-logs";
 
-import Dashboard from "@dashboard";
+import Dashboard from "./dashboard";
 
-import Database from "@struct/Database";
-import Kanvas from "@struct/Kanvas";
-import Moderation from "@struct/Moderation";
+import Database from "./struct/Database";
+import Kanvas from "./struct/Kanvas";
+import Moderation from "./struct/Moderation";
 import Games from "./struct/Games";
-import Systems from "@struct/Systems";
-import Util from "@struct/Util";
+import Systems from "./struct/Systems";
+import Util from "./struct/Util";
 
 const { TOKEN, NODE_ENV } = process.env;
 
@@ -37,12 +37,12 @@ export default class Kuramisa extends SapphireClient {
             loadDefaultErrorListeners: true,
             logger: {
                 level:
-                    NODE_ENV === "production" ? LogLevel.Info : LogLevel.Debug,
+                    NODE_ENV === "development" ? LogLevel.Debug : LogLevel.Info,
             },
         });
 
         logs(this, {
-            debug: NODE_ENV === "production" ? false : true,
+            debug: NODE_ENV === "development",
         });
 
         this.logger.info("Starting Kuramisa...");

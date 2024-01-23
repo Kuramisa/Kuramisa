@@ -1,0 +1,11 @@
+{
+    "ignore": [
+        "node_modules"
+    ],
+    "watch": [
+        "src",
+        ".env"
+    ],
+    "exec": "yarn build && yarn start",
+    "ext": "ts"
+}

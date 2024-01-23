@@ -61,7 +61,7 @@ export default class ValorantAuth {
             });
 
         const web = new WebClient({
-            version: this.valorant.version?.version,
+            version: this.valorant.version?.riotClient,
         });
 
         const password = options.getString("val_password", true);

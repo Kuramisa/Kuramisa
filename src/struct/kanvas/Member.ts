@@ -1,11 +1,15 @@
 import { container } from "@sapphire/pieces";
-import Kanvas from "@struct/Kanvas";
+import Kanvas from "../Kanvas";
 
 import { ActivityType, GuildMember } from "discord.js";
 import { createCanvas, loadImage, type SKRSContext2D } from "@napi-rs/canvas";
 
-import badgesOrder from "@data/badgesOrder.json";
-import { nitroBadges, otherBadges, otherImgs } from "@data/profileFunc.json";
+import badgesOrder from "../../data/badgesOrder.json";
+import {
+    nitroBadges,
+    otherBadges,
+    otherImgs,
+} from "../../data/profileFunc.json";
 import moment from "moment";
 
 export default class KanvasMember {

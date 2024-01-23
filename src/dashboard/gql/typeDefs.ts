@@ -67,6 +67,8 @@ type Query {
 
 
     skins(weaponUuid: String!, sortAlphabetically: Boolean): Data!
+
+    store(auth: String!): Data!
 }
 
 type Mutation {
