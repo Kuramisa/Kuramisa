@@ -1,10 +1,10 @@
-import { Agents } from "@valapi/valorant-api.com";
 import { type ColorResolvable, EmbedBuilder } from "discord.js";
+import Valorant from "../..";
 
 export default class ValorantAgents {
-    private readonly data: Agents.Agents<"en-US">[];
+    private readonly data: IValorantAgent[];
 
-    constructor(data: Agents.Agents<"en-US">[]) {
+    constructor(data: IValorantAgent[]) {
         this.data = data;
     }
 
@@ -18,7 +18,7 @@ export default class ValorantAgents {
     getByID = (id: string) => this.data.find((agent) => agent.uuid === id);
 
     // Add voice lines part when available
-    embed = (agent: Agents.Agents<"en-US">) =>
+    embed = (agent: IValorantAgent) =>
         new EmbedBuilder()
             .setAuthor({
                 name: agent.displayName,
@@ -47,4 +47,14 @@ export default class ValorantAgents {
                 }`
             )
             .setThumbnail(agent.displayIcon);
+
+    static async fetch() {
+        const data = await fetch(
+            `${Valorant.assetsURL}/agents?isPlayableCharacter=true`
+        )
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantAgents(data);
+    }
 }

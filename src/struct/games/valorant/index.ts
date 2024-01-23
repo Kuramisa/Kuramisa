@@ -24,19 +24,14 @@ import {
     Sprays,
     Themes,
     Weapons,
+    Version,
 } from "@struct/games/valorant/assets/index";
-import { ValorantApiCom, Version } from "@valapi/valorant-api.com";
 import { ChatInputCommandInteraction, Collection, User } from "discord.js";
 import { WebClient } from "valorant.ts";
 
 import ValorantAuth from "./Auth";
 import ValorantShop from "./Shop";
 import ValorantUtil from "./Util";
-import type {
-    PrivacyTypes,
-    ValorantAccount,
-    ValorantPlayerInfo,
-} from "../../../@types";
 import _ from "lodash";
 
 export default class Valorant {
@@ -70,11 +65,13 @@ export default class Valorant {
     sprays: Sprays;
     themes: Themes;
     weapons: Weapons;
-    version?: Version.Version;
+    version?: Version;
     readonly shop: ValorantShop;
     readonly util: ValorantUtil;
-    readonly trackerURL: string =
+    static readonly trackerURL: string =
         "https://tracker.gg/valorant/profile/riot/%username%";
+
+    static readonly assetsURL: string = "https://valorant-api.com/v1";
 
     constructor() {
         this.auth = new ValorantAuth(this);
@@ -108,182 +105,155 @@ export default class Valorant {
     }
 
     async init() {
-        if (this.initialized) return;
-
         const { logger } = container;
+
+        if (this.initialized) {
+            logger.debug("[Valorant] Already initialized");
+            return;
+        }
 
         logger.info("[Valorant] Initializing...");
 
-        const assets = new ValorantApiCom();
+        //const assets = new ValorantApiCom();
 
         try {
             logger.debug("[Valorant] Fetching assets");
 
             logger.debug("[Valorant] Fetching agents");
 
-            this.agents = new Agents(
-                (await assets.Agents.get()).data.data!.filter(
-                    (a) => a.isPlayableCharacter
-                )
-            );
+            this.agents = await Agents.fetch();
 
             logger.debug("[Valorant] Agents fetched");
 
             logger.debug("[Valorant] Fetching buddies");
 
-            this.buddies = new Buddies((await assets.Buddies.get()).data.data!);
+            this.buddies = await Buddies.fetch();
 
             logger.debug("[Valorant] Buddies fetched");
 
-            this.bundles = new Bundles((await assets.Bundles.get()).data.data!);
+            this.bundles = await Bundles.fetch();
 
             logger.debug("[Valorant] Bundles fetched");
 
             logger.debug("[Valorant] Fetching ceremonies");
 
-            this.ceremonies = new Ceremonies(
-                (await assets.Ceremonies.get()).data.data!
-            );
+            this.ceremonies = await Ceremonies.fetch();
 
             logger.debug("[Valorant] Ceremonies fetched");
 
             logger.debug("[Valorant] Fetching competitive tiers");
 
-            this.competitiveTiers = new CompetitiveTiers(
-                (await assets.CompetitiveTiers.get()).data.data!
-            );
+            this.competitiveTiers = await CompetitiveTiers.fetch();
 
             logger.debug("[Valorant] Competitive tiers fetched");
 
-            this.competitiveSeasons = new CompetitiveSeasons(
-                (await assets.Seasons.getCompetitiveSeasons()).data.data!
-            );
+            this.competitiveSeasons = await CompetitiveSeasons.fetch();
 
             logger.debug("[Valorant] Competitive seasons fetched");
 
             logger.debug("[Valorant] Fetching content tiers");
 
-            this.contentTiers = new ContentTiers(
-                (await assets.ContentTiers.get()).data.data!
-            );
+            this.contentTiers = await ContentTiers.fetch();
 
             logger.debug("[Valorant] Content tiers fetched");
 
             logger.debug("[Valorant] Fetching contracts");
 
-            this.contracts = new Contracts(
-                (await assets.Contracts.get()).data.data!
-            );
+            this.contracts = await Contracts.fetch();
 
             logger.debug("[Valorant] Contracts fetched");
 
             logger.debug("[Valorant] Fetching currencies");
 
-            this.currencies = new Currencies(
-                (await assets.Currencies.get()).data.data!
-            );
+            this.currencies = await Currencies.fetch();
 
             logger.debug("[Valorant] Currencies fetched");
 
             logger.debug("[Valorant] Fetching events");
 
-            this.events = new Events((await assets.Events.get()).data.data!);
+            this.events = await Events.fetch();
 
             logger.debug("[Valorant] Events fetched");
 
             logger.debug("[Valorant] Fetching gamemodes");
 
-            this.gamemodes = new Gamemodes(
-                (await assets.Gamemodes.get()).data.data!
-            );
+            this.gamemodes = await Gamemodes.fetch();
 
             logger.debug("[Valorant] Gamemodes fetched");
 
             logger.debug("[Valorant] Fetching skins");
 
-            this.skins = new Skins(
-                (await assets.Weapons.getSkins()).data.data!
-            );
+            this.skins = await Skins.fetch();
 
             logger.debug("[Valorant] Skins fetched");
 
             logger.debug("[Valorant] Fetching gear");
 
-            this.gear = new Gear((await assets.Gear.get()).data.data!);
+            this.gear = await Gear.fetch();
 
             logger.debug("[Valorant] Gear fetched");
 
             logger.debug("[Valorant] Fetching level borders");
 
-            this.levelBorders = new LevelBorders(
-                (await assets.LevelBorders.get()).data.data!
-            );
+            this.levelBorders = await LevelBorders.fetch();
 
             logger.debug("[Valorant] Level borders fetched");
 
             logger.debug("[Valorant] Fetching maps");
 
-            this.maps = new Maps((await assets.Maps.get()).data.data!);
+            this.maps = await Maps.fetch();
 
             logger.debug("[Valorant] Maps fetched");
 
             logger.debug("[Valorant] Fetching missions");
 
-            this.missions = new Missions(
-                (await assets.Missions.get()).data.data!
-            );
+            this.missions = await Missions.fetch();
 
             logger.debug("[Valorant] Missions fetched");
 
             logger.debug("[Valorant] Fetching objectives");
 
-            this.objectives = new Objectives(
-                (await assets.Objectives.get()).data.data!
-            );
+            this.objectives = await Objectives.fetch();
 
             logger.debug("[Valorant] Objectives fetched");
 
             logger.debug("[Valorant] Fetching player cards");
 
-            this.playerCards = new PlayerCards(
-                (await assets.PlayerCards.get()).data.data!
-            );
+            this.playerCards = await PlayerCards.fetch();
 
             logger.debug("[Valorant] Player cards fetched");
 
-            this.playerTitles = new PlayerTitles(
-                (await assets.PlayerTitles.get()).data.data!
-            );
+            this.playerTitles = await PlayerTitles.fetch();
 
             logger.debug("[Valorant] Player titles fetched");
 
             logger.debug("[Valorant] Fetching seasons");
 
-            this.seasons = new Seasons((await assets.Seasons.get()).data.data!);
+            this.seasons = await Seasons.fetch();
 
             logger.debug("[Valorant] Seasons fetched");
 
             logger.debug("[Valorant] Fetching sprays");
 
-            this.sprays = new Sprays((await assets.Sprays.get()).data.data!);
+            this.sprays = await Sprays.fetch();
 
             logger.debug("[Valorant] Sprays fetched");
 
             logger.debug("[Valorant] Fetching themes");
 
-            this.themes = new Themes((await assets.Themes.get()).data.data!);
+            this.themes = await Themes.fetch();
 
             logger.debug("[Valorant] Themes fetched");
 
             logger.debug("[Valorant] Fetching weapons");
 
-            this.weapons = new Weapons((await assets.Weapons.get()).data.data!);
+            this.weapons = await Weapons.fetch();
 
             logger.debug("[Valorant] Weapons fetched");
 
             logger.debug("[Valorant] Fetching version");
 
-            this.version = (await assets.Version.get()).data.data!;
+            this.version = await Version.fetch();
 
             logger.debug("[Valorant] Version fetched");
         } catch (err) {
@@ -414,7 +384,7 @@ export default class Valorant {
                 user,
                 auth: web,
                 player: playerInfo,
-                trackerURL: this.trackerURL.replaceAll(
+                trackerURL: Valorant.trackerURL.replaceAll(
                     "%username%",
                     `${playerInfo.acct.game_name}%23${playerInfo.acct.tag_line}`
                 ),

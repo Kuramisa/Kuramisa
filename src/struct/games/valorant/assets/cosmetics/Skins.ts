@@ -9,15 +9,13 @@ import {
     StringSelectMenuBuilder,
 } from "discord.js";
 import { container } from "@sapphire/framework";
-import type {
-    ValorantSkin,
-    ValorantSkinCollection,
-} from "../../../../../@types";
+
+import Valorant from "../..";
 
 export default class ValorantSkins {
-    private readonly data: Weapons.WeaponSkins<"en-US">[];
+    private readonly data: IValorantWeaponSkin[];
 
-    constructor(data: Weapons.WeaponSkins<"en-US">[]) {
+    constructor(data: IValorantWeaponSkin[]) {
         this.data = data;
     }
 
@@ -37,7 +35,14 @@ export default class ValorantSkins {
         return this.data.find((skin) => skin.uuid === id);
     }
 
-    // TODO: Add Embed method
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/weapons/skins`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantSkins(data);
+    }
+
     info(skin: Weapons.WeaponSkins<"en-US">): ValorantSkin {
         const contentTier = container.games.valorant.contentTiers.getByID(
             skin.contentTierUuid
@@ -78,7 +83,7 @@ export default class ValorantSkins {
         };
     }
 
-    collection(skins: Weapons.WeaponSkins<"en-US">[]): ValorantSkinCollection {
+    collection(skins: IValorantWeaponSkin[]): ValorantSkinCollection {
         const collection: ValorantSkinCollection = new Collection();
 
         for (const skin of skins) {
@@ -90,9 +95,9 @@ export default class ValorantSkins {
 
     // Level Methods [START]
     levelEmbed = (
-        skin: Weapons.WeaponSkins<"en-US">,
-        level: Weapons.WeaponSkinLevels<"en-US">,
-        contentTier: ContentTiers.ContentTiers<"en-US">
+        skin: IValorantWeaponSkin,
+        level: IValorantWeaponSkinLevel,
+        contentTier: IValorantContentTier
     ) =>
         new EmbedBuilder()
             .setAuthor({

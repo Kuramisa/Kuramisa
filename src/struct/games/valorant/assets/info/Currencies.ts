@@ -1,9 +1,9 @@
-import { Currencies } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantCurrencies {
-    private readonly data: Currencies.Currencies<"en-US">[];
+    private readonly data: IValorantCurrency[];
 
-    constructor(data: Currencies.Currencies<"en-US">[]) {
+    constructor(data: IValorantCurrency[]) {
         this.data = data;
     }
 
@@ -12,10 +12,18 @@ export default class ValorantCurrencies {
     }
 
     get(name: string) {
-        return this.data.find(currency => currency.displayName === name);
+        return this.data.find((currency) => currency.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(currency => currency.uuid === id);
+        return this.data.find((currency) => currency.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/currencies`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantCurrencies(data);
     }
 }

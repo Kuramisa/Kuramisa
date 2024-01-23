@@ -1,9 +1,9 @@
-import { Bundles } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantBundles {
-    private readonly data: Bundles.Bundles<"en-US">[];
+    private readonly data: IValorantBundle[];
 
-    constructor(data: Bundles.Bundles<"en-US">[]) {
+    constructor(data: IValorantBundle[]) {
         this.data = data;
     }
 
@@ -12,12 +12,20 @@ export default class ValorantBundles {
     }
 
     get(name: string) {
-        return this.data.find(bundle => bundle.displayName === name);
+        return this.data.find((bundle) => bundle.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(bundle => bundle.uuid === id);
+        return this.data.find((bundle) => bundle.uuid === id);
     }
 
     // TODO: Add Embed method
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/bundles`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantBundles(data);
+    }
 }

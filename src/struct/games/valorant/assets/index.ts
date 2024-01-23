@@ -21,6 +21,7 @@ import Seasons from "./info/Seasons";
 import Sprays from "./cosmetics/Sprays";
 import Themes from "./info/Themes";
 import Weapons from "./info/Weapons";
+import Version from "./info/Version";
 
 export {
     Agents,
@@ -45,5 +46,6 @@ export {
     Seasons,
     Sprays,
     Themes,
-    Weapons
+    Weapons,
+    Version,
 };

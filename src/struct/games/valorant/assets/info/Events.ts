@@ -1,9 +1,9 @@
-import { Events } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantEvents {
-    private readonly data: Events.Events<"en-US">[];
+    private readonly data: IValorantEvent[];
 
-    constructor(data: Events.Events<"en-US">[]) {
+    constructor(data: IValorantEvent[]) {
         this.data = data;
     }
 
@@ -12,10 +12,18 @@ export default class ValorantEvents {
     }
 
     get(name: string) {
-        return this.data.find(event => event.displayName === name);
+        return this.data.find((event) => event.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(event => event.uuid === id);
+        return this.data.find((event) => event.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/events`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantEvents(data);
     }
 }

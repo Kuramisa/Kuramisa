@@ -1,11 +1,10 @@
-import { CompetitiveTiers } from "@valapi/valorant-api.com";
 import { EmbedBuilder } from "discord.js";
-import type { CompetitiveTier } from "../../../../../@types";
+import Valorant from "../..";
 
 export default class ValorantCompetitiveTiers {
-    private readonly data: CompetitiveTiers.CompetitiveTiers<"en-US">[];
+    private readonly data: IValorantCompetitiveTier[];
 
-    constructor(data: CompetitiveTiers.CompetitiveTiers<"en-US">[]) {
+    constructor(data: IValorantCompetitiveTier[]) {
         this.data = data;
     }
 
@@ -13,16 +12,28 @@ export default class ValorantCompetitiveTiers {
         return this.data;
     }
 
-    get = (name: string) => this.data.find(tiers => tiers.tiers.find(tier => tier.tierName === name));
+    get = (name: string) =>
+        this.data.find((tiers) =>
+            tiers.tiers.find((tier) => tier.tierName === name)
+        );
 
-    getByID = (id: string) => this.data.find(tiers => tiers.uuid === id);
+    getByID = (id: string) => this.data.find((tiers) => tiers.uuid === id);
 
-    embed = (tier: CompetitiveTier) => new EmbedBuilder()
-        .setAuthor({
-            name: tier.tierName,
-            iconURL: tier.smallIcon
-        })
-        .setTitle(`${tier.tierName} - ${tier.divisionName}`)
-        .setThumbnail(tier.largeIcon)
-        .setColor(tier.color);
+    embed = (tier: CompetitiveTierSingleton) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: tier.tierName,
+                iconURL: tier.smallIcon,
+            })
+            .setTitle(`${tier.tierName} - ${tier.divisionName}`)
+            .setThumbnail(tier.largeIcon)
+            .setColor(tier.color);
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/competitivetiers`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantCompetitiveTiers(data);
+    }
 }

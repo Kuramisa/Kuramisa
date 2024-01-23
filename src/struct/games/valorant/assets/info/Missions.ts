@@ -1,9 +1,9 @@
-import { Missions } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantMissions {
-    private readonly data: Missions.Missions[];
+    private readonly data: IValorantMission[];
 
-    constructor(data: Missions.Missions[]) {
+    constructor(data: IValorantMission[]) {
         this.data = data;
     }
 
@@ -12,10 +12,18 @@ export default class ValorantMissions {
     }
 
     get(name: string) {
-        return this.data.find(mission => mission.displayName === name);
+        return this.data.find((mission) => mission.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(mission => mission.uuid === id);
+        return this.data.find((mission) => mission.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/missions`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantMissions(data);
     }
 }

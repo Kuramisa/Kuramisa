@@ -1,11 +1,11 @@
-import { Weapons } from "@valapi/valorant-api.com";
 import { ButtonStyle, EmbedBuilder } from "discord.js";
 import { container } from "@sapphire/pieces";
+import Valorant from "../..";
 
 export default class ValorantWeapons {
-    private readonly data: Weapons.Weapons<"en-US">[];
+    private readonly data: IValorantWeapon[];
 
-    constructor(data: Weapons.Weapons<"en-US">[]) {
+    constructor(data: IValorantWeapon[]) {
         this.data = data;
     }
 
@@ -21,7 +21,15 @@ export default class ValorantWeapons {
         return this.data.find((weapon) => weapon.uuid === id);
     }
 
-    generateDamagesDescription(weapon: Weapons.Weapons<"en-US">) {
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/weapons`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantWeapons(data);
+    }
+
+    generateDamagesDescription(weapon: IValorantWeapon) {
         let description = "- ***Damage Values***\n";
 
         for (const range of weapon.weaponStats.damageRanges) {
@@ -32,7 +40,7 @@ export default class ValorantWeapons {
     }
 
     // TODO: Add Embed method
-    embed = (weapon: Weapons.Weapons<"en-US">) =>
+    embed = (weapon: IValorantWeapon) =>
         new EmbedBuilder()
             .setTitle(`${weapon.displayName} (${weapon.shopData.category})`)
             .setThumbnail(weapon.displayIcon)
@@ -40,7 +48,7 @@ export default class ValorantWeapons {
                 `${container.emojis.get("val_credits")} **${
                     weapon.shopData.cost
                 }**\n\n***Stats***\n${this.generateDamagesDescription(
-                    weapon,
+                    weapon
                 )}- **First Bullet Accuracy:** ${
                     weapon.weaponStats.firstBulletAccuracy
                 }%\n- **Fire Rate:** ${
@@ -63,10 +71,10 @@ export default class ValorantWeapons {
                     weapon.weaponStats.reloadTimeSeconds > 1
                         ? "seconds"
                         : "second"
-                }`,
+                }`
             );
 
-    row = (weapon: Weapons.Weapons<"en-US">) =>
+    row = (weapon: IValorantWeapon) =>
         container.util
             .row()
             .setComponents(
@@ -74,6 +82,6 @@ export default class ValorantWeapons {
                     .button()
                     .setCustomId(`valorant_weapon_skins_${weapon.uuid}`)
                     .setLabel("Skins")
-                    .setStyle(ButtonStyle.Success),
+                    .setStyle(ButtonStyle.Success)
             );
 }

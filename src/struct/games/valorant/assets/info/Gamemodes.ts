@@ -1,10 +1,10 @@
-import { Gamemodes } from "@valapi/valorant-api.com";
 import { EmbedBuilder } from "discord.js";
+import Valorant from "../..";
 
 export default class ValorantGamemodes {
-    private readonly data: Gamemodes.Gamemodes<"en-US">[];
+    private readonly data: IValorantGamemode[];
 
-    constructor(data: Gamemodes.Gamemodes<"en-US">[]) {
+    constructor(data: IValorantGamemode[]) {
         this.data = data;
     }
 
@@ -13,19 +13,28 @@ export default class ValorantGamemodes {
     }
 
     get(name: string) {
-        return this.data.find(gamemode => gamemode.displayName === name);
+        return this.data.find((gamemode) => gamemode.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(gamemode => gamemode.uuid === id);
+        return this.data.find((gamemode) => gamemode.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/gamemodes`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantGamemodes(data);
     }
 
     // TODO: Add more embed info
-    embed = (gamemode: Gamemodes.Gamemodes<"en-US">) => new EmbedBuilder()
-        .setAuthor({
-            name: gamemode.displayName,
-            iconURL: gamemode.displayIcon
-        })
-        .setTitle(gamemode.displayName)
-        .setThumbnail(gamemode.displayIcon);
+    embed = (gamemode: IValorantGamemode) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: gamemode.displayName,
+                iconURL: gamemode.displayIcon,
+            })
+            .setTitle(gamemode.displayName)
+            .setThumbnail(gamemode.displayIcon);
 }

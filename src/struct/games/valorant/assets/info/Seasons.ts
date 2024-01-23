@@ -1,9 +1,9 @@
-import { Seasons } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantSeasons {
-    private readonly data: Seasons.Seasons<"en-US">[];
+    private readonly data: IValorantSeason[];
 
-    constructor(data: Seasons.Seasons<"en-US">[]) {
+    constructor(data: IValorantSeason[]) {
         this.data = data;
     }
 
@@ -16,11 +16,19 @@ export default class ValorantSeasons {
     }
 
     get(name: string) {
-        return this.data.find(season => season.displayName === name);
+        return this.data.find((season) => season.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(season => season.uuid === id);
+        return this.data.find((season) => season.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/seasons`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantSeasons(data);
     }
 
     // TODO: Add Embed method

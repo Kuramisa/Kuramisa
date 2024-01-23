@@ -1,10 +1,10 @@
-import { Themes } from "@valapi/valorant-api.com";
 import { EmbedBuilder } from "discord.js";
+import Valorant from "../..";
 
 export default class ValorantThemes {
-    private readonly data: Themes.Themes<"en-US">[];
+    private readonly data: IValorantTheme[];
 
-    constructor(data: Themes.Themes<"en-US">[]) {
+    constructor(data: IValorantTheme[]) {
         this.data = data;
     }
 
@@ -13,19 +13,28 @@ export default class ValorantThemes {
     }
 
     get(name: string) {
-        return this.data.find(theme => theme.displayName === name);
+        return this.data.find((theme) => theme.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(theme => theme.uuid === id);
+        return this.data.find((theme) => theme.uuid === id);
     }
 
-    embed = (theme: Themes.Themes<"en-US">) => new EmbedBuilder()
-        .setAuthor({
-            name: theme.displayName,
-            iconURL: theme.displayIcon
-        })
-        .setTitle(theme.displayName)
-        .setThumbnail(theme.displayIcon)
-        .setImage(theme.storeFeaturedImage);
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/themes`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantThemes(data);
+    }
+
+    embed = (theme: IValorantTheme) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: theme.displayName,
+                iconURL: theme.displayIcon,
+            })
+            .setTitle(theme.displayName)
+            .setThumbnail(theme.displayIcon)
+            .setImage(theme.storeFeaturedImage);
 }

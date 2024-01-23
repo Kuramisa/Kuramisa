@@ -1,9 +1,9 @@
-import { Contracts } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantContracts {
-    private readonly data: Contracts.Contracts<"en-US">[];
+    private readonly data: IValorantContract[];
 
-    constructor(data: Contracts.Contracts<"en-US">[]) {
+    constructor(data: IValorantContract[]) {
         this.data = data;
     }
 
@@ -12,10 +12,18 @@ export default class ValorantContracts {
     }
 
     get(name: string) {
-        return this.data.find(contract => contract.displayName === name);
+        return this.data.find((contract) => contract.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(contract => contract.uuid === id);
+        return this.data.find((contract) => contract.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/contracts`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantContracts(data);
     }
 }

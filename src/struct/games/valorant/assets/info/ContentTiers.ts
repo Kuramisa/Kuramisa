@@ -1,9 +1,9 @@
-import { ContentTiers } from "@valapi/valorant-api.com";
+import Valorant from "../..";
 
 export default class ValorantContentTiers {
-    private readonly data: ContentTiers.ContentTiers<"en-US">[];
+    private readonly data: IValorantContentTier[];
 
-    constructor(data: ContentTiers.ContentTiers<"en-US">[]) {
+    constructor(data: IValorantContentTier[]) {
         this.data = data;
     }
 
@@ -15,14 +15,22 @@ export default class ValorantContentTiers {
         return this.data.reduce((obj, tier) => {
             obj[tier.displayName] = tier;
             return obj;
-        }, {} as Record<string, ContentTiers.ContentTiers<"en-US">>);
+        }, {} as Record<string, IValorantContentTier>);
     }
 
     get(name: string) {
-        return this.data.find(tier => tier.displayName === name);
+        return this.data.find((tier) => tier.displayName === name);
     }
 
     getByID(id: string) {
-        return this.data.find(tier => tier.uuid === id);
+        return this.data.find((tier) => tier.uuid === id);
+    }
+
+    static async fetch() {
+        const data = await fetch(`${Valorant.assetsURL}/contenttiers`)
+            .then((res) => res.json())
+            .then((res: any) => res.data);
+
+        return new ValorantContentTiers(data);
     }
 }
