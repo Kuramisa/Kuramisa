@@ -23,8 +23,6 @@ import JAPIRest from "japi.rest.ts";
 import UtilMember from "./util/Member";
 import UtilPagination from "./util/Pagination";
 
-import type { StaffType } from "../@types";
-
 type MenuType = "string" | "role" | "mentionable" | "user" | "channel";
 
 const { JAPI_KEY } = process.env;

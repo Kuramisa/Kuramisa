@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import type { MongoResult } from "../@types";
 
 export interface IGuild extends MongoResult {
     id: string;

@@ -13,11 +13,6 @@ import ffmpeg from "fluent-ffmpeg";
 import { Store } from "@valapi/web-client";
 import { Weapons } from "@valapi/valorant-api.com";
 import { container } from "@sapphire/framework";
-import type {
-    ValorantSkin,
-    ValorantAccount,
-    PrivacyTypes,
-} from "../../../@types";
 import _ from "lodash";
 
 export default class ValorantUtil {

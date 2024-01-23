@@ -7,7 +7,6 @@ import {
     TextInputStyle,
 } from "discord.js";
 import { WebClient } from "valorant.ts";
-import type { ValorantPlayerInfo } from "../../../@types";
 
 export default class ValorantAuth {
     private readonly valorant: Valorant;
@@ -138,7 +137,7 @@ export default class ValorantAuth {
                 user,
                 auth: web,
                 player: playerInfo,
-                trackerURL: this.valorant.trackerURL.replaceAll(
+                trackerURL: Valorant.trackerURL.replaceAll(
                     "%username%",
                     `${playerInfo.acct.game_name}%23${playerInfo.acct.tag_line}`
                 ),

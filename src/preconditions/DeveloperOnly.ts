@@ -20,7 +20,7 @@ export class StaffOnly extends Precondition {
 
     private checkDeveloper = (userId: string) =>
         this.container.owners.find((owner) => owner.id === userId) ||
-        this.container.staff.find((staff) => staff.user.id === userId)
+        this.container.staff.find((staff) => staff.id === userId)
             ? this.ok()
             : this.error({
                   message: "Only the bot staff can use this command",

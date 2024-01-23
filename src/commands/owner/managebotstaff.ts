@@ -1,6 +1,5 @@
 import { Command } from "@sapphire/framework";
 import { ButtonStyle, TextInputStyle } from "discord-api-types/v10";
-import type { StaffType } from "../../@types";
 
 import DbStaff from "@schemas/Staff";
 

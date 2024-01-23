@@ -29,14 +29,14 @@ export class BotStaffCommand extends Command {
             util
                 .embed()
                 .setAuthor({
-                    name: staff.user.globalName
-                        ? `${staff.user.globalName} (${staff.user.username})`
-                        : staff.user.username,
-                    iconURL: staff.user.displayAvatarURL() ?? undefined,
+                    name: staff.globalName
+                        ? `${staff.globalName} (${staff.username})`
+                        : staff.username,
+                    iconURL: staff.displayAvatarURL() ?? undefined,
                 })
                 .setTitle(util.staffName(staff.type))
                 .setDescription(`**${staff.description}**`)
-                .setThumbnail(staff.user.displayAvatarURL())
+                .setThumbnail(staff.displayAvatarURL())
         );
 
         let page = 0;

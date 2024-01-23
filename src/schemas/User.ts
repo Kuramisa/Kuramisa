@@ -1,6 +1,5 @@
 import { model, Schema } from "mongoose";
 import { AuthCore } from "@valapi/auth";
-import type { MongoResult, IWarn, IReport } from "../@types";
 
 export interface IUser extends MongoResult {
     id: string;

@@ -1,5 +1,4 @@
 import { model, Schema } from "mongoose";
-import type { MongoResult, StaffType } from "../@types";
 
 export interface IStaff extends MongoResult {
     id: string;
