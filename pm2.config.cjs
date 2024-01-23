@@ -1,7 +1,7 @@
 module.exports = {
     name: "kuramisa",
     script: "src/index.ts",
-    interpreter: "~/.bun/bin/bun",
+    interpreter: "/home/mateie/.bun/bin/bun",
     env: {
         NODE_ENV: "production",
     }
