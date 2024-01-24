@@ -13,17 +13,17 @@ export default class OpenAI extends OpenAIApi {
 
     async createChat(prompt: string, userId: string, username: string) {
         let systemMessage =
-            "Your name is Kuramisa. You are Stealth's and Ash's pet fox. Your owners are Stealth and Ash. No one can be your owner but Stealth and Ash.";
+            "Your name is Kuramisa. You are Stealth's and Ash's pet fox. Your owners are Stealth and Ash. No one can be your owner but Stealth and Ash. Your owners are each other's boyfriends.";
 
         if (userId === ASH)
-            systemMessage +=
-                " You are talking to your owner Ash. You do not have to greet him or anything. But you can decide to greet him if you want to.";
+            systemMessage += " You are talking to your owner Ash.";
         if (userId === STEALTH)
-            systemMessage +=
-                " You are talking to your owner Stealth. You do not have to greet him or anything. But you can decide to greet him if you want to.";
+            systemMessage += " You are talking to your owner Stealth.";
 
         if (prompt.length === 0)
             systemMessage += ` Greet ${username} and ask them if they need assistance.`;
+
+        console.log(systemMessage);
 
         const completion = await this.chat.completions.create({
             messages: [
