@@ -12,51 +12,61 @@ export class ChatGPTListener extends Listener {
     }
 
     async run(message: Message) {
-        if (message.guild) {
-            if (!message.guild.members.me?.permissions.has("SendMessages")) {
-                await message.author
-                    .send({
-                        content:
-                            "I do not have permission to send messages in this server.",
-                    })
-                    .catch(() => null);
-            }
-        }
-
+        if (message.author.bot) return;
         if (message.interaction !== null) return;
 
-        if (message.channel.type === ChannelType.DM) return;
-
-        const { client } = this.container;
-        if (!client.user) return;
-        const clientUser = client.users.cache.get(client.user.id);
-        if (!clientUser) return;
-
-        if (!message.content.includes(clientUser.id)) return;
-
-        const content = message.content
-            .replace(/<@\d+>/g, "")
-            .replace(/<#\d+>/g, "")
-            .replace(/<@&\d+>/g, "")
-            .trim();
-
         const {
+            client,
             logger,
             systems: { openai },
             util,
         } = this.container;
 
-        logger.info(
-            `Chat GPT: ${
-                message.author.globalName
-                    ? `${message.author.globalName} (${message.author.username})`
-                    : `${message.author.username}`
-            } (${
-                message.author.id
-            }) sent a message in with a prompt of \`${content}\``
-        );
+        if (!client.user) return;
 
-        await message.channel.sendTyping();
+        const { content: msgContent, channel, guild } = message;
+        const { user: clientUser } = client;
+
+        if (guild) {
+            if (!msgContent.includes(clientUser.id)) return;
+            if (!guild.members.me?.permissions.has("SendMessages"))
+                return message.author
+                    .send({
+                        content:
+                            "I do not have permission to send messages in this server.",
+                    })
+                    .catch(() => null);
+        }
+
+        await channel.sendTyping();
+
+        const content = msgContent
+            .replace(/<@\d+>/g, "")
+            .replace(/<#\d+>/g, "")
+            .replace(/<@&\d+>/g, "")
+            .trim();
+
+        if (guild) {
+            logger.info(
+                `Chat GPT: ${
+                    message.author.globalName
+                        ? `${message.author.globalName} (${message.author.username})`
+                        : `${message.author.username}`
+                } (${
+                    message.author.id
+                }) sent a message in with a prompt of \`${content}\``
+            );
+        } else {
+            logger.info(
+                `Chat GPT: ${
+                    message.author.globalName
+                        ? `${message.author.globalName} (${message.author.username})`
+                        : `${message.author.username}`
+                } (${
+                    message.author.id
+                }) sent a message in DMs with a prompt of \`${content}\``
+            );
+        }
 
         const blacklistedKeywords = [
             "@everyone",
@@ -71,13 +81,33 @@ export class ChatGPTListener extends Listener {
         ];
 
         if (blacklistedKeywords.includes(content.toLowerCase())) {
-            await message.channel.send(
-                `${message.author} No, no, no. You cannot do that ^^`
-            );
-            return message.delete().catch(() => null);
+            await message.channel
+                .send(`${message.author} No, no, no. You cannot do that ^^`)
+                .then((msg) => {
+                    if (message.guild) {
+                        setTimeout(() => {
+                            msg.delete().catch(() => null);
+                        }, 5000);
+                    }
+                });
+
+            if (message.guild) await message.delete();
+
+            return;
         }
 
-        const imageKeywords = ["show me", "image of", "picture of", "draw me"];
+        const imageKeywords = [
+            "show me",
+            "image of",
+            "picture of",
+            "draw me",
+            "an image of",
+            "a picture of",
+            "a drawing of",
+            "a photo of",
+            "a photograph of",
+            "a photo of",
+        ];
 
         if (
             imageKeywords.some((keyword) =>
@@ -85,24 +115,23 @@ export class ChatGPTListener extends Listener {
             )
         ) {
             const imageContent = content
-                .replaceAll(/show me/g, "")
-                .replaceAll(/image of/g, "")
-                .replaceAll(/picture of/g, "")
-                .replaceAll(/draw me/g, "")
+                .replace(
+                    imageKeywords.find((keyword) =>
+                        content.toLowerCase().includes(keyword)
+                    ) ?? "",
+                    ""
+                )
                 .trim();
 
             const msg = await message
-                .reply(`**Showing you an image of \`${imageContent}\`**`)
+                .reply(`**Showing you \`${imageContent}\`**`)
                 .catch(() => null);
 
             if (!msg) return;
 
             const response = await openai
                 .createImage(imageContent)
-                .catch((err: any) => {
-                    logger.error(err);
-                    return null;
-                });
+                .catch(() => null);
             if (!response)
                 return message
                     .reply(
@@ -114,32 +143,30 @@ export class ChatGPTListener extends Listener {
                 name: `${imageContent.trim()}.png`,
             });
 
-            await msg.edit({
+            return msg.edit({
                 content: "",
                 files: [attachment],
             });
-        } else {
-            const response = await openai.createChat(
-                content,
-                message.author.id,
-                message.author.globalName ?? message.author.username
-            );
-            if (!response) return message.reply("No response from OpenAI");
-
-            if (blacklistedKeywords.includes(response.toLowerCase())) {
-                await message.channel.send(
-                    `${message.author} No, no, no. You cannot do that ^^`
-                );
-                return message.delete();
-            }
-
-            if (response.length >= 2000) {
-                await util.pagination
-                    .texts(message, _.chunk(response, 1999).flat())
-                    .catch(() => null);
-            } else {
-                await message.reply(response).catch(() => null);
-            }
         }
+        const response = await openai.createChat(
+            content,
+            message.author.id,
+            message.author.globalName ?? message.author.username
+        );
+        if (!response) return message.reply("No response from OpenAI");
+
+        if (blacklistedKeywords.includes(response.toLowerCase())) {
+            await message.channel.send(
+                `${message.author} No, no, no. You cannot do that ^^`
+            );
+            return message.delete();
+        }
+
+        if (response.length >= 2000)
+            return util.pagination
+                .texts(message, _.chunk(response, 1999).flat())
+                .catch(() => null);
+
+        return message.reply(response).catch(() => null);
     }
 }
