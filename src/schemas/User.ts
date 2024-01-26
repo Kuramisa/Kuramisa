@@ -24,7 +24,6 @@ export interface IUser extends MongoResult {
         privacy: {
             wishlist: "public" | "friends" | "private";
             daily: "public" | "friends" | "private";
-            featured: "public" | "friends" | "private";
             nightMarket: "public" | "friends" | "private";
             accessory: "public" | "friends" | "private";
         };
@@ -114,10 +113,6 @@ export const User = new Schema<IUser>({
                 default: "public",
             },
             daily: {
-                type: String,
-                default: "public",
-            },
-            featured: {
                 type: String,
                 default: "public",
             },
