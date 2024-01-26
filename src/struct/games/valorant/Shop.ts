@@ -38,8 +38,11 @@ export default class ValorantShop {
 
         let ephemeral = false;
 
-        if (valorant.privacy.daily === "private") {
-            if (userId !== interaction.user.id)
+        if (valorant.privacy.daily !== "public") {
+            if (
+                userId !== interaction.user.id &&
+                valorant.privacy.daily === "private"
+            )
                 return interaction.reply({
                     content:
                         "**😢 That player has their privacy set to private**",
@@ -47,18 +50,6 @@ export default class ValorantShop {
                 });
 
             ephemeral = true;
-        }
-
-        if (userId !== interaction.user.id) {
-            const db = await database.users.fetch(userId);
-            const { valorant } = db;
-
-            if (valorant.privacy.daily === "private")
-                return interaction.reply({
-                    content:
-                        "**😢 That player has their privacy set to private**",
-                    ephemeral: true,
-                });
         }
 
         const accounts = this.valorant.accounts.get(userId);
