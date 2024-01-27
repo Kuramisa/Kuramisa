@@ -11,6 +11,7 @@ import {
 } from "discord.js";
 
 import moment from "moment";
+import { Bundles } from "./assets";
 
 export default class ValorantShop {
     private readonly valorant: Valorant;
@@ -293,5 +294,196 @@ export default class ValorantShop {
                 content: "**🥺 Something went wrong >.<**",
             });
         }
+    }
+
+    async featured(interaction: ChatInputCommandInteraction) {
+        const { util } = container;
+        const { bundles } = this.valorant;
+
+        await interaction.reply({
+            content: "**Getting the featured market ^^**",
+        });
+
+        const featured = await bundles.fetchFeatured();
+
+        const bundleEmbeds: Collection<string, EmbedBuilder> = new Collection();
+        const itemEmbeds: Collection<string, EmbedBuilder[]> = new Collection();
+
+        const viewSelectMenus: Collection<string, StringSelectMenuBuilder> =
+            new Collection();
+        const wishlistSelectMenus: Collection<string, StringSelectMenuBuilder> =
+            new Collection();
+
+        const bundleButtons: ButtonBuilder[] = [];
+
+        for (let i = 0; i < featured.length; i++) {
+            const bundle = featured[i];
+
+            const timeRemaining = moment()
+                .utc()
+                .add(bundle.secondsRemaining, "seconds")
+                .unix();
+
+            const bundleEmbed = Bundles.embed(bundle, timeRemaining);
+
+            const embeds: EmbedBuilder[] = [];
+            const viewOpts = [];
+            const wishlistOpts = [];
+
+            const { items } = bundle;
+
+            for (const bundleItem of items) {
+                // TODO: Remove as any and fix the typings later
+                embeds.push(await Bundles.itemEmbed(bundleItem as any));
+
+                if (bundleItem.type === "skin_level") {
+                    viewOpts.push({
+                        label: bundleItem.displayName,
+                        value: bundleItem.uuid,
+                    });
+
+                    wishlistOpts.push({
+                        label: bundleItem.displayName,
+                        value: bundleItem.uuid,
+                    });
+                }
+            }
+
+            itemEmbeds.set(bundle.uuid, embeds);
+            bundleEmbeds.set(bundle.uuid, bundleEmbed);
+            bundleButtons.push(
+                util
+                    .button()
+                    .setCustomId(`valorant_featured_${bundle.uuid}_${i}`)
+                    .setStyle(ButtonStyle.Secondary)
+                    .setLabel(bundle.displayName)
+            );
+
+            viewSelectMenus.set(
+                bundle.uuid,
+                util
+                    .stringMenu()
+                    .setCustomId(`valorant_featured_${bundle.uuid}_view`)
+                    .setPlaceholder("Choose a skin to view")
+                    .setMinValues(1)
+                    .setMaxValues(1)
+                    .setOptions(viewOpts)
+            );
+
+            wishlistSelectMenus.set(
+                bundle.uuid,
+                util
+                    .stringMenu()
+                    .setCustomId(`valorant_featured_${bundle.uuid}_wishlist`)
+                    .setPlaceholder("Choose a skin to add to your wishlist")
+                    .setMinValues(1)
+                    .setMaxValues(wishlistOpts.length)
+                    .setOptions(wishlistOpts)
+            );
+        }
+
+        const rows = [util.row().setComponents(bundleButtons)];
+
+        let currentItems = itemEmbeds.first();
+        let currentBundle = bundleEmbeds.first();
+        let viewSelectMenu = viewSelectMenus.first();
+        let wishlistSelectMenu = wishlistSelectMenus.first();
+
+        if (
+            !currentItems ||
+            !currentBundle ||
+            !viewSelectMenu ||
+            !wishlistSelectMenu
+        )
+            return interaction.editReply({
+                content: "**🥺 Something went wrong >.<**",
+            });
+
+        let buttonRow = util
+            .row()
+            .setComponents(
+                bundleButtons.map((btn, i) =>
+                    i === 0 ? btn.setDisabled(true) : btn
+                )
+            );
+
+        let viewSelectRow = util.row().setComponents(viewSelectMenu);
+
+        let wishlistSelectRow = util.row().setComponents(wishlistSelectMenu);
+
+        const msg = await interaction.editReply({
+            content: "",
+            embeds: [currentBundle, ...currentItems],
+            components: [buttonRow, viewSelectRow, wishlistSelectRow],
+        });
+
+        const btnCollector = msg.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            filter: (i) => i.customId.startsWith("valorant_featured_"),
+            time: 0,
+        });
+
+        const menuCollector = msg.createMessageComponentCollector({
+            componentType: ComponentType.StringSelect,
+            filter: (i) => i.customId.startsWith("valorant_featured_"),
+            time: 0,
+        });
+
+        btnCollector.on("collect", async (i) => {
+            const index = parseInt(i.customId.split("_")[3]);
+            if (isNaN(index)) return;
+            const uuid = i.customId.split("_")[2];
+            currentItems = itemEmbeds.get(uuid);
+            currentBundle = bundleEmbeds.get(uuid);
+            viewSelectMenu = viewSelectMenus.get(uuid);
+            wishlistSelectMenu = wishlistSelectMenus.get(uuid);
+
+            if (
+                !currentItems ||
+                !currentBundle ||
+                !viewSelectMenu ||
+                !wishlistSelectMenu
+            )
+                return;
+            buttonRow = util
+                .row()
+                .setComponents(
+                    bundleButtons.map((btn, i) =>
+                        i === index
+                            ? btn.setDisabled(true)
+                            : btn.setDisabled(false)
+                    )
+                );
+
+            const embeds = [currentBundle, ...currentItems];
+
+            viewSelectRow = util.row().setComponents(viewSelectMenu);
+            wishlistSelectRow = util.row().setComponents(wishlistSelectMenu);
+
+            await i.update({
+                embeds,
+                components: [buttonRow, viewSelectRow, wishlistSelectRow],
+            });
+        });
+
+        menuCollector.on("collect", async (i) => {
+            switch (i.customId.split("_")[3]) {
+                case "view": {
+                    const skinId = i.values[0];
+                    const skin = this.valorant.skins.getByID(skinId);
+                    if (!skin) return;
+                    const skinInfo = this.valorant.skins.info(skin);
+                    await this.valorant.util.createSkinCollectors(i, skinInfo);
+                    break;
+                }
+                case "wishlist": {
+                    await i.reply({
+                        content: "**😁 Coming Soon™️!**",
+                        ephemeral: true,
+                    });
+                    break;
+                }
+            }
+        });
     }
 }

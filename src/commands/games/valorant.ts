@@ -99,6 +99,11 @@ export class ValorantCommand extends Command {
                                         .setAutocomplete(true)
                                 )
                         )
+                        .addSubcommand((command) =>
+                            command
+                                .setName("featured")
+                                .setDescription("View Featured Valorant Market")
+                        )
                 )
                 .addSubcommand((command) =>
                     command
@@ -138,13 +143,11 @@ export class ValorantCommand extends Command {
                 ephemeral: true,
             });
 
-        const neededAuth = ["login", "logout", "market", "privacy"];
+        const neededAuth = ["login", "logout", "daily", "privacy"];
 
         if (
             !valorant.accounts.get(user.id) &&
-            neededAuth.includes(
-                options.getSubcommandGroup() ?? options.getSubcommand()
-            )
+            neededAuth.includes(options.getSubcommand())
         ) {
             const allDeleted = await valorant.loadAccounts(user.id);
             if (allDeleted)
@@ -176,10 +179,12 @@ export class ValorantCommand extends Command {
             case "daily":
                 await valorant.shop.daily(interaction);
                 break;
-            case "privacy": {
+            case "featured":
+                await valorant.shop.featured(interaction);
+                break;
+            case "privacy":
                 await valorant.privacy(interaction);
                 break;
-            }
             case "agents": {
                 const agentId = options.getString("valorant_agent_name", true);
                 const agent = valorant.agents.getByID(agentId);
