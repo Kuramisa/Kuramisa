@@ -22,9 +22,6 @@ export default class OpenAI extends OpenAIApi {
 
         if (prompt.length === 0)
             systemMessage += ` Greet ${username} and ask them if they need assistance.`;
-
-        console.log(systemMessage);
-
         const completion = await this.chat.completions.create({
             messages: [
                 {
