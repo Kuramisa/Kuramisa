@@ -185,8 +185,6 @@ export default class ValorantSkins {
         skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">
     ) => {
-        console.log(chroma.displayName.split(skin.displayName)[1]);
-
         const button = new ButtonBuilder()
             .setCustomId(
                 `valorant_skin_chroma_${skin.chromas.findIndex(
