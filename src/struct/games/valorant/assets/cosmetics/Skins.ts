@@ -120,6 +120,9 @@ export default class ValorantSkins {
                 name: level.displayName,
                 iconURL: contentTier.displayIcon,
             })
+            .setDescription(
+                `**${container.emojis.get("val_points")} ${skin.cost} VP**`
+            )
             .setImage(level.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
@@ -161,6 +164,9 @@ export default class ValorantSkins {
                 name: chroma.displayName,
                 iconURL: contentTier.displayIcon,
             })
+            .setDescription(
+                `**${container.emojis.get("val_points")} ${skin.cost}**`
+            )
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
