@@ -21,6 +21,7 @@ export default class ValorantPlayerCards {
 
     // TODO: Add Embed method
 
+    // TODO: Add card prices
     static async fetch() {
         const data = await fetch(`${Valorant.assetsURL}/playercards`)
             .then((res) => res.json())

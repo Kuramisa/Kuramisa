@@ -23,6 +23,7 @@ export default class ValorantPlayerTitles {
 
     // TODO: Add Embed method
 
+    // TODO: add player title prices
     static async fetch() {
         const data = await fetch(`${Valorant.assetsURL}/playertitles`)
             .then((res) => res.json())

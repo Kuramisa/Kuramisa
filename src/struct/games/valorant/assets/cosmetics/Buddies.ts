@@ -28,6 +28,7 @@ export default class ValorantBuddies {
     embed = (buddy: IValorantBuddy) =>
         new EmbedBuilder().setTitle(buddy.displayName);
 
+    // TODO: Add buddy prices
     static async fetch() {
         const data = await fetch(`${Valorant.assetsURL}/buddies`)
             .then((res) => res.json())

@@ -21,6 +21,7 @@ export default class ValorantSprays {
 
     // TODO: Add Embed method
 
+    // TODO: Add spray prices
     static async fetch() {
         const data = await fetch(`${Valorant.assetsURL}/sprays`)
             .then((res) => res.json())
