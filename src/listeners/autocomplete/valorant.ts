@@ -87,14 +87,15 @@ export class ValorantAutocomplete extends Listener {
                 );
             }
             case "valorant_weapon_name": {
-                let weapons = valorant.weapons.all
-                    .filter((weapon) => weapon.displayName !== "Melee")
-                    .sort((a, b) =>
-                        a.shopData.category.localeCompare(b.shopData.category)
-                    );
+                let weapons = valorant.weapons.all.sort((a, b) =>
+                    a.shopData?.category.localeCompare(b.shopData?.category)
+                );
+
                 if (focused.value.length > 0)
                     weapons = weapons.filter((weapon) =>
-                        `${weapon.displayName} (${weapon.shopData?.category})`
+                        `${weapon.displayName} (${
+                            weapon.shopData?.category || "Melee"
+                        })`
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
@@ -104,7 +105,9 @@ export class ValorantAutocomplete extends Listener {
 
                 return interaction.respond(
                     weapons.map((weapon) => ({
-                        name: `${weapon.displayName} (${weapon.shopData?.category})`,
+                        name: `${weapon.displayName} (${
+                            weapon.shopData?.category || "Melee"
+                        })`,
                         value: weapon.uuid,
                     }))
                 );

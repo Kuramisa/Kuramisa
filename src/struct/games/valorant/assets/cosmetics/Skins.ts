@@ -143,7 +143,7 @@ export default class ValorantSkins {
             .setPlaceholder("Select a level")
             .setOptions(
                 skin.levels.map((level, i) => ({
-                    label: level.displayName,
+                    label: container.util.shorten(level.displayName, 99),
                     value: i.toString(),
                 }))
             );
@@ -184,22 +184,22 @@ export default class ValorantSkins {
     chromaButton = (
         skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">
-    ) =>
-        new ButtonBuilder()
+    ) => {
+        console.log(chroma.displayName.split(skin.displayName)[1]);
+
+        const button = new ButtonBuilder()
             .setCustomId(
                 `valorant_skin_chroma_${skin.chromas.findIndex(
                     (c) => c.uuid === chroma.uuid
                 )}`
             )
-            .setLabel(
-                chroma.displayName
-                    .split(skin.displayName)[1]
-                    ?.split("\n")[1]
-                    ?.replaceAll("(", "")
-                    ?.replaceAll(")", "")
-                    ?.trim() ?? "Original"
-            )
             .setStyle(ButtonStyle.Secondary);
+
+        let label = chroma.displayName.split(skin.displayName)[1];
+        if (!label || label.length === 0) label = "Original";
+
+        return button.setLabel(label);
+    };
 
     chromaButtons = (skin: IValorantWeaponSkin) =>
         skin.chromas.map((chroma) => this.chromaButton(skin, chroma));

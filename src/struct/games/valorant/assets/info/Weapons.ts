@@ -59,11 +59,17 @@ export default class ValorantWeapons {
     }
 
     // TODO: Add Embed method
-    embed = (weapon: IValorantWeapon) =>
-        new EmbedBuilder()
-            .setTitle(`${weapon.displayName} (${weapon.shopData.category})`)
-            .setThumbnail(weapon.displayIcon)
-            .setDescription(
+    embed(weapon: IValorantWeapon) {
+        const embed = new EmbedBuilder()
+            .setTitle(
+                `${weapon.displayName} (${
+                    weapon.shopData?.category || "Melee"
+                })`
+            )
+            .setThumbnail(weapon.displayIcon);
+
+        if (weapon.shopData)
+            embed.setDescription(
                 `${container.emojis.get("val_credits")} **${
                     weapon.shopData.cost
                 }**\n\n***Stats***\n${this.generateDamagesDescription(
@@ -92,6 +98,9 @@ export default class ValorantWeapons {
                         : "second"
                 }`
             );
+
+        return embed;
+    }
 
     row = (weapon: IValorantWeapon) =>
         container.util
