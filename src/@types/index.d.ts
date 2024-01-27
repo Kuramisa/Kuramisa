@@ -24,6 +24,23 @@ declare global {
 
     // Valorant Declarations
 
+    type IValorantFeaturedBundle = {
+        uuid: string;
+        price: number;
+        wholeSaleOnly: boolean;
+        displayName: string;
+        items: IValorantBundleItem &
+            (
+                | (IValorantWeaponSkin & { type: "skin_level" })
+                | (IValorantBuddy & { type: "buddy" })
+                | (IValorantSpray & { type: "spray" })
+                | (IValorantPlayerCard & { type: "player_card" })
+                | (IValorantPlayerTitle & { type: "player_title" })
+            )[];
+        secondsRemaining: number;
+        expiresAt: string | Date;
+    } & IValorantBundle;
+
     interface IValorantAgent {
         uuid: string;
         displayName: string;
@@ -109,6 +126,18 @@ declare global {
         assetPath: string;
     }
 
+    type IValorantBundleItem = {
+        uuid: string;
+        displayName: string;
+        displayIcon: string;
+        type: string;
+        amount: number;
+        discountPercent: number;
+        basePrice: number;
+        discountedPrice: number;
+        promoItem: boolean;
+    };
+
     interface IValorantLevelBorder {
         uuid: string;
         startingLevel: number;
@@ -164,6 +193,7 @@ declare global {
         displayIcon: string;
         wallpaper: string;
         assetPath: string;
+        cost: number;
         chromas: IValorantWeaponSkinChroma[];
         levels: IValorantWeaponSkinLevel[];
     }
