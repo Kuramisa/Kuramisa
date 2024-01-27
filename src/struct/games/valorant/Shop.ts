@@ -26,7 +26,7 @@ export default class ValorantShop {
         const { options } = interaction;
 
         const userId =
-            options.getString("valorant_player") || interaction.user.id;
+            options.getString("valorant_player") ?? interaction.user.id;
 
         if (userId && /^[A-Za-z\s]*$/.test(userId))
             return interaction.reply({

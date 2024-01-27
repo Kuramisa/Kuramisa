@@ -29,7 +29,7 @@ export class LeaderboardCommand extends Command {
         const { kanvas } = this.container;
         const { options } = interaction;
 
-        const count = options.getNumber("user_count") || 10;
+        const count = options.getNumber("user_count") ?? 10;
 
         await interaction.deferReply();
 

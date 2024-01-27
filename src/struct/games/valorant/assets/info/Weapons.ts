@@ -63,7 +63,7 @@ export default class ValorantWeapons {
         const embed = new EmbedBuilder()
             .setTitle(
                 `${weapon.displayName} (${
-                    weapon.shopData?.category || "Melee"
+                    weapon.shopData?.category ?? "Melee"
                 })`
             )
             .setThumbnail(weapon.displayIcon);

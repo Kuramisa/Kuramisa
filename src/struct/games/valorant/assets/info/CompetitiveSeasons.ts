@@ -17,7 +17,7 @@ export default class ValorantCompetitiveSeasons {
 
     get = (id: string) =>
         this.data.find(
-            (season) => season.uuid === id || season.seasonUuid === id
+            (season) => season.uuid === id ?? season.seasonUuid === id
         );
 
     static async fetch() {

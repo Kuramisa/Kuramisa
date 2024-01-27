@@ -98,7 +98,7 @@ export default class Kanvas {
 
         // return new hex
         const pad = (txt: string, length?: number) => {
-            length = length || 2;
+            length = length ?? 2;
             const arr = [length].join("0");
             return (arr + txt).slice(-length);
         };

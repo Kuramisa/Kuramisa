@@ -94,7 +94,7 @@ export class ValorantAutocomplete extends Listener {
                 if (focused.value.length > 0)
                     weapons = weapons.filter((weapon) =>
                         `${weapon.displayName} (${
-                            weapon.shopData?.category || "Melee"
+                            weapon.shopData?.category ?? "Melee"
                         })`
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
@@ -106,7 +106,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     weapons.map((weapon) => ({
                         name: `${weapon.displayName} (${
-                            weapon.shopData?.category || "Melee"
+                            weapon.shopData?.category ?? "Melee"
                         })`,
                         value: weapon.uuid,
                     }))

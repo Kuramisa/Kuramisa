@@ -261,7 +261,7 @@ export default {
             const guild = container.client.guilds.cache.get(guildId);
             if (!guild) throw new GraphQLError("Server not found");
             const role =
-                guild.roles.cache.get(roleId) ||
+                guild.roles.cache.get(roleId) ??
                 guild.roles.cache.find((role) => role.name === roleId);
             if (!role) throw new GraphQLError("Role not found");
             return role.toJSON();
@@ -285,7 +285,7 @@ export default {
             const guild = container.client.guilds.cache.get(guildId);
             if (!guild) throw new GraphQLError("Server not found");
             const emoji =
-                guild.emojis.cache.get(emojiId) ||
+                guild.emojis.cache.get(emojiId) ??
                 guild.emojis.cache.find((emoji) => emoji.name === emojiId);
             if (!emoji) throw new GraphQLError("Emoji not found");
             return emoji.toJSON();

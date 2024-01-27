@@ -50,7 +50,7 @@ export class ReportCommand extends Command {
         const { options } = interaction;
 
         const member = options.getMember("member");
-        const reason = options.getString("reason") || "No reason specified";
+        const reason = options.getString("reason") ?? "No reason specified";
 
         if (!member)
             return interaction.reply({

@@ -26,7 +26,7 @@ export default class ValorantSkins {
     get(name: string) {
         return this.data.find(
             (skin) =>
-                skin.displayName === name ||
+                skin.displayName === name ??
                 skin.levels.find((level) => level.displayName === name)
         );
     }

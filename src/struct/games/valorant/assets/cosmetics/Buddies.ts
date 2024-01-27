@@ -15,7 +15,7 @@ export default class ValorantBuddies {
     get(name: string) {
         return this.data.find(
             (buddy) =>
-                buddy.displayName === name ||
+                buddy.displayName === name ??
                 buddy.levels.find((level) => level.displayName === name)
         );
     }
