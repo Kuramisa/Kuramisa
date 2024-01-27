@@ -37,7 +37,9 @@ export default {
 
             let skins = weapon.skins
                 .filter((skin) => !skin.displayName.includes("Standard"))
-                .filter((skin) => !skin.displayName.includes("Random"));
+                .filter((skin) => !skin.displayName.includes("Random"))
+                .filter((skin) => !skin.displayName.includes("Default"))
+                .filter((skin) => skin.displayName !== "Melee");
 
             if (sortAlphabetically)
                 skins = skins.sort((a, b) =>
