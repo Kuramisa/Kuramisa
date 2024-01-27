@@ -36,14 +36,30 @@ export default class ValorantSkins {
     }
 
     static async fetch() {
-        const data = await fetch(`${Valorant.assetsURL}/weapons/skins`)
+        const skinData = await fetch(`${Valorant.assetsURL}/weapons/skins`)
             .then((res) => res.json())
             .then((res: any) => res.data);
+
+        const skinPrices = await fetch(
+            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+        )
+            .then((res) => res.json())
+            .then((res: any) => res.data.offers)
+            .then((res) =>
+                res.filter((offer: any) => offer.type === "skin_level")
+            );
+
+        const data = skinData.map((skin: any) => ({
+            ...skin,
+            cost:
+                skinPrices.find((price: any) => price.skin_id === skin.uuid)
+                    ?.cost ?? 0,
+        }));
 
         return new ValorantSkins(data);
     }
 
-    info(skin: Weapons.WeaponSkins<"en-US">): ValorantSkin {
+    info(skin: IValorantWeaponSkin): ValorantSkin {
         const contentTier = container.games.valorant.contentTiers.getByID(
             skin.contentTierUuid
         );
@@ -107,7 +123,7 @@ export default class ValorantSkins {
             .setImage(level.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
-    levelEmbeds = (skin: Weapons.WeaponSkins<"en-US">) =>
+    levelEmbeds = (skin: IValorantWeaponSkin) =>
         skin.levels.map((level) =>
             this.levelEmbed(
                 skin,
@@ -118,7 +134,7 @@ export default class ValorantSkins {
             )
         );
 
-    levelSelectMenu = (skin: Weapons.WeaponSkins<"en-US">) =>
+    levelSelectMenu = (skin: IValorantWeaponSkin) =>
         new StringSelectMenuBuilder()
             .setCustomId("valorant_weapon_skin_level_select")
             .setPlaceholder("Select a level")
@@ -129,14 +145,14 @@ export default class ValorantSkins {
                 }))
             );
 
-    levelVideos = (skin: Weapons.WeaponSkins<"en-US">) =>
+    levelVideos = (skin: IValorantWeaponSkin) =>
         skin.levels.map((level) => level.streamedVideo);
 
     // Level Methods [END]
 
     // Chroma Methods [START]
     chromaEmbed = (
-        skin: Weapons.WeaponSkins<"en-US">,
+        skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">,
         contentTier: ContentTiers.ContentTiers<"en-US">
     ) =>
@@ -148,7 +164,7 @@ export default class ValorantSkins {
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
-    chromaEmbeds = (skin: Weapons.WeaponSkins<"en-US">) =>
+    chromaEmbeds = (skin: IValorantWeaponSkin) =>
         skin.chromas.map((chroma) =>
             this.chromaEmbed(
                 skin,
@@ -160,7 +176,7 @@ export default class ValorantSkins {
         );
 
     chromaButton = (
-        skin: Weapons.WeaponSkins<"en-US">,
+        skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">
     ) =>
         new ButtonBuilder()
@@ -179,12 +195,12 @@ export default class ValorantSkins {
             )
             .setStyle(ButtonStyle.Secondary);
 
-    chromaButtons = (skin: Weapons.WeaponSkins<"en-US">) =>
+    chromaButtons = (skin: IValorantWeaponSkin) =>
         skin.chromas.map((chroma) => this.chromaButton(skin, chroma));
 
     chromaVideo = (chroma: Weapons.WeaponSkinChromas<"en-US">) =>
         chroma.streamedVideo;
-    chromaVideos = (skin: Weapons.WeaponSkins<"en-US">) =>
+    chromaVideos = (skin: IValorantWeaponSkin) =>
         skin.chromas.map((chroma) => this.chromaVideo(chroma));
 
     // Chroma Methods [END]
