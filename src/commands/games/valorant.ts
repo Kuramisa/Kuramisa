@@ -1,4 +1,5 @@
 import { Command } from "@sapphire/framework";
+import { ComponentType } from "discord.js";
 
 export class ValorantCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -58,7 +59,21 @@ export class ValorantCommand extends Command {
                 .addSubcommand((command) =>
                     command
                         .setName("skins")
-                        .setDescription("Get info about valorant skins")
+                        .setDescription(
+                            "Get info about valorant skins for a certain weapon"
+                        )
+                        .addStringOption((option) =>
+                            option
+                                .setName("valorant_weapon_name")
+                                .setDescription("Valorant weapon name")
+                                .setRequired(true)
+                                .setAutocomplete(true)
+                        )
+                )
+                .addSubcommand((command) =>
+                    command
+                        .setName("skin")
+                        .setDescription("Get info about a valorant skin")
                         .addStringOption((option) =>
                             option
                                 .setName("valorant_skin_name")
@@ -197,6 +212,121 @@ export class ValorantCommand extends Command {
                 return interaction.reply({ embeds: [agentEmbed] });
             }
             case "skins": {
+                const weaponId = options.getString(
+                    "valorant_weapon_name",
+                    true
+                );
+                const weapon = valorant.weapons.getByID(weaponId);
+                if (!weapon)
+                    return interaction.reply({
+                        content: "**😲 Weapon not found!**",
+                        ephemeral: true,
+                    });
+
+                const skins = weapon.skins
+                    .filter((skin) => skin.contentTierUuid)
+                    .sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+                await interaction.deferReply();
+
+                const infoCollection = valorant.skins.collection(skins);
+
+                let page = 0;
+                let levelPage = 0;
+
+                const skin = infoCollection.at(page);
+                if (!skin) return;
+
+                const message = await interaction.editReply({
+                    embeds: [skin.level.embeds[0]],
+                    components: valorant.util.determineComponents(skin, true),
+                });
+
+                const buttonNames = [
+                    "previous_skin",
+                    "next_skin",
+                    "add_to_wishlist",
+                ];
+
+                const buttonCollector = message.createMessageComponentCollector(
+                    {
+                        filter: (i) =>
+                            i.user.id === interaction.user.id &&
+                            (buttonNames.includes(i.customId) ||
+                                i.customId.includes("valorant_skin_chroma")),
+                        componentType: ComponentType.Button,
+                    }
+                );
+
+                const menuCollector = message.createMessageComponentCollector({
+                    filter: (i) =>
+                        i.user.id === interaction.user.id &&
+                        i.customId === "valorant_weapon_skin_level_select",
+                    componentType: ComponentType.StringSelect,
+                });
+
+                buttonCollector.on("collect", async (i) => {
+                    switch (i.customId) {
+                        case "previous_skin": {
+                            page = page > 0 ? --page : infoCollection.size;
+                            levelPage = 0;
+                            break;
+                        }
+                        case "next_skin": {
+                            page = page + 1 < infoCollection.size ? ++page : 0;
+                            levelPage = 0;
+                            break;
+                        }
+                        case "add_to_wishlist": {
+                            await i.reply({
+                                content: "**😁 Coming Soon™️!**",
+                                ephemeral: true,
+                            });
+                            return;
+                        }
+                    }
+
+                    if (i.customId.includes("valorant_skin_chroma")) {
+                        const skin = infoCollection.at(page);
+                        if (!skin) return;
+                        const chromaPage = parseInt(i.customId.split("_")[3]);
+                        if (isNaN(chromaPage)) return;
+
+                        await valorant.util.updateInfoChroma(
+                            i,
+                            skin,
+                            chromaPage,
+                            true
+                        );
+                        return;
+                    }
+
+                    const skin = infoCollection.at(page);
+                    if (!skin) return;
+
+                    await valorant.util.updateInfoLevel(
+                        i,
+                        skin,
+                        levelPage,
+                        true
+                    );
+                });
+
+                menuCollector.on("collect", async (i) => {
+                    levelPage = parseInt(i.values[0]);
+                    const skin = infoCollection.at(page);
+                    if (!skin) return;
+                    await valorant.util.updateInfoLevel(
+                        i,
+                        skin,
+                        levelPage,
+                        true
+                    );
+                });
+
+                break;
+            }
+            case "skin": {
                 const skinId = options.getString("valorant_skin_name", true);
                 const skin = valorant.skins.getByID(skinId);
                 if (!skin)
