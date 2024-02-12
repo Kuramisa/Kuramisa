@@ -17,7 +17,7 @@
     "resolveJsonModule": true,
     "declaration": true,
     "experimentalDecorators": true,
-     "paths": {
+    "paths": {
       "@kuramisa": [
         "./src/Kuramisa"
       ],

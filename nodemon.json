@@ -6,6 +6,6 @@
         "src",
         ".env"
     ],
-    "exec": "yarn build && yarn start",
+    "exec": "pnpm build && pnpm start",
     "ext": "ts"
 }
