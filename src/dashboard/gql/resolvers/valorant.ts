@@ -48,6 +48,11 @@ export default {
 
             return skins;
         },
+        skin: (_: any, { skinUuid }: { skinUuid: string }) => {
+            const skin = container.games.valorant.skins.getByID(skinUuid);
+            if (!skin) return null;
+            return skin;
+        },
         dailyStore: async (
             _: any,
             { auth: authData, userId }: { auth?: string; userId?: string }

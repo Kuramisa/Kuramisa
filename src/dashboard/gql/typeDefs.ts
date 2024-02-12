@@ -67,6 +67,7 @@ type Query {
 
 
     skins(weaponUuid: String!, sortAlphabetically: Boolean): Data!
+    skin(skinUuid: String!): Data!
 
     dailyStore(auth: String, userId: String): Data!
 }
