@@ -6,6 +6,6 @@
         "src",
         ".env"
     ],
-    "exec": "pnpm build && pnpm start",
+    "exec": "pnpm build && NODE_ENV=\"development\" pnpm start",
     "ext": "ts"
 }
