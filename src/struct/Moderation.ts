@@ -180,6 +180,7 @@ export default class Moderation {
         });
 
         const response = completion.results[0];
+
         if (!response.flagged) return null;
 
         const { categories } = response;
@@ -223,6 +224,7 @@ export default class Moderation {
         const {
             client,
             database,
+            logger,
             systems: { openai },
             util,
         } = container;
@@ -247,7 +249,7 @@ export default class Moderation {
                 `${message.author}, Your message was deleted for the following reason(s): \`${reason}\``
             );
         } catch (error: any) {
-            openai.throwError(error, message.content, null, message);
+            openai.throwError(error, message.content);
         }
     }
 }
