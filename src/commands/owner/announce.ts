@@ -87,9 +87,9 @@ export class AnnounceCommand extends Command {
             );
 
         for (const owner of owners) {
-            const dm = await database.users.fetch(owner.user.id);
+            const db = await database.users.fetch(owner.user.id);
 
-            if (!dm.notifications.botAnnouncements) continue;
+            if (!db.notifications.botAnnouncements) continue;
 
             await owner
                 .send({ embeds: [embed], components: [row] })
