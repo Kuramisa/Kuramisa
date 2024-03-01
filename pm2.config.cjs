@@ -3,5 +3,5 @@ module.exports = {
     script: "./src/index.ts",
     watch: true,
     ignore_watch: ["node_modules"],
-    interpreter: "~/.bun/bin/bun",
+    interpreter: "/home/mateie/.bun/bin/bun",
 }
