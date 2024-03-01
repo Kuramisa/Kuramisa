@@ -10,7 +10,7 @@ import {
 } from "@discord-player/extractor";
 
 import { container } from "@sapphire/framework";
-import {Player} from "discord-player";
+import DiscordPlayer from "discord-player";
 import type {
     ChatInputCommandInteraction,
     Guild,
@@ -18,7 +18,7 @@ import type {
     GuildVoiceChannelResolvable,
 } from "discord.js";
 
-export default class Music extends Player {
+export default class Music extends DiscordPlayer.Player {
     lyrics: ReturnType<typeof lyricsExtractor>;
 
     constructor() {
