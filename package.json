@@ -1,15 +1,26 @@
 {
   "name": "kuramisa",
-  "module": "./build/index.js",
+  "module": "src/index.ts",
   "scripts": {
-    "preinstall": "npx only-allow pnpm",
-    "build": "rm -rf ./build && tsc",
-    "start": "node ./build/index.js",
-    "dev": "nodemon"
+    "prestart": "tsc",
+    "start": "bun run src/index.ts"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/cors": "^2.8.17",
+    "@types/fluent-ffmpeg": "^2.1.24",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/lodash": "^4.14.202",
+    "@types/ms": "^0.7.34"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
   },
   "dependencies": {
     "@apollo/server": "^4.10.0",
     "@discord-player/extractor": "^4.4.6",
+    "@discordjs/builders": "^1.7.0",
     "@discordjs/rest": "^2.2.0",
     "@graphql-tools/schema": "^10.0.3",
     "@napi-rs/canvas": "^0.1.49",
@@ -30,14 +41,13 @@
     "cron": "^3.1.6",
     "cryptr": "^6.3.0",
     "dayjs": "^1.11.10",
+    "discord-api-types": "^0.37.71",
     "discord-logs": "^2.2.1",
     "discord-oauth2": "^2.12.1",
     "discord-player": "^6.6.7",
     "discord.js": "^14.14.1",
-    "dotenv": "^16.4.5",
     "elevenlabs-node": "^2.0.3",
     "express": "^4.18.2",
-    "ffmpeg-static": "^5.2.0",
     "fluent-ffmpeg": "^2.1.2",
     "get-image-colors": "^4.0.1",
     "graphql": "^16.8.1",
@@ -45,6 +55,7 @@
     "helmet": "^7.1.0",
     "japi.rest.ts": "^1.0.2",
     "jsonwebtoken": "^9.0.2",
+    "lodash": "^4.17.21",
     "mediaplex": "^0.0.9",
     "moment": "^2.30.1",
     "mongoose": "^8.2.0",
@@ -59,16 +70,5 @@
     "warframe-items": "^1.1261.23",
     "warframe-market": "^1.1.1",
     "youtube-ext": "^1.1.16"
-  },
-  "devDependencies": {
-    "@types/cookie": "^0.6.0",
-    "@types/cors": "^2.8.17",
-    "@types/fluent-ffmpeg": "^2.1.24",
-    "@types/jsonwebtoken": "^9.0.5",
-    "@types/lodash": "^4.14.202",
-    "@types/ms": "^0.7.34",
-    "@types/node": "^20.11.20",
-    "nodemon": "^3.1.0",
-    "typescript": "^5.3.3"
   }
 }
