@@ -67,15 +67,13 @@ export default class ValorantBundles {
 
         if (item.basePrice === 0) description = "For Free";
         else
-            description = `**${emojis.get("val_points")} ${item.basePrice} VP ${
-                item.basePrice === item.discountedPrice
-                    ? ""
-                    : `(${
-                          item.discountedPrice === 0
-                              ? "*Free*"
-                              : item.discountedPrice
-                      }  with the bundle)`
-            }**`;
+            description = `**${emojis.get("val_points")} ${item.basePrice} VP ${item.basePrice === item.discountedPrice
+                ? ""
+                : `(${item.discountedPrice === 0
+                    ? "*Free*"
+                    : item.discountedPrice
+                }  with the bundle)`
+                }**`;
 
         const embed = util.embed();
 
@@ -151,9 +149,8 @@ export default class ValorantBundles {
                         name: item.displayName,
                     })
                     .setTitle(item.titleText);
+                break;
             }
-            default:
-                throw new Error(`Unknown item type ${item.type}`);
         }
 
         return embed;
