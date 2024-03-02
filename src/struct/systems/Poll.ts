@@ -26,7 +26,7 @@ export default class Poll {
         const question = options.getString("question", true);
         const howMany = options.getInteger("how_many", true);
         const duration = options.getString("duration");
-        const description = options.getString("description");
+        const description = options.getString("poll_description");
 
         const { database, logger, util } = container;
 
@@ -95,6 +95,8 @@ export default class Poll {
                         text: `Poll created by ${user.username}`,
                         iconURL: user.displayAvatarURL(),
                     });
+
+                console.log(description)
 
                 if (description) poll.setDescription(description);
 
