@@ -1,7 +1,6 @@
 module.exports = {
     name: "kuramisa",
-    script: "./src/index.ts",
+    script: "./buiid/index.js",
     watch: true,
     ignore_watch: ["node_modules"],
-    interpreter: "/home/mateie/.bun/bin/bun",
 }
