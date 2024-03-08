@@ -1,6 +1,5 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { AttachmentBuilder } from "discord.js";
-import _ from "lodash";
 
 export class AICommand extends Subcommand {
     constructor(ctx: Subcommand.LoaderContext, opts: Subcommand.Options) {

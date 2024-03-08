@@ -1,5 +1,4 @@
 import { container } from "@sapphire/pieces";
-import { User } from "discord.js";
 import { GraphQLError } from "graphql";
 
 export default {

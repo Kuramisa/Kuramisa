@@ -4,7 +4,6 @@ import Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
 import { User } from "discord.js";
-import _ from "lodash";
 
 export default {
     Query: {

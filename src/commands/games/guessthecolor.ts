@@ -1,6 +1,5 @@
 import { Command } from "@sapphire/framework";
 import { AttachmentBuilder, ButtonStyle, ComponentType } from "discord.js";
-import _ from "lodash";
 
 export class GuessTheColorCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {

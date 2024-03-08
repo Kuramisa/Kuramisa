@@ -1,7 +1,6 @@
 import { Listener } from "@sapphire/framework";
 import { AutocompleteInteraction } from "discord.js";
 import { Track } from "discord-player";
-import _ from "lodash";
 
 export class MusicAutocomplete extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
@@ -52,9 +51,8 @@ export class MusicAutocomplete extends Listener {
 
                     return interaction.respond([
                         {
-                            name: `${title} ${
-                                description === title ? "" : `- ${description}`
-                            } by ${author} on ${_.capitalize(source)}`,
+                            name: `${title} ${description === title ? "" : `- ${description}`
+                                } by ${author} on ${_.capitalize(source)}`,
                             value: url,
                         },
                     ]);

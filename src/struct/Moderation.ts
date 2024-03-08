@@ -5,7 +5,7 @@ import Warns from "./moderation/Warns";
 
 import SightEngine from "sightengine";
 import type { Message } from "discord.js";
-import _ from "lodash";
+
 const { SIGHTENGINE_ID, SIGHTENGINE_API } = process.env;
 
 const sightengine = new SightEngine(SIGHTENGINE_ID, SIGHTENGINE_API);

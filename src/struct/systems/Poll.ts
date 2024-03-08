@@ -9,7 +9,6 @@ import {
     ActionRow,
     ButtonComponent,
 } from "discord.js";
-import _ from "lodash";
 import ms from "ms";
 
 // TODO: Add emoji type poll support for polls

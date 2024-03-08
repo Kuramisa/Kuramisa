@@ -9,7 +9,6 @@ import {
     ChatInputCommandInteraction,
     ComponentType,
 } from "discord.js";
-import _ from "lodash";
 
 const { MARKET_API } = process.env;
 

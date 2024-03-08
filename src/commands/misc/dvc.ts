@@ -1,6 +1,5 @@
 import { Command } from "@sapphire/framework";
 import { ButtonStyle, ChannelType, ComponentType } from "discord.js";
-import _ from "lodash";
 
 export class DVCCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {

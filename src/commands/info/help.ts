@@ -1,5 +1,4 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import _ from "lodash";
 
 export class HelpCommand extends Subcommand {
     constructor(ctx: Subcommand.LoaderContext, opts: Subcommand.Options) {

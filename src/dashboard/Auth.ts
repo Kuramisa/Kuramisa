@@ -6,7 +6,6 @@ import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
 import DiscordOAuth2 from "discord-oauth2";
 import { type Request } from "express";
-import _ from "lodash";
 
 const { JWT_SECRET, SECRET, NODE_ENV } = process.env;
 
@@ -66,11 +65,11 @@ export default class Auth {
             guildsCache.map(async (guild: any) => {
                 const iconURL = guild.icon
                     ? util.cdn.icon(guild.id, guild.icon, {
-                          extension: guild.icon.startsWith("a_")
-                              ? "gif"
-                              : "png",
-                          size: 1024,
-                      })
+                        extension: guild.icon.startsWith("a_")
+                            ? "gif"
+                            : "png",
+                        size: 1024,
+                    })
                     : "https://i.imgur.com/SCv8M69.png";
 
                 const botJoined = client.guilds.cache.has(guild.id);
@@ -206,8 +205,8 @@ export default class Auth {
 
             const bannerURL = user.banner
                 ? util.cdn.banner(user.id, user.banner, {
-                      size: 2048,
-                  })
+                    size: 2048,
+                })
                 : null;
 
             let info = { ...user, avatarURL, bannerURL };

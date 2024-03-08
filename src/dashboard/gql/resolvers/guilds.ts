@@ -9,7 +9,6 @@ import {
     GuildMember,
     Invite,
 } from "discord.js";
-import _ from "lodash";
 
 export default {
     Query: {
@@ -27,9 +26,9 @@ export default {
 
             const iconURL = guild.icon
                 ? util.cdn.icon(guild.id, guild.icon, {
-                      extension: guild.icon.startsWith("a_") ? "gif" : "png",
-                      size: 1024,
-                  })
+                    extension: guild.icon.startsWith("a_") ? "gif" : "png",
+                    size: 1024,
+                })
                 : "https://i.imgur.com/SCv8M69.png";
 
             const json = guild.toJSON() as any;
@@ -108,11 +107,11 @@ export default {
                 guilds[page].map(async (guild: Guild) => {
                     const iconURL = guild.icon
                         ? util.cdn.icon(guild.id, guild.icon, {
-                              extension: guild.icon.startsWith("a_")
-                                  ? "gif"
-                                  : "png",
-                              size: 1024,
-                          })
+                            extension: guild.icon.startsWith("a_")
+                                ? "gif"
+                                : "png",
+                            size: 1024,
+                        })
                         : "https://i.imgur.com/SCv8M69.png";
 
                     let info = { iconURL, ...(guild.toJSON() as any) };

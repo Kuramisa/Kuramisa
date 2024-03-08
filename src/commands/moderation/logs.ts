@@ -1,6 +1,5 @@
 import { Command } from "@sapphire/framework";
 import { ComponentType } from "discord.js";
-import _ from "lodash";
 
 export class LogsCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -177,7 +176,7 @@ export class LogsCommand extends Command {
 
                     db.logs.types[chosenToggle as keyof typeof db.logs.types] =
                         !db.logs.types[
-                            chosenToggle as keyof typeof db.logs.types
+                        chosenToggle as keyof typeof db.logs.types
                         ];
 
                     const newValue = db.logs.types[

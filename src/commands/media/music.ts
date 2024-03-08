@@ -1,7 +1,6 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
 import { QueueRepeatMode, Track } from "discord-player";
 import { ChannelType } from "discord.js";
-import _ from "lodash";
 
 // TODO: add more commands for music
 export class MusicCommand extends Subcommand {
@@ -513,8 +512,7 @@ export class MusicCommand extends Subcommand {
 
         let tracks = queue.tracks.map(
             (track: Track, index: number) =>
-                `\`${index + 1}\`, ${track.title} - ${track.author} | ${
-                    track.duration
+                `\`${index + 1}\`, ${track.title} - ${track.author} | ${track.duration
                 }`
         );
         tracks = _.chunk(tracks, 10).flat();

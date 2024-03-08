@@ -1,6 +1,5 @@
 import { container } from "@sapphire/pieces";
 import { GraphQLError } from "graphql";
-import _ from "lodash";
 
 export default {
     Query: {

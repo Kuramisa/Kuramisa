@@ -1,6 +1,5 @@
 import { Listener } from "@sapphire/framework";
 import { AutocompleteInteraction } from "discord.js";
-import _ from "lodash";
 
 export class LogsACListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

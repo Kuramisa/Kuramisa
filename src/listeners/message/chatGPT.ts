@@ -1,6 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { AttachmentBuilder, ChannelType, Message } from "discord.js";
-import _ from "lodash";
+import { AttachmentBuilder, Message } from "discord.js";
 
 export class ChatGPTListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
@@ -48,22 +47,18 @@ export class ChatGPTListener extends Listener {
 
         if (guild) {
             logger.info(
-                `Chat GPT: ${
-                    message.author.globalName
-                        ? `${message.author.globalName} (${message.author.username})`
-                        : `${message.author.username}`
-                } (${
-                    message.author.id
+                `Chat GPT: ${message.author.globalName
+                    ? `${message.author.globalName} (${message.author.username})`
+                    : `${message.author.username}`
+                } (${message.author.id
                 }) sent a message in with a prompt of \`${content}\``
             );
         } else {
             logger.info(
-                `Chat GPT: ${
-                    message.author.globalName
-                        ? `${message.author.globalName} (${message.author.username})`
-                        : `${message.author.username}`
-                } (${
-                    message.author.id
+                `Chat GPT: ${message.author.globalName
+                    ? `${message.author.globalName} (${message.author.username})`
+                    : `${message.author.username}`
+                } (${message.author.id
                 }) sent a message in DMs with a prompt of \`${content}\``
             );
         }
