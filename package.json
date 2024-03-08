@@ -1,6 +1,6 @@
 {
   "name": "kuramisa",
-  "main": "src/index.ts",
+  "main": "./build/index.js",
   "scripts": {
     "prestart": "tsc",
     "start": "node ./build/index.js",
