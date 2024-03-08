@@ -6,7 +6,7 @@ import {
     ModalSubmitInteraction,
     TextInputStyle,
 } from "discord.js";
-import { WebClient } from "valorant.ts";
+import { ValError, WebClient } from "valorant.ts";
 
 export default class ValorantAuth {
     private readonly valorant: Valorant;
@@ -118,7 +118,7 @@ export default class ValorantAuth {
             try {
                 await web.verify(parseInt(code));
             } catch (err) {
-                if (err instanceof Error) {
+                if (err instanceof ValError) {
                     logger.error(err);
                     return currentInteraction.reply({
                         content: "**😲 Incorrect MFA Code**",
@@ -152,7 +152,7 @@ export default class ValorantAuth {
                 ephemeral: true,
             });
         } catch (err) {
-            if (err instanceof Error) {
+            if (err instanceof ValError) {
                 logger.error(err);
                 return currentInteraction.reply({
                     content: "**😲 Incorrect MFA Code provided**",
