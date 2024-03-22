@@ -88,7 +88,13 @@ export default class ValorantAuth {
         }
 
         if (web.authenticationInfo.isMultifactor) {
-            const row = util
+            return currentInteraction.reply({
+                content:
+                    "**😭 You have MFA enabled!** **Sadly Riot removed MFA code sending through this method, We will bring back later when we find the fix or an alternative**",
+                ephemeral: true,
+            });
+
+            /*const row = util
                 .modalRow()
                 .addComponents(
                     util
@@ -125,7 +131,7 @@ export default class ValorantAuth {
                         ephemeral: true,
                     });
                 }
-            }
+            }*/
         }
 
         try {
