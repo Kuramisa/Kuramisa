@@ -1,4 +1,5 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
+import { capitalize } from "lodash";
 
 export class HelpCommand extends Subcommand {
     constructor(ctx: Subcommand.LoaderContext, opts: Subcommand.Options) {
@@ -82,7 +83,7 @@ export class HelpCommand extends Subcommand {
                             `**${command.name}** - \`${command.description}\``
                     );
 
-                return `${_.capitalize(category)}\n${commands.join("\n")}`;
+                return `${capitalize(category)}\n${commands.join("\n")}`;
             })
             .join("\n\n");
 
@@ -161,7 +162,7 @@ export class HelpCommand extends Subcommand {
             .setFields(
                 {
                     name: "Category",
-                    value: `${_.capitalize(command.fullCategory[0])}`,
+                    value: `${capitalize(command.fullCategory[0])}`,
                     inline: true,
                 },
                 {

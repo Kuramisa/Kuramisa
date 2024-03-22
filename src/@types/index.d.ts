@@ -15,12 +15,7 @@ import type {
 } from "discord.js";
 import type { WebClient } from "valorant.ts";
 
-import _ from "lodash";
-
 declare global {
-
-    const _: typeof _;
-
     interface MongoResult {
         _doc: any;
     }
@@ -35,13 +30,13 @@ declare global {
         wholeSaleOnly: boolean;
         displayName: string;
         items: IValorantBundleItem &
-        (
-            | (IValorantWeaponSkin & { type: "skin_level" })
-            | (IValorantBuddy & { type: "buddy" })
-            | (IValorantSpray & { type: "spray" })
-            | (IValorantPlayerCard & { type: "player_card" })
-            | (IValorantPlayerTitle & { type: "player_title" })
-        )[];
+            (
+                | (IValorantWeaponSkin & { type: "skin_level" })
+                | (IValorantBuddy & { type: "buddy" })
+                | (IValorantSpray & { type: "spray" })
+                | (IValorantPlayerCard & { type: "player_card" })
+                | (IValorantPlayerTitle & { type: "player_title" })
+            )[];
         secondsRemaining: number;
         expiresAt: string | Date;
     } & IValorantBundle;
@@ -630,8 +625,8 @@ declare global {
 
     interface Metadata {
         interaction:
-        | ChatInputCommandInteraction<"cached">
-        | ContextMenuCommandInteraction<"cached">;
+            | ChatInputCommandInteraction<"cached">
+            | ContextMenuCommandInteraction<"cached">;
         guild: Guild;
         channel: TextChannel | VoiceChannel;
     }

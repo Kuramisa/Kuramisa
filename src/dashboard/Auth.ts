@@ -1,6 +1,6 @@
 import { container } from "@sapphire/pieces";
 
-import { PermissionsBitField } from "discord.js";
+import { Guild, PermissionsBitField } from "discord.js";
 
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
@@ -61,15 +61,15 @@ export default class Auth {
                 })
         );
 
-        let guilds: any = await Promise.all(
+        let guilds = await Promise.all(
             guildsCache.map(async (guild: any) => {
                 const iconURL = guild.icon
                     ? util.cdn.icon(guild.id, guild.icon, {
-                        extension: guild.icon.startsWith("a_")
-                            ? "gif"
-                            : "png",
-                        size: 1024,
-                    })
+                          extension: guild.icon.startsWith("a_")
+                              ? "gif"
+                              : "png",
+                          size: 1024,
+                      })
                     : "https://i.imgur.com/SCv8M69.png";
 
                 const botJoined = client.guilds.cache.has(guild.id);
@@ -85,8 +85,8 @@ export default class Auth {
             })
         );
 
-        if (perPage) guilds = _.chunk(guilds, perPage);
-        else guilds = _.chunk(guilds, guildsCache.length);
+        if (perPage) guilds = util.chunk(guilds, perPage);
+        else guilds = util.chunk(guilds, guildsCache.length);
 
         if (!guilds[page]) throw new GraphQLError("Page not found");
 
@@ -121,14 +121,13 @@ export default class Auth {
         }
     }
 
-    async check(req: Request) {
+    async check({ headers: { authorization: header } }: Request) {
         const {
             dashboard,
             logger,
             systems: { crypt },
         } = container;
 
-        const header = req.headers.authorization;
         if (!header) return null;
         const token = header.split("Bearer ")[1];
         if (!token) return null;
@@ -205,8 +204,8 @@ export default class Auth {
 
             const bannerURL = user.banner
                 ? util.cdn.banner(user.id, user.banner, {
-                    size: 2048,
-                })
+                      size: 2048,
+                  })
                 : null;
 
             let info = { ...user, avatarURL, bannerURL };

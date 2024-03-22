@@ -1,5 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { AttachmentBuilder, ButtonStyle, ComponentType } from "discord.js";
+import { shuffle } from "lodash";
 
 export class GuessTheColorCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -86,7 +87,7 @@ export class GuessTheColorCommand extends Command {
                 .setStyle(ButtonStyle.Secondary),
         ];
 
-        const row = util.row().setComponents(_.shuffle(buttons));
+        const row = util.row().setComponents(shuffle(buttons));
 
         const attachment = new AttachmentBuilder(colorImage);
 

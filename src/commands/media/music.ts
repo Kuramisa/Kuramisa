@@ -512,10 +512,11 @@ export class MusicCommand extends Subcommand {
 
         let tracks = queue.tracks.map(
             (track: Track, index: number) =>
-                `\`${index + 1}\`, ${track.title} - ${track.author} | ${track.duration
+                `\`${index + 1}\`, ${track.title} - ${track.author} | ${
+                    track.duration
                 }`
         );
-        tracks = _.chunk(tracks, 10).flat();
+        tracks = util.chunk(tracks, 10).flat();
 
         if (tracks.length < 1)
             return interaction.reply({

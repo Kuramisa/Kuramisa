@@ -57,7 +57,7 @@ export class DVCCommand extends Command {
                     ephemeral: true,
                 });
 
-                const voiceChannels = _.chunk(
+                const voiceChannels = util.chunk(
                     guild.channels.cache
                         .filter((ch) => ch.type === ChannelType.GuildVoice)
                         .toJSON(),

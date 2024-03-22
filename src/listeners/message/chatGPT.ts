@@ -47,18 +47,22 @@ export class ChatGPTListener extends Listener {
 
         if (guild) {
             logger.info(
-                `Chat GPT: ${message.author.globalName
-                    ? `${message.author.globalName} (${message.author.username})`
-                    : `${message.author.username}`
-                } (${message.author.id
+                `Chat GPT: ${
+                    message.author.globalName
+                        ? `${message.author.globalName} (${message.author.username})`
+                        : `${message.author.username}`
+                } (${
+                    message.author.id
                 }) sent a message in with a prompt of \`${content}\``
             );
         } else {
             logger.info(
-                `Chat GPT: ${message.author.globalName
-                    ? `${message.author.globalName} (${message.author.username})`
-                    : `${message.author.username}`
-                } (${message.author.id
+                `Chat GPT: ${
+                    message.author.globalName
+                        ? `${message.author.globalName} (${message.author.username})`
+                        : `${message.author.username}`
+                } (${
+                    message.author.id
                 }) sent a message in DMs with a prompt of \`${content}\``
             );
         }
@@ -159,7 +163,7 @@ export class ChatGPTListener extends Listener {
 
         if (response.length >= 2000)
             return util.pagination
-                .texts(message, _.chunk(response, 1999).flat())
+                .texts(message, util.chunk(response, 1999).flat())
                 .catch(() => null);
 
         return message.reply(response).catch(() => null);

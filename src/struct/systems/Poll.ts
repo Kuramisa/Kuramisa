@@ -9,6 +9,7 @@ import {
     ActionRow,
     ButtonComponent,
 } from "discord.js";
+
 import ms from "ms";
 
 // TODO: Add emoji type poll support for polls
@@ -95,8 +96,6 @@ export default class Poll {
                         iconURL: user.displayAvatarURL(),
                     });
 
-                console.log(description)
-
                 if (description) poll.setDescription(description);
 
                 const msg = await mInteraction.reply({
@@ -143,7 +142,7 @@ export default class Poll {
                 );
             }
 
-            const chunkInputs = _.chunk(inputs, 5);
+            const chunkInputs = util.chunk(inputs, 5);
 
             for (const chunk of chunkInputs) {
                 const modal = util
@@ -188,7 +187,7 @@ export default class Poll {
 
             const rows = [];
 
-            const chunkedButtons = _.chunk(buttons, 5);
+            const chunkedButtons = util.chunk(buttons, 5);
 
             for (const chunk of chunkedButtons) {
                 const row = util.row().setComponents(chunk);

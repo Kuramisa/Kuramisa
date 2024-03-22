@@ -5,6 +5,7 @@ import Warns from "./moderation/Warns";
 
 import SightEngine from "sightengine";
 import type { Message } from "discord.js";
+import { capitalize } from "lodash";
 
 const { SIGHTENGINE_ID, SIGHTENGINE_API } = process.env;
 
@@ -86,7 +87,7 @@ export default class Moderation {
             if (typeof value === "boolean") continue;
             for (let j = 0; j < value.length; j++) {
                 const detected = value[j];
-                reasons.push(_.capitalize(detected.type));
+                reasons.push(capitalize(detected.type));
             }
         }
 
@@ -161,7 +162,7 @@ export default class Moderation {
                 if (typeof value === "boolean") continue;
                 for (let j = 0; j < value.length; j++) {
                     const detected = value[j];
-                    reasons.push(_.capitalize(detected.type));
+                    reasons.push(capitalize(detected.type));
                 }
             }
         }

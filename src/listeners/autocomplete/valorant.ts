@@ -3,6 +3,7 @@ import type {
     ApplicationCommandOptionChoiceData,
     AutocompleteInteraction,
 } from "discord.js";
+import { startCase } from "lodash";
 
 export class ValorantAutocomplete extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
@@ -92,8 +93,9 @@ export class ValorantAutocomplete extends Listener {
 
                 if (focused.value.length > 0)
                     weapons = weapons.filter((weapon) =>
-                        `${weapon.displayName} (${weapon.shopData?.category ?? "Melee"
-                            })`
+                        `${weapon.displayName} (${
+                            weapon.shopData?.category ?? "Melee"
+                        })`
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
@@ -103,8 +105,9 @@ export class ValorantAutocomplete extends Listener {
 
                 return interaction.respond(
                     weapons.map((weapon) => ({
-                        name: `${weapon.displayName} (${weapon.shopData?.category ?? "Melee"
-                            })`,
+                        name: `${weapon.displayName} (${
+                            weapon.shopData?.category ?? "Melee"
+                        })`,
                         value: weapon.uuid,
                     }))
                 );
@@ -152,7 +155,7 @@ export class ValorantAutocomplete extends Listener {
                     Object.keys(privacy)
                         .sort((a, b) => a.localeCompare(b))
                         .map((key) => ({
-                            name: _.startCase(key),
+                            name: startCase(key),
                             value: key,
                         }))
                 );

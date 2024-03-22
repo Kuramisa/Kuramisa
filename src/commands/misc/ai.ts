@@ -72,7 +72,7 @@ export class AICommand extends Subcommand {
         if (response.length > 2000)
             return await util.pagination.embedContents(
                 interaction,
-                _.chunk(response, 4)
+                util.chunk(response, 4)
             );
         await interaction.editReply(response);
     }

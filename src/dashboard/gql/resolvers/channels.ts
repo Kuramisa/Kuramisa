@@ -1,4 +1,5 @@
 import { container } from "@sapphire/pieces";
+import { GuildBasedChannel, Message } from "discord.js";
 import { GraphQLError } from "graphql";
 
 export default {
@@ -26,8 +27,10 @@ export default {
             const channelsCache = guild.channels.cache;
             let channels = channelsCache.toJSON();
 
-            if (perPage) channels = _.chunk(channels, perPage);
-            else channels = _.chunk(channels, channelsCache.size);
+            const { util } = container;
+
+            if (perPage) channels = util.chunk(channels, perPage);
+            else channels = util.chunk(channels, channelsCache.size);
 
             if (!channels[page]) throw new GraphQLError("Page not found");
 
@@ -82,7 +85,9 @@ export default {
             let messages = messagesCache
                 .sort((a, b) => b.createdTimestamp - a.createdTimestamp)
                 .toJSON();
-            if (perPage) messages = _.chunk(messages, perPage);
+
+            const { util } = container;
+            if (perPage) messages = util.chunk(messages, perPage);
             if (!messages[page]) throw new GraphQLError("Page not found");
             return {
                 data: messages[page],

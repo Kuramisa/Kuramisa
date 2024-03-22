@@ -1,5 +1,6 @@
 import { Listener } from "@sapphire/framework";
 import { AutocompleteInteraction } from "discord.js";
+import { capitalize } from "lodash";
 
 export class LogsACListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
@@ -37,7 +38,7 @@ export class LogsACListener extends Listener {
 
                 return await interaction.respond(
                     toggles.map((choice) => ({
-                        name: _.capitalize(choice),
+                        name: capitalize(choice),
                         value: choice.split(" ").join(""),
                     }))
                 );

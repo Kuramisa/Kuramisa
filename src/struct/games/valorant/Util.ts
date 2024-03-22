@@ -13,6 +13,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { Store } from "@valapi/web-client";
 import { Weapons } from "@valapi/valorant-api.com";
 import { container } from "@sapphire/framework";
+import { capitalize } from "lodash";
 
 export default class ValorantUtil {
     readonly valorant: Valorant;
@@ -144,8 +145,8 @@ export default class ValorantUtil {
         const { logger } = container;
 
         const chromaName = skin.chroma.names[chromaPage]
-            .replaceAll("\r", "")
-            .replaceAll("\n", " "),
+                .replaceAll("\r", "")
+                .replaceAll("\n", " "),
             chromaEmbed = skin.chroma.embeds[chromaPage],
             chromaVideo = skin.chroma.videos[chromaPage];
 
@@ -266,8 +267,8 @@ export default class ValorantUtil {
         const { logger } = container;
 
         const skinName = skin.level.names[levelPage]
-            .replaceAll("\r", "")
-            .replaceAll("\n", " "),
+                .replaceAll("\r", "")
+                .replaceAll("\n", " "),
             skinEmbed = skin.level.embeds[levelPage],
             skinVideo = skin.level.videos[levelPage];
 
@@ -401,9 +402,10 @@ export default class ValorantUtil {
 
         if (shopType)
             embed.setTitle(
-                `${_.capitalize(shopType)} Shop${privacytype !== "friends" && privacytype === "private"
-                    ? " (Private)"
-                    : " (Public)"
+                `${capitalize(shopType)} Shop${
+                    privacytype !== "friends" && privacytype === "private"
+                        ? " (Private)"
+                        : " (Public)"
                 }`
             );
         if (time) embed.setDescription(`**Resets in <t:${time}:R>**`);

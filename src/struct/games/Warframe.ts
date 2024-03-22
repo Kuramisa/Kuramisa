@@ -9,6 +9,7 @@ import {
     ChatInputCommandInteraction,
     ComponentType,
 } from "discord.js";
+import { capitalize } from "lodash";
 
 const { MARKET_API } = process.env;
 
@@ -143,7 +144,7 @@ export default class Warframe {
                         value: `
                     \`In Game Name\`: ${order.user.ingame_name}
                     \`Reputation\`: ${order.user.reputation}
-                    \`Status\`: ${_.capitalize(order.user.status)}
+                    \`Status\`: ${capitalize(order.user.status)}
                     \`Last Seen\`*: <t:${moment(order.user.last_seen).unix()}:R>
                 `,
                     })
@@ -171,7 +172,7 @@ export default class Warframe {
                         value: `
                     \`In Game Name\`: ${order.user.ingame_name}
                     \`Reputation\`: ${order.user.reputation}
-                    \`Status\`: ${_.capitalize(order.user.status)}
+                    \`Status\`: ${capitalize(order.user.status)}
                     \`Last Seen\`*: <t:${moment(order.user.last_seen).unix()}:R>
                 `,
                     })

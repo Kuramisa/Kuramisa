@@ -40,18 +40,21 @@ export default {
                 perPage,
             }: { fetchDb?: boolean; page: number; perPage?: number }
         ) => {
-            const { client, database } = container;
+            const { client, database, util } = container;
 
             const usersCache = client.users.cache;
 
-            let users: any = usersCache.filter((user) => !user.bot).toJSON();
+            let users = usersCache.filter((user) => !user.bot).toJSON();
 
-            if (perPage) users = _.chunk(users, perPage);
+            let usersPages: User[][] = [];
 
-            if (!users[page]) throw new GraphQLError("Page not found");
+            if (perPage) usersPages = util.chunk(users, perPage);
+            else usersPages = util.chunk(users, usersCache.size);
+
+            if (!usersPages[page]) throw new GraphQLError("Page not found");
 
             const usersResolve = await Promise.all(
-                users[page].map(async (user: User) => {
+                usersPages[page].map(async (user: User) => {
                     const avatarURL = user.avatar
                         ? user.avatarURL()
                         : user.defaultAvatarURL;

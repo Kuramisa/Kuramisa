@@ -36,7 +36,7 @@ import { WebClient } from "valorant.ts";
 import ValorantAuth from "./Auth";
 import ValorantShop from "./Shop";
 import ValorantUtil from "./Util";
-import _ from "lodash";
+import { capitalize } from "lodash";
 
 export default class Valorant {
     readonly accounts: Collection<string, Collection<string, ValorantAccount>> =
@@ -295,9 +295,9 @@ export default class Valorant {
         await db.save();
 
         await interaction.reply({
-            content: `**😎 Successfully set the privacy setting \`${_.capitalize(
+            content: `**😎 Successfully set the privacy setting \`${capitalize(
                 privacy
-            )}\` to \`${_.capitalize(
+            )}\` to \`${capitalize(
                 valorant.privacy[privacy as keyof typeof valorant.privacy]
             )}\`**`,
             ephemeral: true,

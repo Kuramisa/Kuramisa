@@ -1,5 +1,6 @@
 import { Listener } from "@sapphire/framework";
 import { ButtonInteraction, EmbedBuilder } from "discord.js";
+import { capitalize } from "lodash";
 import type { LegacyUserBestScore, LegacyUserRecentScore } from "osu-web.js";
 
 export class OsuUserButtons extends Listener {
@@ -79,7 +80,7 @@ export class OsuUserButtons extends Listener {
                 util
                     .embed()
                     .setAuthor({
-                        name: `${user.username}'s ${_.capitalize(
+                        name: `${user.username}'s ${capitalize(
                             interaction.customId.split("-")[0]
                         )} Beatmaps`,
                         iconURL: `https://a.ppy.sh/${user.user_id}`,
@@ -91,14 +92,16 @@ export class OsuUserButtons extends Listener {
                             `https://osu.ppy.sh/beatmapsets/${beatmap.beatmapset_id}#osu/${beatmap.beatmap_id}`
                         )}\n**Score**: ${util.formatNumber(
                             score.score
-                        )}\n**Rank**: ${score.rank !== "F"
-                            ? emojis.get(
-                                `osu_${score.rank
-                                    .replaceAll("XH", "ssh")
-                                    .toLowerCase()}grade`
-                            )
-                            : "F"
-                        }\n**Max Combo**: ${score.maxcombo}\n**Star Rating**: ${Math.round(beatmap.difficultyrating * 10) / 10
+                        )}\n**Rank**: ${
+                            score.rank !== "F"
+                                ? emojis.get(
+                                      `osu_${score.rank
+                                          .replaceAll("XH", "ssh")
+                                          .toLowerCase()}grade`
+                                  )
+                                : "F"
+                        }\n**Max Combo**: ${score.maxcombo}\n**Star Rating**: ${
+                            Math.round(beatmap.difficultyrating * 10) / 10
                         }\n**BPM**: ${beatmap.bpm} `
                     )
                     .setFooter({

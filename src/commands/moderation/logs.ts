@@ -1,5 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { ComponentType } from "discord.js";
+import { capitalize } from "lodash";
 
 export class LogsCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -99,7 +100,7 @@ export class LogsCommand extends Command {
                 const toggle = options.getString("toggle");
 
                 if (toggle) {
-                    const toggleName = _.capitalize(
+                    const toggleName = capitalize(
                         toggle.split(/(?=[A-Z])/).join(" ")
                     );
 
@@ -133,7 +134,7 @@ export class LogsCommand extends Command {
                             : "Disabled";
 
                         return {
-                            label: `${_.capitalize(toggle)} - ${currentStatus}`,
+                            label: `${capitalize(toggle)} - ${currentStatus}`,
                             value: toggle.split(" ").join(""),
                         };
                     });
@@ -170,13 +171,13 @@ export class LogsCommand extends Command {
                 for (let i = 0; i < chosenToggles.length; i++) {
                     const chosenToggle = chosenToggles[i];
 
-                    const toggleName = _.capitalize(
+                    const toggleName = capitalize(
                         chosenToggle.split(/(?=[A-Z])/).join(" ")
                     );
 
                     db.logs.types[chosenToggle as keyof typeof db.logs.types] =
                         !db.logs.types[
-                        chosenToggle as keyof typeof db.logs.types
+                            chosenToggle as keyof typeof db.logs.types
                         ];
 
                     const newValue = db.logs.types[
@@ -202,7 +203,7 @@ export class LogsCommand extends Command {
                 const channel = guild.channels.cache.get(db.logs.channel);
 
                 const toggles = Object.keys(db.logs.types).map((key) => {
-                    const formatted = _.capitalize(
+                    const formatted = capitalize(
                         key.split(/(?=[A-Z])/).join(" ")
                     );
                     const value =

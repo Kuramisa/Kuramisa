@@ -26,9 +26,9 @@ export default {
 
             const iconURL = guild.icon
                 ? util.cdn.icon(guild.id, guild.icon, {
-                    extension: guild.icon.startsWith("a_") ? "gif" : "png",
-                    size: 1024,
-                })
+                      extension: guild.icon.startsWith("a_") ? "gif" : "png",
+                      size: 1024,
+                  })
                 : "https://i.imgur.com/SCv8M69.png";
 
             const json = guild.toJSON() as any;
@@ -91,27 +91,29 @@ export default {
             const { client, database, util } = container;
 
             const guildsCache = client.guilds.cache;
-            let guilds: any = guildsCache
+            let guilds = guildsCache
                 .toJSON()
                 .sort((a, b) => b.memberCount - a.memberCount)
                 .sort(
                     (a: any, b: any) => Number(b.promoted) - Number(a.promoted)
                 );
 
-            if (perPage) guilds = _.chunk(guilds, perPage);
-            else guilds = _.chunk(guilds, guildsCache.size);
+            let guildsPages: Guild[][] = [];
 
-            if (!guilds[page]) throw new GraphQLError("Page not found");
+            if (perPage) guildsPages = util.chunk(guilds, perPage);
+            else guildsPages = util.chunk(guilds, guildsCache.size);
+
+            if (!guildsPages[page]) throw new GraphQLError("Page not found");
 
             const guildsResolve = await Promise.all(
-                guilds[page].map(async (guild: Guild) => {
+                guildsPages[page].map(async (guild: Guild) => {
                     const iconURL = guild.icon
                         ? util.cdn.icon(guild.id, guild.icon, {
-                            extension: guild.icon.startsWith("a_")
-                                ? "gif"
-                                : "png",
-                            size: 1024,
-                        })
+                              extension: guild.icon.startsWith("a_")
+                                  ? "gif"
+                                  : "png",
+                              size: 1024,
+                          })
                         : "https://i.imgur.com/SCv8M69.png";
 
                     let info = { iconURL, ...(guild.toJSON() as any) };
@@ -220,15 +222,17 @@ export default {
                 (member) => !member.user.bot
             );
 
-            let members: any = membersCache.toJSON();
+            let members = membersCache.toJSON();
 
-            if (perPage) members = _.chunk(members, perPage);
-            else members = _.chunk(members, membersCache.size);
+            let memberPages: GuildMember[][] = [];
 
-            if (!members[page]) throw new GraphQLError("Page not found");
+            if (perPage) memberPages = util.chunk(members, perPage);
+            else memberPages = util.chunk(members, membersCache.size);
+
+            if (!memberPages[page]) throw new GraphQLError("Page not found");
 
             const membersResolve = await Promise.all(
-                members[page].map(async (member: GuildMember) => {
+                memberPages[page].map(async (member: GuildMember) => {
                     const avatarURL = member.user.avatar
                         ? util.cdn.avatar(member.id, member.user.avatar)
                         : util.cdn.defaultAvatar(0);
