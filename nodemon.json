@@ -6,6 +6,6 @@
         "src",
         ".env"
     ],
-    "exec": "pnpm prestart && pnpm start",
+    "exec": "pnpm build && pnpm start",
     "ext": "ts"
 }
