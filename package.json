@@ -71,6 +71,6 @@
     "typescript": "^5.4.3"
   },
   "pre-commit": [
-    "build"
+    "tsc --noEmit"
   ]
 }
