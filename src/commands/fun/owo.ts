@@ -1,6 +1,11 @@
 import { Command } from "@sapphire/framework";
 import { convert } from "owospeak";
 
+const converOpts = {
+    tilde: Math.random() < 0.5,
+    stutter: Math.random() < 0.5,
+};
+
 export class OwOCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
         super(ctx, {
@@ -36,10 +41,7 @@ export class OwOCommand extends Command {
      */
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const text = interaction.options.getString("text", true);
-        const owo = convert(text, {
-            tilde: this.randomBoolean(),
-            stutter: this.randomBoolean(),
-        });
+        const owo = convert(text, converOpts);
 
         return interaction.reply({ content: owo });
     }
@@ -59,13 +61,8 @@ export class OwOCommand extends Command {
                 ephemeral: true,
             });
 
-        const owo = convert(message.content, {
-            tilde: this.randomBoolean(),
-            stutter: this.randomBoolean(),
-        });
+        const owo = convert(message.content, converOpts);
 
         return interaction.reply({ content: owo });
     }
-
-    private randomBoolean = () => Math.random() < 0.5;
 }
