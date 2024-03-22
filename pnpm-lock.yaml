@@ -155,12 +155,6 @@ dependencies:
   valorant.ts:
     specifier: ^3.3.0
     version: 3.3.0
-  warframe-items:
-    specifier: ^1.1262.7
-    version: 1.1262.7(warframe-worldstate-data@2.3.9)
-  warframe-market:
-    specifier: ^1.1.1
-    version: 1.1.1
   youtube-ext:
     specifier: ^1.1.16
     version: 1.1.16
@@ -3360,28 +3354,6 @@ packages:
       assert-plus: 1.0.0
       core-util-is: 1.0.2
       extsprintf: 1.3.0
-    dev: false
-
-  /warframe-items@1.1262.7(warframe-worldstate-data@2.3.9):
-    resolution: {integrity: sha512-umq2ytw0FQPLCEvb25YB5vLQDGQYWNK5y3r41Xvc95CkLDis3pUulrSF0eUh5C8n7yJPZUk6abPU51EovP576A==}
-    peerDependencies:
-      warframe-worldstate-data: ^2
-    dependencies:
-      warframe-worldstate-data: 2.3.9
-    dev: false
-
-  /warframe-market@1.1.1:
-    resolution: {integrity: sha512-oc0mUufu5f06UyyAs+Ub78LjrkP1xUAY9HqIc/ebi0F8JHy2+S6rSIBbqWVLOH+Csj4ncQydfoZW7y5EI9bLHw==}
-    dependencies:
-      node-fetch: 2.7.0
-    transitivePeerDependencies:
-      - encoding
-    dev: false
-
-  /warframe-worldstate-data@2.3.9:
-    resolution: {integrity: sha512-7OOFOM/fdMH0C+YBZ4ROPh9mOpp+GjmXEqbzD9k27E06yMBdB4ZhiLwpvcNmpwlhNvrKuOHJ2Yj6yoEYuJN34w==}
-    engines: {node: '>=18.19.0'}
-    requiresBuild: true
     dev: false
 
   /web-streams-polyfill@3.3.3:
