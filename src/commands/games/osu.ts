@@ -30,8 +30,6 @@ export class OsuCommand extends Command {
         );
     }
 
-    // TODO: Finish working on Osu embed styling
-
     /**
      * Execute Slash Command
      */
