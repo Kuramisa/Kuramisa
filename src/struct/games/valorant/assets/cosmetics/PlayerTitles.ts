@@ -25,9 +25,26 @@ export default class ValorantPlayerTitles {
 
     // TODO: add player title prices
     static async fetch() {
-        const data = await fetch(`${Valorant.assetsURL}/playertitles`)
+        const titleData = await fetch(`${Valorant.assetsURL}/playertitles`)
             .then((res) => res.json())
             .then((res: any) => res.data);
+
+        const titlePrices = await fetch(
+            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+        )
+            .then((res) => res.json())
+            .then((res: any) => res.data.offers)
+            .then((res) =>
+                res.filter((offer: any) => offer.type === "player_title")
+            );
+
+        const data = titleData.map((title: any) => ({
+            ...title,
+            cost:
+                titlePrices.find(
+                    (price: any) => price.player_title_id === title.uuid
+                )?.cost ?? 0,
+        }));
 
         return new ValorantPlayerTitles(data);
     }

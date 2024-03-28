@@ -382,8 +382,6 @@ export default class ValorantShop {
             );
         }
 
-        const rows = [util.row().setComponents(bundleButtons)];
-
         let currentItems = itemEmbeds.first();
         let currentBundle = bundleEmbeds.first();
         let viewSelectMenu = viewSelectMenus.first();

@@ -58,7 +58,6 @@ export default class ValorantWeapons {
         return description;
     }
 
-    // TODO: Add Embed method
     embed(weapon: IValorantWeapon) {
         const embed = new EmbedBuilder()
             .setTitle(

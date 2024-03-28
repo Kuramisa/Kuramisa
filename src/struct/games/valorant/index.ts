@@ -36,6 +36,8 @@ import { WebClient } from "valorant.ts";
 import ValorantAuth from "./Auth";
 import ValorantShop from "./Shop";
 import ValorantUtil from "./Util";
+import ValorantWishlist from "./Wishlist";
+
 import { capitalize } from "lodash";
 
 export default class Valorant {
@@ -45,6 +47,9 @@ export default class Valorant {
     initialized: boolean = false;
 
     readonly auth: ValorantAuth;
+    readonly shop: ValorantShop;
+    readonly util: ValorantUtil;
+    readonly wishlist: ValorantWishlist;
 
     agents: Agents;
     buddies: Buddies;
@@ -70,8 +75,6 @@ export default class Valorant {
     themes: Themes;
     weapons: Weapons;
     version?: Version;
-    readonly shop: ValorantShop;
-    readonly util: ValorantUtil;
     static readonly trackerURL: string =
         "https://tracker.gg/valorant/profile/riot/%username%";
 
@@ -79,6 +82,9 @@ export default class Valorant {
 
     constructor() {
         this.auth = new ValorantAuth(this);
+        this.shop = new ValorantShop(this);
+        this.util = new ValorantUtil(this);
+        this.wishlist = new ValorantWishlist(this);
 
         this.agents = new Agents([]);
         this.buddies = new Buddies([]);
@@ -103,9 +109,6 @@ export default class Valorant {
         this.sprays = new Sprays([]);
         this.themes = new Themes([]);
         this.weapons = new Weapons([]);
-
-        this.shop = new ValorantShop(this);
-        this.util = new ValorantUtil(this);
     }
 
     async init() {

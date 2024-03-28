@@ -13,7 +13,10 @@ export interface IUser extends MongoResult {
             json: AuthCore.Json;
             username: string;
         }[];
-        wishlist: string[];
+        wishlist: {
+            uuid: string;
+            type: "skin" | "buddy" | "card" | "spray";
+        }[];
         notifications: {
             wishlist: boolean;
             daily: boolean;

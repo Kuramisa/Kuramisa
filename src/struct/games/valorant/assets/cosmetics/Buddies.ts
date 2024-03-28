@@ -30,9 +30,23 @@ export default class ValorantBuddies {
 
     // TODO: Add buddy prices
     static async fetch() {
-        const data = await fetch(`${Valorant.assetsURL}/buddies`)
+        const buddyData = await fetch(`${Valorant.assetsURL}/buddies`)
             .then((res) => res.json())
             .then((res: any) => res.data);
+
+        const buddyPrices = await fetch(
+            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+        )
+            .then((res) => res.json())
+            .then((res: any) => res.data.offers)
+            .then((res) => res.filter((offer: any) => offer.type === "buddy"));
+
+        const data = buddyData.map((buddy: any) => ({
+            ...buddy,
+            cost:
+                buddyPrices.find((price: any) => price.buddy_id === buddy.uuid)
+                    ?.cost ?? 0,
+        }));
 
         return new ValorantBuddies(data);
     }

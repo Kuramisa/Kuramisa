@@ -110,6 +110,7 @@ declare global {
         displayIcon: string;
         assetPath: string;
         levels: IValorantBuddyLevel[];
+        cost: number;
     }
 
     interface IValorantBundle {
@@ -156,6 +157,7 @@ declare global {
         wideArt: string;
         largeArt: string;
         assetPath: string;
+        cost: number;
     }
 
     interface IValorantPlayerTitle {
@@ -164,6 +166,7 @@ declare global {
         titleText: string;
         isHiddenIfNotOwned: boolean;
         assetPath: string;
+        cost: number;
     }
 
     interface IValorantWeaponSkinChroma {
@@ -279,6 +282,7 @@ declare global {
         animationPng: string;
         animationGif: string;
         assetPath: string;
+        cost: number;
         levels: IValorantSprayLevel[];
     }
 

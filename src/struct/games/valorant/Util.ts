@@ -184,12 +184,12 @@ export default class ValorantUtil {
                         }
 
                         // Keep this commented out for now, since it's a bit spammy to discord api
-                        /*await interaction.editReply({
-                            content: `**Loading... \`${skinName}\` - ${percent}% done**`,
+                        await interaction.editReply({
+                            content: `**Loading... \`${chromaName}\` - ${percent}% done**`,
                             embeds: [],
                             components: [],
-                            files: []
-                        });*/
+                            files: [],
+                        });
                     })
                     .on("end", () => {
                         logger.debug(`Finished processing ${chromaName} video`);
@@ -306,12 +306,12 @@ export default class ValorantUtil {
                             return;
                         }
 
-                        /*await interaction.editReply({
+                        await interaction.editReply({
                             content: `**Loading... \`${skinName}\` - ${percent}% done**`,
                             embeds: [],
                             components: [],
-                            files: []
-                        });*/
+                            files: [],
+                        });
                     })
                     .on("end", () => {
                         logger.debug(`Finished processing ${skinName} video`);

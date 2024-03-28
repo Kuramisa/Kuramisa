@@ -23,9 +23,23 @@ export default class ValorantSprays {
 
     // TODO: Add spray prices
     static async fetch() {
-        const data = await fetch(`${Valorant.assetsURL}/sprays`)
+        const sprayData = await fetch(`${Valorant.assetsURL}/sprays`)
             .then((res) => res.json())
             .then((res: any) => res.data);
+
+        const sprayPrices = await fetch(
+            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+        )
+            .then((res) => res.json())
+            .then((res: any) => res.data.offers)
+            .then((res) => res.filter((offer: any) => offer.type === "spray"));
+
+        const data = sprayData.map((spray: any) => ({
+            ...spray,
+            cost:
+                sprayPrices.find((price: any) => price.spray_id === spray.uuid)
+                    ?.cost ?? 0,
+        }));
 
         return new ValorantSprays(data);
     }
