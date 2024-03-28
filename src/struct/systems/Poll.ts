@@ -12,7 +12,7 @@ import {
 
 import ms from "ms";
 
-// TODO: Add emoji type poll support for polls
+// TODO: Add emoji type poll support for polls (IMPORTANT)
 
 export default class Poll {
     async createButtonBased(interaction: ChatInputCommandInteraction) {
