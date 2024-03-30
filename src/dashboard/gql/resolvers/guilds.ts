@@ -91,7 +91,7 @@ export default {
             const { client, database, util } = container;
 
             const guildsCache = client.guilds.cache;
-            let guilds = guildsCache
+            const guilds = guildsCache
                 .toJSON()
                 .sort((a, b) => b.memberCount - a.memberCount)
                 .sort(
@@ -222,7 +222,7 @@ export default {
                 (member) => !member.user.bot
             );
 
-            let members = membersCache.toJSON();
+            const members = membersCache.toJSON();
 
             let memberPages: GuildMember[][] = [];
 

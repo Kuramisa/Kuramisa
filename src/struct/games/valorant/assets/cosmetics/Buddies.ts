@@ -77,7 +77,7 @@ export default class ValorantBuddies {
             .then((res: any) => res.data);
 
         const buddyPrices = await fetch(
-            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+            "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
             .then((res: any) => res.data.offers)

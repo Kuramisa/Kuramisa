@@ -44,7 +44,7 @@ export default {
 
             const usersCache = client.users.cache;
 
-            let users = usersCache.filter((user) => !user.bot).toJSON();
+            const users = usersCache.filter((user) => !user.bot).toJSON();
 
             let usersPages: User[][] = [];
 

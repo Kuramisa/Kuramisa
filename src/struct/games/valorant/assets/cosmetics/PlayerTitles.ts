@@ -37,7 +37,7 @@ export default class ValorantPlayerTitles {
             .then((res: any) => res.data);
 
         const titlePrices = await fetch(
-            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+            "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
             .then((res: any) => res.data.offers)

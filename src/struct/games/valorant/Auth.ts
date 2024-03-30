@@ -20,7 +20,7 @@ export default class ValorantAuth {
 
         const { database, logger, util } = container;
 
-        let currentInteraction:
+        const currentInteraction:
             | ChatInputCommandInteraction
             | ModalSubmitInteraction = interaction;
 

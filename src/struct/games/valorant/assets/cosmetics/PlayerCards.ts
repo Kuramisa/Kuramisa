@@ -44,7 +44,7 @@ export default class ValorantPlayerCards {
             .then((res: any) => res.data);
 
         const cardPrices = await fetch(
-            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+            "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
             .then((res: any) => res.data.offers)

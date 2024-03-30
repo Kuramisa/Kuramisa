@@ -211,9 +211,9 @@ export default class ValorantWishlist {
                     .setStyle(ButtonStyle.Success)
             );
 
-        let currentSelection = "skins";
+        const currentSelection = "skins";
 
-        let viewSelectMenu = util
+        const viewSelectMenu = util
             .row()
             .setComponents(
                 util
@@ -221,7 +221,7 @@ export default class ValorantWishlist {
                     .setCustomId(`view_select_menu_${currentSelection}`)
             );
 
-        let currentPage = 0;
+        const currentPage = 0;
 
         console.log(viewSelectMenu.components[0]);
 

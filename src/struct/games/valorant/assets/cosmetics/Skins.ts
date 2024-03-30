@@ -47,7 +47,7 @@ export default class ValorantSkins {
             .then((res: any) => res.data);
 
         const skinPrices = await fetch(
-            `https://api.henrikdev.xyz/valorant/v2/store-offers`
+            "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
             .then((res: any) => res.data.offers)
