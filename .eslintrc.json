@@ -1,4 +1,5 @@
 {
+    "root": true,
     "env": {
         "browser": true,
         "es2021": true
@@ -27,12 +28,14 @@
             "error",
             "always"
         ],
+        "prefer-const": "error",
         "no-else-return": "error",
         "no-var": "error",
         "no-console": "error",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-var-requires": "off",
+        "@typescript-eslint/no-unused-vars": "warn",
         "@typescript-eslint/semi": "error",
-        "@typescript-eslint/no-extra-semi": "off"
+        "@typescript-eslint/no-extra-semi": "error"
     }
 }
