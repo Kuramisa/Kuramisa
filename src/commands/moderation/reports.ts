@@ -7,7 +7,7 @@ export class ReportsCommand extends Command {
             ...opts,
             name: "reports",
             description: "Check reports of a member",
-            requiredUserPermissions: "ViewAuditLog",
+            requiredUserPermissions: "ViewAuditLog"
         });
     }
 
@@ -57,7 +57,7 @@ export class ReportsCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { client, moderation, util } = this.container;
@@ -71,7 +71,7 @@ export class ReportsCommand extends Command {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const reports = await moderation.reports.get(member);
@@ -79,7 +79,7 @@ export class ReportsCommand extends Command {
         if (!reports || reports.length < 1)
             return interaction.reply({
                 content: `${member} has no reports`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommand()) {
@@ -91,7 +91,7 @@ export class ReportsCommand extends Command {
                         .embed()
                         .setAuthor({
                             name: `${member.user.username} - Reports`,
-                            iconURL: member.user.displayAvatarURL(),
+                            iconURL: member.user.displayAvatarURL()
                         })
                         .setTitle(`Report ID: ${report.id}`)
                         .setDescription(
@@ -110,11 +110,11 @@ export class ReportsCommand extends Command {
                         label: `Reason: ${report.by} - Warned by: ${
                             (
                                 await client.users.fetch(report.by, {
-                                    force: true,
+                                    force: true
                                 })
                             ).username
                         }`,
-                        value: report.id,
+                        value: report.id
                     }))
                 );
 
@@ -136,14 +136,14 @@ export class ReportsCommand extends Command {
                 const message = await interaction.reply({
                     embeds: [embed],
                     components: [row],
-                    fetchReply: true,
+                    fetchReply: true
                 });
 
                 const sInteraction = await message.awaitMessageComponent({
                     componentType: ComponentType.StringSelect,
                     filter: (i) =>
                         i.customId === "select_member_report" &&
-                        i.user.id === interaction.user.id,
+                        i.user.id === interaction.user.id
                 });
 
                 const { values } = sInteraction;
@@ -173,9 +173,9 @@ export class ReportsCommand extends Command {
                                             `Reason: ${report?.reason} - Warned by: <@${report?.by}>`
                                     )
                                     .join("\n")
-                            ),
+                            )
                     ],
-                    components: [],
+                    components: []
                 });
                 break;
             }
@@ -183,7 +183,7 @@ export class ReportsCommand extends Command {
                 await moderation.reports.clear(member);
                 await interaction.reply({
                     content: `Cleared reports for ${member}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 break;
             }

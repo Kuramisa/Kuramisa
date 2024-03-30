@@ -5,7 +5,7 @@ export class NotificationsCommand extends Command {
         super(ctx, {
             ...opts,
             name: "notifications",
-            description: "Notification System",
+            description: "Notification System"
         });
     }
 
@@ -47,7 +47,7 @@ export class NotificationsCommand extends Command {
                     content: `Bot announcements have been ${
                         enabled ? "enabled" : "disabled"
                     }`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 break;
         }

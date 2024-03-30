@@ -6,7 +6,7 @@ export class SelfRoleButtons extends Listener {
         super(ctx, {
             ...opts,
             name: "Handle Self Role Buttons",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -24,21 +24,21 @@ export class SelfRoleButtons extends Listener {
         if (!dbChannel)
             return interaction.reply({
                 content: "This channel is not a self role channel",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const dbMessage = dbChannel.messages.find((m) => m.id === message.id);
         if (!dbMessage)
             return interaction.reply({
                 content: "This message is not a self role message",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const dbButton = dbMessage.buttons.find((b) => b.id === customId);
         if (!dbButton)
             return interaction.reply({
                 content: "This button is not a self role button",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const member = await guild.members.fetch(user.id);
@@ -47,14 +47,14 @@ export class SelfRoleButtons extends Listener {
             await member.roles.remove(dbButton.roleId);
             return interaction.reply({
                 content: `Removed role <@&${dbButton.roleId}>`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
         const addedRole = await member.roles.add(dbButton.roleId).catch(() => {
             interaction.reply({
                 content: "I don't have permission to add roles",
-                ephemeral: true,
+                ephemeral: true
             });
 
             return null;
@@ -63,7 +63,7 @@ export class SelfRoleButtons extends Listener {
         if (!addedRole) return;
         return interaction.reply({
             content: `Added role <@&${dbButton.roleId}>`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

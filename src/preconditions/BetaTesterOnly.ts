@@ -2,14 +2,14 @@ import { Precondition } from "@sapphire/framework";
 import {
     ChatInputCommandInteraction,
     ContextMenuCommandInteraction,
-    User,
+    User
 } from "discord.js";
 
 export class BetaTesterOnlyPrecondition extends Precondition {
     constructor(ctx: Precondition.LoaderContext, opts: Precondition.Options) {
         super(ctx, {
             ...opts,
-            name: "BetaTesterOnly",
+            name: "BetaTesterOnly"
         });
     }
 
@@ -17,7 +17,7 @@ export class BetaTesterOnlyPrecondition extends Precondition {
         await this.checkBetaTester(interaction.user);
 
     override contextMenuRun = async (
-        interaction: ContextMenuCommandInteraction,
+        interaction: ContextMenuCommandInteraction
     ) => await this.checkBetaTester(interaction.user);
 
     private async checkBetaTester(user: User) {
@@ -28,7 +28,7 @@ export class BetaTesterOnlyPrecondition extends Precondition {
 
         if (!db.betaTester)
             return this.error({
-                message: "You are not a Beta Tester",
+                message: "You are not a Beta Tester"
             });
 
         return this.ok();

@@ -5,7 +5,7 @@ export class BeautifulCommand extends Command {
         super(ctx, {
             ...opts,
             name: "beautiful",
-            description: "Beautiful someone!",
+            description: "Beautiful someone!"
         });
     }
 
@@ -25,7 +25,7 @@ export class BeautifulCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { images },
+            kanvas: { images }
         } = this.container;
 
         const { options } = interaction;
@@ -35,13 +35,13 @@ export class BeautifulCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (user.id === interaction.user.id)
             return interaction.reply({
                 content: "Kind of narcissistic, don't you think?",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await images.beautiful(
@@ -49,7 +49,7 @@ export class BeautifulCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "beautiful.png" }],
+            files: [{ attachment: image, name: "beautiful.png" }]
         });
     }
 }

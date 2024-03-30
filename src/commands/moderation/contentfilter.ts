@@ -9,13 +9,13 @@ export class FiltersCommand extends Subcommand {
             subcommands: [
                 {
                     name: "messages",
-                    chatInputRun: "chatInputMessages",
+                    chatInputRun: "chatInputMessages"
                 },
                 {
                     name: "media",
-                    chatInputRun: "chatInputMedia",
-                },
-            ],
+                    chatInputRun: "chatInputMedia"
+                }
+            ]
         });
     }
 
@@ -65,7 +65,7 @@ export class FiltersCommand extends Subcommand {
         if (!guild?.members.me?.permissions.has("ManageMessages"))
             return interaction.reply({
                 content: "I do not have the `ManageMessages` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.guilds.fetch(guild.id);
@@ -79,7 +79,7 @@ export class FiltersCommand extends Subcommand {
             content: `Message filter is now **${
                 enabled ? "enabled" : "disabled"
             }**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -92,7 +92,7 @@ export class FiltersCommand extends Subcommand {
         if (!guild?.members.me?.permissions.has("ManageMessages"))
             return interaction.reply({
                 content: "I do not have the `ManageMessages` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.guilds.fetch(guild.id);
@@ -106,7 +106,7 @@ export class FiltersCommand extends Subcommand {
             content: `Media filter is now **${
                 enabled ? "enabled" : "disabled"
             }**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

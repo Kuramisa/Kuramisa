@@ -5,7 +5,7 @@ export class DarkenCommand extends Command {
         super(ctx, {
             ...opts,
             name: "darken",
-            description: "Darken someone's picture!",
+            description: "Darken someone's picture!"
         });
     }
 
@@ -31,7 +31,7 @@ export class DarkenCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { modify },
+            kanvas: { modify }
         } = this.container;
 
         const { options } = interaction;
@@ -40,7 +40,7 @@ export class DarkenCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const intensity = options.getNumber("intensity", true);
@@ -51,7 +51,7 @@ export class DarkenCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "darken.png" }],
+            files: [{ attachment: image, name: "darken.png" }]
         });
     }
 }

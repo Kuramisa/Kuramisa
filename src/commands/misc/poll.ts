@@ -9,9 +9,9 @@ export class PollCommand extends Subcommand {
             subcommands: [
                 {
                     name: "create",
-                    chatInputRun: "chatInputCreate",
-                },
-            ],
+                    chatInputRun: "chatInputCreate"
+                }
+            ]
         });
     }
 
@@ -32,11 +32,11 @@ export class PollCommand extends Subcommand {
                                 .addChoices(
                                     {
                                         name: "Emojis",
-                                        value: "emojis",
+                                        value: "emojis"
                                     },
                                     {
                                         name: "Buttons",
-                                        value: "buttons",
+                                        value: "buttons"
                                     }
                                 )
                         )
@@ -74,7 +74,7 @@ export class PollCommand extends Subcommand {
         const pollType = options.getString("poll_type", true);
 
         const {
-            systems: { poll },
+            systems: { poll }
         } = this.container;
 
         switch (pollType) {
@@ -82,7 +82,7 @@ export class PollCommand extends Subcommand {
                 //await poll.createEmojiBased(interaction);
                 await interaction.reply({
                     content: "This poll type is not yet implemented",
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 break;
             case "buttons":

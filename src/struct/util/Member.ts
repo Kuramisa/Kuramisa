@@ -59,16 +59,16 @@ export default class UtilMember {
         return executor.id === target.id
             ? [topRow]
             : executor.permissions.has("ViewAuditLog")
-            ? [topRow, midRow, bottomRow]
-            : [
-                  topRow.addComponents(
-                      util
-                          .button()
-                          .setCustomId("report_member")
-                          .setLabel("Report Member")
-                          .setStyle(ButtonStyle.Danger)
-                  ),
-              ];
+              ? [topRow, midRow, bottomRow]
+              : [
+                    topRow.addComponents(
+                        util
+                            .button()
+                            .setCustomId("report_member")
+                            .setLabel("Report Member")
+                            .setStyle(ButtonStyle.Danger)
+                    )
+                ];
     }
 
     statusColor(status?: PresenceStatus) {
@@ -103,7 +103,7 @@ export default class UtilMember {
 
     async getCardData(user: IUser) {
         const {
-            systems: { xp },
+            systems: { xp }
         } = container;
 
         const neededXP = xp.calculateReqXP(user.level);
@@ -115,7 +115,7 @@ export default class UtilMember {
             card: user.card,
             level: user.level,
             currentXP: user.xp,
-            neededXP,
+            neededXP
         };
     }
 
@@ -126,7 +126,7 @@ export default class UtilMember {
         return sorted.map((u, i) => ({
             id: u.id,
             xp: u.xp,
-            rank: i + 1,
+            rank: i + 1
         }));
     }
 

@@ -7,7 +7,7 @@ export class EightBallCommand extends Command {
             ...opts,
             name: "8ball",
             aliases: ["ask", "8b"],
-            description: "8ball answers your burning questions",
+            description: "8ball answers your burning questions"
         });
     }
 
@@ -41,18 +41,18 @@ export class EightBallCommand extends Command {
         if (!question.includes("?")) question += "?";
 
         const { url, response } = await util.nekos.eightBall({
-            text: question,
+            text: question
         });
 
         if (url) {
             const attachment = new AttachmentBuilder(url, {
-                name: `8ball-answer-${question.trim()}.png`,
+                name: `8ball-answer-${question.trim()}.png`
             });
 
             return interaction.reply({
                 content: `${interaction.user}: **${question}**`,
                 files: [attachment],
-                allowedMentions: { repliedUser: false, users: [] },
+                allowedMentions: { repliedUser: false, users: [] }
             });
         }
 

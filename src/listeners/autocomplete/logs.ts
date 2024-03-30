@@ -7,7 +7,7 @@ export class LogsACListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Logs Autocomplete",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -39,7 +39,7 @@ export class LogsACListener extends Listener {
                 return await interaction.respond(
                     toggles.map((choice) => ({
                         name: capitalize(choice),
-                        value: choice.split(" ").join(""),
+                        value: choice.split(" ").join("")
                     }))
                 );
             }

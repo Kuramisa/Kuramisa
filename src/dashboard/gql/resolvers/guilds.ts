@@ -7,7 +7,7 @@ import {
     ChannelType,
     Guild,
     GuildMember,
-    Invite,
+    Invite
 } from "discord.js";
 
 export default {
@@ -27,7 +27,7 @@ export default {
             const iconURL = guild.icon
                 ? util.cdn.icon(guild.id, guild.icon, {
                       extension: guild.icon.startsWith("a_") ? "gif" : "png",
-                      size: 1024,
+                      size: 1024
                   })
                 : "https://i.imgur.com/SCv8M69.png";
 
@@ -85,7 +85,7 @@ export default {
             {
                 fetchDb,
                 page = 0,
-                perPage,
+                perPage
             }: { fetchDb?: boolean; page: number; perPage?: number }
         ) => {
             const { client, database, util } = container;
@@ -112,7 +112,7 @@ export default {
                               extension: guild.icon.startsWith("a_")
                                   ? "gif"
                                   : "png",
-                              size: 1024,
+                              size: 1024
                           })
                         : "https://i.imgur.com/SCv8M69.png";
 
@@ -148,7 +148,7 @@ export default {
 
                                 info = {
                                     ...info,
-                                    inviteURL: invite.url,
+                                    inviteURL: invite.url
                                 };
                             }
                         }
@@ -162,7 +162,7 @@ export default {
                 data: guildsResolve,
                 count: guildsCache.size,
                 page,
-                perPage,
+                perPage
             };
         },
 
@@ -171,7 +171,7 @@ export default {
             {
                 guildId,
                 memberId,
-                fetchDb,
+                fetchDb
             }: { guildId: string; memberId: string; fetchDb?: boolean }
         ) => {
             const { client, database, util } = container;
@@ -189,7 +189,7 @@ export default {
 
             let info = {
                 ...member,
-                avatarURL,
+                avatarURL
             };
 
             if (fetchDb) {
@@ -205,7 +205,7 @@ export default {
                 guildId,
                 fetchDb,
                 page = 0,
-                perPage,
+                perPage
             }: {
                 guildId: string;
                 fetchDb?: boolean;
@@ -253,7 +253,7 @@ export default {
                 data: membersResolve,
                 count: membersCache.size,
                 page,
-                perPage,
+                perPage
             };
         },
 
@@ -279,7 +279,7 @@ export default {
             _: any,
             {
                 guildId,
-                emojiId,
+                emojiId
             }: {
                 guildId: string;
                 emojiId: string;
@@ -297,6 +297,6 @@ export default {
             const guild = container.client.guilds.cache.get(guildId);
             if (!guild) throw new GraphQLError("Server not found");
             return guild.emojis.cache.toJSON();
-        },
-    },
+        }
+    }
 };

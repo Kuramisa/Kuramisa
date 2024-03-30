@@ -5,7 +5,7 @@ export class ReportBugCommand extends Command {
         super(ctx, {
             ...opts,
             name: "reportbug",
-            description: "Report a bug to the bot developers",
+            description: "Report a bug to the bot developers"
         });
     }
 
@@ -39,14 +39,14 @@ export class ReportBugCommand extends Command {
             return interaction.reply({
                 content:
                     "The developers do not accept bug reports yet (We are so sorry)",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await devReports.send({ embeds: [embed] });
 
         await interaction.reply({
             content: "Your bug report has been sent to the developers!",
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

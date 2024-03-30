@@ -7,7 +7,7 @@ const { ASH, STEALTH, OPENAI_API_KEY } = process.env;
 export default class OpenAI extends OpenAIApi {
     constructor() {
         super({
-            apiKey: OPENAI_API_KEY,
+            apiKey: OPENAI_API_KEY
         });
     }
 
@@ -26,14 +26,14 @@ export default class OpenAI extends OpenAIApi {
             messages: [
                 {
                     role: "system",
-                    content: systemMessage,
+                    content: systemMessage
                 },
                 {
                     role: "user",
-                    content: prompt,
-                },
+                    content: prompt
+                }
             ],
-            model: "gpt-3.5-turbo",
+            model: "gpt-3.5-turbo"
         });
 
         return completion.choices[0].message.content;
@@ -42,7 +42,7 @@ export default class OpenAI extends OpenAIApi {
     async createImage(prompt: string) {
         const completion = await this.images.generate({
             prompt,
-            model: "dall-e-3",
+            model: "dall-e-3"
         });
 
         return completion.data[0].url;

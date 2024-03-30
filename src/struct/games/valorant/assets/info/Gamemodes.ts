@@ -33,7 +33,7 @@ export default class ValorantGamemodes {
         new EmbedBuilder()
             .setAuthor({
                 name: gamemode.displayName,
-                iconURL: gamemode.displayIcon,
+                iconURL: gamemode.displayIcon
             })
             .setTitle(gamemode.displayName)
             .setThumbnail(gamemode.displayIcon);

@@ -6,7 +6,7 @@ export class MemberActionsModalListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Modal actions from member buttons",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -25,7 +25,7 @@ export class MemberActionsModalListener extends Listener {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This modal can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { moderation } = this.container;

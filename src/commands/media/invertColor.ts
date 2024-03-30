@@ -5,7 +5,7 @@ export class InvertColorCommand extends Command {
         super(ctx, {
             ...opts,
             name: "invertcolor",
-            description: "Invert someone's picture's color!",
+            description: "Invert someone's picture's color!"
         });
     }
 
@@ -27,7 +27,7 @@ export class InvertColorCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { modify },
+            kanvas: { modify }
         } = this.container;
 
         const { options } = interaction;
@@ -37,7 +37,7 @@ export class InvertColorCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await modify.invert(
@@ -45,7 +45,7 @@ export class InvertColorCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "invert.png" }],
+            files: [{ attachment: image, name: "invert.png" }]
         });
     }
 }

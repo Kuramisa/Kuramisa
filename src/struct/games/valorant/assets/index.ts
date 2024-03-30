@@ -47,5 +47,5 @@ export {
     Sprays,
     Themes,
     Weapons,
-    Version,
+    Version
 };

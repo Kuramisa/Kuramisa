@@ -6,7 +6,7 @@ export class GiveXPListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Give XP to members",
-            event: "messageCreate",
+            event: "messageCreate"
         });
     }
 
@@ -16,7 +16,7 @@ export class GiveXPListener extends Listener {
         const {
             client,
             kanvas,
-            systems: { xp },
+            systems: { xp }
         } = this.container;
 
         if (!client.isReady()) return;
@@ -66,7 +66,7 @@ export class GiveXPListener extends Listener {
                     return channel
                         .send({
                             content,
-                            allowedMentions: { repliedUser: false },
+                            allowedMentions: { repliedUser: false }
                         })
                         .then((msg) =>
                             setTimeout(
@@ -83,10 +83,10 @@ export class GiveXPListener extends Listener {
                         files: [
                             {
                                 attachment: levelupCard,
-                                name: `levelup-${member.id}.png`,
-                            },
+                                name: `levelup-${member.id}.png`
+                            }
                         ],
-                        allowedMentions: { repliedUser: false },
+                        allowedMentions: { repliedUser: false }
                     })
                     .then((msg) =>
                         setTimeout(() => msg.delete().catch(() => null), 5000)

@@ -1,7 +1,7 @@
 import {
     type ContextMenuCommandDeniedPayload,
     Listener,
-    UserError,
+    UserError
 } from "@sapphire/framework";
 
 export class MenuDeniedListener extends Listener {
@@ -9,7 +9,7 @@ export class MenuDeniedListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Context Command Denied",
-            event: "contextMenuCommandDenied",
+            event: "contextMenuCommandDenied"
         });
     }
 
@@ -23,7 +23,7 @@ export class MenuDeniedListener extends Listener {
             return interaction.reply({
                 content:
                     "Kuramisa is not ready yet, please wait a few seconds.",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (Reflect.get(Object(error.context), "silent")) return;

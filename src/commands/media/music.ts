@@ -12,41 +12,41 @@ export class MusicCommand extends Subcommand {
             subcommands: [
                 {
                     name: "play",
-                    chatInputRun: "slashPlay",
+                    chatInputRun: "slashPlay"
                 },
                 {
                     name: "skip",
-                    chatInputRun: "slashSkip",
+                    chatInputRun: "slashSkip"
                 },
                 {
                     name: "volume",
-                    chatInputRun: "slashVolume",
+                    chatInputRun: "slashVolume"
                 },
                 {
                     name: "loop",
-                    chatInputRun: "slashLoop",
+                    chatInputRun: "slashLoop"
                 },
                 {
                     name: "queue",
-                    chatInputRun: "slashQueue",
+                    chatInputRun: "slashQueue"
                 },
                 {
                     name: "nowplaying",
-                    chatInputRun: "slashNowPlaying",
+                    chatInputRun: "slashNowPlaying"
                 },
                 {
                     name: "pause",
-                    chatInputRun: "slashPause",
+                    chatInputRun: "slashPause"
                 },
                 {
                     name: "resume",
-                    chatInputRun: "slashResume",
+                    chatInputRun: "slashResume"
                 },
                 {
                     name: "stop",
-                    chatInputRun: "slashStop",
-                },
-            ],
+                    chatInputRun: "slashStop"
+                }
+            ]
         });
     }
 
@@ -112,11 +112,11 @@ export class MusicCommand extends Subcommand {
                                     { name: "🎵 Loop Track", value: "track" },
                                     {
                                         name: "🎶 Loop Queue",
-                                        value: "queue",
+                                        value: "queue"
                                     },
                                     {
                                         name: "🔀 AutoPlay Similar Songs",
-                                        value: "autoplay",
+                                        value: "autoplay"
                                     },
                                     { name: "❌ Off", value: "off" }
                                 )
@@ -157,7 +157,7 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **I do not have permission to connect to voice channels**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!channel) return;
@@ -169,32 +169,32 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **This command can only be used in a text channel**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!guild?.members.me?.permissions.has("Connect"))
             return interaction.reply({
                 content:
                     "> 🚫 **I do not have permission to connect to voice channels**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!guild?.members.me?.permissions.has("Speak"))
             return interaction.reply({
                 content:
                     "> 🚫 **I do not have permission to speak in voice channels**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel: voiceChannel },
+            voice: { channel: voiceChannel }
         } = member;
 
         if (!voiceChannel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -204,20 +204,20 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (voiceChannel.type !== ChannelType.GuildVoice)
             return interaction.reply({
                 content:
                     "> 🚫 **This command can only be while you are in a voice channel**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply({ ephemeral: true });
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         let queue = music.queues.get(guild.id);
@@ -226,7 +226,7 @@ export class MusicCommand extends Subcommand {
         const query = options.getString("song_or_playlist_or_url", true);
 
         const searchResult = await music.search(query, {
-            requestedBy: interaction.user,
+            requestedBy: interaction.user
         });
 
         if (searchResult.playlist) {
@@ -236,11 +236,11 @@ export class MusicCommand extends Subcommand {
 
             if (!queue.isPlaying())
                 await music.play(voiceChannel, playlist.tracks, {
-                    requestedBy: member,
+                    requestedBy: member
                 });
 
             await interaction.followUp({
-                content: `> 🎶 **Added Playlist *${playlist?.title} - ${playlist?.author}* to queue**`,
+                content: `> 🎶 **Added Playlist *${playlist?.title} - ${playlist?.author}* to queue**`
             });
         } else {
             const track = searchResult.tracks[0];
@@ -249,13 +249,13 @@ export class MusicCommand extends Subcommand {
                 queue.addTrack(track);
             } else {
                 await music.play(voiceChannel, track, {
-                    requestedBy: member,
+                    requestedBy: member
                 });
             }
 
             await interaction.followUp({
                 content: `> 🎶 **Added Track *${track.title} - ${track.author}* to queue**`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
     }
@@ -266,7 +266,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member, options } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -274,18 +274,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -295,7 +295,7 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const currentTrack = queue.currentTrack;
@@ -305,7 +305,7 @@ export class MusicCommand extends Subcommand {
             if (requestedBy && requestedBy.id !== member.id)
                 return interaction.reply({
                     content: `> 🚫 You didn't request current track playing, ask ${requestedBy} to skip the track, as they requested it`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
         }
 
@@ -314,7 +314,7 @@ export class MusicCommand extends Subcommand {
             queue.node.skip();
             return interaction.reply({
                 content: "> ⏭️ Current Track Skipped",
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -324,14 +324,14 @@ export class MusicCommand extends Subcommand {
         if (!trackToSkipTo)
             return interaction.reply({
                 content: "> 🚫 Track you provided doesn't exist",
-                ephemeral: true,
+                ephemeral: true
             });
 
         queue.node.skipTo(trackToSkipTo);
 
         return interaction.reply({
             content: `> ⏭️ Skipped to: **${trackToSkipTo.title} - ${trackToSkipTo.author}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -341,7 +341,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member, options } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -349,18 +349,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -370,7 +370,7 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const volume = options.getInteger("volume");
@@ -380,21 +380,21 @@ export class MusicCommand extends Subcommand {
 
             return interaction.reply({
                 content: `> ${speakerEmoji} Current Volume is **${currentVolume}%**`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
         if (volume < 0 || volume > 100)
             return interaction.reply({
                 content: "> 🚫 Volume must be between 0 and 100",
-                ephemeral: true,
+                ephemeral: true
             });
 
         queue.node.setVolume(volume);
 
         const speakerEmoji = this.volumeEmoji(volume);
         return interaction.reply({
-            content: `> ${speakerEmoji} Volume set to **${volume}%**`,
+            content: `> ${speakerEmoji} Volume set to **${volume}%**`
         });
     }
 
@@ -404,7 +404,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member, options } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -412,18 +412,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -433,7 +433,7 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const loopType = options.getString("loop_type");
@@ -459,7 +459,7 @@ export class MusicCommand extends Subcommand {
 
             return interaction.reply({
                 content: `> Current Loop is **${currentLoopType}**`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -489,7 +489,7 @@ export class MusicCommand extends Subcommand {
 
         return interaction.reply({
             content: `> Looping **${currentlyLooping}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -499,7 +499,7 @@ export class MusicCommand extends Subcommand {
 
         const {
             systems: { music },
-            util,
+            util
         } = this.container;
 
         const queue = music.queues.get(guild);
@@ -507,7 +507,7 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         let tracks = queue.tracks.map(
@@ -520,7 +520,7 @@ export class MusicCommand extends Subcommand {
 
         if (tracks.length < 1)
             return interaction.reply({
-                content: "> ❌ There are no upcoming tracks",
+                content: "> ❌ There are no upcoming tracks"
             });
 
         await util.pagination.embedContents(
@@ -537,7 +537,7 @@ export class MusicCommand extends Subcommand {
         const {
             client,
             systems: { music },
-            util,
+            util
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -545,18 +545,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -566,21 +566,21 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const currentTrack = queue.currentTrack;
         if (!currentTrack)
             return interaction.reply({
                 content: "> 🚫 **There is no track playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const embed = util
             .embed()
             .setAuthor({
                 name: "Now Playing",
-                iconURL: client.user?.displayAvatarURL(),
+                iconURL: client.user?.displayAvatarURL()
             })
             .setTitle(currentTrack.title)
             .setURL(currentTrack.url)
@@ -591,16 +591,16 @@ export class MusicCommand extends Subcommand {
             )
             .addFields({
                 name: "Duration",
-                value: currentTrack.duration,
+                value: currentTrack.duration
             })
             .setFooter({
                 text: `Requested by ${currentTrack.requestedBy?.tag}`,
-                iconURL: currentTrack.requestedBy?.displayAvatarURL(),
+                iconURL: currentTrack.requestedBy?.displayAvatarURL()
             });
 
         return interaction.reply({
             embeds: [embed],
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -610,7 +610,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -618,18 +618,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -639,20 +639,20 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (queue.node.isPaused())
             return interaction.reply({
                 content: "> 🚫 **The player is already paused**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         queue.node.setPaused(true);
 
         return interaction.reply({
             content: "> ⏸️ **Paused the player**",
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -662,7 +662,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild.id);
@@ -670,18 +670,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -691,20 +691,20 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!queue.node.isPaused())
             return interaction.reply({
                 content: "> 🚫 **The player is playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         queue.node.setPaused(false);
 
         return interaction.reply({
             content: "> ⏸️ **Resumed the player**",
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -714,7 +714,7 @@ export class MusicCommand extends Subcommand {
         const { guild, member } = interaction;
 
         const {
-            systems: { music },
+            systems: { music }
         } = this.container;
 
         const queue = music.queues.get(guild);
@@ -722,18 +722,18 @@ export class MusicCommand extends Subcommand {
         if (!queue)
             return interaction.reply({
                 content: "> 🚫 **There is no music playing**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            voice: { channel },
+            voice: { channel }
         } = member;
 
         if (!channel)
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in a voice channel to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -743,7 +743,7 @@ export class MusicCommand extends Subcommand {
             return interaction.reply({
                 content:
                     "> 🚫 **You must be in the same voice channel as me to use this command**",
-                ephemeral: true,
+                ephemeral: true
             });
     }
 

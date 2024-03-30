@@ -6,7 +6,7 @@ export class MemberNicknameChangLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Log when member changes their nickname",
-            event: "guildMemberNicknameUpdate",
+            event: "guildMemberNicknameUpdate"
         });
     }
 
@@ -30,7 +30,7 @@ export class MemberNicknameChangLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(`${member.user.username} Changed Nickname`)
             .setThumbnail(member.displayAvatarURL())

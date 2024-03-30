@@ -6,7 +6,7 @@ export class LeaderboardCommand extends Command {
         super(ctx, {
             ...opts,
             name: "leaderboard",
-            description: "View Global Leadeboard",
+            description: "View Global Leadeboard"
         });
     }
 
@@ -36,11 +36,11 @@ export class LeaderboardCommand extends Command {
         const leaderboard = await kanvas.member.leaderboard(count);
 
         const attachment = new AttachmentBuilder(leaderboard, {
-            name: `leaderboard-${count}.png`,
+            name: `leaderboard-${count}.png`
         });
 
         await interaction.editReply({
-            files: [attachment],
+            files: [attachment]
         });
     }
 }

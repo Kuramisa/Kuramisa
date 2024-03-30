@@ -57,110 +57,110 @@ export const User = new Schema<IUser>({
     id: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     username: {
         type: String,
-        required: true,
+        required: true
     },
     betaTester: {
         type: Boolean,
-        default: false,
+        default: false
     },
     xp: {
         type: Number,
-        default: 0,
+        default: 0
     },
     level: {
         type: Number,
-        default: 1,
+        default: 1
     },
     notifications: {
         botAnnouncements: {
             type: Boolean,
-            default: true,
-        },
+            default: true
+        }
     },
     valorant: {
         dashboardAuthorized: {
             type: Boolean,
-            default: false,
+            default: false
         },
         accounts: [],
         wishlist: [],
         notifications: {
             wishlist: {
                 type: Boolean,
-                default: false,
+                default: false
             },
             daily: {
                 type: Boolean,
-                default: false,
+                default: false
             },
             featured: {
                 type: Boolean,
-                default: false,
+                default: false
             },
             nightMarket: {
                 type: Boolean,
-                default: false,
+                default: false
             },
             accessory: {
                 type: Boolean,
-                default: false,
-            },
+                default: false
+            }
         },
         privacy: {
             wishlist: {
                 type: String,
-                default: "public",
+                default: "public"
             },
             daily: {
                 type: String,
-                default: "public",
+                default: "public"
             },
             nightMarket: {
                 type: String,
-                default: "public",
+                default: "public"
             },
             accessory: {
                 type: String,
-                default: "public",
-            },
-        },
+                default: "public"
+            }
+        }
     },
     card: {
         background: {
             type: {
                 type: String,
-                default: "color",
+                default: "color"
             },
             color: {
                 type: String,
-                default: "#121212",
+                default: "#121212"
             },
-            image: Buffer,
+            image: Buffer
         },
         outlines: {
             type: {
                 type: String,
-                default: "status",
+                default: "status"
             },
             color: {
                 type: String,
-                default: "#222216",
-            },
+                default: "#222216"
+            }
         },
         text: {
             type: {
                 type: String,
-                default: "color",
+                default: "color"
             },
             color: {
                 type: String,
-                default: "#ffffff",
-            },
-        },
+                default: "#ffffff"
+            }
+        }
     },
     warns: [
         {
@@ -168,8 +168,8 @@ export const User = new Schema<IUser>({
             guildId: String,
             by: String,
             reason: String,
-            timestamp: Number,
-        },
+            timestamp: Number
+        }
     ],
     reports: [
         {
@@ -178,12 +178,12 @@ export const User = new Schema<IUser>({
             by: String,
             message: {
                 id: String,
-                content: String,
+                content: String
             },
             reason: String,
-            timestamp: Number,
-        },
-    ],
+            timestamp: Number
+        }
+    ]
 });
 
 const UserModel = model<IUser>("users", User);

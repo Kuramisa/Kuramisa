@@ -10,13 +10,13 @@ export class AICommand extends Subcommand {
             subcommands: [
                 {
                     name: "chat",
-                    chatInputRun: "chatInputChat",
+                    chatInputRun: "chatInputChat"
                 },
                 {
                     name: "image",
-                    chatInputRun: "chatInputImage",
-                },
-            ],
+                    chatInputRun: "chatInputImage"
+                }
+            ]
         });
     }
 
@@ -53,7 +53,7 @@ export class AICommand extends Subcommand {
     async chatInputChat(interaction: Subcommand.ChatInputCommandInteraction) {
         const {
             systems: { openai },
-            util,
+            util
         } = this.container;
 
         const { options, user } = interaction;
@@ -80,7 +80,7 @@ export class AICommand extends Subcommand {
     async chatInputImage(interaction: Subcommand.ChatInputCommandInteraction) {
         const {
             systems: { openai },
-            logger,
+            logger
         } = this.container;
 
         const prompt = interaction.options.getString("prompt", true).trim();
@@ -95,12 +95,12 @@ export class AICommand extends Subcommand {
                 return await interaction.editReply("No response from AI");
 
             const attachment = new AttachmentBuilder(response, {
-                name: `${prompt.trim()}.png`,
+                name: `${prompt.trim()}.png`
             });
 
             await interaction.editReply({
                 content: `**${prompt.trim()}**`,
-                files: [attachment],
+                files: [attachment]
             });
         } catch (error: any) {
             if (error.response) {

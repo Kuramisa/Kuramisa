@@ -9,7 +9,7 @@ export class AnnounceCommand extends Command {
             ...opts,
             name: "announce",
             description: "Announce bot changes to Server Owners",
-            preconditions: ["OwnerOnly"],
+            preconditions: ["OwnerOnly"]
         });
     }
 
@@ -47,7 +47,7 @@ export class AnnounceCommand extends Command {
 
         const mInteraction = await interaction.awaitModalSubmit({
             time: 0,
-            filter: (i) => i.customId === "announce-modal",
+            filter: (i) => i.customId === "announce-modal"
         });
 
         await mInteraction.deferReply({ ephemeral: true });
@@ -69,7 +69,7 @@ export class AnnounceCommand extends Command {
             .embed()
             .setAuthor({
                 name: user.username,
-                iconURL: user.displayAvatarURL({ extension: "gif" }),
+                iconURL: user.displayAvatarURL({ extension: "gif" })
             })
             .setTitle("Announcement from The Developers")
             .setDescription(

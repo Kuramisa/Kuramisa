@@ -9,7 +9,7 @@ export class OsuCommand extends Command {
         super(ctx, {
             ...opts,
             name: "osu",
-            description: "Osu! Helper",
+            description: "Osu! Helper"
         });
     }
 
@@ -37,20 +37,20 @@ export class OsuCommand extends Command {
         const {
             games: { osu },
             emojis,
-            util,
+            util
         } = this.container;
 
         const player = interaction.options.getString("osu_player", true);
 
         const user = await osu.getUser({
             u: player,
-            type: "string",
+            type: "string"
         });
 
         if (!user)
             return interaction.reply({
                 content: "Player not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const embed = util
@@ -58,7 +58,7 @@ export class OsuCommand extends Command {
             .setAuthor({
                 name: `${user.username} - Level: ${Math.round(user.level)}`,
                 iconURL: `https://a.ppy.sh/${user.user_id}`,
-                url: `https://osu.ppy.sh/users/${user.user_id}`,
+                url: `https://osu.ppy.sh/users/${user.user_id}`
             })
             .setThumbnail(`https://a.ppy.sh/${user.user_id}`)
             .setDescription(
@@ -109,7 +109,7 @@ export class OsuCommand extends Command {
 
         await interaction.reply({
             embeds: [embed],
-            components: [row],
+            components: [row]
         });
     }
 }

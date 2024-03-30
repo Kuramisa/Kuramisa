@@ -8,7 +8,7 @@ export class MemberCommand extends Command {
             name: "whois",
             aliases: ["user"],
             description: "Information about a member",
-            runIn: "GUILD_ANY",
+            runIn: "GUILD_ANY"
         });
     }
 
@@ -43,7 +43,7 @@ export class MemberCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         let member = interaction.options.getMember("member");
@@ -55,7 +55,7 @@ export class MemberCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply();
@@ -67,12 +67,12 @@ export class MemberCommand extends Command {
         const profile = await kanvas.member.profile(member);
 
         const attachment = new AttachmentBuilder(profile, {
-            name: `profile-${user.id}.png`,
+            name: `profile-${user.id}.png`
         });
 
         return interaction.editReply({
             components: rows,
-            files: [attachment],
+            files: [attachment]
         });
     }
 
@@ -83,7 +83,7 @@ export class MemberCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { guild, targetId } = interaction;
@@ -92,13 +92,13 @@ export class MemberCommand extends Command {
         if (!member)
             return interaction.reply({
                 content: "Member not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply();
@@ -110,7 +110,7 @@ export class MemberCommand extends Command {
         const profile = await kanvas.member.profile(member);
 
         const attachment = new AttachmentBuilder(profile, {
-            name: `profile-${member.id}.png`,
+            name: `profile-${member.id}.png`
         });
 
         return interaction.editReply({ files: [attachment], components: rows });

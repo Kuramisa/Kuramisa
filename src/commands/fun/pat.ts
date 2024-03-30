@@ -31,13 +31,13 @@ export class PatCommand extends Command {
         const { url } = await util.nekos.pat();
 
         const attachment = new AttachmentBuilder(url, {
-            name: `pat-${user.username}.gif`,
+            name: `pat-${user.username}.gif`
         });
 
         return interaction.editReply({
             content: `${interaction.user} patted ${user}`,
             files: [attachment],
-            allowedMentions: { repliedUser: false, users: [] },
+            allowedMentions: { repliedUser: false, users: [] }
         });
     }
 }

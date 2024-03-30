@@ -26,7 +26,7 @@ export default class ValorantPlayerTitles {
     embed = (playerTitle: IValorantPlayerTitle) =>
         new EmbedBuilder()
             .setAuthor({
-                name: playerTitle.displayName,
+                name: playerTitle.displayName
             })
             .setTitle(playerTitle.titleText);
 
@@ -50,7 +50,7 @@ export default class ValorantPlayerTitles {
             cost:
                 titlePrices.find(
                     (price: any) => price.player_title_id === title.uuid
-                )?.cost ?? 0,
+                )?.cost ?? 0
         }));
 
         return new ValorantPlayerTitles(data);

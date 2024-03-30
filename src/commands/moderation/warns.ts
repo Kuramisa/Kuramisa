@@ -7,7 +7,7 @@ export class WarnsCommand extends Command {
             ...opts,
             name: "warns",
             description: "Check warns of a member",
-            requiredUserPermissions: "ViewAuditLog",
+            requiredUserPermissions: "ViewAuditLog"
         });
     }
 
@@ -57,7 +57,7 @@ export class WarnsCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { client, moderation, util } = this.container;
@@ -71,7 +71,7 @@ export class WarnsCommand extends Command {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const warns = await moderation.warns.get(member);
@@ -79,7 +79,7 @@ export class WarnsCommand extends Command {
         if (!warns || warns.length < 1)
             return interaction.reply({
                 content: `${member} has no warns`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommand()) {
@@ -91,7 +91,7 @@ export class WarnsCommand extends Command {
                         .embed()
                         .setAuthor({
                             name: `${member.user.username} - Warns`,
-                            iconURL: member.user.displayAvatarURL(),
+                            iconURL: member.user.displayAvatarURL()
                         })
                         .setTitle(`Warn ID: ${warn.id}`)
                         .setDescription(
@@ -108,11 +108,9 @@ export class WarnsCommand extends Command {
                 const opts = await Promise.all(
                     warns.map(async (warn) => ({
                         label: `Reason: ${warn.reason} - Warned by: ${
-                            (
-                                await client.users.fetch(warn.by)
-                            )?.username
+                            (await client.users.fetch(warn.by))?.username
                         }`,
-                        value: warn.id,
+                        value: warn.id
                     }))
                 );
 
@@ -134,14 +132,14 @@ export class WarnsCommand extends Command {
                 const message = await interaction.reply({
                     embeds: [embed],
                     components: [row],
-                    fetchReply: true,
+                    fetchReply: true
                 });
 
                 const sInteraction = await message.awaitMessageComponent({
                     componentType: ComponentType.StringSelect,
                     filter: (i) =>
                         i.customId === "select_member_warn" &&
-                        i.user.id === interaction.user.id,
+                        i.user.id === interaction.user.id
                 });
 
                 const { values } = sInteraction;
@@ -171,9 +169,9 @@ export class WarnsCommand extends Command {
                                             `Reason: ${warn?.reason} - Warned by: <@${warn?.by}>`
                                     )
                                     .join("\n")
-                            ),
+                            )
                     ],
-                    components: [],
+                    components: []
                 });
                 break;
             }
@@ -181,7 +179,7 @@ export class WarnsCommand extends Command {
                 await moderation.warns.clear(member);
                 await interaction.reply({
                     content: `Cleared warns of ${member}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 break;
             }

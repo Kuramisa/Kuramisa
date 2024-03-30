@@ -6,7 +6,7 @@ export class MemberBoostLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Member boosted a guild",
-            event: "guildMemberBoost",
+            event: "guildMemberBoost"
         });
     }
 
@@ -30,7 +30,7 @@ export class MemberBoostLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(`${member.user.username} Boosted the server`)
             .setThumbnail(member.displayAvatarURL());

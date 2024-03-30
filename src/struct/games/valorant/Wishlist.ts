@@ -18,7 +18,7 @@ export default class ValorantWishlist {
         if (!container.owners.some((owner) => owner.id === user.id))
             return interaction.reply({
                 content: "**This command is currently under development.**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const userId = options.getString("valorant_player") ?? user.id;
@@ -26,7 +26,7 @@ export default class ValorantWishlist {
         if (userId && /^[A-Za-z\s]*$/.test(userId))
             return interaction.reply({
                 content: "**😢 That's not a valid Valorant Player**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.users.fetch(userId);
@@ -39,7 +39,7 @@ export default class ValorantWishlist {
             if (userId !== user.id && valDb.privacy.wishlist === "private")
                 return interaction.reply({
                     content:
-                        "**😢 That player has their Wishlist set to private**",
+                        "**😢 That player has their Wishlist set to private**"
                 });
 
             ephemeral = true;
@@ -47,7 +47,7 @@ export default class ValorantWishlist {
 
         await interaction.reply({
             content: "**😁 Getting your wishlist**",
-            ephemeral,
+            ephemeral
         });
 
         const { wishlist } = valDb;
@@ -56,7 +56,7 @@ export default class ValorantWishlist {
             return interaction.editReply({
                 content: `**😢 No items in ${
                     userId === user.id ? "your" : `${user.globalName}'s`
-                } wishlist**`,
+                } wishlist**`
             });
 
         const skinUuids = valDb.wishlist.filter((it) => it.type === "skin");
@@ -98,7 +98,7 @@ export default class ValorantWishlist {
 
         const mainEmbed = await valorant.util.wishlistCard(
             user,
-            valDb.privacy.wishlist,
+            valDb.privacy.wishlist
         );
 
         const skinEmbeds = [];
@@ -112,13 +112,13 @@ export default class ValorantWishlist {
                     .embed()
                     .setAuthor({
                         name: skin.displayName,
-                        iconURL: skin.displayIcon,
+                        iconURL: skin.displayIcon
                     })
                     .setThumbnail(skin.displayIcon)
                     .setDescription(
-                        `**<:val_points:1114492900181553192> ${skin.cost} VP**`,
+                        `**<:val_points:1114492900181553192> ${skin.cost} VP**`
                     )
-                    .setColor("Random"),
+                    .setColor("Random")
             );
         }
 
@@ -133,18 +133,18 @@ export default class ValorantWishlist {
                     .embed()
                     .setAuthor({
                         name: buddy.displayName,
-                        iconURL: buddy.displayIcon,
+                        iconURL: buddy.displayIcon
                     })
                     .setThumbnail(buddy.displayIcon)
                     .setDescription(
-                        `**<:val_points:1114492900181553192> ${buddy.cost} VP**`,
+                        `**<:val_points:1114492900181553192> ${buddy.cost} VP**`
                     )
-                    .setColor("Random"),
+                    .setColor("Random")
             );
         }
 
         const cardEmbeds = cards.map((card) =>
-            valorant.playerCards.embed(card),
+            valorant.playerCards.embed(card)
         );
 
         const sprayInfos = [];
@@ -158,18 +158,18 @@ export default class ValorantWishlist {
                     .embed()
                     .setAuthor({
                         name: spray.displayName,
-                        iconURL: spray.displayIcon,
+                        iconURL: spray.displayIcon
                     })
                     .setThumbnail(spray.displayIcon)
                     .setDescription(
-                        `**<:val_points:1114492900181553192> ${spray.cost} VP**`,
+                        `**<:val_points:1114492900181553192> ${spray.cost} VP**`
                     )
-                    .setColor("Random"),
+                    .setColor("Random")
             );
         }
 
         const titleEmbeds = titles.map((title) =>
-            valorant.playerTitles.embed(title),
+            valorant.playerTitles.embed(title)
         );
 
         const chooseTypeButtons = util
@@ -199,7 +199,7 @@ export default class ValorantWishlist {
                     .button()
                     .setCustomId("valorant_wishlist_titles")
                     .setLabel("Titles")
-                    .setStyle(ButtonStyle.Primary),
+                    .setStyle(ButtonStyle.Primary)
             );
 
         const addToWishlistButton = util
@@ -209,7 +209,7 @@ export default class ValorantWishlist {
                     .button()
                     .setCustomId("add_to_wishlist")
                     .setLabel("Add to Wishlist")
-                    .setStyle(ButtonStyle.Success),
+                    .setStyle(ButtonStyle.Success)
             );
 
         const currentSelection = "skins";
@@ -219,7 +219,7 @@ export default class ValorantWishlist {
             .setComponents(
                 util
                     .stringMenu()
-                    .setCustomId(`view_select_menu_${currentSelection}`),
+                    .setCustomId(`view_select_menu_${currentSelection}`)
             );
 
         const currentPage = 0;
@@ -227,11 +227,7 @@ export default class ValorantWishlist {
         await interaction.editReply({
             content: null,
             embeds: [mainEmbed, skinEmbeds[currentPage]],
-            components: [
-                chooseTypeButtons,
-                viewSelectMenu,
-                addToWishlistButton,
-            ],
+            components: [chooseTypeButtons, viewSelectMenu, addToWishlistButton]
         });
     }
 
@@ -247,12 +243,12 @@ export default class ValorantWishlist {
         if (!added)
             return interaction.reply({
                 content: `**${skin.displayName}** is already in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Added **${skin.displayName}** to your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -268,12 +264,12 @@ export default class ValorantWishlist {
         if (!added)
             return interaction.reply({
                 content: `**${buddy.displayName}** is already in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Added **${buddy.displayName}** to your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -289,12 +285,12 @@ export default class ValorantWishlist {
         if (!added)
             return interaction.reply({
                 content: `**${card.displayName}** is already in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Added **${card.displayName}** to your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -310,12 +306,12 @@ export default class ValorantWishlist {
         if (!added)
             return interaction.reply({
                 content: `**${spray.displayName}** is already in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Added **${spray.displayName}** to your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -331,12 +327,12 @@ export default class ValorantWishlist {
         if (!added)
             return interaction.reply({
                 content: `**${title.displayName}** is already in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Added **${title.displayName}** to your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -352,12 +348,12 @@ export default class ValorantWishlist {
         if (!removed)
             return interaction.reply({
                 content: `**${skin.displayName}** is not in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Removed **${skin.displayName}** from your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -373,12 +369,12 @@ export default class ValorantWishlist {
         if (!removed)
             return interaction.reply({
                 content: `${buddy.displayName} is not in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Removed **${buddy.displayName}** from your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -394,12 +390,12 @@ export default class ValorantWishlist {
         if (!removed)
             return interaction.reply({
                 content: `**${card.displayName}** is not in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Removed **${card.displayName}** from your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -415,12 +411,12 @@ export default class ValorantWishlist {
         if (!removed)
             return interaction.reply({
                 content: `**${spray.displayName}** is not in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Removed **${spray.displayName}** from your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -436,12 +432,12 @@ export default class ValorantWishlist {
         if (!removed)
             return interaction.reply({
                 content: `**${title.displayName}** is not in your wishlist.`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         interaction.reply({
             content: `Removed **${title.displayName}** from your wishlist!`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -453,7 +449,7 @@ export default class ValorantWishlist {
             | IValorantPlayerCard
             | IValorantSpray
             | IValorantPlayerTitle,
-        type: "skin" | "buddy" | "card" | "spray" | "title",
+        type: "skin" | "buddy" | "card" | "spray" | "title"
     ) {
         const { database, logger } = container;
 
@@ -462,20 +458,20 @@ export default class ValorantWishlist {
 
         if (
             valorant.wishlist.some(
-                (wishlistItem) => wishlistItem.uuid === item.uuid,
+                (wishlistItem) => wishlistItem.uuid === item.uuid
             )
         )
             return false;
 
         valorant.wishlist.push({
             uuid: item.uuid,
-            type,
+            type
         });
 
         await db.save();
 
         logger.debug(
-            `Added ${item.displayName} to ${user.globalName}'s wishlist`,
+            `Added ${item.displayName} to ${user.globalName}'s wishlist`
         );
     }
 
@@ -486,7 +482,7 @@ export default class ValorantWishlist {
             | IValorantBuddy
             | IValorantPlayerCard
             | IValorantSpray
-            | IValorantPlayerTitle,
+            | IValorantPlayerTitle
     ) {
         const { database, logger } = container;
 
@@ -497,13 +493,13 @@ export default class ValorantWishlist {
             return false;
 
         valorant.wishlist = valorant.wishlist.filter(
-            (wishlistItem) => wishlistItem.uuid !== item.uuid,
+            (wishlistItem) => wishlistItem.uuid !== item.uuid
         );
 
         await db.save();
 
         logger.debug(
-            `Removed ${item.displayName} from ${user.globalName}'s wishlist`,
+            `Removed ${item.displayName} from ${user.globalName}'s wishlist`
         );
     }
 }

@@ -6,7 +6,7 @@ export class AutoRoleMemberAdd extends Listener {
         super(ctx, {
             ...opts,
             name: "Autorole listener",
-            event: "guildMemberAdd",
+            event: "guildMemberAdd"
         });
     }
 

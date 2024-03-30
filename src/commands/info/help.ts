@@ -10,17 +10,17 @@ export class HelpCommand extends Subcommand {
             subcommands: [
                 {
                     name: "all",
-                    chatInputRun: "chatInputAll",
+                    chatInputRun: "chatInputAll"
                 },
                 {
                     name: "category",
-                    chatInputRun: "chatInputCategory",
+                    chatInputRun: "chatInputCategory"
                 },
                 {
                     name: "command",
-                    chatInputRun: "chatInputCommand",
-                },
-            ],
+                    chatInputRun: "chatInputCommand"
+                }
+            ]
         });
     }
 
@@ -115,7 +115,7 @@ export class HelpCommand extends Subcommand {
         if (!category)
             return interaction.reply({
                 content: "Category not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const commands = category
@@ -150,7 +150,7 @@ export class HelpCommand extends Subcommand {
         if (!command)
             return interaction.reply({
                 content: "Command not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const avatar = client.user?.displayAvatarURL();
@@ -163,14 +163,14 @@ export class HelpCommand extends Subcommand {
                 {
                     name: "Category",
                     value: `${capitalize(command.fullCategory[0])}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Permissions",
                     value: command.options.requiredUserPermissions
                         ? `${command.options.requiredUserPermissions}`
                         : "Everyone",
-                    inline: true,
+                    inline: true
                 }
             );
 

@@ -6,7 +6,7 @@ export class RankCommand extends Command {
             ...opts,
             name: "rank",
             description: "Look at your or someone's rank",
-            preconditions: ["OwnerOnly"],
+            preconditions: ["OwnerOnly"]
         });
     }
 
@@ -41,14 +41,14 @@ export class RankCommand extends Command {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.reply({
             content: `**Loading ${
                 member.user.id === interaction.user.id ? "your" : `${member}'s`
             } rank card...**`,
-            allowedMentions: { users: [] },
+            allowedMentions: { users: [] }
         });
 
         if (!member)
@@ -59,7 +59,7 @@ export class RankCommand extends Command {
         if (!attachment)
             return interaction.reply({
                 content: "Failed to get rank card",
-                ephemeral: true,
+                ephemeral: true
             });
 
         return interaction.editReply({ content: "", files: [attachment] });

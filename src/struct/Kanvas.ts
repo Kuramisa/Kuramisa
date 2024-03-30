@@ -70,7 +70,7 @@ export default class Kanvas {
         if (!url) return null;
         const buffer = await axios
             .get(url, {
-                responseType: "arraybuffer",
+                responseType: "arraybuffer"
             })
             .then((res) => res.data)
             .catch(() => null);

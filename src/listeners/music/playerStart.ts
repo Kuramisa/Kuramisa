@@ -7,7 +7,7 @@ export class PlayerStartListener extends Listener {
             ...opts,
             name: "Player Start",
             event: "playerStart",
-            emitter: container.systems.music.events,
+            emitter: container.systems.music.events
         });
     }
 
@@ -21,7 +21,7 @@ export class PlayerStartListener extends Listener {
             .embed()
             .setAuthor({
                 name: "Now Playing",
-                iconURL: client.user?.displayAvatarURL(),
+                iconURL: client.user?.displayAvatarURL()
             })
             .setTitle(track.title)
             .setURL(track.url)
@@ -32,11 +32,11 @@ export class PlayerStartListener extends Listener {
             )
             .addFields({
                 name: "Duration",
-                value: track.duration,
+                value: track.duration
             })
             .setFooter({
                 text: `Requested by ${track.requestedBy?.tag}`,
-                iconURL: track.requestedBy?.displayAvatarURL(),
+                iconURL: track.requestedBy?.displayAvatarURL()
             });
 
         if (guild.musicMessage) {

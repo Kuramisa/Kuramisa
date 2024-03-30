@@ -3,7 +3,7 @@ import { convert } from "owospeak";
 
 const converOpts = {
     tilde: Math.random() < 0.5,
-    stutter: Math.random() < 0.5,
+    stutter: Math.random() < 0.5
 };
 
 export class OwOCommand extends Command {
@@ -11,7 +11,7 @@ export class OwOCommand extends Command {
         super(ctx, {
             ...opts,
             name: "owo",
-            description: "OwOify some text",
+            description: "OwOify some text"
         });
     }
 
@@ -58,7 +58,7 @@ export class OwOCommand extends Command {
         if (message.content.length < 1)
             return interaction.reply({
                 content: "Could not find text in the message",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const owo = convert(message.content, converOpts);

@@ -6,7 +6,7 @@ export class MemberRoleRemovedListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Logs when role is removed from a member",
-            event: "guildMemberRoleRemove",
+            event: "guildMemberRoleRemove"
         });
     }
 
@@ -27,7 +27,7 @@ export class MemberRoleRemovedListener extends Listener {
 
         const removedBy = (
             await guild.fetchAuditLogs({
-                type: AuditLogEvent.MemberRoleUpdate,
+                type: AuditLogEvent.MemberRoleUpdate
             })
         ).entries.first()?.executor;
 
@@ -35,7 +35,7 @@ export class MemberRoleRemovedListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(
                 `${member.user.username} had a role removed by ${

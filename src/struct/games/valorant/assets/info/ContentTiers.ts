@@ -12,10 +12,13 @@ export default class ValorantContentTiers {
     }
 
     get byName() {
-        return this.data.reduce((obj, tier) => {
-            obj[tier.displayName] = tier;
-            return obj;
-        }, {} as Record<string, IValorantContentTier>);
+        return this.data.reduce(
+            (obj, tier) => {
+                obj[tier.displayName] = tier;
+                return obj;
+            },
+            {} as Record<string, IValorantContentTier>
+        );
     }
 
     get(name: string) {

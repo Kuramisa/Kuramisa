@@ -11,7 +11,7 @@ import type {
     MessageActionRowComponentBuilder,
     TextChannel,
     User,
-    VoiceChannel,
+    VoiceChannel
 } from "discord.js";
 import type { WebClient } from "valorant.ts";
 

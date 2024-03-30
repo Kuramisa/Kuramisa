@@ -7,7 +7,7 @@ export class VoiceCommand extends Command {
             ...opts,
             name: "voice",
             description: "Voice utilities for members",
-            requiredUserPermissions: "MoveMembers",
+            requiredUserPermissions: "MoveMembers"
         });
     }
 
@@ -51,7 +51,7 @@ export class VoiceCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { util } = this.container;
@@ -61,7 +61,7 @@ export class VoiceCommand extends Command {
         if (!guild.members.me?.permissions.has("MoveMembers"))
             return interaction.reply({
                 content: "I do not have the `MoveMembers` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const currentVC = member.voice.channel;
@@ -69,7 +69,7 @@ export class VoiceCommand extends Command {
         if (!currentVC)
             return interaction.reply({
                 content: "You have to be in a voice channel",
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommand()) {
@@ -80,14 +80,14 @@ export class VoiceCommand extends Command {
                 if (channel.equals(currentVC))
                     return interaction.reply({
                         content: "You cannot move members to the same channel",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const members = currentVC.members;
 
                 const opts = members.first(25).map((member) => ({
                     label: member.user.username,
-                    value: member.id,
+                    value: member.id
                 }));
 
                 const row = util
@@ -104,12 +104,12 @@ export class VoiceCommand extends Command {
                 await interaction.deferReply({ ephemeral: true });
 
                 const message = await interaction.editReply({
-                    components: [row],
+                    components: [row]
                 });
 
                 const awaitMembers = await message.awaitMessageComponent({
                     componentType: ComponentType.StringSelect,
-                    filter: (i) => i.customId === "voice_member_select",
+                    filter: (i) => i.customId === "voice_member_select"
                 });
 
                 const chosenMembers = awaitMembers.values.map((id) =>
@@ -135,7 +135,7 @@ export class VoiceCommand extends Command {
 
                 await interaction.editReply({
                     embeds: [embed],
-                    components: [],
+                    components: []
                 });
                 break;
             }
@@ -146,7 +146,7 @@ export class VoiceCommand extends Command {
                 if (channel.equals(currentVC))
                     return interaction.reply({
                         content: "You cannot move members to the same channel",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const members = currentVC.members;
@@ -157,7 +157,7 @@ export class VoiceCommand extends Command {
 
                 return interaction.reply({
                     content: `Moved everyone to ${channel}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }

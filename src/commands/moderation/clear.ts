@@ -7,7 +7,7 @@ export class ClearCommand extends Command {
             ...opts,
             name: "clear",
             description: "Clear channel messages",
-            requiredUserPermissions: "ManageMessages",
+            requiredUserPermissions: "ManageMessages"
         });
     }
 
@@ -38,7 +38,7 @@ export class ClearCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { util } = this.container;
@@ -47,7 +47,7 @@ export class ClearCommand extends Command {
         if (!guild.members.me?.permissions.has("ManageMessages"))
             return interaction.reply({
                 content: "I do not have the `ManageMessages` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!channel || !channel.isTextBased()) return;

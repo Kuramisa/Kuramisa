@@ -6,7 +6,7 @@ export class SuggestCommand extends Command {
             ...opts,
             name: "suggest",
             description:
-                "Suggest features and other things to the Bot Developer",
+                "Suggest features and other things to the Bot Developer"
         });
     }
 
@@ -42,14 +42,14 @@ export class SuggestCommand extends Command {
             return interaction.reply({
                 content:
                     "The developers do not accept suggestions yet (We are so sorry)",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await devSuggestions.send({ embeds: [embed] });
 
         await interaction.reply({
             content: "Your suggestion has been sent to the developers!",
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

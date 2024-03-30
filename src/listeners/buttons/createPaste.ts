@@ -6,7 +6,7 @@ export class CreatePasteWarframeListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Create a pa ste from Warframe.market embed",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -33,7 +33,7 @@ export class CreatePasteWarframeListener extends Listener {
             content: `/w ${user} Hi! I want to ${
                 type === "sell" ? "buy" : "sell"
             }: ${item} for ${price} platinum. (warframe.market)`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

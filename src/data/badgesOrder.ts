@@ -20,5 +20,5 @@ export default {
     BOOSTER_12: 18,
     BOOSTER_15: 19,
     BOOSTER_18: 20,
-    BOOSTER_24: 21,
+    BOOSTER_24: 21
 };

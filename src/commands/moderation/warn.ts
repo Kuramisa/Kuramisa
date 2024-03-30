@@ -7,7 +7,7 @@ export class WarnCommand extends Command {
             ...opts,
             name: "warn",
             description: "Warn a member",
-            requiredUserPermissions: "ModerateMembers",
+            requiredUserPermissions: "ModerateMembers"
         });
     }
 
@@ -41,11 +41,11 @@ export class WarnCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            moderation: { warns },
+            moderation: { warns }
         } = this.container;
 
         const { options } = interaction;
@@ -58,7 +58,7 @@ export class WarnCommand extends Command {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await warns.create(member, interaction.member, reason);
@@ -72,11 +72,11 @@ export class WarnCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            moderation: { warns },
+            moderation: { warns }
         } = this.container;
 
         const { guild, targetId } = interaction;
@@ -86,7 +86,7 @@ export class WarnCommand extends Command {
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         return interaction.showModal(warns.modal(member));

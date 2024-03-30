@@ -6,7 +6,7 @@ export class WordFilterEditedListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Filter Media from edited messages",
-            event: "messageUpdate",
+            event: "messageUpdate"
         });
     }
 

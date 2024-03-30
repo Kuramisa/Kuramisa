@@ -5,7 +5,7 @@ export class TrashCommand extends Command {
         super(ctx, {
             ...opts,
             name: "deletethetrash",
-            description: "Delete the trash!",
+            description: "Delete the trash!"
         });
     }
 
@@ -25,7 +25,7 @@ export class TrashCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { images },
+            kanvas: { images }
         } = this.container;
 
         const { options } = interaction;
@@ -35,13 +35,13 @@ export class TrashCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (user.id === interaction.user.id)
             return interaction.reply({
                 content: "You can't trash yourself!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await images.delete(
@@ -49,7 +49,7 @@ export class TrashCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "trash.png" }],
+            files: [{ attachment: image, name: "trash.png" }]
         });
     }
 }

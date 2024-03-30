@@ -24,13 +24,13 @@ import {
     Sprays,
     Themes,
     Weapons,
-    Version,
+    Version
 } from "./assets";
 import {
     ChatInputCommandInteraction,
     Collection,
     ComponentType,
-    type Snowflake,
+    type Snowflake
 } from "discord.js";
 import { WebClient } from "valorant.ts";
 
@@ -289,7 +289,7 @@ export default class Valorant {
         if (!Object.keys(valorant.privacy).includes(privacy))
             return interaction.reply({
                 content: "**😲 This privacy setting does not exist!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         valorant.privacy[privacy as keyof typeof valorant.privacy] =
@@ -304,7 +304,7 @@ export default class Valorant {
             )}\` to \`${capitalize(
                 valorant.privacy[privacy as keyof typeof valorant.privacy]
             )}\`**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -345,7 +345,7 @@ export default class Valorant {
             allAccounts++;
 
             const web = WebClient.fromJSON(account.json, {
-                version: this.version?.riotClient,
+                version: this.version?.riotClient
             });
 
             const refreshResult = await web
@@ -397,7 +397,7 @@ export default class Valorant {
                 trackerURL: Valorant.trackerURL.replaceAll(
                     "%username%",
                     `${playerInfo.acct.game_name}%23${playerInfo.acct.tag_line}`
-                ),
+                )
             });
 
             logger.debug(
@@ -411,7 +411,7 @@ export default class Valorant {
     async agentsCommand(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
         const {
-            games: { valorant },
+            games: { valorant }
         } = container;
 
         const agentId = options.getString("valorant_agent_name", true);
@@ -419,18 +419,18 @@ export default class Valorant {
         if (!agent)
             return interaction.reply({
                 content: "**😲 Agent not found!**",
-                ephemeral: true,
+                ephemeral: true
             });
         const agentEmbed = valorant.agents.embed(agent);
         return interaction.reply({
-            embeds: [agentEmbed],
+            embeds: [agentEmbed]
         });
     }
 
     async skinsCommand(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
         const {
-            games: { valorant },
+            games: { valorant }
         } = container;
 
         const weaponId = options.getString("valorant_weapon_name", true);
@@ -438,7 +438,7 @@ export default class Valorant {
         if (!weapon)
             return interaction.reply({
                 content: "**😲 Weapon not found!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const skins = weapon.skins
@@ -457,7 +457,7 @@ export default class Valorant {
 
         const message = await interaction.editReply({
             embeds: [skin.level.embeds[0]],
-            components: valorant.util.determineComponents(skin, true),
+            components: valorant.util.determineComponents(skin, true)
         });
 
         const buttonNames = ["previous_skin", "next_skin", "add_to_wishlist"];
@@ -467,14 +467,14 @@ export default class Valorant {
                 i.user.id === interaction.user.id &&
                 (buttonNames.includes(i.customId) ||
                     i.customId.includes("valorant_skin_chroma")),
-            componentType: ComponentType.Button,
+            componentType: ComponentType.Button
         });
 
         const menuCollector = message.createMessageComponentCollector({
             filter: (i) =>
                 i.user.id === interaction.user.id &&
                 i.customId === "valorant_weapon_skin_level_select",
-            componentType: ComponentType.StringSelect,
+            componentType: ComponentType.StringSelect
         });
 
         buttonCollector.on("collect", async (i) => {
@@ -492,7 +492,7 @@ export default class Valorant {
                 case "add_to_wishlist": {
                     await i.reply({
                         content: "**😁 Coming Soon™️!**",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                     return;
                 }
@@ -526,7 +526,7 @@ export default class Valorant {
         const { options } = interaction;
 
         const {
-            games: { valorant },
+            games: { valorant }
         } = container;
 
         const skinId = options.getString("valorant_skin_name", true);
@@ -534,7 +534,7 @@ export default class Valorant {
         if (!skin)
             return interaction.reply({
                 content: "**😲 Skin not found!**",
-                ephemeral: true,
+                ephemeral: true
             });
         const skinInfo = valorant.skins.info(skin);
         await valorant.util.createSkinCollectors(interaction, skinInfo);
@@ -543,7 +543,7 @@ export default class Valorant {
     async weaponsCommand(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
         const {
-            games: { valorant },
+            games: { valorant }
         } = container;
 
         const weaponId = options.getString("valorant_weapon_name", true);
@@ -551,13 +551,13 @@ export default class Valorant {
         if (!weapon)
             return interaction.reply({
                 content: "**😲 Weapon not found!**",
-                ephemeral: true,
+                ephemeral: true
             });
         const weaponEmbed = valorant.weapons.embed(weapon);
         const weaponRow = valorant.weapons.row(weapon);
         return interaction.reply({
             embeds: [weaponEmbed],
-            components: [weaponRow],
+            components: [weaponRow]
         });
     }
 }

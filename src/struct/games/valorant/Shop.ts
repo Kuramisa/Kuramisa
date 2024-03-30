@@ -7,7 +7,7 @@ import {
     Collection,
     ComponentType,
     EmbedBuilder,
-    StringSelectMenuBuilder,
+    StringSelectMenuBuilder
 } from "discord.js";
 
 import moment from "moment";
@@ -30,7 +30,7 @@ export default class ValorantShop {
         if (userId && /^[A-Za-z\s]*$/.test(userId))
             return interaction.reply({
                 content: "**😢 That's not a valid Valorant Player**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.users.fetch(userId);
@@ -43,7 +43,7 @@ export default class ValorantShop {
                 return interaction.reply({
                     content:
                         "**😢 That player has their Daily Shop set to private**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
             ephemeral = true;
@@ -54,18 +54,18 @@ export default class ValorantShop {
         if (!accounts)
             return interaction.reply({
                 content: "**😢 You do not have any accounts linked**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (accounts.size === 0)
             return interaction.reply({
                 content: "**😢 You do not have any accounts linked**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.reply({
             content: "**😁 Getting your daily market(s)**",
-            ephemeral,
+            ephemeral
         });
 
         const accountEmbeds: Collection<string, EmbedBuilder> =
@@ -93,14 +93,14 @@ export default class ValorantShop {
 
                 if (!storeRequest.data)
                     return interaction.editReply({
-                        content: "**🥺 Could not get your daily market >.<**",
+                        content: "**🥺 Could not get your daily market >.<**"
                     });
 
                 const {
                     SkinsPanelLayout: {
                         SingleItemStoreOffers: offers,
-                        SingleItemOffersRemainingDurationInSeconds: seconds,
-                    },
+                        SingleItemOffersRemainingDurationInSeconds: seconds
+                    }
                 } = storeRequest.data;
 
                 const timeRemaining = moment()
@@ -129,11 +129,11 @@ export default class ValorantShop {
                     embeds.push(valorant.util.offerCard(skin, offer));
                     viewOpts.push({
                         label: skin.displayName,
-                        value: skin.uuid,
+                        value: skin.uuid
                     });
                     wishlistOpts.push({
                         label: skin.displayName,
-                        value: skin.uuid,
+                        value: skin.uuid
                     });
                 }
 
@@ -184,7 +184,7 @@ export default class ValorantShop {
                 !wishlistSelectMenu
             )
                 return interaction.editReply({
-                    content: "**🥺 Something went wrong >.<**",
+                    content: "**🥺 Something went wrong >.<**"
                 });
 
             let buttonRow = util
@@ -204,19 +204,19 @@ export default class ValorantShop {
             const showAccounts = await interaction.editReply({
                 content: null,
                 embeds: [accountEmbed, ...offerEmbeds],
-                components: [buttonRow, viewSelectRow, wishlistSelectRow],
+                components: [buttonRow, viewSelectRow, wishlistSelectRow]
             });
 
             const btnCollector = showAccounts.createMessageComponentCollector({
                 componentType: ComponentType.Button,
                 filter: (i) => i.customId.startsWith("valorant_daily_"),
-                time: 0,
+                time: 0
             });
 
             const menuCollector = showAccounts.createMessageComponentCollector({
                 componentType: ComponentType.StringSelect,
                 filter: (i) => i.customId.startsWith("valorant_daily_"),
-                time: 0,
+                time: 0
             });
 
             btnCollector.on("collect", async (i) => {
@@ -255,7 +255,7 @@ export default class ValorantShop {
 
                 await i.update({
                     embeds,
-                    components: [buttonRow, viewSelectRow, wishlistSelectRow],
+                    components: [buttonRow, viewSelectRow, wishlistSelectRow]
                 });
             });
 
@@ -276,7 +276,7 @@ export default class ValorantShop {
                     case "wishlist": {
                         await i.reply({
                             content: "**😁 Coming Soon™️!**",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                         break;
                     }
@@ -285,7 +285,7 @@ export default class ValorantShop {
         } catch (err) {
             logger.error(err);
             return interaction.editReply({
-                content: "**🥺 Something went wrong >.<**",
+                content: "**🥺 Something went wrong >.<**"
             });
         }
     }
@@ -296,7 +296,7 @@ export default class ValorantShop {
         const { bundles } = valorant;
 
         await interaction.reply({
-            content: "**Getting the featured market ^^**",
+            content: "**Getting the featured market ^^**"
         });
 
         const featured = await bundles.fetchFeatured();
@@ -334,12 +334,12 @@ export default class ValorantShop {
                 if (bundleItem.type === "skin_level") {
                     viewOpts.push({
                         label: bundleItem.displayName,
-                        value: bundleItem.uuid,
+                        value: bundleItem.uuid
                     });
 
                     wishlistOpts.push({
                         label: bundleItem.displayName,
-                        value: bundleItem.uuid,
+                        value: bundleItem.uuid
                     });
                 }
             }
@@ -389,7 +389,7 @@ export default class ValorantShop {
             !wishlistSelectMenu
         )
             return interaction.editReply({
-                content: "**🥺 Something went wrong >.<**",
+                content: "**🥺 Something went wrong >.<**"
             });
 
         let buttonRow = util
@@ -407,19 +407,19 @@ export default class ValorantShop {
         const msg = await interaction.editReply({
             content: "",
             embeds: [currentBundle, ...currentItems],
-            components: [buttonRow, viewSelectRow, wishlistSelectRow],
+            components: [buttonRow, viewSelectRow, wishlistSelectRow]
         });
 
         const btnCollector = msg.createMessageComponentCollector({
             componentType: ComponentType.Button,
             filter: (i) => i.customId.startsWith("valorant_featured_"),
-            time: 0,
+            time: 0
         });
 
         const menuCollector = msg.createMessageComponentCollector({
             componentType: ComponentType.StringSelect,
             filter: (i) => i.customId.startsWith("valorant_featured_"),
-            time: 0,
+            time: 0
         });
 
         btnCollector.on("collect", async (i) => {
@@ -455,7 +455,7 @@ export default class ValorantShop {
 
             await i.update({
                 embeds,
-                components: [buttonRow, viewSelectRow, wishlistSelectRow],
+                components: [buttonRow, viewSelectRow, wishlistSelectRow]
             });
         });
 
@@ -472,7 +472,7 @@ export default class ValorantShop {
                 case "wishlist": {
                     await i.reply({
                         content: "**😁 Coming Soon™️!**",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                     break;
                 }

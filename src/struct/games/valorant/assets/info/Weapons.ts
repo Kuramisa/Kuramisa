@@ -41,8 +41,8 @@ export default class ValorantWeapons {
                 ...skin,
                 cost:
                     skinPrices.find((price: any) => price.skin_id === skin.uuid)
-                        ?.cost ?? 0,
-            })),
+                        ?.cost ?? 0
+            }))
         }));
 
         return new ValorantWeapons(data);

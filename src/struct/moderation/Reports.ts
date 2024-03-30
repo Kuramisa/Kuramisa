@@ -18,7 +18,7 @@ export default class Reports {
             guildId: guild.id,
             by: by.id,
             reason,
-            timestamp: Date.now(),
+            timestamp: Date.now()
         });
 
         await dbUser.save();
@@ -34,7 +34,7 @@ export default class Reports {
                 .embed()
                 .setAuthor({
                     name: `${guild.name} Logs`,
-                    iconURL: guild.iconURL({ extension: "gif" }) as string,
+                    iconURL: guild.iconURL({ extension: "gif" }) as string
                 })
                 .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                 .setDescription(`${by} **Reported** ${member}`)
@@ -65,7 +65,7 @@ export default class Reports {
             by: by.id,
             message: { id: message.id, content: message.content },
             reason,
-            timestamp: Date.now(),
+            timestamp: Date.now()
         });
 
         await dbUser.save();
@@ -81,7 +81,7 @@ export default class Reports {
                 .embed()
                 .setAuthor({
                     name: `${guild.name} Logs`,
-                    iconURL: guild.iconURL({ extension: "gif" }) as string,
+                    iconURL: guild.iconURL({ extension: "gif" }) as string
                 })
                 .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                 .setDescription(

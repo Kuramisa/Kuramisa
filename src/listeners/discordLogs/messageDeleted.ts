@@ -6,7 +6,7 @@ export class MessageDeletedLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Logs when a message is deleted",
-            event: "messageDelete",
+            event: "messageDelete"
         });
     }
 
@@ -33,7 +33,7 @@ export class MessageDeletedLogListener extends Listener {
 
         const audit = (
             await guild.fetchAuditLogs({
-                type: AuditLogEvent.MessageDelete,
+                type: AuditLogEvent.MessageDelete
             })
         ).entries.first();
 
@@ -50,7 +50,7 @@ export class MessageDeletedLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Message Logs`,
-                iconURL: guild.iconURL()!,
+                iconURL: guild.iconURL()!
             })
             .setThumbnail(
                 message.author.avatarURL({ extension: "gif" }) as string
@@ -65,7 +65,7 @@ export class MessageDeletedLogListener extends Listener {
 
         return channel.send({
             embeds: [embed],
-            files: attachments,
+            files: attachments
         });
     }
 }

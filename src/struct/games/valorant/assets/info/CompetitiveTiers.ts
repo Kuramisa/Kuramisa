@@ -23,7 +23,7 @@ export default class ValorantCompetitiveTiers {
         new EmbedBuilder()
             .setAuthor({
                 name: tier.tierName,
-                iconURL: tier.smallIcon,
+                iconURL: tier.smallIcon
             })
             .setTitle(`${tier.tierName} - ${tier.divisionName}`)
             .setThumbnail(tier.largeIcon)

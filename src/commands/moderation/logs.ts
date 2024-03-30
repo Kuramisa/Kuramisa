@@ -8,7 +8,7 @@ export class LogsCommand extends Command {
             ...opts,
             name: "logs",
             description: "Configure logs for your channel",
-            requiredUserPermissions: "ManageGuild",
+            requiredUserPermissions: "ManageGuild"
         });
     }
 
@@ -55,7 +55,7 @@ export class LogsCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { database, util } = this.container;
@@ -65,7 +65,7 @@ export class LogsCommand extends Command {
         if (!guild?.members.me?.permissions.has("ManageMessages"))
             return interaction.reply({
                 content: "I do not have the `ManageMessages` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.guilds.fetch(guild.id);
@@ -78,12 +78,12 @@ export class LogsCommand extends Command {
                 if (!permissions?.has("ViewChannel"))
                     return interaction.reply({
                         content: "Missing permission `View Channel`",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 if (!permissions.has("SendMessages"))
                     return interaction.reply({
                         content: "Missing permission `Send Messages`",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 db.logs.channel = channel.id;
@@ -92,7 +92,7 @@ export class LogsCommand extends Command {
 
                 await interaction.reply({
                     content: `Logs channel set to ${channel}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 break;
             }
@@ -117,7 +117,7 @@ export class LogsCommand extends Command {
 
                     await interaction.reply({
                         content: `\`${toggleName}\` - **${newValue}**`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
                     break;
                 }
@@ -135,7 +135,7 @@ export class LogsCommand extends Command {
 
                         return {
                             label: `${capitalize(toggle)} - ${currentStatus}`,
-                            value: toggle.split(" ").join(""),
+                            value: toggle.split(" ").join("")
                         };
                     });
 
@@ -154,14 +154,14 @@ export class LogsCommand extends Command {
                 const message = await interaction.reply({
                     content: "⬇ Choose Toggles From Below ⬇",
                     components: [row],
-                    fetchReply: true,
+                    fetchReply: true
                 });
 
                 const sInteraction = await message.awaitMessageComponent({
                     componentType: ComponentType.StringSelect,
                     filter: (i) =>
                         i.customId === "choose_toggles" &&
-                        i.user.id === interaction.user.id,
+                        i.user.id === interaction.user.id
                 });
 
                 const chosenToggles = sInteraction.values;

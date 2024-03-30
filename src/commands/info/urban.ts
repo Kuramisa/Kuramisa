@@ -9,7 +9,7 @@ export class UrbanCommand extends Command {
         super(ctx, {
             ...opts,
             name: "urban",
-            description: "Access Urban Dictionary",
+            description: "Access Urban Dictionary"
         });
     }
 
@@ -37,7 +37,7 @@ export class UrbanCommand extends Command {
         if (!list)
             return interaction.reply({
                 content: "Could not find any definitions",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply();
@@ -69,12 +69,12 @@ export class UrbanCommand extends Command {
                     {
                         name: "Likes",
                         value: String(def.thumbs_up),
-                        inline: true,
+                        inline: true
                     },
                     {
                         name: "Dislikes",
                         value: String(def.thumbs_down),
-                        inline: true,
+                        inline: true
                     },
                     { name: "Example", value: def.example }
                 )
@@ -83,7 +83,7 @@ export class UrbanCommand extends Command {
 
         const message = await interaction.editReply({
             embeds: [embeds[page]],
-            components: [row],
+            components: [row]
         });
 
         const collector = message.createMessageComponentCollector({
@@ -92,7 +92,7 @@ export class UrbanCommand extends Command {
                 (i.customId === "previous_page" ||
                     i.customId === "next_page") &&
                 i.user.id === interaction.user.id,
-            time: 15000,
+            time: 15000
         });
 
         collector
@@ -111,7 +111,7 @@ export class UrbanCommand extends Command {
                 await i.deferUpdate();
                 await i.editReply({
                     embeds: [embeds[page]],
-                    components: [row],
+                    components: [row]
                 });
 
                 collector.resetTimer();
@@ -130,8 +130,8 @@ export class UrbanCommand extends Command {
             headers: {
                 "X-RapidAPI-Key": RAPID_API as string,
                 "X-RapidAPI-Host":
-                    "mashape-community-urban-dictionary.p.rapidapi.com",
-            },
+                    "mashape-community-urban-dictionary.p.rapidapi.com"
+            }
         };
 
         const { data: { list } = [] } = await axios.request(opts);

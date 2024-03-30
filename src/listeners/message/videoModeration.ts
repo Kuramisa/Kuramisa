@@ -6,7 +6,7 @@ export class VideoModerationListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Filter Media from videos",
-            event: "messageCreate",
+            event: "messageCreate"
         });
     }
 
@@ -61,7 +61,7 @@ export class VideoModerationListener extends Listener {
                 message.author
             }, your message was removed because it contained \`${util.conj(
                 reasons
-            )}\``,
+            )}\``
         });
     }
 }

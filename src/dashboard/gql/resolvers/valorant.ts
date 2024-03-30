@@ -14,7 +14,7 @@ export default {
             _: any,
             {
                 weaponUuid,
-                withSkins,
+                withSkins
             }: { weaponUuid: string; withSkins: boolean }
         ) => {
             const weapon = container.games.valorant.weapons.getByID(weaponUuid);
@@ -28,7 +28,7 @@ export default {
             _: any,
             {
                 weaponUuid,
-                sortAlphabetically = false,
+                sortAlphabetically = false
             }: { weaponUuid: string; sortAlphabetically: boolean }
         ) => {
             const weapon = container.games.valorant.weapons.getByID(weaponUuid);
@@ -60,7 +60,7 @@ export default {
                 client,
                 database,
                 dashboard: { auth },
-                games: { valorant },
+                games: { valorant }
             } = container;
 
             if (!valorant.initialized)
@@ -133,12 +133,12 @@ export default {
                 const {
                     SkinsPanelLayout: {
                         SingleItemStoreOffers: offers,
-                        SingleItemOffersRemainingDurationInSeconds: seconds,
-                    },
+                        SingleItemOffersRemainingDurationInSeconds: seconds
+                    }
                 } = storeRequest.data;
 
                 const {
-                    data: { Identity: identity },
+                    data: { Identity: identity }
                 } = await auth.Personalization.getPlayerLoadout(
                     account.player.sub
                 );
@@ -166,7 +166,7 @@ export default {
                     offerArr.push({
                         skin,
                         ...offer,
-                        contentTier,
+                        contentTier
                     });
                 }
 
@@ -175,14 +175,14 @@ export default {
                         name: account.player.acct.game_name,
                         tag: account.player.acct.tag_line,
                         card,
-                        title,
+                        title
                     },
                     seconds,
-                    offers: offerArr,
+                    offers: offerArr
                 });
             }
 
             return store;
-        },
-    },
+        }
+    }
 };

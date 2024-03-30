@@ -5,7 +5,7 @@ export class BatslapCommand extends Command {
         super(ctx, {
             ...opts,
             name: "batslap",
-            description: "Batslap someone!",
+            description: "Batslap someone!"
         });
     }
 
@@ -25,7 +25,7 @@ export class BatslapCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { images },
+            kanvas: { images }
         } = this.container;
 
         const { options } = interaction;
@@ -35,13 +35,13 @@ export class BatslapCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (user.id === interaction.user.id)
             return interaction.reply({
                 content: "You can't slap yourself!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await images.batslap(
@@ -50,7 +50,7 @@ export class BatslapCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "batslap.png" }],
+            files: [{ attachment: image, name: "batslap.png" }]
         });
     }
 }

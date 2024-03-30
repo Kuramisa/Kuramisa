@@ -5,7 +5,7 @@ export class AffectCommand extends Command {
         super(ctx, {
             ...opts,
             name: "affect",
-            description: "This wont affect my baby!",
+            description: "This wont affect my baby!"
         });
     }
 
@@ -25,7 +25,7 @@ export class AffectCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { images },
+            kanvas: { images }
         } = this.container;
 
         const { options } = interaction;
@@ -34,13 +34,13 @@ export class AffectCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (user.id === interaction.user.id)
             return interaction.reply({
                 content: "Don't be mean to yourself!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await images.affect(
@@ -48,7 +48,7 @@ export class AffectCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "affect.png" }],
+            files: [{ attachment: image, name: "affect.png" }]
         });
     }
 }

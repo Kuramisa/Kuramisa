@@ -8,7 +8,7 @@ export class ServerCommand extends Command {
             ...opts,
             name: "server",
             description: "Server Info",
-            runIn: "GUILD_ANY",
+            runIn: "GUILD_ANY"
         });
     }
 
@@ -30,7 +30,7 @@ export class ServerCommand extends Command {
     chatInputRun = (interaction: Command.ChatInputCommandInteraction) =>
         interaction.reply({
             embeds: [this.generateEmbed(interaction.guild)],
-            ephemeral: true,
+            ephemeral: true
         });
 
     /**
@@ -50,7 +50,7 @@ export class ServerCommand extends Command {
             memberCount,
             channels,
             emojis,
-            stickers,
+            stickers
         } = guild;
 
         const icon = guild.iconURL({ extension: "gif" }) as string;
@@ -84,7 +84,7 @@ export class ServerCommand extends Command {
                                         )
                                         .join(" ")
                                 )
-                                .join(", ")}`,
+                                .join(", ")}`
                 },
                 {
                     name: "👥| Users",
@@ -99,7 +99,7 @@ export class ServerCommand extends Command {
                                 m.presence?.status === "idle" ||
                                 m.presence?.status === "dnd"
                         ).size
-                    }\n\n**Total**: ${memberCount}`,
+                    }\n\n**Total**: ${memberCount}`
                 },
                 {
                     name: "📃 | Channels",
@@ -130,7 +130,7 @@ export class ServerCommand extends Command {
                         channels.cache.filter(
                             (ch) => ch.type === ChannelType.GuildAnnouncement
                         ).size
-                    }\n\n**Total**: ${channels.cache.size}`,
+                    }\n\n**Total**: ${channels.cache.size}`
                 },
                 {
                     name: "😯 | Emojis & Stickers",
@@ -140,7 +140,7 @@ export class ServerCommand extends Command {
                         emojis.cache.filter((e) => !e.animated).size
                     }\n- **Stickers**: ${stickers.cache.size}\n\n**Total** - ${
                         emojis.cache.size + stickers.cache.size
-                    }`,
+                    }`
                 },
                 {
                     name: "Nitro Statistics",
@@ -149,8 +149,8 @@ export class ServerCommand extends Command {
                     }\n- **Boosters**: ${
                         members.cache.filter((m) => m.premiumSince !== null)
                             .size
-                    }`,
-                },
+                    }`
+                }
             ]);
     }
 }

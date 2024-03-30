@@ -8,7 +8,7 @@ import {
     ComponentType,
     type MessageActionRowComponentBuilder,
     StringSelectMenuInteraction,
-    User,
+    User
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
 import { Store } from "@valapi/web-client";
@@ -89,7 +89,7 @@ export default class ValorantUtil {
             embeds: [skin.level.embeds[0]],
             components: this.determineComponents(skin),
             fetchReply: true,
-            ephemeral,
+            ephemeral
         });
 
         const buttonCollector = message.createMessageComponentCollector({
@@ -97,14 +97,14 @@ export default class ValorantUtil {
                 i.user.id === interaction.user.id &&
                 (i.customId.includes("valorant_skin_chroma") ||
                     i.customId === "add_to_wishlist"),
-            componentType: ComponentType.Button,
+            componentType: ComponentType.Button
         });
 
         const menuCollector = message.createMessageComponentCollector({
             filter: (i) =>
                 i.user.id === interaction.user.id &&
                 i.customId === "valorant_weapon_skin_level_select",
-            componentType: ComponentType.StringSelect,
+            componentType: ComponentType.StringSelect
         });
 
         let levelPage = 0;
@@ -114,7 +114,7 @@ export default class ValorantUtil {
                 case "add_to_wishlist": {
                     await i.reply({
                         content: "**😁 Coming Soon™️!**",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                     return;
                 }
@@ -157,7 +157,7 @@ export default class ValorantUtil {
                     content: `**Loading... \`${chromaName}\`**`,
                     embeds: [],
                     components: [],
-                    files: [],
+                    files: []
                 });
 
                 const chromaStream = ffmpeg(chromaVideo)
@@ -178,7 +178,7 @@ export default class ValorantUtil {
                             await interaction.editReply({
                                 content: `**Loading... \`${chromaName}\` - Complete**`,
                                 embeds: [],
-                                components: [],
+                                components: []
                             });
 
                             return;
@@ -189,7 +189,7 @@ export default class ValorantUtil {
                             content: `**Loading... \`${chromaName}\` - ${percent}% done**`,
                             embeds: [],
                             components: [],
-                            files: [],
+                            files: []
                         });
                     })
                     .on("end", () => {
@@ -211,7 +211,7 @@ export default class ValorantUtil {
                         chromaPage
                     ),
                     files:
-                        skin.chroma.videos.length > 0 ? [chromaAttachment] : [],
+                        skin.chroma.videos.length > 0 ? [chromaAttachment] : []
                 });
 
                 return;
@@ -225,7 +225,7 @@ export default class ValorantUtil {
                     withNavigation,
                     chromaPage
                 ),
-                files: [],
+                files: []
             });
         } catch (err: any) {
             if (err.code !== 40005) {
@@ -242,7 +242,7 @@ export default class ValorantUtil {
                         withNavigation,
                         chromaPage
                     ),
-                    files: [],
+                    files: []
                 })
                 .catch(() => {
                     interaction.editReply({
@@ -253,7 +253,7 @@ export default class ValorantUtil {
                             withNavigation,
                             chromaPage
                         ),
-                        files: [],
+                        files: []
                     });
                 });
         }
@@ -279,7 +279,7 @@ export default class ValorantUtil {
                     content: `**Loading... \`${skinName}\`**`,
                     embeds: [],
                     components: [],
-                    files: [],
+                    files: []
                 });
 
                 const skinStream = ffmpeg(skinVideo)
@@ -301,7 +301,7 @@ export default class ValorantUtil {
                             await interaction.editReply({
                                 content: `**Loading... \`${skinName}\` - Complete**`,
                                 embeds: [],
-                                components: [],
+                                components: []
                             });
 
                             return;
@@ -311,7 +311,7 @@ export default class ValorantUtil {
                             content: `**Loading... \`${skinName}\` - ${percent}% done**`,
                             embeds: [],
                             components: [],
-                            files: [],
+                            files: []
                         });
                     })
                     .on("end", () => {
@@ -328,7 +328,7 @@ export default class ValorantUtil {
                     content: null,
                     embeds: [skinEmbed],
                     components: this.determineComponents(skin, withNavigation),
-                    files: skin.level.videos.length > 0 ? [skinAttachment] : [],
+                    files: skin.level.videos.length > 0 ? [skinAttachment] : []
                 });
 
                 return;
@@ -338,7 +338,7 @@ export default class ValorantUtil {
                 content: null,
                 embeds: [skinEmbed],
                 components: this.determineComponents(skin, withNavigation),
-                files: [],
+                files: []
             });
         } catch (err: any) {
             if (err.code !== 40005) {
@@ -351,7 +351,7 @@ export default class ValorantUtil {
                     content: `**Link to the preview** -> ${skinVideo}`,
                     embeds: [skinEmbed],
                     components: this.determineComponents(skin, withNavigation),
-                    files: [],
+                    files: []
                 })
                 .catch(() => {
                     interaction.editReply({
@@ -361,7 +361,7 @@ export default class ValorantUtil {
                             skin,
                             withNavigation
                         ),
-                        files: [],
+                        files: []
                     });
                 });
         }
@@ -374,7 +374,7 @@ export default class ValorantUtil {
         privacytype: PrivacyTypes
     ) {
         const {
-            data: { Identity: identity },
+            data: { Identity: identity }
         } = await account.auth.Personalization.getPlayerLoadout(
             account.player.sub
         );
@@ -395,7 +395,7 @@ export default class ValorantUtil {
             .setAuthor({
                 name: `${account.player.acct.game_name}#${account.player.acct.tag_line} - ${title?.titleText}`,
                 iconURL: card?.displayIcon,
-                url: account.trackerURL,
+                url: account.trackerURL
             })
             .setThumbnail(card?.largeArt ?? null)
             .setImage(card?.wideArt ?? null)
@@ -420,7 +420,7 @@ export default class ValorantUtil {
             .embed()
             .setAuthor({
                 name: user.globalName ?? user.username,
-                iconURL: user.displayAvatarURL() ?? null,
+                iconURL: user.displayAvatarURL() ?? null
             })
             .setThumbnail(user.displayAvatarURL() ?? null)
             .setImage(user.bannerURL() ?? null)
@@ -450,7 +450,7 @@ export default class ValorantUtil {
             .embed()
             .setAuthor({
                 name: skin.displayName,
-                iconURL: contentTier?.displayIcon,
+                iconURL: contentTier?.displayIcon
             })
             .setThumbnail(skin.displayIcon)
             .setDescription(`**<:val_points:1114492900181553192> ${cost} VP**`)

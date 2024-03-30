@@ -8,7 +8,7 @@ export class DVCCommand extends Command {
             name: "dvc",
             description: "Dynamic Voice Channels",
             requiredClientPermissions: "ManageChannels",
-            requiredUserPermissions: "ManageChannels",
+            requiredUserPermissions: "ManageChannels"
         });
     }
 
@@ -54,7 +54,7 @@ export class DVCCommand extends Command {
         switch (options.getSubcommand()) {
             case "convert": {
                 const message = await interaction.deferReply({
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
                 const voiceChannels = util.chunk(
@@ -81,7 +81,7 @@ export class DVCCommand extends Command {
 
                         options.push({
                             label: channel.name,
-                            value: channel.id,
+                            value: channel.id
                         });
                     }
 
@@ -114,7 +114,7 @@ export class DVCCommand extends Command {
 
                 await interaction.editReply({
                     components:
-                        rows.length > 1 ? [rows[page], row] : [rows[page]],
+                        rows.length > 1 ? [rows[page], row] : [rows[page]]
                 });
 
                 const collector = message.createMessageComponentCollector({
@@ -122,7 +122,7 @@ export class DVCCommand extends Command {
                     filter: (i) =>
                         (i.customId === "convert-go-back" ||
                             i.customId === "convert-load-more") &&
-                        i.user.id === interaction.user.id,
+                        i.user.id === interaction.user.id
                 });
 
                 collector.on("collect", async (i) => {
@@ -142,7 +142,7 @@ export class DVCCommand extends Command {
                     await i.deferUpdate();
                     await i.update({
                         components:
-                            rows.length > 1 ? [rows[page], row] : [rows[page]],
+                            rows.length > 1 ? [rows[page], row] : [rows[page]]
                     });
                 });
 
@@ -150,7 +150,7 @@ export class DVCCommand extends Command {
                     componentType: ComponentType.StringSelect,
                     filter: (i) =>
                         i.customId.includes("convert-channels") &&
-                        i.user.id === interaction.user.id,
+                        i.user.id === interaction.user.id
                 });
 
                 await sInteraction.deferUpdate();
@@ -161,7 +161,7 @@ export class DVCCommand extends Command {
                     db.dvc.push({
                         parentId: value,
                         id: value,
-                        categoryId: channel.parentId,
+                        categoryId: channel.parentId
                     });
                 }
 
@@ -186,7 +186,7 @@ export class DVCCommand extends Command {
                 if (!dvc)
                     return interaction.reply({
                         content: "Dynamic Voice Channel not found",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 db.dvc = db.dvc.filter((vc) => vc.parentId !== channelId);
@@ -196,7 +196,7 @@ export class DVCCommand extends Command {
 
                 return interaction.reply({
                     content: `Removed <#${channelId}> from being a dynamic voice channel`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }

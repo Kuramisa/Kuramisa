@@ -4,7 +4,7 @@ import {
     Guild,
     InviteGuild,
     OAuth2Guild,
-    type Snowflake,
+    type Snowflake
 } from "discord.js";
 
 import DBGuild, { type GuildDocument } from "../../schemas/Guild";
@@ -35,7 +35,7 @@ export default class DatabaseGuilds {
 
         if (!doc) {
             const {
-                client: { guilds },
+                client: { guilds }
             } = container;
 
             let guild = guilds.cache.get(guildId);

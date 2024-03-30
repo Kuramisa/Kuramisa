@@ -26,7 +26,7 @@ export default class ValorantPlayerCards {
         new EmbedBuilder()
             .setAuthor({
                 name: playerCard.displayName,
-                iconURL: playerCard.displayIcon,
+                iconURL: playerCard.displayIcon
             })
             .setDescription(
                 `**${container.emojis.get("val_points")} ${
@@ -57,7 +57,7 @@ export default class ValorantPlayerCards {
             cost:
                 cardPrices.find(
                     (price: any) => price.player_card_id === card.uuid
-                )?.cost ?? 0,
+                )?.cost ?? 0
         }));
 
         return new ValorantPlayerCards(data);

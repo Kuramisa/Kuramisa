@@ -6,7 +6,7 @@ import {
     SpotifyExtractor,
     VimeoExtractor,
     YoutubeExtractor,
-    lyricsExtractor,
+    lyricsExtractor
 } from "@discord-player/extractor";
 
 import { container } from "@sapphire/framework";
@@ -15,7 +15,7 @@ import type {
     ChatInputCommandInteraction,
     Guild,
     GuildTextChannelResolvable,
-    GuildVoiceChannelResolvable,
+    GuildVoiceChannelResolvable
 } from "discord.js";
 
 export default class Music extends Player {
@@ -24,8 +24,8 @@ export default class Music extends Player {
     constructor() {
         super(container.client, {
             ytdlOptions: {
-                filter: "audioonly",
-            },
+                filter: "audioonly"
+            }
         });
 
         this.extractors.register(AppleMusicExtractor, {});
@@ -48,7 +48,7 @@ export default class Music extends Player {
             metadata: {
                 interaction,
                 guild,
-                channel,
+                channel
             },
             selfDeaf: true,
             volume: 70,
@@ -56,6 +56,6 @@ export default class Music extends Player {
             leaveOnEmptyCooldown: 60000,
             leaveOnEnd: true,
             leaveOnStop: true,
-            leaveOnEndCooldown: 60000,
+            leaveOnEndCooldown: 60000
         });
 }

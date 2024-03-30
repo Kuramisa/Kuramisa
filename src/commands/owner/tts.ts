@@ -10,7 +10,7 @@ export class TSCommand extends Command {
             ...opts,
             name: "tts",
             description: "Text to speech",
-            preconditions: ["OwnerOnly"],
+            preconditions: ["OwnerOnly"]
         });
     }
 
@@ -40,24 +40,24 @@ export class TSCommand extends Command {
         try {
             const voice = new Voice({
                 apiKey: ELEVENLABS_API,
-                voiceId: MY_VOICE_ID,
+                voiceId: MY_VOICE_ID
             });
 
             const response = await voice.textToSpeechStream({
-                textInput: text,
+                textInput: text
             });
 
             const attachment = new AttachmentBuilder(response, {
-                name: `tts_${Math.round(Math.random() * 2000)}.mp3`,
+                name: `tts_${Math.round(Math.random() * 2000)}.mp3`
             });
 
             await interaction.editReply({
-                files: [attachment],
+                files: [attachment]
             });
         } catch (err: any) {
             logger.error(err);
             await interaction.editReply({
-                content: `An error occurred, ${err.message}`,
+                content: `An error occurred, ${err.message}`
             });
         }
     }

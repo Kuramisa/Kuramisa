@@ -31,18 +31,18 @@ export default class Kuramisa extends SapphireClient {
                 "GuildPresences",
                 "GuildIntegrations",
                 "MessageContent",
-                "DirectMessages",
+                "DirectMessages"
             ],
             partials: [Partials.Channel, Partials.Message, Partials.User],
             loadDefaultErrorListeners: true,
             logger: {
                 level:
-                    NODE_ENV === "development" ? LogLevel.Debug : LogLevel.Info,
-            },
+                    NODE_ENV === "development" ? LogLevel.Debug : LogLevel.Info
+            }
         });
 
         logs(this, {
-            debug: NODE_ENV === "development",
+            debug: NODE_ENV === "development"
         });
 
         this.logger.info("Starting Kuramisa...");

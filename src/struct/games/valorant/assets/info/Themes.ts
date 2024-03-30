@@ -32,7 +32,7 @@ export default class ValorantThemes {
         new EmbedBuilder()
             .setAuthor({
                 name: theme.displayName,
-                iconURL: theme.displayIcon,
+                iconURL: theme.displayIcon
             })
             .setTitle(theme.displayName)
             .setThumbnail(theme.displayIcon)

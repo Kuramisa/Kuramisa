@@ -2,7 +2,7 @@ import { Listener } from "@sapphire/framework";
 import {
     AttachmentBuilder,
     ButtonInteraction,
-    TextInputStyle,
+    TextInputStyle
 } from "discord.js";
 
 export class MemberActionsListener extends Listener {
@@ -10,7 +10,7 @@ export class MemberActionsListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Buttons for Member Embed",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -25,7 +25,7 @@ export class MemberActionsListener extends Listener {
                 "kick_member",
                 "ban_member",
                 "report_member",
-                "warn_member",
+                "warn_member"
             ].includes(interaction.customId)
         )
             return;
@@ -33,7 +33,7 @@ export class MemberActionsListener extends Listener {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This button can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { kanvas, moderation, util } = this.container;
@@ -49,7 +49,7 @@ export class MemberActionsListener extends Listener {
             return interaction.reply({
                 content:
                     "**Old system detected, re-use the command to use this button**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const target = await guild.members.fetch(targetId).catch(() => null);
@@ -57,7 +57,7 @@ export class MemberActionsListener extends Listener {
         if (!target)
             return interaction.reply({
                 content: "**Member not found**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (interaction.customId) {
@@ -68,15 +68,15 @@ export class MemberActionsListener extends Listener {
                 if (!rank)
                     return interaction.reply({
                         content: "Could not retrieve rank card",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const attachment = new AttachmentBuilder(rank, {
-                    name: `rank-${member.id}.png`,
+                    name: `rank-${member.id}.png`
                 });
 
                 return interaction.editReply({
-                    files: [attachment],
+                    files: [attachment]
                 });
             }
             case "kick_member": {
@@ -86,13 +86,13 @@ export class MemberActionsListener extends Listener {
                 )
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 if (!target.kickable)
                     return interaction.reply({
                         content: `${target} is not kickable`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const modal = util
@@ -115,7 +115,7 @@ export class MemberActionsListener extends Listener {
                 await interaction.showModal(modal);
 
                 const mInteraction = await interaction.awaitModalSubmit({
-                    time: 0,
+                    time: 0
                 });
 
                 const reason =
@@ -127,7 +127,7 @@ export class MemberActionsListener extends Listener {
 
                 return mInteraction.reply({
                     content: `You kicked ${target.user.username} from the server`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "ban_member": {
@@ -137,13 +137,13 @@ export class MemberActionsListener extends Listener {
                 )
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 if (!target.bannable)
                     return interaction.reply({
                         content: `${target} is not bannable`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const modal = util
@@ -179,7 +179,7 @@ export class MemberActionsListener extends Listener {
                 await interaction.showModal(modal);
 
                 const mInteraction = await interaction.awaitModalSubmit({
-                    time: 0,
+                    time: 0
                 });
 
                 const reason =
@@ -192,7 +192,7 @@ export class MemberActionsListener extends Listener {
                 if (!days)
                     return mInteraction.reply({
                         content: "Please provide a number of days (0-7)",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 days = util.daysToSeconds(days);
@@ -200,22 +200,22 @@ export class MemberActionsListener extends Listener {
                 if (days < 0)
                     return mInteraction.reply({
                         content: "Provided days are less than 0",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 if (days > 7)
                     return mInteraction.reply({
                         content: "Provided days are more than 7",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 await target.ban({
                     reason: `Banned by ${target.user.username}, Reason: ${reason}`,
-                    deleteMessageSeconds: days,
+                    deleteMessageSeconds: days
                 });
 
                 return mInteraction.reply({
                     content: `You banned ${target.user.username} from the server`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "report_member": {
@@ -224,7 +224,7 @@ export class MemberActionsListener extends Listener {
                 await interaction.showModal(modal);
 
                 const mIntereaction = await interaction.awaitModalSubmit({
-                    time: 0,
+                    time: 0
                 });
 
                 const reason =
@@ -234,21 +234,21 @@ export class MemberActionsListener extends Listener {
 
                 return interaction.reply({
                     content: `You reported ${target.user.username}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "warn_member": {
                 if (!member.permissions.has("ModerateMembers"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const modal = moderation.warns.modal(target);
 
                 await interaction.showModal(modal);
 
                 const mInteraction = await interaction.awaitModalSubmit({
-                    time: 0,
+                    time: 0
                 });
 
                 const reason =
@@ -258,20 +258,20 @@ export class MemberActionsListener extends Listener {
 
                 return interaction.reply({
                     content: `You warned ${target.user.username}`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "show_reports": {
                 if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const reports = await moderation.reports.get(target);
                 if (!reports || reports.length < 1)
                     return interaction.reply({
                         content: `${target} has no reports`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const embeds = [];
@@ -281,7 +281,7 @@ export class MemberActionsListener extends Listener {
                         .embed()
                         .setAuthor({
                             name: `${guild.name} Reports`,
-                            iconURL: guild.iconURL() as string,
+                            iconURL: guild.iconURL() as string
                         })
                         .setTitle(`${target.user.username} Report`)
                         .setDescription(report.reason)
@@ -289,7 +289,7 @@ export class MemberActionsListener extends Listener {
                             text: `Reported by ${
                                 guild.members.cache.get(report.by)?.user
                                     .username
-                            }`,
+                            }`
                         })
                         .setTimestamp(report.timestamp);
 
@@ -302,13 +302,13 @@ export class MemberActionsListener extends Listener {
                 if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
                         content: "Not enough permissions",
-                        ephemeral: true,
+                        ephemeral: true
                     });
                 const warns = await moderation.warns.get(target);
                 if (!warns || warns.length < 1)
                     return interaction.reply({
                         content: `${target} has no warns`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const embeds = [];
@@ -318,14 +318,14 @@ export class MemberActionsListener extends Listener {
                         .embed()
                         .setAuthor({
                             name: `${guild.name} Warns`,
-                            iconURL: guild.iconURL() as string,
+                            iconURL: guild.iconURL() as string
                         })
                         .setTitle(`${target.user.username} Warn`)
                         .setDescription(warn.reason)
                         .setFooter({
                             text: `Warned by ${
                                 guild.members.cache.get(warn.by)?.user.username
-                            }`,
+                            }`
                         })
                         .setTimestamp(warn.timestamp);
 

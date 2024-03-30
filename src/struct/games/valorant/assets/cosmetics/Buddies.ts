@@ -3,7 +3,7 @@ import Valorant from "../..";
 import {
     ActionRowBuilder,
     MessageActionRowComponentBuilder,
-    StringSelectMenuBuilder,
+    StringSelectMenuBuilder
 } from "@discordjs/builders";
 import { container } from "@sapphire/framework";
 
@@ -43,8 +43,8 @@ export default class ValorantBuddies {
             level: {
                 names: levelNames,
                 embeds: levelEmbeds,
-                components: levelComponents,
-            },
+                components: levelComponents
+            }
         };
     }
 
@@ -67,7 +67,7 @@ export default class ValorantBuddies {
             .setOptions(
                 buddy.levels.map((level, i) => ({
                     label: container.util.shorten(level.displayName, 99),
-                    value: i.toString(),
+                    value: i.toString()
                 }))
             );
 
@@ -87,7 +87,7 @@ export default class ValorantBuddies {
             ...buddy,
             cost:
                 buddyPrices.find((price: any) => price.buddy_id === buddy.uuid)
-                    ?.cost ?? 0,
+                    ?.cost ?? 0
         }));
 
         return new ValorantBuddies(data);

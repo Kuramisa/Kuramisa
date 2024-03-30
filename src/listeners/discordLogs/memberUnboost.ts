@@ -6,7 +6,7 @@ export class MemberUnboostLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Logs when member unboosts a server",
-            event: "guildMemberUnboost",
+            event: "guildMemberUnboost"
         });
     }
 
@@ -29,7 +29,7 @@ export class MemberUnboostLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(
                 `${member.user.username} Removed the boost from the server`

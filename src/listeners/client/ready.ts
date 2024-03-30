@@ -8,7 +8,7 @@ export class ReadyListener extends Listener {
             ...opts,
             once: true,
             name: "clientReady",
-            event: "ready",
+            event: "ready"
         });
     }
 
@@ -19,7 +19,7 @@ export class ReadyListener extends Listener {
             dashboard,
             games: { valorant },
             logger,
-            util,
+            util
         } = container;
 
         try {
@@ -147,9 +147,9 @@ export class ReadyListener extends Listener {
                     {
                         name: "Custom Status",
                         state: "Pet fox",
-                        type: ActivityType.Custom,
-                    },
-                ],
+                        type: ActivityType.Custom
+                    }
+                ]
             },
             {
                 status: "online",
@@ -157,9 +157,9 @@ export class ReadyListener extends Listener {
                     {
                         name: "Custom Status 2",
                         state: `Watching Over Approx. ${client.guilds.cache.size} servers`,
-                        type: ActivityType.Custom,
-                    },
-                ],
+                        type: ActivityType.Custom
+                    }
+                ]
             },
             {
                 status: "online",
@@ -167,10 +167,10 @@ export class ReadyListener extends Listener {
                     {
                         name: "Custom Status 3",
                         state: `Watching Over Approx. ${client.users.cache.size} users`,
-                        type: ActivityType.Custom,
-                    },
-                ],
-            },
+                        type: ActivityType.Custom
+                    }
+                ]
+            }
         ];
 
         return activities[Math.floor(Math.random() * activities.length)];
@@ -193,7 +193,7 @@ export class ReadyListener extends Listener {
             if (!user) continue;
             staffs.push({
                 ...user,
-                ...staffDb._doc,
+                ...staffDb._doc
             });
 
             logger.info(

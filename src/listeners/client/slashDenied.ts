@@ -1,7 +1,7 @@
 import {
     type ChatInputCommandDeniedPayload,
     Listener,
-    UserError,
+    UserError
 } from "@sapphire/framework";
 
 export class SlashCommandListener extends Listener {
@@ -9,7 +9,7 @@ export class SlashCommandListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Slash Command Denied",
-            event: "chatInputCommandDenied",
+            event: "chatInputCommandDenied"
         });
     }
 
@@ -23,7 +23,7 @@ export class SlashCommandListener extends Listener {
             return interaction.reply({
                 content:
                     "Kuramisa is not ready yet, please wait a few seconds.",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (Reflect.get(Object(error.context), "silent")) return;

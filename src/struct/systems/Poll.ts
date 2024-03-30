@@ -7,7 +7,7 @@ import {
     ModalBuilder,
     ComponentType,
     ActionRow,
-    ButtonComponent,
+    ButtonComponent
 } from "discord.js";
 
 import ms from "ms";
@@ -56,7 +56,7 @@ export default class Poll {
                 await interaction.showModal(modal);
 
                 const mInteraction = await interaction.awaitModalSubmit({
-                    time: 0,
+                    time: 0
                 });
 
                 const answers = mInteraction.fields.fields.map(
@@ -71,7 +71,7 @@ export default class Poll {
                 if (dupeAnswers)
                     return mInteraction.reply({
                         content: "You cannot have duplicate answers!",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const buttons = [];
@@ -93,7 +93,7 @@ export default class Poll {
                     .setTitle(question)
                     .setFooter({
                         text: `Poll created by ${user.username}`,
-                        iconURL: user.displayAvatarURL(),
+                        iconURL: user.displayAvatarURL()
                     });
 
                 if (description) poll.setDescription(description);
@@ -101,7 +101,7 @@ export default class Poll {
                 const msg = await mInteraction.reply({
                     embeds: [poll],
                     components: [row],
-                    fetchReply: true,
+                    fetchReply: true
                 });
 
                 const db = await database.guilds.fetch(guild.id);
@@ -110,7 +110,7 @@ export default class Poll {
                     customId: msg.components[0].components[index].customId!,
                     text: btn.data.label!,
                     index,
-                    votes: [],
+                    votes: []
                 }));
 
                 db.polls.push({
@@ -118,7 +118,7 @@ export default class Poll {
                     channelId: msg.channelId,
                     buttons: btnOpts,
                     type: "buttons",
-                    duration: duration ? ms(duration) : null,
+                    duration: duration ? ms(duration) : null
                 });
 
                 await db.save();
@@ -160,7 +160,7 @@ export default class Poll {
             if (answers === null || answers.length !== howMany)
                 return bInteraction.reply({
                     content: `**You must provide ${howMany} answers**`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
             const duplicateAnswers = answers.some(
@@ -170,7 +170,7 @@ export default class Poll {
             if (duplicateAnswers)
                 return bInteraction.reply({
                     content: "**You cannot have duplicate answers**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
             const buttons = [];
@@ -199,7 +199,7 @@ export default class Poll {
                 .setTitle(question)
                 .setFooter({
                     text: `Poll by ${user.username}`,
-                    iconURL: user.displayAvatarURL(),
+                    iconURL: user.displayAvatarURL()
                 });
 
             if (description) embed.setDescription(description);
@@ -209,12 +209,12 @@ export default class Poll {
             await bInteraction.update({
                 embeds: [],
                 components: [],
-                content: "Created the poll",
+                content: "Created the poll"
             });
 
             const message = await bInteraction.channel?.send({
                 embeds: [embed],
-                components: rows,
+                components: rows
             });
 
             if (!message) return;
@@ -234,7 +234,7 @@ export default class Poll {
                         customId: button.customId as string,
                         text: button.label as string,
                         index: buttonIndex,
-                        votes: [],
+                        votes: []
                     });
                     buttonIndex++;
                 }
@@ -245,7 +245,7 @@ export default class Poll {
                 channelId: message.channelId,
                 buttons: buttonsOpts,
                 type: "buttons",
-                duration: duration ? ms(duration) : null,
+                duration: duration ? ms(duration) : null
             });
 
             await db.save();
@@ -253,7 +253,7 @@ export default class Poll {
             logger.error(err);
             return interaction.reply({
                 content: "**An error occurred while creating the poll!**",
-                ephemeral: true,
+                ephemeral: true
             });
         }
     }
@@ -275,7 +275,7 @@ export default class Poll {
             await interaction.showModal(modal);
 
             const mInteraction = await interaction.awaitModalSubmit({
-                time: 0,
+                time: 0
             });
 
             const ansrs = mInteraction.fields.fields.map(
@@ -289,7 +289,7 @@ export default class Poll {
             if (duplicateAnswers) {
                 await mInteraction.reply({
                     content: "**You cannot have duplicate answers**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
                 return false;
             }
@@ -315,18 +315,18 @@ export default class Poll {
                     .join(",\n")}\n\n**Would you like to continue?**`,
                 ephemeral: true,
                 components: [row],
-                fetchReply: true,
+                fetchReply: true
             });
 
             const bInteraction = await message.awaitMessageComponent({
                 componentType: ComponentType.Button,
-                time: 0,
+                time: 0
             });
 
             if (bInteraction.customId === "poll_progress_cancel") {
                 await bInteraction.update({
                     content: "**Poll creation cancelled**",
-                    components: [],
+                    components: []
                 });
 
                 return false;

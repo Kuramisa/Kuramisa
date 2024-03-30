@@ -6,7 +6,7 @@ export class ShipCommand extends Command {
         super(ctx, {
             ...opts,
             name: "ship",
-            description: "Ship two people",
+            description: "Ship two people"
         });
     }
 
@@ -40,13 +40,13 @@ export class ShipCommand extends Command {
         if (!person1 || !person2)
             return interaction.reply({
                 content: "An error occured, try again",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const ship = await kanvas.images.ship(person1, person2);
 
         const attachment = new AttachmentBuilder(ship, {
-            name: `ship-${person1.id}-${person2.id}.png`,
+            name: `ship-${person1.id}-${person2.id}.png`
         });
 
         return interaction.reply({ files: [attachment] });

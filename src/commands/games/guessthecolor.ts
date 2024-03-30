@@ -7,7 +7,7 @@ export class GuessTheColorCommand extends Command {
         super(ctx, {
             ...opts,
             name: "guessthecolor",
-            description: "Guess the color game :>",
+            description: "Guess the color game :>"
         });
     }
 
@@ -25,7 +25,7 @@ export class GuessTheColorCommand extends Command {
         const message = await interaction.reply({
             components: [getColors.row],
             files: [getColors.attachment],
-            fetchReply: true,
+            fetchReply: true
         });
 
         const collector = message.createMessageComponentCollector({
@@ -35,7 +35,7 @@ export class GuessTheColorCommand extends Command {
                     i.customId === "wrong-answer-2" ||
                     i.customId === "correct-answer") &&
                 i.user.id === interaction.user.id,
-            time: 30000,
+            time: 30000
         });
 
         collector
@@ -47,7 +47,7 @@ export class GuessTheColorCommand extends Command {
                         await i.update({
                             content: "",
                             components: [getColors.row],
-                            files: [getColors.attachment],
+                            files: [getColors.attachment]
                         });
                         break;
                     }
@@ -84,7 +84,7 @@ export class GuessTheColorCommand extends Command {
                 .button()
                 .setCustomId("correct-answer")
                 .setLabel(correctColor)
-                .setStyle(ButtonStyle.Secondary),
+                .setStyle(ButtonStyle.Secondary)
         ];
 
         const row = util.row().setComponents(shuffle(buttons));
@@ -111,7 +111,7 @@ export class GuessTheColorCommand extends Command {
             "C",
             "D",
             "E",
-            "F",
+            "F"
         ];
 
         const color = new Array(6)

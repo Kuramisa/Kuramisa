@@ -11,19 +11,19 @@ export const Staff = new Schema<IStaff>({
     id: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     username: {
         type: String,
-        required: true,
+        required: true
     },
     description: {
-        type: String,
+        type: String
     },
     type: {
         type: String,
-        required: true,
-    },
+        required: true
+    }
 });
 
 const StaffModel = model<IStaff>("Staff", Staff);

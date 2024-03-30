@@ -13,7 +13,7 @@ import {
     TextInputBuilder,
     UserSelectMenuBuilder,
     type MessageActionRowComponentBuilder,
-    type ModalActionRowComponentBuilder,
+    type ModalActionRowComponentBuilder
 } from "discord.js";
 import { container } from "@sapphire/framework";
 import axios from "axios";
@@ -139,17 +139,17 @@ export default class KuramisaUtil {
         typeof num === "string"
             ? Number.parseFloat(num).toLocaleString(undefined, {
                   minimumFractionDigits,
-                  maximumFractionDigits,
+                  maximumFractionDigits
               })
             : num.toLocaleString(undefined, {
                   minimumFractionDigits,
-                  maximumFractionDigits,
+                  maximumFractionDigits
               });
 
     imageToBuffer = async (url: string) =>
         (
             await axios.get(url, {
-                responseType: "arraybuffer",
+                responseType: "arraybuffer"
             })
         ).data;
 

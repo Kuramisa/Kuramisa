@@ -6,7 +6,7 @@ export class AutoRoleACListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Autocomplete for Autorole",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -41,7 +41,7 @@ export class AutoRoleACListener extends Listener {
                 return interaction.respond(
                     roles.map((role) => ({
                         name: role ? role.name : "Unknown Role",
-                        value: role ? role.id : "",
+                        value: role ? role.id : ""
                     }))
                 );
             }

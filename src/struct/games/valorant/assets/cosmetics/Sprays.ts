@@ -2,7 +2,7 @@ import {
     ActionRowBuilder,
     EmbedBuilder,
     MessageActionRowComponentBuilder,
-    StringSelectMenuBuilder,
+    StringSelectMenuBuilder
 } from "discord.js";
 import Valorant from "../..";
 
@@ -38,8 +38,8 @@ export default class ValorantSprays {
             level: {
                 names: levelNames,
                 embeds: levelEmbeds,
-                components: levelComponents,
-            },
+                components: levelComponents
+            }
         };
     }
 
@@ -47,7 +47,7 @@ export default class ValorantSprays {
         new EmbedBuilder()
             .setAuthor({
                 name: spray.displayName,
-                iconURL: spray.displayIcon,
+                iconURL: spray.displayIcon
             })
             .setTitle(level.displayName ?? spray.displayIcon)
             .setThumbnail(spray.animationGif ?? spray.fullTransparentIcon)
@@ -63,7 +63,7 @@ export default class ValorantSprays {
             .setOptions(
                 spray.levels.map((level, i) => ({
                     label: level.displayName,
-                    value: i.toString(),
+                    value: i.toString()
                 }))
             );
 
@@ -86,7 +86,7 @@ export default class ValorantSprays {
             ...spray,
             cost:
                 sprayPrices.find((price: any) => price.spray_id === spray.uuid)
-                    ?.cost ?? 0,
+                    ?.cost ?? 0
         }));
 
         return new ValorantSprays(data);

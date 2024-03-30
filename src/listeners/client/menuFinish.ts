@@ -1,7 +1,7 @@
 import { Listener } from "@sapphire/framework";
 import {
     ApplicationCommandType,
-    ContextMenuCommandInteraction,
+    ContextMenuCommandInteraction
 } from "discord.js";
 
 export class MenuFinishListener extends Listener {
@@ -9,7 +9,7 @@ export class MenuFinishListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Context Command Finish",
-            event: "contextMenuCommandFinish",
+            event: "contextMenuCommandFinish"
         });
     }
 

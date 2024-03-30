@@ -5,7 +5,7 @@ export class AvatarCommand extends Command {
         super(ctx, {
             ...opts,
             name: "avatar",
-            description: "Get the avatar of a user",
+            description: "Get the avatar of a user"
         });
     }
 
@@ -26,23 +26,23 @@ export class AvatarCommand extends Command {
                         .addChoices(
                             {
                                 name: "jpg",
-                                value: "jpg",
+                                value: "jpg"
                             },
                             {
                                 name: "png",
-                                value: "png",
+                                value: "png"
                             },
                             {
                                 name: "webp",
-                                value: "webp",
+                                value: "webp"
                             },
                             {
                                 name: "gif",
-                                value: "gif",
+                                value: "gif"
                             },
                             {
                                 name: "jpeg",
-                                value: "jpeg",
+                                value: "jpeg"
                             }
                         )
                 )
@@ -53,39 +53,39 @@ export class AvatarCommand extends Command {
                         .addChoices(
                             {
                                 name: "16",
-                                value: 16,
+                                value: 16
                             },
                             {
                                 name: "32",
-                                value: 32,
+                                value: 32
                             },
                             {
                                 name: "64",
-                                value: 64,
+                                value: 64
                             },
                             {
                                 name: "128",
-                                value: 128,
+                                value: 128
                             },
                             {
                                 name: "256",
-                                value: 256,
+                                value: 256
                             },
                             {
                                 name: "512",
-                                value: 512,
+                                value: 512
                             },
                             {
                                 name: "1024",
-                                value: 1024,
+                                value: 1024
                             },
                             {
                                 name: "2048",
-                                value: 2048,
+                                value: 2048
                             },
                             {
                                 name: "4096",
-                                value: 4096,
+                                value: 4096
                             }
                         )
                 )
@@ -103,13 +103,13 @@ export class AvatarCommand extends Command {
 
         const avatar = user.avatarURL({
             extension: format as any,
-            size: size as any,
+            size: size as any
         });
 
         if (!avatar)
             return interaction.reply({
                 content: "This user does not have an avatar",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const embed = this.container.util
@@ -119,7 +119,7 @@ export class AvatarCommand extends Command {
 
         await interaction.reply({
             embeds: [embed],
-            ephemeral: true,
+            ephemeral: true
         });
     }
 }

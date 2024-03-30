@@ -17,7 +17,7 @@ export default class Warns {
             guildId: guild.id,
             by: by.id,
             reason,
-            timestamp: Date.now(),
+            timestamp: Date.now()
         });
 
         await dbUser.save();
@@ -32,7 +32,7 @@ export default class Warns {
                 .embed()
                 .setAuthor({
                     name: `${guild.name} Logs`,
-                    iconURL: guild.iconURL() as string,
+                    iconURL: guild.iconURL() as string
                 })
                 .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                 .setDescription(`${by} **Warned** ${member}`)

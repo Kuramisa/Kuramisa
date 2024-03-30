@@ -22,7 +22,7 @@ export default class ValorantAgents {
         new EmbedBuilder()
             .setAuthor({
                 name: agent.displayName,
-                iconURL: agent.displayIcon,
+                iconURL: agent.displayIcon
             })
             .setTitle(`${agent.displayName} - ${agent.role.displayName}`)
             .setDescription(agent.description)
@@ -32,7 +32,7 @@ export default class ValorantAgents {
                         ability.slot === "Ultimate"
                             ? `${ability.displayName} (Ultimate)`
                             : ability.displayName,
-                    value: ability.description,
+                    value: ability.description
                 }))
             )
             .setImage(agent.fullPortraitV2)

@@ -5,7 +5,7 @@ export class ReportCommand extends Command {
         super(ctx, {
             ...opts,
             name: "report",
-            description: "Report a member",
+            description: "Report a member"
         });
     }
 
@@ -40,11 +40,11 @@ export class ReportCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            moderation: { reports },
+            moderation: { reports }
         } = this.container;
 
         const { options } = interaction;
@@ -55,20 +55,20 @@ export class ReportCommand extends Command {
         if (!member)
             return interaction.reply({
                 content: "Member not found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (member.user.bot)
             return interaction.reply({
                 content: `${member} is a bot`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await reports.create(member, interaction.member, reason);
 
         return interaction.reply({
             content: `You reported ${member} for **${reason}**`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -76,11 +76,11 @@ export class ReportCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const {
-            moderation: { reports },
+            moderation: { reports }
         } = this.container;
 
         const { guild, channel, targetId } = interaction;
@@ -91,7 +91,7 @@ export class ReportCommand extends Command {
                 if (member.user.bot)
                     return interaction.reply({
                         content: `${member} is a bot`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 return interaction.showModal(reports.modal(member));
@@ -106,7 +106,7 @@ export class ReportCommand extends Command {
                 if (member.user.bot)
                     return interaction.reply({
                         content: `${member} is a bot`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 await interaction.showModal(reports.messageModal(member));
@@ -114,7 +114,7 @@ export class ReportCommand extends Command {
                 const mInteraction = await interaction.awaitModalSubmit({
                     time: 0,
                     filter: (i) =>
-                        i.customId === `report_member_${member.id}_message`,
+                        i.customId === `report_member_${member.id}_message`
                 });
 
                 await mInteraction.deferReply({ ephemeral: true });

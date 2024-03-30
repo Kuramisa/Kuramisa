@@ -9,7 +9,7 @@ export class BotStaffCommand extends Command {
             ...opts,
             name: "botstaffmanage",
             description: "Bot Staff Management",
-            preconditions: ["StaffOnly"],
+            preconditions: ["StaffOnly"]
         });
     }
 
@@ -37,23 +37,23 @@ export class BotStaffCommand extends Command {
                                 .setChoices(
                                     {
                                         name: "Lead Developer",
-                                        value: "lead_developer",
+                                        value: "lead_developer"
                                     },
                                     {
                                         name: "Developer",
-                                        value: "developer",
+                                        value: "developer"
                                     },
                                     {
                                         name: "Designer",
-                                        value: "designer",
+                                        value: "designer"
                                     },
                                     {
                                         name: "Bug Tester",
-                                        value: "bug_tester",
+                                        value: "bug_tester"
                                     },
                                     {
                                         name: "Translator",
-                                        value: "translator",
+                                        value: "translator"
                                     }
                                 )
                         )
@@ -71,7 +71,7 @@ export class BotStaffCommand extends Command {
                 if (!owners.find((owner) => owner.id === executor.id))
                     return interaction.reply({
                         content: "Only the bot owner can use this command",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const user = options.getUser("user", true);
@@ -80,14 +80,14 @@ export class BotStaffCommand extends Command {
                 if (staff.find((s) => s.id === user.id))
                     return interaction.reply({
                         content: `${user} is already staff`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const dm = await user.createDM().catch(() => null);
                 if (!dm)
                     return interaction.reply({
                         content: "User has DMs disabled",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 const staffType = options.getString(
@@ -98,8 +98,8 @@ export class BotStaffCommand extends Command {
                     staffType === "lead_developer"
                         ? "Lead Developer"
                         : staffType === "developer"
-                        ? "Developer"
-                        : "Helper";
+                          ? "Developer"
+                          : "Helper";
 
                 const acceptRow = util
                     .row()
@@ -120,38 +120,38 @@ export class BotStaffCommand extends Command {
 
                 await interaction.reply({
                     content: `${user} has been invited to bot staff as **${staffTypeName}**`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
                 const message = await dm.send({
                     content: `✉️ You have been invited to join the bot staff as a **${staffTypeName}**`,
-                    components: [acceptRow],
+                    components: [acceptRow]
                 });
 
                 const bInteraction = await message.awaitMessageComponent({
                     filter: (i) => user.id === i.user.id,
-                    time: 60000,
+                    time: 60000
                 });
 
                 if (bInteraction.customId === "accept") {
                     await DbStaff.create({
                         id: user.id,
                         username: user.username,
-                        type: staffType,
+                        type: staffType
                     });
 
                     await bInteraction.update({
                         content: `🥳 **You have joined the bot staff as a ${staffTypeName}**`,
-                        components: [],
+                        components: []
                     });
 
                     await interaction
                         .editReply({
-                            content: `${user} has joined the bot staff`,
+                            content: `${user} has joined the bot staff`
                         })
                         .catch(() => {
                             this.container.botLogs?.send({
-                                content: `${user} has joined the bot staff`,
+                                content: `${user} has joined the bot staff`
                             });
                         });
 
@@ -175,12 +175,12 @@ export class BotStaffCommand extends Command {
                     const msg = await dm.send({
                         content:
                             "**📝 Do you want to add a description to your bot staff profile?**",
-                        components: [choiceRow],
+                        components: [choiceRow]
                     });
 
                     const bInteraction2 = await msg.awaitMessageComponent({
                         filter: (i) => user.id === i.user.id,
-                        time: 60000,
+                        time: 60000
                     });
 
                     if (bInteraction2.customId === "yes") {
@@ -210,7 +210,7 @@ export class BotStaffCommand extends Command {
                         const mInteraction =
                             await bInteraction2.awaitModalSubmit({
                                 filter: (i) => user.id === i.user.id,
-                                time: 60000,
+                                time: 60000
                             });
 
                         const dbStaff = await DbStaff.findOne({ id: user.id });
@@ -227,22 +227,22 @@ export class BotStaffCommand extends Command {
                         await mInteraction.reply({
                             content:
                                 "**📝 Your bot staff profile description has been saved**",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                     } else {
                         await bInteraction2.update({
                             content:
                                 "**😔 You have denied the bot staff profile description**",
-                            components: [],
+                            components: []
                         });
                     }
                 } else {
                     await bInteraction.update({
                         content: "You have denied the bot staff invitation",
-                        components: [],
+                        components: []
                     });
                     await interaction.editReply({
-                        content: `${user} has denied the bot staff invitation`,
+                        content: `${user} has denied the bot staff invitation`
                     });
                 }
             }

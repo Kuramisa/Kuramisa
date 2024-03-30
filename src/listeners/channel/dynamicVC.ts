@@ -6,7 +6,7 @@ export class DynamicVCListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Dynamic Voice Channels",
-            event: "voiceStateUpdate",
+            event: "voiceStateUpdate"
         });
     }
 
@@ -37,7 +37,7 @@ export class DynamicVCListener extends Listener {
         const newChannel = await guild.channels.create({
             name: `${parentVC.name} ${similarChannels.size + 1}`,
             parent: channel.parent,
-            type: ChannelType.GuildVoice,
+            type: ChannelType.GuildVoice
         });
 
         await newChannel.setPosition(channel.position + 1);
@@ -45,7 +45,7 @@ export class DynamicVCListener extends Listener {
         db.dvc.push({
             parentId: parentVC.id,
             id: newChannel.id,
-            categoryId: parent.id,
+            categoryId: parent.id
         });
         db.markModified("dvc");
         await db.save();

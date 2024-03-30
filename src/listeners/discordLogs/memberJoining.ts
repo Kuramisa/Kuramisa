@@ -6,7 +6,7 @@ export class MemberJoiningLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Log when member joins",
-            event: "guildMemberAdd",
+            event: "guildMemberAdd"
         });
     }
 
@@ -29,7 +29,7 @@ export class MemberJoiningLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(`${member.user.username} Joined`)
             .setThumbnail(member.displayAvatarURL())
@@ -39,14 +39,14 @@ export class MemberJoiningLogListener extends Listener {
                     value: `<t:${Math.floor(
                         (member.joinedTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Joined Discord",
                     value: `<t:${Math.floor(
                         (member.user.createdTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 }
             )
             .setFooter({ text: `ID: ${member.id}` });
@@ -57,7 +57,7 @@ export class MemberJoiningLogListener extends Listener {
                 value: `<t:${Math.floor(
                     (member.joinedTimestamp as number) / 1000
                 )}:R>`,
-                inline: true,
+                inline: true
             });
 
         return channel.send({ embeds: [embed] });

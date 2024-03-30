@@ -6,7 +6,7 @@ export class SlashFinishListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Slash Command Finish",
-            event: "chatInputCommandFinish",
+            event: "chatInputCommandFinish"
         });
     }
 

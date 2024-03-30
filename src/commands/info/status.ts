@@ -8,7 +8,7 @@ export class StatusCommand extends Command {
             ...opts,
             name: "status",
             aliases: ["bot_info"],
-            description: "Status for the bot",
+            description: "Status for the bot"
         });
     }
 
@@ -27,7 +27,7 @@ export class StatusCommand extends Command {
     chatInputRun = async (interaction: Command.ChatInputCommandInteraction) =>
         interaction.reply({
             embeds: [await this.generateEmbed()],
-            ephemeral: true,
+            ephemeral: true
         });
 
     /**
@@ -48,7 +48,7 @@ export class StatusCommand extends Command {
             "Disconnected",
             "Connected",
             "Connecting",
-            "Disconnecting",
+            "Disconnecting"
         ];
 
         return util
@@ -62,33 +62,33 @@ export class StatusCommand extends Command {
                 {
                     name: "Client",
                     value: `${client.user?.tag}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Created",
                     value: `<t:${Math.floor(
                         (client.user?.createdTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Verified",
                     value: client.user?.flags?.has("VerifiedBot")
                         ? "Yes"
                         : "No",
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Owners",
                     value: "Stealth",
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Database",
                     value: mongoStatus[
                         database.connection.connection.readyState
                     ],
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "System",
@@ -96,75 +96,75 @@ export class StatusCommand extends Command {
                         .type()
                         .replace("Windows_NT", "Windows")
                         .replace("Darwin", "macOS"),
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "CPU Model",
                     value: os.cpus()[0].model,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Up Since",
                     value: `<t:${Math.floor(
                         (client.readyTimestamp as number) / 1000
                     )}:R>`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Node.js",
                     value: process.version,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Discord.js",
                     value: version,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Ping",
                     value: `${client.ws.ping}ms`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Commands",
                     value: `${stores.get("commands").size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Events",
                     value: `${stores.get("listeners").size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Users",
                     value: `${client.users.cache.size}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Text Channels",
                     value: `${channelSize([
                         ChannelType.GuildText,
-                        ChannelType.GuildAnnouncement,
+                        ChannelType.GuildAnnouncement
                     ])}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Voice Channels",
                     value: `${channelSize([
                         ChannelType.GuildVoice,
-                        ChannelType.GuildStageVoice,
+                        ChannelType.GuildStageVoice
                     ])}`,
-                    inline: true,
+                    inline: true
                 },
                 {
                     name: "Threads",
                     value: `${channelSize([
                         ChannelType.PublicThread,
                         ChannelType.PrivateThread,
-                        ChannelType.AnnouncementThread,
+                        ChannelType.AnnouncementThread
                     ])}`,
-                    inline: true,
-                },
+                    inline: true
+                }
             ]);
     }
 }

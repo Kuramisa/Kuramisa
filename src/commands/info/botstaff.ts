@@ -6,7 +6,7 @@ export class BotStaffCommand extends Command {
         super(ctx, {
             ...opts,
             name: "botstaff",
-            description: "Shows the bot staff team",
+            description: "Shows the bot staff team"
         });
     }
 
@@ -22,7 +22,7 @@ export class BotStaffCommand extends Command {
         if (staffs.length === 0)
             return interaction.reply({
                 content: "There are no staff members",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const embeds = staffs.map((staff) =>
@@ -32,7 +32,7 @@ export class BotStaffCommand extends Command {
                     name: staff.globalName
                         ? `${staff.globalName} (${staff.username})`
                         : staff.username,
-                    iconURL: staff.displayAvatarURL() ?? undefined,
+                    iconURL: staff.displayAvatarURL() ?? undefined
                 })
                 .setTitle(util.staffName(staff.type))
                 .setDescription(`**${staff.description}**`)
@@ -65,7 +65,7 @@ export class BotStaffCommand extends Command {
         await msg.edit({ components: [row] });
 
         const collector = msg.createMessageComponentCollector({
-            filter: (i) => i.user.id === interaction.user.id,
+            filter: (i) => i.user.id === interaction.user.id
         });
 
         collector.on("collect", async (i) => {

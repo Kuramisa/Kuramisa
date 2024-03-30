@@ -6,7 +6,7 @@ export class ValorantWeaponEmbedButtons extends Listener {
         super(ctx, {
             ...opts,
             name: "Valorant Weapon Embed Buttons",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -17,14 +17,14 @@ export class ValorantWeaponEmbedButtons extends Listener {
         const { customId } = interaction;
 
         const {
-            games: { valorant },
+            games: { valorant }
         } = this.container;
         const { weapons } = valorant;
 
         if (!valorant.initialized)
             return interaction.reply({
                 content: "**😞 Valorant is not initialized yet!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const weaponId = customId.split("_")[3];
@@ -48,13 +48,13 @@ export class ValorantWeaponEmbedButtons extends Listener {
 
             const message = await interaction.editReply({
                 embeds: [skin.level.embeds[0]],
-                components: valorant.util.determineComponents(skin, true),
+                components: valorant.util.determineComponents(skin, true)
             });
 
             const buttonNames = [
                 "previous_skin",
                 "next_skin",
-                "add_to_wishlist",
+                "add_to_wishlist"
             ];
 
             const buttonCollector = message.createMessageComponentCollector({
@@ -62,14 +62,14 @@ export class ValorantWeaponEmbedButtons extends Listener {
                     i.user.id === interaction.user.id &&
                     (buttonNames.includes(i.customId) ||
                         i.customId.includes("valorant_skin_chroma")),
-                componentType: ComponentType.Button,
+                componentType: ComponentType.Button
             });
 
             const menuCollector = message.createMessageComponentCollector({
                 filter: (i) =>
                     i.user.id === interaction.user.id &&
                     i.customId === "valorant_weapon_skin_level_select",
-                componentType: ComponentType.StringSelect,
+                componentType: ComponentType.StringSelect
             });
 
             buttonCollector.on("collect", async (i) => {
@@ -87,7 +87,7 @@ export class ValorantWeaponEmbedButtons extends Listener {
                     case "add_to_wishlist": {
                         await i.reply({
                             content: "**😁 Coming Soon™️!**",
-                            ephemeral: true,
+                            ephemeral: true
                         });
                         return;
                     }

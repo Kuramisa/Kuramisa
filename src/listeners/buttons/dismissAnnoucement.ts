@@ -6,7 +6,7 @@ export class DismissAnnouncementListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Button for Dismissing the announcement",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 

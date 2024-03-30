@@ -19,8 +19,8 @@ export default {
                 description: app?.description,
                 avatarURL: user?.displayAvatarURL({ size: 4096 }),
                 guilds: client.guilds.cache.size,
-                users: client.users.cache.size,
+                users: client.users.cache.size
             };
-        },
-    },
+        }
+    }
 } as any;

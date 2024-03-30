@@ -53,7 +53,7 @@ export default class KanvasImages {
             case "banner": {
                 background1 = user1.bannerURL({
                     extension: "png",
-                    size: 512,
+                    size: 512
                 });
                 break;
             }
@@ -71,7 +71,7 @@ export default class KanvasImages {
             case "banner": {
                 const colors = await this.kanvas.popularColor(
                     user1.bannerURL({
-                        extension: "png",
+                        extension: "png"
                     })
                 );
                 if (colors) strokeStyle1 = util.randEl(colors);
@@ -100,7 +100,7 @@ export default class KanvasImages {
             case "banner": {
                 background2 = user2.bannerURL({
                     extension: "png",
-                    size: 512,
+                    size: 512
                 });
                 break;
             }
@@ -139,7 +139,7 @@ export default class KanvasImages {
             case "banner": {
                 const colors = await this.kanvas.popularColor(
                     user2.bannerURL({
-                        extension: "png",
+                        extension: "png"
                     })
                 );
                 if (colors) strokeStyle2 = util.randomElement(colors);
@@ -351,14 +351,14 @@ export default class KanvasImages {
         const avatarUrl1 = user1.avatar
             ? user1.avatarURL({
                   forceStatic: true,
-                  size: 512,
+                  size: 512
               })!
             : `${user1.defaultAvatarURL}?size=512`;
 
         const avatarUrl2 = user2.avatar
             ? user2.avatarURL({
                   forceStatic: true,
-                  size: 512,
+                  size: 512
               })!
             : `${user2.defaultAvatarURL}?size=512`;
 

@@ -6,7 +6,7 @@ export class MessageEditedLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Logs when a message is edited",
-            event: "messageUpdate",
+            event: "messageUpdate"
         });
     }
 
@@ -33,7 +33,7 @@ export class MessageEditedLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Message Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(`${newMessage.author.username} edited a message`)
             .setThumbnail(

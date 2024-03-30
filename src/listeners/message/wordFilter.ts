@@ -6,7 +6,7 @@ export class WordFilterListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Filter Media from messages",
-            event: "messageCreate",
+            event: "messageCreate"
         });
     }
 

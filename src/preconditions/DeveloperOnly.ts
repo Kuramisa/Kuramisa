@@ -1,14 +1,14 @@
 import { Precondition } from "@sapphire/framework";
 import {
     ChatInputCommandInteraction,
-    ContextMenuCommandInteraction,
+    ContextMenuCommandInteraction
 } from "discord.js";
 
 export class StaffOnly extends Precondition {
     constructor(ctx: Precondition.LoaderContext, opts: Precondition.Options) {
         super(ctx, {
             ...opts,
-            name: "StaffOnly",
+            name: "StaffOnly"
         });
     }
 
@@ -23,6 +23,6 @@ export class StaffOnly extends Precondition {
         this.container.staff.find((staff) => staff.id === userId)
             ? this.ok()
             : this.error({
-                  message: "Only the bot staff can use this command",
+                  message: "Only the bot staff can use this command"
               });
 }

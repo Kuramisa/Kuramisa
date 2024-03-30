@@ -8,7 +8,7 @@ export class MusicAutocomplete extends Listener {
         super(ctx, {
             ...opts,
             name: "Music Autocomplete",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -24,7 +24,7 @@ export class MusicAutocomplete extends Listener {
 
         const {
             systems: { music },
-            util,
+            util
         } = this.container;
 
         switch (focused.name) {
@@ -32,7 +32,7 @@ export class MusicAutocomplete extends Listener {
                 if (focused.value.length < 1) return;
                 // eslint-disable-next-line prefer-const
                 let { tracks, playlist } = await music.search(focused.value, {
-                    requestedBy: interaction.user,
+                    requestedBy: interaction.user
                 });
 
                 if (tracks.length < 1) return;
@@ -47,7 +47,7 @@ export class MusicAutocomplete extends Listener {
                         title,
                         description,
                         url,
-                        source,
+                        source
                     } = playlist;
 
                     return interaction.respond([
@@ -55,8 +55,8 @@ export class MusicAutocomplete extends Listener {
                             name: `${title} ${
                                 description === title ? "" : `- ${description}`
                             } by ${author} on ${capitalize(source)}`,
-                            value: url,
-                        },
+                            value: url
+                        }
                     ]);
                 }
 
@@ -66,7 +66,7 @@ export class MusicAutocomplete extends Listener {
                             `${track.title} - ${track.author}`,
                             99
                         ),
-                        value: track.url,
+                        value: track.url
                     }))
                 );
             }
@@ -82,7 +82,7 @@ export class MusicAutocomplete extends Listener {
                             `${track.title} - ${track.author}`,
                             99
                         ),
-                        value: track.url,
+                        value: track.url
                     }));
 
                 if (tracks.length < 1) return;

@@ -20,7 +20,7 @@ export default class DatabaseUsers {
 
         const doc = await DBUser.create({
             id: user.id,
-            username: user.username,
+            username: user.username
         });
 
         if (!this.cache.has(user.id)) this.cache.set(user.id, doc);
@@ -33,7 +33,7 @@ export default class DatabaseUsers {
 
         if (!doc) {
             const {
-                client: { users },
+                client: { users }
             } = container;
 
             let user = users.cache.get(userId);

@@ -6,7 +6,7 @@ export class SelfRolesAC extends Listener {
         super(ctx, {
             ...opts,
             name: "Autocomplete for Self Roles",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -41,7 +41,7 @@ export class SelfRolesAC extends Listener {
                 return interaction.respond(
                     channels.map((ch) => ({
                         name: util.shorten(`${ch.name} - ID: ${ch.id}`, 99),
-                        value: ch.id,
+                        value: ch.id
                     }))
                 );
             }
@@ -74,7 +74,7 @@ export class SelfRolesAC extends Listener {
                             `${msg.content} - ID: ${msg.id}`,
                             99
                         ),
-                        value: msg.id,
+                        value: msg.id
                     }))
                 );
             }

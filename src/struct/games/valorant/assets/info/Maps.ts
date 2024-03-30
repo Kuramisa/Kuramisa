@@ -32,7 +32,7 @@ export default class ValorantMaps {
         new EmbedBuilder()
             .setAuthor({
                 name: map.displayName,
-                iconURL: map.displayIcon,
+                iconURL: map.displayIcon
             })
             .setTitle(`${map.displayName} - ${map.coordinates}`)
             .setDescription(map.narrativeDescription)
@@ -41,7 +41,7 @@ export default class ValorantMaps {
             .addFields(
                 {
                     name: "Tactical Description",
-                    value: map.tacticalDescription,
+                    value: map.tacticalDescription
                 },
                 {
                     name: "Callouts",
@@ -50,7 +50,7 @@ export default class ValorantMaps {
                             (callout) =>
                                 `${callout.regionName} - ${callout.superRegionName} (X: ${callout.location.x} - Y: ${callout.location.y})`
                         )
-                        .join("\n"),
+                        .join("\n")
                 }
             );
 }

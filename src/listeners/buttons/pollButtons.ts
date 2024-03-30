@@ -5,7 +5,7 @@ import {
     ButtonComponent,
     ButtonInteraction,
     createComponentBuilder,
-    type MessageActionRowComponentBuilder,
+    type MessageActionRowComponentBuilder
 } from "discord.js";
 import moment from "moment";
 
@@ -14,7 +14,7 @@ export class PollButtonsListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Poll Buttons Listener",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -39,7 +39,7 @@ export class PollButtonsListener extends Listener {
         if (!poll) {
             return interaction.reply({
                 content: "No poll found",
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -50,13 +50,13 @@ export class PollButtonsListener extends Listener {
         if (!buttons)
             return interaction.reply({
                 content: "No buttons on this poll",
-                ephemeral: true,
+                ephemeral: true
             });
 
         let alreadyVoted = {
             customId: "",
             buttonLabel: "",
-            value: false,
+            value: false
         };
 
         for (const button of buttons) {
@@ -64,7 +64,7 @@ export class PollButtonsListener extends Listener {
                 alreadyVoted = {
                     customId: button.customId,
                     buttonLabel: button.text,
-                    value: true,
+                    value: true
                 };
                 break;
             }
@@ -73,7 +73,7 @@ export class PollButtonsListener extends Listener {
         if (alreadyVoted.value && alreadyVoted.customId !== customId)
             return interaction.reply({
                 content: `You have already voted on **${alreadyVoted.buttonLabel}**`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         const answer = buttons.find(
@@ -83,7 +83,7 @@ export class PollButtonsListener extends Listener {
         if (!answer)
             return interaction.reply({
                 content: "No answer found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const vote = answer.votes.find((vote) => vote.userId === user.id);
@@ -97,13 +97,13 @@ export class PollButtonsListener extends Listener {
         if (!btnComponent)
             return interaction.reply({
                 content: "No button component found",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (!(btnComponent instanceof ButtonComponent))
             return interaction.reply({
                 content: "Button component is not a button",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (vote) {
@@ -113,17 +113,17 @@ export class PollButtonsListener extends Listener {
 
             await interaction.reply({
                 content: `You have removed your vote from **${answer.text}**`,
-                ephemeral: true,
+                ephemeral: true
             });
         } else {
             answer.votes.push({
                 userId: user.id,
-                votedAt: moment().unix(),
+                votedAt: moment().unix()
             });
 
             await interaction.reply({
                 content: `You have voted for **${answer.text}**`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -152,7 +152,7 @@ export class PollButtonsListener extends Listener {
 
         await message.edit({
             components:
-                newRows as ActionRowBuilder<MessageActionRowComponentBuilder>[],
+                newRows as ActionRowBuilder<MessageActionRowComponentBuilder>[]
         });
 
         db.markModified("polls");

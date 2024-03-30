@@ -6,7 +6,7 @@ export class MemberRoleAddLogListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Log when member receives a role",
-            event: "guildMemberRoleAdd",
+            event: "guildMemberRoleAdd"
         });
     }
 
@@ -27,7 +27,7 @@ export class MemberRoleAddLogListener extends Listener {
 
         const addedBy = (
             await guild.fetchAuditLogs({
-                type: AuditLogEvent.MemberRoleUpdate,
+                type: AuditLogEvent.MemberRoleUpdate
             })
         ).entries.first()?.executor;
 
@@ -35,7 +35,7 @@ export class MemberRoleAddLogListener extends Listener {
             .embed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string,
+                iconURL: guild.iconURL() as string
             })
             .setTitle(
                 `${member.user.username} had a role added by ${

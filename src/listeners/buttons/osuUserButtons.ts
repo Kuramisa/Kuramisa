@@ -8,7 +8,7 @@ export class OsuUserButtons extends Listener {
         super(ctx, {
             ...opts,
             name: "osuUserButtons",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -24,7 +24,7 @@ export class OsuUserButtons extends Listener {
         const {
             emojis,
             games: { osu },
-            util,
+            util
         } = this.container;
 
         const osUsername =
@@ -37,7 +37,7 @@ export class OsuUserButtons extends Listener {
         if (user == null)
             return interaction.reply({
                 content: `**${osUsername} not found**`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         let maps: LegacyUserRecentScore[] | LegacyUserBestScore[] = [];
@@ -64,11 +64,11 @@ export class OsuUserButtons extends Listener {
         if (maps.length < 1)
             return interaction.reply({
                 content: `**No *${chosenMapType}* beatmaps found!**`,
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply({
-            ephemeral: true,
+            ephemeral: true
         });
 
         const embeds: EmbedBuilder[] = [];
@@ -84,7 +84,7 @@ export class OsuUserButtons extends Listener {
                             interaction.customId.split("-")[0]
                         )} Beatmaps`,
                         iconURL: `https://a.ppy.sh/${user.user_id}`,
-                        url: `https://osu.ppy.sh/users/${user.user_id}`,
+                        url: `https://osu.ppy.sh/users/${user.user_id}`
                     })
                     .setDescription(
                         `#${i + 1} ${util.embedURL(
@@ -105,7 +105,7 @@ export class OsuUserButtons extends Listener {
                         }\n**BPM**: ${beatmap.bpm} `
                     )
                     .setFooter({
-                        text: `Map ${i + 1} of ${maps.length} `,
+                        text: `Map ${i + 1} of ${maps.length} `
                     })
             );
         }

@@ -5,7 +5,7 @@ import {
     type EmbedBuilder,
     ComponentType,
     Message,
-    InteractionCollector,
+    InteractionCollector
 } from "discord.js";
 
 import { container } from "@sapphire/framework";
@@ -34,7 +34,7 @@ export default class UtilPagination {
                 .button()
                 .setCustomId("next_page")
                 .setEmoji("➡️")
-                .setStyle(ButtonStyle.Secondary),
+                .setStyle(ButtonStyle.Secondary)
         ];
 
         const row = util.row().addComponents(buttons);
@@ -48,7 +48,7 @@ export default class UtilPagination {
             }
 
             embed.setFooter({
-                text: `Page ${index + 1} of ${contents.length}`,
+                text: `Page ${index + 1} of ${contents.length}`
             });
             if (title) embed.setTitle(title);
 
@@ -59,14 +59,14 @@ export default class UtilPagination {
 
         const message = await interaction.editReply({
             embeds: [embeds[page]],
-            components: embeds.length < 2 ? [] : [row],
+            components: embeds.length < 2 ? [] : [row]
         });
 
         const collector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
             filter: (i) =>
                 i.customId === "previous_page" || i.customId === "next_page",
-            time: timeout,
+            time: timeout
         });
 
         collector
@@ -85,7 +85,7 @@ export default class UtilPagination {
                 await i.deferUpdate();
                 await i.editReply({
                     embeds: [embeds[page]],
-                    components: [row],
+                    components: [row]
                 });
 
                 collector.resetTimer();
@@ -105,7 +105,7 @@ export default class UtilPagination {
 
                     message.edit({
                         embeds: [embeds[page]],
-                        components: embeds.length < 2 ? [] : [disabledRow],
+                        components: embeds.length < 2 ? [] : [disabledRow]
                     });
                 }
             });
@@ -131,7 +131,7 @@ export default class UtilPagination {
                 .button()
                 .setCustomId("next_page")
                 .setEmoji("➡️")
-                .setStyle(ButtonStyle.Secondary),
+                .setStyle(ButtonStyle.Secondary)
         ];
 
         const row = util.row().addComponents(buttons);
@@ -141,12 +141,12 @@ export default class UtilPagination {
         if (interaction instanceof Message) {
             const message = await interaction.edit({
                 content: texts[page],
-                components: texts.length > 1 ? [row] : [],
+                components: texts.length > 1 ? [row] : []
             });
 
             collector = message.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: timeout,
+                time: timeout
             });
         } else {
             if (!interaction.replied && !interaction.deferred)
@@ -156,12 +156,12 @@ export default class UtilPagination {
 
             const message = await interaction.editReply({
                 content: texts[page],
-                components: texts.length > 1 ? [row] : [],
+                components: texts.length > 1 ? [row] : []
             });
 
             collector = message.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: timeout,
+                time: timeout
             });
         }
 
@@ -182,7 +182,7 @@ export default class UtilPagination {
                 await i.deferUpdate();
                 await i.editReply({
                     content: texts[page],
-                    components: texts.length > 1 ? [row] : [],
+                    components: texts.length > 1 ? [row] : []
                 });
 
                 collector.resetTimer();
@@ -201,7 +201,7 @@ export default class UtilPagination {
                         await interaction.edit({ components: [disableRow] });
                     else
                         await interaction.editReply({
-                            components: [disableRow],
+                            components: [disableRow]
                         });
                 }
             });
@@ -227,7 +227,7 @@ export default class UtilPagination {
                 .button()
                 .setCustomId("next_page")
                 .setEmoji("➡️")
-                .setStyle(ButtonStyle.Secondary),
+                .setStyle(ButtonStyle.Secondary)
         ];
 
         const row = util.row().addComponents(buttons);
@@ -237,12 +237,12 @@ export default class UtilPagination {
         if (interaction instanceof Message) {
             const message = await interaction.edit({
                 embeds: [embeds[page]],
-                components: embeds.length > 1 ? [row] : [],
+                components: embeds.length > 1 ? [row] : []
             });
 
             collector = message.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: timeout,
+                time: timeout
             });
         } else {
             if (!interaction.replied && !interaction.deferred)
@@ -253,12 +253,12 @@ export default class UtilPagination {
             const message = await interaction.editReply({
                 content: null,
                 embeds: [embeds[page]],
-                components: embeds.length > 1 ? [row] : [],
+                components: embeds.length > 1 ? [row] : []
             });
 
             collector = message.createMessageComponentCollector({
                 componentType: ComponentType.Button,
-                time: timeout,
+                time: timeout
             });
         }
 
@@ -279,7 +279,7 @@ export default class UtilPagination {
                 await i.deferUpdate();
                 await i.editReply({
                     embeds: [embeds[page]],
-                    components: embeds.length > 1 ? [row] : [],
+                    components: embeds.length > 1 ? [row] : []
                 });
 
                 collector.resetTimer();
@@ -298,7 +298,7 @@ export default class UtilPagination {
                         await interaction.edit({ components: [disableRow] });
                     else
                         await interaction.editReply({
-                            components: [disableRow],
+                            components: [disableRow]
                         });
                 }
             });

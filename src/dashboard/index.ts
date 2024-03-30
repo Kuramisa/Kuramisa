@@ -26,7 +26,7 @@ const { rateLimitDirectiveTypeDefs, rateLimitDirectiveTransformer } =
 
 let schema = makeExecutableSchema({
     typeDefs: [rateLimitDirectiveTypeDefs, typeDefs],
-    resolvers,
+    resolvers
 });
 
 schema = rateLimitDirectiveTransformer(schema);
@@ -38,7 +38,7 @@ export default class Dashboard extends ApolloServer {
         super({
             schema,
             csrfPrevention: true,
-            plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+            plugins: [ApolloServerPluginDrainHttpServer({ httpServer })]
         });
 
         this.auth = new Auth();
@@ -51,14 +51,14 @@ export default class Dashboard extends ApolloServer {
             "/",
             cors<CorsRequest>({
                 origin: ["https://kuramisa.com", "http://localhost:5173"],
-                credentials: true,
+                credentials: true
             }),
             bodyParser.json(),
             expressMiddleware(this, {
                 context: async ({ req }) => ({
                     req,
-                    server: this,
-                }),
+                    server: this
+                })
             })
         );
 

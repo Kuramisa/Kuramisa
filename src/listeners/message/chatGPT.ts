@@ -6,7 +6,7 @@ export class ChatGPTListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Chat GPT",
-            event: "messageCreate",
+            event: "messageCreate"
         });
     }
 
@@ -18,7 +18,7 @@ export class ChatGPTListener extends Listener {
             client,
             logger,
             systems: { openai },
-            util,
+            util
         } = this.container;
 
         if (!client.user) return;
@@ -32,7 +32,7 @@ export class ChatGPTListener extends Listener {
                 return message.author
                     .send({
                         content:
-                            "I do not have permission to send messages in this server.",
+                            "I do not have permission to send messages in this server."
                     })
                     .catch(() => null);
         }
@@ -76,7 +76,7 @@ export class ChatGPTListener extends Listener {
             "porn",
             "nude",
             "naked",
-            "sex",
+            "sex"
         ];
 
         if (blacklistedKeywords.includes(content.toLowerCase())) {
@@ -105,7 +105,7 @@ export class ChatGPTListener extends Listener {
             "a drawing of",
             "a photo of",
             "a photograph of",
-            "a photo of",
+            "a photo of"
         ];
 
         if (
@@ -139,12 +139,12 @@ export class ChatGPTListener extends Listener {
                     .catch(() => null);
 
             const attachment = new AttachmentBuilder(response, {
-                name: `${imageContent.trim()}.png`,
+                name: `${imageContent.trim()}.png`
             });
 
             return msg.edit({
                 content: "",
-                files: [attachment],
+                files: [attachment]
             });
         }
         const response = await openai.createChat(

@@ -6,7 +6,7 @@ import {
     Collection,
     EmbedBuilder,
     type MessageActionRowComponentBuilder,
-    StringSelectMenuBuilder,
+    StringSelectMenuBuilder
 } from "discord.js";
 import { container } from "@sapphire/framework";
 
@@ -59,7 +59,7 @@ export default class ValorantSkins {
             ...skin,
             cost:
                 skinPrices.find((price: any) => price.skin_id === skin.uuid)
-                    ?.cost ?? 0,
+                    ?.cost ?? 0
         }));
 
         return new ValorantSkins(data);
@@ -94,14 +94,14 @@ export default class ValorantSkins {
                 names: levelNames,
                 embeds: levelEmbeds,
                 components: levelComponents,
-                videos: levelVideos,
+                videos: levelVideos
             },
             chroma: {
                 names: chromaNames,
                 embeds: chromaEmbeds,
                 components: chromaComponents,
-                videos: chromaVideos,
-            },
+                videos: chromaVideos
+            }
         };
     }
 
@@ -124,7 +124,7 @@ export default class ValorantSkins {
         new EmbedBuilder()
             .setAuthor({
                 name: level.displayName,
-                iconURL: contentTier.displayIcon,
+                iconURL: contentTier.displayIcon
             })
             .setDescription(
                 `**${container.emojis.get("val_points")} ${skin.cost} VP**`
@@ -150,7 +150,7 @@ export default class ValorantSkins {
             .setOptions(
                 skin.levels.map((level, i) => ({
                     label: container.util.shorten(level.displayName, 99),
-                    value: i.toString(),
+                    value: i.toString()
                 }))
             );
 
@@ -168,7 +168,7 @@ export default class ValorantSkins {
         new EmbedBuilder()
             .setAuthor({
                 name: chroma.displayName,
-                iconURL: contentTier.displayIcon,
+                iconURL: contentTier.displayIcon
             })
             .setDescription(
                 `**${container.emojis.get("val_points")} ${skin.cost}**`

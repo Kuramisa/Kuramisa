@@ -5,7 +5,7 @@ export class MockCommand extends Command {
         super(ctx, {
             ...opts,
             name: "mock",
-            description: "Mock a user",
+            description: "Mock a user"
         });
     }
 
@@ -25,7 +25,7 @@ export class MockCommand extends Command {
         if (!interaction.inCachedGuild())
             return interaction.reply({
                 content: "This command can only be used in a server",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const { guild, channel, targetId, member } = interaction;
@@ -36,7 +36,7 @@ export class MockCommand extends Command {
         if (message.content.length < 1)
             return interaction.reply({
                 content: "Could not find text in the message",
-                ephemeral: true,
+                ephemeral: true
             });
 
         if (
@@ -44,30 +44,30 @@ export class MockCommand extends Command {
             !guild.members.me?.permissions.has("ManageWebhooks")
         )
             return interaction.reply({
-                content: this.mockText(message.content),
+                content: this.mockText(message.content)
             });
 
         if (message.webhookId !== null)
             return interaction.reply({
                 content: "Cannot mock a mocked message",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.reply({
             content: `Mocked ${message.author}`,
-            ephemeral: true,
+            ephemeral: true
         });
 
         const webhook = await channel.createWebhook({
             name: member.displayName,
-            avatar: member.displayAvatarURL(),
+            avatar: member.displayAvatarURL()
         });
 
         await webhook.send({
             content: `${message.member} ${this.mockText(message.content)}`,
             username: member.displayName,
             avatarURL: member.displayAvatarURL(),
-            allowedMentions: { users: [] },
+            allowedMentions: { users: [] }
         });
 
         await webhook.delete();

@@ -1,7 +1,7 @@
 import { Listener } from "@sapphire/framework";
 import type {
     ApplicationCommandOptionChoiceData,
-    AutocompleteInteraction,
+    AutocompleteInteraction
 } from "discord.js";
 import { startCase } from "lodash";
 
@@ -10,7 +10,7 @@ export class ValorantAutocomplete extends Listener {
         super(ctx, {
             ...opts,
             name: "valorantAutocomplete",
-            event: "interactionCreate",
+            event: "interactionCreate"
         });
     }
 
@@ -23,7 +23,7 @@ export class ValorantAutocomplete extends Listener {
         const {
             client,
             database,
-            games: { valorant },
+            games: { valorant }
         } = this.container;
 
         if (!valorant.initialized) return;
@@ -40,7 +40,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     accounts.map((acc) => ({
                         name: `${acc.player.acct.game_name}#${acc.player.acct.tag_line} (${acc.username})`,
-                        value: acc.username,
+                        value: acc.username
                     }))
                 );
             }
@@ -59,7 +59,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     wishlist.map((skin) => ({
                         name: skin.displayName,
-                        value: skin.uuid,
+                        value: skin.uuid
                     }))
                 );
             }
@@ -78,7 +78,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     wishlist.map((buddy) => ({
                         name: buddy.displayName,
-                        value: buddy.uuid,
+                        value: buddy.uuid
                     }))
                 );
             }
@@ -97,7 +97,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     wishlist.map((card) => ({
                         name: card.displayName,
-                        value: card.uuid,
+                        value: card.uuid
                     }))
                 );
             }
@@ -116,7 +116,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     wishlist.map((spray) => ({
                         name: spray.displayName,
-                        value: spray.uuid,
+                        value: spray.uuid
                     }))
                 );
             }
@@ -137,7 +137,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     agents.map((agent) => ({
                         name: `${agent.displayName} (${agent.role.displayName})`,
-                        value: agent.uuid,
+                        value: agent.uuid
                     }))
                 );
             }
@@ -158,7 +158,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     skins.map((skin) => ({
                         name: skin.displayName,
-                        value: skin.uuid,
+                        value: skin.uuid
                     }))
                 );
             }
@@ -188,7 +188,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     skins.map((skin) => ({
                         name: skin.displayName,
-                        value: skin.uuid,
+                        value: skin.uuid
                     }))
                 );
             }
@@ -209,7 +209,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     buddies.map((buddy) => ({
                         name: buddy.displayName,
-                        value: buddy.uuid,
+                        value: buddy.uuid
                     }))
                 );
             }
@@ -240,7 +240,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     buddies.map((buddy) => ({
                         name: buddy.displayName,
-                        value: buddy.uuid,
+                        value: buddy.uuid
                     }))
                 );
             }
@@ -261,7 +261,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     cards.map((card) => ({
                         name: card.displayName,
-                        value: card.uuid,
+                        value: card.uuid
                     }))
                 );
             }
@@ -291,7 +291,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     cards.map((card) => ({
                         name: card.displayName,
-                        value: card.uuid,
+                        value: card.uuid
                     }))
                 );
             }
@@ -312,7 +312,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     sprays.map((spray) => ({
                         name: spray.displayName,
-                        value: spray.uuid,
+                        value: spray.uuid
                     }))
                 );
             }
@@ -343,7 +343,7 @@ export class ValorantAutocomplete extends Listener {
                 return interaction.respond(
                     sprays.map((spray) => ({
                         name: spray.displayName,
-                        value: spray.uuid,
+                        value: spray.uuid
                     }))
                 );
             }
@@ -369,7 +369,7 @@ export class ValorantAutocomplete extends Listener {
                         name: `${weapon.displayName} (${
                             weapon.shopData?.category ?? "Melee"
                         })`,
-                        value: weapon.uuid,
+                        value: weapon.uuid
                     }))
                 );
             }
@@ -395,7 +395,7 @@ export class ValorantAutocomplete extends Listener {
 
                     opts.push({
                         name: `${user.username} - (${accountNames.join(", ")})`,
-                        value: user.id,
+                        value: user.id
                     });
                 }
 
@@ -417,7 +417,7 @@ export class ValorantAutocomplete extends Listener {
                         .sort((a, b) => a.localeCompare(b))
                         .map((key) => ({
                             name: startCase(key),
-                            value: key,
+                            value: key
                         }))
                 );
             }

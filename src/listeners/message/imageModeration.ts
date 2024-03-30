@@ -6,7 +6,7 @@ export class ImageModerationListener extends Listener {
         super(ctx, {
             ...opts,
             name: "Image Moderation",
-            event: "messageCreate",
+            event: "messageCreate"
         });
     }
 
@@ -47,7 +47,7 @@ export class ImageModerationListener extends Listener {
                 message.author
             }, your message was removed because it contained \`${util.conj(
                 reasons
-            )}\``,
+            )}\``
         });
     }
 }

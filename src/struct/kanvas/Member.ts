@@ -19,7 +19,7 @@ export default class KanvasMember {
         const {
             database,
             util,
-            systems: { xp },
+            systems: { xp }
         } = container;
 
         const member = await iMember.fetch();
@@ -77,7 +77,7 @@ export default class KanvasMember {
             case "banner": {
                 const colors = await this.kanvas.popularColor(
                     user.bannerURL({
-                        extension: "png",
+                        extension: "png"
                     })
                 );
                 if (colors) strokeStyle = util.randomElement(colors);
@@ -314,7 +314,7 @@ export default class KanvasMember {
             case "banner": {
                 const colors = await this.kanvas.popularColor(
                     user.bannerURL({
-                        extension: "png",
+                        extension: "png"
                     })
                 );
                 if (colors) strokeStyle = util.randomElement(colors);
@@ -511,20 +511,20 @@ export default class KanvasMember {
                         activity.type === 0
                             ? "Playing a Game"
                             : activity.type === 2
-                            ? `Listening to ${
-                                  activity.name.length > 8
-                                      ? activity.name.slice(0, 11)
-                                      : activity.name
-                              }`
-                            : activity.type === 3
-                            ? `Watching ${
-                                  activity.name.length > 8
-                                      ? activity.name.slice(0, 11)
-                                      : activity.name
-                              }`
-                            : activity.type === 1
-                            ? "Live On Stream"
-                            : "Playing a Game"
+                              ? `Listening to ${
+                                    activity.name.length > 8
+                                        ? activity.name.slice(0, 11)
+                                        : activity.name
+                                }`
+                              : activity.type === 3
+                                ? `Watching ${
+                                      activity.name.length > 8
+                                          ? activity.name.slice(0, 11)
+                                          : activity.name
+                                  }`
+                                : activity.type === 1
+                                  ? "Live On Stream"
+                                  : "Playing a Game"
                     }`,
                     65,
                     310
@@ -580,7 +580,7 @@ export default class KanvasMember {
             const avatar = user.avatar
                 ? user.avatarURL({
                       size: 512,
-                      forceStatic: true,
+                      forceStatic: true
                   })!
                 : `${user.defaultAvatarURL}?size=512`;
 
@@ -611,7 +611,7 @@ export default class KanvasMember {
             database,
             logger,
             systems: { xp },
-            util,
+            util
         } = container;
 
         const db = await database.users.fetch(user.id);
@@ -671,7 +671,7 @@ export default class KanvasMember {
             case "banner": {
                 const colors = await this.kanvas.popularColor(
                     user.bannerURL({
-                        extension: "png",
+                        extension: "png"
                     })
                 );
                 if (colors) strokeStyle = util.randomElement(colors);
@@ -877,7 +877,7 @@ export default class KanvasMember {
         const avatar = user.avatar
             ? user.avatarURL({
                   forceStatic: true,
-                  size: 512,
+                  size: 512
               })!
             : `${user.defaultAvatarURL}?size=512`;
 
@@ -955,7 +955,7 @@ export default class KanvasMember {
                 case "banner": {
                     background = user.bannerURL({
                         extension: "png",
-                        size: 512,
+                        size: 512
                     });
                     break;
                 }
@@ -994,7 +994,7 @@ export default class KanvasMember {
                 case "banner": {
                     const colors = await this.kanvas.popularColor(
                         user.bannerURL({
-                            extension: "png",
+                            extension: "png"
                         })
                     );
                     if (colors) strokeStyle = util.randomElement(colors);
@@ -1065,7 +1065,7 @@ export default class KanvasMember {
                 user.avatar
                     ? user.avatarURL({
                           forceStatic: true,
-                          size: 512,
+                          size: 512
                       })!
                     : `${user.defaultAvatarURL}?size=512`
             );

@@ -3,7 +3,7 @@ import {
     ChannelType,
     ChatInputCommandInteraction,
     ComponentType,
-    TextInputStyle,
+    TextInputStyle
 } from "discord.js";
 
 export default class SelfRoles {
@@ -25,19 +25,19 @@ export default class SelfRoles {
             permissionOverwrites: [
                 {
                     id: guild.roles.everyone,
-                    deny: ["SendMessages"],
+                    deny: ["SendMessages"]
                 },
                 {
                     id: guild.members.me?.id as string,
-                    allow: ["SendMessages"],
-                },
-            ],
+                    allow: ["SendMessages"]
+                }
+            ]
         });
 
         if (!customMessage) {
             const message = await channel.send({
                 content: "React to the buttons below to get the roles!",
-                components: [],
+                components: []
             });
 
             db.selfRoles.push({
@@ -45,16 +45,16 @@ export default class SelfRoles {
                 messages: [
                     {
                         id: message.id,
-                        buttons: [],
-                    },
-                ],
+                        buttons: []
+                    }
+                ]
             } as any);
 
             await db.save();
 
             return interaction.reply({
                 content: `Set up self roles finished!\n${channel}`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -84,7 +84,7 @@ export default class SelfRoles {
 
         const message = await channel.send({
             content: cstmMessage,
-            components: [],
+            components: []
         });
 
         db.selfRoles.push({
@@ -92,16 +92,16 @@ export default class SelfRoles {
             messages: [
                 {
                     id: message.id,
-                    buttons: [],
-                },
-            ],
+                    buttons: []
+                }
+            ]
         } as any);
 
         await db.save();
 
         return mInteraction.reply({
             content: `Set up self roles finished!\n${channel}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -117,7 +117,7 @@ export default class SelfRoles {
             return interaction.reply({
                 content:
                     "You need to setup at least one channel for self roles first!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channelId = options.getString("sr_channel_name", true);
@@ -134,12 +134,12 @@ export default class SelfRoles {
         if (!customMessage) {
             const message = await channel.send({
                 content: "React to the buttons below to get the roles!",
-                components: [],
+                components: []
             });
 
             dbChannel.messages.push({
                 id: message.id,
-                buttons: [],
+                buttons: []
             });
 
             db.markModified("selfroles");
@@ -147,7 +147,7 @@ export default class SelfRoles {
 
             return interaction.reply({
                 content: `Added a message to ${channel}`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -177,12 +177,12 @@ export default class SelfRoles {
 
         const message = await channel.send({
             content: cstmMessage,
-            components: [],
+            components: []
         });
 
         dbChannel.messages.push({
             id: message.id,
-            buttons: [],
+            buttons: []
         });
 
         db.markModified("selfroles");
@@ -190,7 +190,7 @@ export default class SelfRoles {
 
         return mInteraction.reply({
             content: `Added a message to ${channel}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -206,7 +206,7 @@ export default class SelfRoles {
             return interaction.reply({
                 content:
                     "You need to setup at least one channel for self roles first!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channelId = options.getString("sr_channel_name", true);
@@ -234,7 +234,7 @@ export default class SelfRoles {
 
         return interaction.reply({
             content: `Removed a message from ${channel}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -250,7 +250,7 @@ export default class SelfRoles {
             return interaction.reply({
                 content:
                     "You need to setup at least one channel for self roles first!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channelId = options.getString("sr_channel_name", true);
@@ -288,12 +288,12 @@ export default class SelfRoles {
             mInteraction.fields.getTextInputValue("new_custom_message");
 
         await message.edit({
-            content: newCustomMessage,
+            content: newCustomMessage
         });
 
         return mInteraction.reply({
             content: `Edited a message from ${channel}`,
-            ephemeral: true,
+            ephemeral: true
         });
     }
 
@@ -309,7 +309,7 @@ export default class SelfRoles {
             return interaction.reply({
                 content:
                     "You need to setup at least one channel for self roles first!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         await interaction.deferReply({ ephemeral: true });
@@ -331,7 +331,7 @@ export default class SelfRoles {
 
         if (msg.components.length === 5)
             return interaction.editReply({
-                content: "You can't add more than 25 buttons!",
+                content: "You can't add more than 25 buttons!"
             });
 
         const role = options.getRole("button_role", true);
@@ -371,14 +371,14 @@ export default class SelfRoles {
                     name: buttonName,
                     roleId: role.id,
                     emoji: buttonEmoji,
-                    style: buttonStyle,
+                    style: buttonStyle
                 });
 
                 db.markModified("selfroles");
                 await db.save();
 
                 return interaction.editReply({
-                    content: `Added button ${buttonName} to ${msg}`,
+                    content: `Added button ${buttonName} to ${msg}`
                 });
             }
 
@@ -398,25 +398,25 @@ export default class SelfRoles {
                 name: buttonName,
                 roleId: role.id,
                 emoji: buttonEmoji,
-                style: buttonStyle,
+                style: buttonStyle
             });
 
             db.markModified("selfroles");
             await db.save();
 
             return interaction.editReply({
-                content: `Added button ${buttonName} to ${msg}`,
+                content: `Added button ${buttonName} to ${msg}`
             });
         } catch (err: any) {
             logger.error(err);
 
             if (err.message.includes("duplicated"))
                 return interaction.editReply({
-                    content: "This button already exists!",
+                    content: "This button already exists!"
                 });
 
             return interaction.editReply({
-                content: "Something went wrong! Please try again.",
+                content: "Something went wrong! Please try again."
             });
         }
     }
@@ -432,7 +432,7 @@ export default class SelfRoles {
             return interaction.reply({
                 content:
                     "You need to setup at least one channel for self roles first!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const channelId = options.getString("sr_channel_name", true);
@@ -447,7 +447,7 @@ export default class SelfRoles {
 
         const message = await interaction.deferReply({
             ephemeral: true,
-            fetchReply: true,
+            fetchReply: true
         });
 
         const messageId = options.getString("sr_message", true);
@@ -459,12 +459,12 @@ export default class SelfRoles {
 
         if (allButtons.length < 1)
             return interaction.editReply({
-                content: "There are no buttons to remove!",
+                content: "There are no buttons to remove!"
             });
 
         const buttonOptions = allButtons.map((button: any) => ({
             label: button.label,
-            value: button.customId,
+            value: button.customId
         }));
 
         const buttonRow = util
@@ -481,7 +481,7 @@ export default class SelfRoles {
 
         await interaction.editReply({
             content: "Select button(s) to remove",
-            components: [buttonRow],
+            components: [buttonRow]
         });
 
         const btnInteraction = await message.awaitMessageComponent({
@@ -489,7 +489,7 @@ export default class SelfRoles {
             filter: (i) =>
                 i.customId === "self_roles_buttons" &&
                 i.user.id === interaction.user.id,
-            time: 0,
+            time: 0
         });
 
         await btnInteraction.deferUpdate();
@@ -512,7 +512,7 @@ export default class SelfRoles {
         }
 
         await msg.edit({
-            components: msg.components.length < 1 ? [] : msg.components,
+            components: msg.components.length < 1 ? [] : msg.components
         });
 
         db.markModified("selfroles");
@@ -520,7 +520,7 @@ export default class SelfRoles {
 
         return btnInteraction.editReply({
             content: "Removed button(s)",
-            components: [],
+            components: []
         });
     }
 }

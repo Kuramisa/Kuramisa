@@ -77,11 +77,11 @@ export const Guild = new Schema<IGuild>({
     id: {
         type: String,
         required: true,
-        unique: true,
+        unique: true
     },
     name: {
         type: String,
-        required: true,
+        required: true
     },
     musicMessage: String,
     autorole: [],
@@ -89,7 +89,7 @@ export const Guild = new Schema<IGuild>({
     polls: [],
     promoted: {
         type: Boolean,
-        default: false,
+        default: false
     },
     logs: {
         channel: String,
@@ -104,8 +104,8 @@ export const Guild = new Schema<IGuild>({
             memberRoleRemoved: Boolean,
             memberNicknameChange: Boolean,
             messageDeleted: Boolean,
-            messageEdited: Boolean,
-        },
+            messageEdited: Boolean
+        }
     },
     selfRoles: [
         {
@@ -119,21 +119,21 @@ export const Guild = new Schema<IGuild>({
                             name: String,
                             roleId: String,
                             emoji: String,
-                            style: Number,
-                        },
-                    ],
-                },
-            ],
-        },
+                            style: Number
+                        }
+                    ]
+                }
+            ]
+        }
     ],
     filters: {
         message: {
-            enabled: Boolean,
+            enabled: Boolean
         },
         media: {
-            enabled: Boolean,
-        },
-    },
+            enabled: Boolean
+        }
+    }
 });
 
 const GuildModel = model<IGuild>("guilds", Guild);

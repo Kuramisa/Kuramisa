@@ -5,7 +5,7 @@ export class GreyscaleCommand extends Command {
         super(ctx, {
             ...opts,
             name: "greyscale",
-            description: "Make someone's picture greyscale!",
+            description: "Make someone's picture greyscale!"
         });
     }
 
@@ -27,7 +27,7 @@ export class GreyscaleCommand extends Command {
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
         const {
-            kanvas: { modify },
+            kanvas: { modify }
         } = this.container;
 
         const { options } = interaction;
@@ -37,7 +37,7 @@ export class GreyscaleCommand extends Command {
         if (user.bot)
             return interaction.reply({
                 content: "That user is a bot!",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const image = await modify.greyscale(
@@ -45,7 +45,7 @@ export class GreyscaleCommand extends Command {
         );
 
         return interaction.reply({
-            files: [{ attachment: image, name: "greyscale.png" }],
+            files: [{ attachment: image, name: "greyscale.png" }]
         });
     }
 }

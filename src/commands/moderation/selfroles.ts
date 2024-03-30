@@ -8,7 +8,7 @@ export class SelfRolesCommand extends Command {
             name: "selfroles",
             description: "Setup self roles for server members",
             requiredClientPermissions: ["ManageRoles", "ManageChannels"],
-            requiredUserPermissions: ["ManageRoles", "ManageChannels"],
+            requiredUserPermissions: ["ManageRoles", "ManageChannels"]
         });
     }
 
@@ -165,19 +165,19 @@ export class SelfRolesCommand extends Command {
                                         .setChoices(
                                             {
                                                 name: "Blurple",
-                                                value: ButtonStyle.Primary,
+                                                value: ButtonStyle.Primary
                                             },
                                             {
                                                 name: "Grey",
-                                                value: ButtonStyle.Secondary,
+                                                value: ButtonStyle.Secondary
                                             },
                                             {
                                                 name: "Green",
-                                                value: ButtonStyle.Success,
+                                                value: ButtonStyle.Success
                                             },
                                             {
                                                 name: "Red",
-                                                value: ButtonStyle.Danger,
+                                                value: ButtonStyle.Danger
                                             }
                                         )
                                         .setRequired(true)
@@ -226,7 +226,7 @@ export class SelfRolesCommand extends Command {
         if (!guild?.members.me?.permissions.has("ManageRoles"))
             return interaction.reply({
                 content: "I don't have the `Manage Roles` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommand()) {

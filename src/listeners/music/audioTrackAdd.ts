@@ -7,7 +7,7 @@ export class AudioTrackAddListener extends Listener {
             ...opts,
             name: "Audio Track Add",
             event: "audioTrackAdd",
-            emitter: container.systems.music.events,
+            emitter: container.systems.music.events
         });
     }
 
@@ -24,7 +24,7 @@ export class AudioTrackAddListener extends Listener {
             .embed()
             .setAuthor({
                 name: "Added to Queue",
-                iconURL: client.user?.displayAvatarURL(),
+                iconURL: client.user?.displayAvatarURL()
             })
             .setTitle(track.title)
             .setURL(track.url)
@@ -35,11 +35,11 @@ export class AudioTrackAddListener extends Listener {
             )
             .addFields({
                 name: "Duration",
-                value: track.duration,
+                value: track.duration
             })
             .setFooter({
                 text: `Requested by ${track.requestedBy?.tag}`,
-                iconURL: track.requestedBy?.displayAvatarURL(),
+                iconURL: track.requestedBy?.displayAvatarURL()
             });
 
         if (guild.musicMessage) {

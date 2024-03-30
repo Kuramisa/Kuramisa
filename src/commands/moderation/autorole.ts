@@ -8,7 +8,7 @@ export class AutoRoleCommand extends Command {
             name: "autorole",
             description: "Give a certain role on a certain event",
             requiredUserPermissions: "ManageRoles",
-            requiredClientPermissions: "ManageRoles",
+            requiredClientPermissions: "ManageRoles"
         });
     }
 
@@ -58,7 +58,7 @@ export class AutoRoleCommand extends Command {
         if (!guild.members.me?.permissions.has("ManageRoles"))
             return interaction.reply({
                 content: "I do not have the `ManageRoles` permission",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.guilds.fetch(guild.id);
@@ -69,7 +69,7 @@ export class AutoRoleCommand extends Command {
                 if (db.autorole.includes(role.id))
                     return interaction.reply({
                         content: `${role} is already added`,
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 db.autorole.push(role.id);
@@ -77,7 +77,7 @@ export class AutoRoleCommand extends Command {
 
                 return interaction.reply({
                     content: `Added ${role} to autorole`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
             case "remove": {
@@ -85,13 +85,13 @@ export class AutoRoleCommand extends Command {
                 if (roleId.length < 1)
                     return interaction.reply({
                         content: "Role does not exist",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 if (!db.autorole.includes(roleId))
                     return interaction.reply({
                         content: "Role does not exist in the database",
-                        ephemeral: true,
+                        ephemeral: true
                     });
 
                 db.autorole = db.autorole.filter(
@@ -101,7 +101,7 @@ export class AutoRoleCommand extends Command {
 
                 return interaction.reply({
                     content: `Removed <@&${roleId}> from the database`,
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
