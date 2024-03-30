@@ -89,7 +89,7 @@ export class ValorantCommand extends Command {
                         .addStringOption((option) =>
                             option
                                 .setName("valorant_weapon_name")
-                                .setDescription("Valorant weapon name")
+                                .setDescription("Valorant Weapon name")
                                 .setRequired(true)
                                 .setAutocomplete(true)
                         )
@@ -149,11 +149,11 @@ export class ValorantCommand extends Command {
                         .addSubcommand((command) =>
                             command
                                 .setName("skin")
-                                .setDescription("Add a skin to your wishlist")
+                                .setDescription("Add a Skin to your wishlist")
                                 .addStringOption((option) =>
                                     option
                                         .setName("valorant_skin_name_wishlist")
-                                        .setDescription("Valorant skin name")
+                                        .setDescription("Valorant Skin name")
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -161,11 +161,15 @@ export class ValorantCommand extends Command {
                         .addSubcommand((command) =>
                             command
                                 .setName("buddy")
-                                .setDescription("Add a buddy to your wishlist")
+                                .setDescription(
+                                    "Add a Gun Buddy to your wishlist"
+                                )
                                 .addStringOption((option) =>
                                     option
                                         .setName("valorant_buddy_name_wishlist")
-                                        .setDescription("Valorant buddy name")
+                                        .setDescription(
+                                            "Valorant Gun Buddy name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -173,11 +177,15 @@ export class ValorantCommand extends Command {
                         .addSubcommand((command) =>
                             command
                                 .setName("card")
-                                .setDescription("Add a card to your wishlist")
+                                .setDescription(
+                                    "Add a Player Card to your wishlist"
+                                )
                                 .addStringOption((option) =>
                                     option
                                         .setName("valorant_card_name_wishlist")
-                                        .setDescription("Valorant card name")
+                                        .setDescription(
+                                            "Valorant Player Card name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -185,11 +193,27 @@ export class ValorantCommand extends Command {
                         .addSubcommand((command) =>
                             command
                                 .setName("spray")
-                                .setDescription("Add a spray to your wishlist")
+                                .setDescription("Add a Spray to your wishlist")
                                 .addStringOption((option) =>
                                     option
                                         .setName("valorant_spray_name_wishlist")
-                                        .setDescription("Valorant spray name")
+                                        .setDescription("Valorant Spray name")
+                                        .setRequired(true)
+                                        .setAutocomplete(true)
+                                )
+                        )
+                        .addSubcommand((command) =>
+                            command
+                                .setName("title")
+                                .setDescription(
+                                    "Add a Player Title to your wishlist"
+                                )
+                                .addStringOption((option) =>
+                                    option
+                                        .setName("valorant_title_name_wishlist")
+                                        .setDescription(
+                                            "Valorant Player Title name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -205,12 +229,12 @@ export class ValorantCommand extends Command {
                             command
                                 .setName("skin")
                                 .setDescription(
-                                    "Remove a skin from your wishlist"
+                                    "Remove a Skin from your wishlist"
                                 )
                                 .addStringOption((option) =>
                                     option
                                         .setName("your_wishlist_skin")
-                                        .setDescription("Valorant skin name")
+                                        .setDescription("Valorant Skin name")
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -219,12 +243,14 @@ export class ValorantCommand extends Command {
                             command
                                 .setName("buddy")
                                 .setDescription(
-                                    "Remove a buddy from your wishlist"
+                                    "Remove a Gun Buddy from your wishlist"
                                 )
                                 .addStringOption((option) =>
                                     option
                                         .setName("your_wishlist_buddy")
-                                        .setDescription("Valorant buddy name")
+                                        .setDescription(
+                                            "Valorant Gun Buddy name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -233,12 +259,14 @@ export class ValorantCommand extends Command {
                             command
                                 .setName("card")
                                 .setDescription(
-                                    "Remove a card from your wishlist"
+                                    "Remove a Player Card from your wishlist"
                                 )
                                 .addStringOption((option) =>
                                     option
                                         .setName("your_wishlist_card")
-                                        .setDescription("Valorant card name")
+                                        .setDescription(
+                                            "Valorant Player Card name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -247,12 +275,28 @@ export class ValorantCommand extends Command {
                             command
                                 .setName("spray")
                                 .setDescription(
-                                    "Remove a spray from your wishlist"
+                                    "Remove a Spray from your wishlist"
                                 )
                                 .addStringOption((option) =>
                                     option
                                         .setName("your_wishlist_spray")
-                                        .setDescription("Valorant spray name")
+                                        .setDescription("Valorant Spray name")
+                                        .setRequired(true)
+                                        .setAutocomplete(true)
+                                )
+                        )
+                        .addSubcommand((command) =>
+                            command
+                                .setName("title")
+                                .setDescription(
+                                    "Remove a Player Title from your wishlist"
+                                )
+                                .addStringOption((option) =>
+                                    option
+                                        .setName("your_wishlist_title")
+                                        .setDescription(
+                                            "Valorant Player Title name"
+                                        )
                                         .setRequired(true)
                                         .setAutocomplete(true)
                                 )
@@ -260,7 +304,7 @@ export class ValorantCommand extends Command {
                 )
                 .addSubcommand((command) =>
                     command
-                        .setName("wishlist")
+                        .setName("wishlist_view")
                         .setDescription("View your/someone's Valorant wishlist")
                         .addStringOption((option) =>
                             option
@@ -332,8 +376,6 @@ export class ValorantCommand extends Command {
                     case "featured":
                         await valorant.shop.featured(interaction);
                         break;
-                    default: {
-                    }
                 }
                 break;
             case "wishlist_add":
@@ -379,187 +421,25 @@ export class ValorantCommand extends Command {
                     case "privacy":
                         await valorant.privacy(interaction);
                         break;
-                    case "wishlist":
-                        await valorant.wishlist.view(interaction);
-                        break;
                     case "agents": {
-                        const agentId = options.getString(
-                            "valorant_agent_name",
-                            true
-                        );
-                        const agent = valorant.agents.getByID(agentId);
-                        if (!agent)
-                            return interaction.reply({
-                                content: "**😲 Agent not found!**",
-                                ephemeral: true,
-                            });
-                        const agentEmbed = valorant.agents.embed(agent);
-                        return interaction.reply({ embeds: [agentEmbed] });
+                        await valorant.agentsCommand(interaction);
+                        break;
                     }
                     case "skins": {
-                        const weaponId = options.getString(
-                            "valorant_weapon_name",
-                            true
-                        );
-                        const weapon = valorant.weapons.getByID(weaponId);
-                        if (!weapon)
-                            return interaction.reply({
-                                content: "**😲 Weapon not found!**",
-                                ephemeral: true,
-                            });
-
-                        const skins = weapon.skins
-                            .filter((skin) => skin.contentTierUuid)
-                            .sort((a, b) =>
-                                a.displayName.localeCompare(b.displayName)
-                            );
-
-                        await interaction.deferReply();
-
-                        const infoCollection = valorant.skins.collection(skins);
-
-                        let page = 0;
-                        let levelPage = 0;
-
-                        const skin = infoCollection.at(page);
-                        if (!skin) return;
-
-                        const message = await interaction.editReply({
-                            embeds: [skin.level.embeds[0]],
-                            components: valorant.util.determineComponents(
-                                skin,
-                                true
-                            ),
-                        });
-
-                        const buttonNames = [
-                            "previous_skin",
-                            "next_skin",
-                            "add_to_wishlist",
-                        ];
-
-                        const buttonCollector =
-                            message.createMessageComponentCollector({
-                                filter: (i) =>
-                                    i.user.id === interaction.user.id &&
-                                    (buttonNames.includes(i.customId) ||
-                                        i.customId.includes(
-                                            "valorant_skin_chroma"
-                                        )),
-                                componentType: ComponentType.Button,
-                            });
-
-                        const menuCollector =
-                            message.createMessageComponentCollector({
-                                filter: (i) =>
-                                    i.user.id === interaction.user.id &&
-                                    i.customId ===
-                                        "valorant_weapon_skin_level_select",
-                                componentType: ComponentType.StringSelect,
-                            });
-
-                        buttonCollector.on("collect", async (i) => {
-                            switch (i.customId) {
-                                case "previous_skin": {
-                                    page =
-                                        page > 0 ? --page : infoCollection.size;
-                                    levelPage = 0;
-                                    break;
-                                }
-                                case "next_skin": {
-                                    page =
-                                        page + 1 < infoCollection.size
-                                            ? ++page
-                                            : 0;
-                                    levelPage = 0;
-                                    break;
-                                }
-                                case "add_to_wishlist": {
-                                    await i.reply({
-                                        content: "**😁 Coming Soon™️!**",
-                                        ephemeral: true,
-                                    });
-                                    return;
-                                }
-                            }
-
-                            if (i.customId.includes("valorant_skin_chroma")) {
-                                const skin = infoCollection.at(page);
-                                if (!skin) return;
-                                const chromaPage = parseInt(
-                                    i.customId.split("_")[3]
-                                );
-                                if (isNaN(chromaPage)) return;
-
-                                await valorant.util.updateInfoChroma(
-                                    i,
-                                    skin,
-                                    chromaPage,
-                                    true
-                                );
-                                return;
-                            }
-
-                            const skin = infoCollection.at(page);
-                            if (!skin) return;
-
-                            await valorant.util.updateInfoLevel(
-                                i,
-                                skin,
-                                levelPage,
-                                true
-                            );
-                        });
-
-                        menuCollector.on("collect", async (i) => {
-                            levelPage = parseInt(i.values[0]);
-                            const skin = infoCollection.at(page);
-                            if (!skin) return;
-                            await valorant.util.updateInfoLevel(
-                                i,
-                                skin,
-                                levelPage,
-                                true
-                            );
-                        });
-
+                        await valorant.skinsCommand(interaction);
                         break;
                     }
                     case "skin": {
-                        const skinId = options.getString(
-                            "valorant_skin_name",
-                            true
-                        );
-                        const skin = valorant.skins.getByID(skinId);
-                        if (!skin)
-                            return interaction.reply({
-                                content: "**😲 Skin not found!**",
-                                ephemeral: true,
-                            });
-                        const skinInfo = valorant.skins.info(skin);
-                        await valorant.util.createSkinCollectors(
-                            interaction,
-                            skinInfo
-                        );
+                        await valorant.skinCommand(interaction);
                         break;
                     }
                     case "weapons": {
-                        const weaponId = options.getString(
-                            "valorant_weapon_name",
-                            true
-                        );
-                        const weapon = valorant.weapons.getByID(weaponId);
-                        if (!weapon)
-                            return interaction.reply({
-                                content: "**😲 Weapon not found!**",
-                                ephemeral: true,
-                            });
-                        const weaponEmbed = valorant.weapons.embed(weapon);
-                        const weaponRow = valorant.weapons.row(weapon);
-                        return interaction.reply({
-                            embeds: [weaponEmbed],
-                            components: [weaponRow],
-                        });
+                        await valorant.weaponsCommand(interaction);
+                        break;
+                    }
+                    case "wishlist_view": {
+                        await valorant.wishlist.wishlistView(interaction);
+                        break;
                     }
                 }
             }

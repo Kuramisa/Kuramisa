@@ -1,5 +1,11 @@
 import { EmbedBuilder } from "discord.js";
 import Valorant from "../..";
+import {
+    ActionRowBuilder,
+    MessageActionRowComponentBuilder,
+    StringSelectMenuBuilder,
+} from "@discordjs/builders";
+import { container } from "@sapphire/framework";
 
 export default class ValorantBuddies {
     private readonly data: IValorantBuddy[];
@@ -24,11 +30,47 @@ export default class ValorantBuddies {
         return this.data.find((buddy) => buddy.uuid === id);
     }
 
-    // TODO: Add Embed method
-    embed = (buddy: IValorantBuddy) =>
-        new EmbedBuilder().setTitle(buddy.displayName);
+    info(buddy: IValorantBuddy) {
+        // Level Information
+        const levelNames = buddy.levels.map((level) => level.displayName);
+        const levelEmbeds = this.levelEmbeds(buddy);
+        const levelComponents =
+            new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+                this.levelSelectMenu(buddy)
+            );
 
-    // TODO: Add buddy prices
+        return {
+            level: {
+                names: levelNames,
+                embeds: levelEmbeds,
+                components: levelComponents,
+            },
+        };
+    }
+
+    levelEmbed = (buddy: IValorantBuddy, level: IValorantBuddyLevel) =>
+        new EmbedBuilder()
+            .setAuthor({ name: buddy.displayName })
+            .setDescription(
+                `**${container.emojis.get("val_points")} ${buddy.cost} VP**`
+            )
+            .setImage(level.displayIcon ?? buddy.displayIcon)
+            .setColor("Random");
+
+    levelEmbeds = (buddy: IValorantBuddy) =>
+        buddy.levels.map((level) => this.levelEmbed(buddy, level));
+
+    levelSelectMenu = (buddy: IValorantBuddy) =>
+        new StringSelectMenuBuilder()
+            .setCustomId("valorant_buddy_level_select")
+            .setPlaceholder("Select a Buddy Level")
+            .setOptions(
+                buddy.levels.map((level, i) => ({
+                    label: container.util.shorten(level.displayName, 99),
+                    value: i.toString(),
+                }))
+            );
+
     static async fetch() {
         const buddyData = await fetch(`${Valorant.assetsURL}/buddies`)
             .then((res) => res.json())

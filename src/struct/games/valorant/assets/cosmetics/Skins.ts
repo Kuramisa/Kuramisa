@@ -35,6 +35,12 @@ export default class ValorantSkins {
         return this.data.find((skin) => skin.uuid === id);
     }
 
+    getByLevelID(id: string) {
+        return this.data.find((skin) =>
+            skin.levels.find((level) => level.uuid === id)
+        );
+    }
+
     static async fetch() {
         const skinData = await fetch(`${Valorant.assetsURL}/weapons/skins`)
             .then((res) => res.json())
@@ -140,7 +146,7 @@ export default class ValorantSkins {
     levelSelectMenu = (skin: IValorantWeaponSkin) =>
         new StringSelectMenuBuilder()
             .setCustomId("valorant_weapon_skin_level_select")
-            .setPlaceholder("Select a level")
+            .setPlaceholder("Select a Skin Level")
             .setOptions(
                 skin.levels.map((level, i) => ({
                     label: container.util.shorten(level.displayName, 99),

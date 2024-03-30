@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "@discordjs/builders";
 import Valorant from "../..";
 
 export default class ValorantPlayerTitles {
@@ -22,6 +23,12 @@ export default class ValorantPlayerTitles {
     }
 
     // TODO: Add Embed method
+    embed = (playerTitle: IValorantPlayerTitle) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: playerTitle.displayName,
+            })
+            .setTitle(playerTitle.titleText);
 
     // TODO: add player title prices
     static async fetch() {

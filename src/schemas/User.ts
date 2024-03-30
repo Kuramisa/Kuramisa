@@ -15,7 +15,7 @@ export interface IUser extends MongoResult {
         }[];
         wishlist: {
             uuid: string;
-            type: "skin" | "buddy" | "card" | "spray";
+            type: "skin" | "buddy" | "card" | "spray" | "title";
         }[];
         notifications: {
             wishlist: boolean;

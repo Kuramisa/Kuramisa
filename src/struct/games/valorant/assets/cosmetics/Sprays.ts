@@ -1,3 +1,9 @@
+import {
+    ActionRowBuilder,
+    EmbedBuilder,
+    MessageActionRowComponentBuilder,
+    StringSelectMenuBuilder,
+} from "discord.js";
 import Valorant from "../..";
 
 export default class ValorantSprays {
@@ -18,6 +24,48 @@ export default class ValorantSprays {
     getByID(id: string) {
         return this.data.find((spray) => spray.uuid === id);
     }
+
+    info(spray: IValorantSpray) {
+        // Level Information
+        const levelNames = spray.levels.map((level) => level.displayName);
+        const levelEmbeds = this.levelEmbeds(spray);
+        const levelComponents =
+            new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+                this.levelSelectMenu(spray)
+            );
+
+        return {
+            level: {
+                names: levelNames,
+                embeds: levelEmbeds,
+                components: levelComponents,
+            },
+        };
+    }
+
+    levelEmbed = (spray: IValorantSpray, level: IValorantSprayLevel) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: spray.displayName,
+                iconURL: spray.displayIcon,
+            })
+            .setTitle(level.displayName ?? spray.displayIcon)
+            .setThumbnail(spray.animationGif ?? spray.fullTransparentIcon)
+            .setColor("Random");
+
+    levelEmbeds = (spray: IValorantSpray) =>
+        spray.levels.map((level) => this.levelEmbed(spray, level));
+
+    levelSelectMenu = (spray: IValorantSpray) =>
+        new StringSelectMenuBuilder()
+            .setCustomId("valorant_spray_level_select")
+            .setPlaceholder("Select a Spray Level")
+            .setOptions(
+                spray.levels.map((level, i) => ({
+                    label: level.displayName,
+                    value: i.toString(),
+                }))
+            );
 
     // TODO: Add Embed method
 

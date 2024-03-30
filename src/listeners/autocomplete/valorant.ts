@@ -163,9 +163,17 @@ export class ValorantAutocomplete extends Listener {
                 );
             }
             case "valorant_skin_name_wishlist": {
+                const db = await database.users.fetch(user.id);
+
                 let skins = valorant.skins.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((skin) => skin.cost !== 0);
+                    .filter((skin) => skin.cost !== 0)
+                    .filter(
+                        (skin) =>
+                            !db.valorant.wishlist.some(
+                                (w) => w.uuid === skin.uuid && w.type === "skin"
+                            )
+                    );
 
                 if (focused.value.length > 0)
                     skins = skins.filter((skin) =>
@@ -206,9 +214,18 @@ export class ValorantAutocomplete extends Listener {
                 );
             }
             case "valorant_buddy_name_wishlist": {
+                const db = await database.users.fetch(user.id);
+
                 let buddies = valorant.buddies.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((buddy) => buddy.cost !== 0);
+                    .filter((buddy) => buddy.cost !== 0)
+                    .filter(
+                        (buddy) =>
+                            !db.valorant.wishlist.some(
+                                (w) =>
+                                    w.uuid === buddy.uuid && w.type === "buddy"
+                            )
+                    );
 
                 if (focused.value.length > 0)
                     buddies = buddies.filter((buddy) =>
@@ -249,9 +266,17 @@ export class ValorantAutocomplete extends Listener {
                 );
             }
             case "valorant_card_name_wishlist": {
+                const db = await database.users.fetch(user.id);
+
                 let cards = valorant.playerCards.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((card) => card.cost !== 0);
+                    .filter((card) => card.cost !== 0)
+                    .filter(
+                        (card) =>
+                            !db.valorant.wishlist.some(
+                                (w) => w.uuid === card.uuid && w.type === "card"
+                            )
+                    );
 
                 if (focused.value.length > 0)
                     cards = cards.filter((card) =>
@@ -292,9 +317,18 @@ export class ValorantAutocomplete extends Listener {
                 );
             }
             case "valorant_spray_name_wishlist": {
+                const db = await database.users.fetch(user.id);
+
                 let sprays = valorant.sprays.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((spray) => spray.cost !== 0);
+                    .filter((spray) => spray.cost !== 0)
+                    .filter(
+                        (spray) =>
+                            !db.valorant.wishlist.some(
+                                (w) =>
+                                    w.uuid === spray.uuid && w.type === "spray"
+                            )
+                    );
 
                 if (focused.value.length > 0)
                     sprays = sprays.filter((spray) =>

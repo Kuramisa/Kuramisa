@@ -1,4 +1,6 @@
+import { EmbedBuilder } from "discord.js";
 import Valorant from "../..";
+import { container } from "@sapphire/framework";
 
 export default class ValorantPlayerCards {
     private readonly data: IValorantPlayerCard[];
@@ -20,6 +22,20 @@ export default class ValorantPlayerCards {
     }
 
     // TODO: Add Embed method
+    embed = (playerCard: IValorantPlayerCard) =>
+        new EmbedBuilder()
+            .setAuthor({
+                name: playerCard.displayName,
+                iconURL: playerCard.displayIcon,
+            })
+            .setDescription(
+                `**${container.emojis.get("val_points")} ${
+                    playerCard.cost
+                } VP**`
+            )
+            .setThumbnail(playerCard.largeArt)
+            .setImage(playerCard.wideArt)
+            .setColor("Random");
 
     // TODO: Add card prices
     static async fetch() {

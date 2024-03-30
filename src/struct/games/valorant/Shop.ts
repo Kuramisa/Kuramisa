@@ -22,11 +22,10 @@ export default class ValorantShop {
 
     async daily(interaction: ChatInputCommandInteraction) {
         const { database, logger, util } = container;
+        const { options, user } = interaction;
+        const { valorant } = this;
 
-        const { options } = interaction;
-
-        const userId =
-            options.getString("valorant_player") ?? interaction.user.id;
+        const userId = options.getString("valorant_player") ?? user.id;
 
         if (userId && /^[A-Za-z\s]*$/.test(userId))
             return interaction.reply({
@@ -35,25 +34,22 @@ export default class ValorantShop {
             });
 
         const db = await database.users.fetch(userId);
-        const { valorant } = db;
+        const { valorant: valDb } = db;
 
         let ephemeral = false;
 
-        if (valorant.privacy.daily !== "public") {
-            if (
-                userId !== interaction.user.id &&
-                valorant.privacy.daily === "private"
-            )
+        if (valDb.privacy.daily !== "public") {
+            if (userId !== user.id && valDb.privacy.daily === "private")
                 return interaction.reply({
                     content:
-                        "**😢 That player has their privacy set to private**",
+                        "**😢 That player has their Daily Shop set to private**",
                     ephemeral: true,
                 });
 
             ephemeral = true;
         }
 
-        const accounts = this.valorant.accounts.get(userId);
+        const accounts = valorant.accounts.get(userId);
 
         if (!accounts)
             return interaction.reply({
@@ -112,11 +108,11 @@ export default class ValorantShop {
                     .add(seconds, "seconds")
                     .unix();
 
-                const card = await this.valorant.util.shopCard(
+                const card = await valorant.util.shopCard(
                     account,
                     "daily",
                     timeRemaining,
-                    valorant.privacy.daily
+                    valDb.privacy.daily
                 );
 
                 accountEmbeds.set(account.username, card);
@@ -126,13 +122,11 @@ export default class ValorantShop {
                 const wishlistOpts = [];
 
                 for (const offer of offers) {
-                    const skin = this.valorant.skins.all.find(
-                        (weapon) => offer.OfferID === weapon.levels[0].uuid
-                    );
+                    const skin = valorant.skins.getByLevelID(offer.OfferID);
 
                     if (!skin) continue;
 
-                    embeds.push(this.valorant.util.offerCard(skin, offer));
+                    embeds.push(valorant.util.offerCard(skin, offer));
                     viewOpts.push({
                         label: skin.displayName,
                         value: skin.uuid,
@@ -269,10 +263,10 @@ export default class ValorantShop {
                 switch (i.customId.split("_")[3]) {
                     case "view": {
                         const skinId = i.values[0];
-                        const skin = this.valorant.skins.getByID(skinId);
+                        const skin = valorant.skins.getByID(skinId);
                         if (!skin) return;
-                        const skinInfo = this.valorant.skins.info(skin);
-                        await this.valorant.util.createSkinCollectors(
+                        const skinInfo = valorant.skins.info(skin);
+                        await valorant.util.createSkinCollectors(
                             i,
                             skinInfo,
                             ephemeral
@@ -298,7 +292,8 @@ export default class ValorantShop {
 
     async featured(interaction: ChatInputCommandInteraction) {
         const { util } = container;
-        const { bundles } = this.valorant;
+        const { valorant } = this;
+        const { bundles } = valorant;
 
         await interaction.reply({
             content: "**Getting the featured market ^^**",
@@ -468,10 +463,10 @@ export default class ValorantShop {
             switch (i.customId.split("_")[3]) {
                 case "view": {
                     const skinId = i.values[0];
-                    const skin = this.valorant.skins.getByID(skinId);
+                    const skin = valorant.skins.getByID(skinId);
                     if (!skin) return;
-                    const skinInfo = this.valorant.skins.info(skin);
-                    await this.valorant.util.createSkinCollectors(i, skinInfo);
+                    const skinInfo = valorant.skins.info(skin);
+                    await valorant.util.createSkinCollectors(i, skinInfo);
                     break;
                 }
                 case "wishlist": {

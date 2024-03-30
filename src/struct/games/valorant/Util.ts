@@ -8,6 +8,7 @@ import {
     ComponentType,
     type MessageActionRowComponentBuilder,
     StringSelectMenuInteraction,
+    User,
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
 import { Store } from "@valapi/web-client";
@@ -402,13 +403,36 @@ export default class ValorantUtil {
 
         if (shopType)
             embed.setTitle(
-                `${capitalize(shopType)} Shop${
+                `${capitalize(shopType)} Shop ${
                     privacytype !== "friends" && privacytype === "private"
-                        ? " (Private)"
-                        : " (Public)"
-                }`
+                        ? "Private"
+                        : "Public"
+                })`
             );
         if (time) embed.setDescription(`**Resets in <t:${time}:R>**`);
+
+        return embed;
+    }
+
+    async wishlistCard(user: User, privacytype: PrivacyTypes) {
+        const { util } = container;
+        const embed = util
+            .embed()
+            .setAuthor({
+                name: user.globalName ?? user.username,
+                iconURL: user.displayAvatarURL() ?? null,
+            })
+            .setThumbnail(user.displayAvatarURL() ?? null)
+            .setImage(user.bannerURL() ?? null)
+            .setColor("Random");
+
+        embed.setTitle(
+            `Valorant Wishlist (${
+                privacytype !== "friends" && privacytype === "private"
+                    ? "Private"
+                    : "Public"
+            })`
+        );
 
         return embed;
     }
