@@ -3,8 +3,7 @@ import { container } from "@sapphire/pieces";
 import {
     ChatInputCommandInteraction,
     ComponentType,
-    ModalSubmitInteraction,
-    TextInputStyle,
+    ModalSubmitInteraction
 } from "discord.js";
 import { ValError, WebClient } from "valorant.ts";
 
@@ -18,7 +17,7 @@ export default class ValorantAuth {
     async login(interaction: ChatInputCommandInteraction) {
         const { options, user } = interaction;
 
-        const { database, logger, util } = container;
+        const { database, logger } = container;
 
         const currentInteraction:
             | ChatInputCommandInteraction
@@ -34,14 +33,14 @@ export default class ValorantAuth {
 
             return currentInteraction.reply({
                 content: "**😲 Something went wrong!**",
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
         if (accounts.size >= 5)
             return currentInteraction.reply({
                 content: "**😲 You can only have 5 accounts added!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const username = options.getString("val_username", true);
@@ -49,7 +48,7 @@ export default class ValorantAuth {
         if (accounts.has(username))
             return currentInteraction.reply({
                 content: "**😲 You already have this account added!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const db = await database.users.fetch(user.id);
@@ -57,11 +56,11 @@ export default class ValorantAuth {
         if (db.valorant.accounts.find((acc) => acc.username === username))
             return currentInteraction.reply({
                 content: "**😲 You already have this account added!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const web = new WebClient({
-            version: this.valorant.version?.riotClient,
+            version: this.valorant.version?.riotClient
         });
 
         const password = options.getString("val_password", true);
@@ -73,7 +72,7 @@ export default class ValorantAuth {
                 logger.error(err);
                 return currentInteraction.reply({
                     content: "**😲 Your username or password is incorrect!**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
@@ -83,7 +82,7 @@ export default class ValorantAuth {
 
             return currentInteraction.reply({
                 content: "**😲 Something went wrong!**",
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -91,7 +90,7 @@ export default class ValorantAuth {
             return currentInteraction.reply({
                 content:
                     "**😭 You have MFA enabled!** **Sadly Riot removed MFA code sending through this method, We will bring back later when we find the fix or an alternative**",
-                ephemeral: true,
+                ephemeral: true
             });
 
             /*const row = util
@@ -146,7 +145,7 @@ export default class ValorantAuth {
                 trackerURL: Valorant.trackerURL.replaceAll(
                     "%username%",
                     `${playerInfo.acct.game_name}%23${playerInfo.acct.tag_line}`
-                ),
+                )
             });
 
             db.valorant.accounts.push({ username, json: web.toJSON() });
@@ -155,14 +154,14 @@ export default class ValorantAuth {
 
             return currentInteraction.reply({
                 content: `**😊 You have successfully logged in as \`${playerInfo.acct.game_name}#${playerInfo.acct.tag_line} (${username})\`**`,
-                ephemeral: true,
+                ephemeral: true
             });
         } catch (err) {
             if (err instanceof ValError) {
                 logger.error(err);
                 return currentInteraction.reply({
                     content: "**😲 Incorrect MFA Code provided**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             }
         }
@@ -183,14 +182,14 @@ export default class ValorantAuth {
             if (chosenAcc === "null")
                 return interaction.reply({
                     content: "**😲 You don't have any accounts added!**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
 
             const acc = accounts.get(chosenAcc);
             if (!acc)
                 return interaction.reply({
                     content: "**😲 You don't have this account added!**",
-                    ephemeral: true,
+                    ephemeral: true
                 });
             accounts.delete(chosenAcc);
             db.valorant.accounts = db.valorant.accounts.filter(
@@ -202,7 +201,7 @@ export default class ValorantAuth {
 
             return interaction.reply({
                 content: `**😊 You have successfully logged out from\`${acc.player.acct.game_name}#${acc.player.acct.tag_line} (${chosenAcc})\`**`,
-                ephemeral: true,
+                ephemeral: true
             });
         }
 
@@ -216,7 +215,7 @@ export default class ValorantAuth {
                 .setOptions(
                     accounts.map((acc) => ({
                         label: `${acc.player.acct.game_name}#${acc.player.acct.tag_line} (${acc.username})`,
-                        value: acc.username,
+                        value: acc.username
                     }))
                 )
         );
@@ -224,12 +223,12 @@ export default class ValorantAuth {
         const msg = await interaction.reply({
             content: "**😊 Choose an account(s) to logout from**",
             components: [row],
-            ephemeral: true,
+            ephemeral: true
         });
 
         const sInteraction = await msg.awaitMessageComponent({
             componentType: ComponentType.StringSelect,
-            filter: (i) => i.user.id === user.id,
+            filter: (i) => i.user.id === user.id
         });
 
         const chosenAccounts = sInteraction.values;
@@ -237,7 +236,7 @@ export default class ValorantAuth {
         if (chosenAccounts.length === 0)
             return sInteraction.reply({
                 content: "**😲 You didn't choose any accounts!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const deletedAccounts = [];
@@ -264,7 +263,7 @@ export default class ValorantAuth {
             content: `**😊 You have successfully logged out from\n${deletedAccountList.join(
                 "\n"
             )}**`,
-            components: [],
+            components: []
         });
     }
 }

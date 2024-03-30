@@ -1,5 +1,4 @@
 import { container } from "@sapphire/pieces";
-import { GuildBasedChannel, Message } from "discord.js";
 import { GraphQLError } from "graphql";
 
 export default {
@@ -19,7 +18,7 @@ export default {
             {
                 guildId,
                 page = 0,
-                perPage,
+                perPage
             }: { guildId: string; page: number; perPage?: number }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
@@ -38,7 +37,7 @@ export default {
                 data: channels[page],
                 count: channelsCache.size,
                 page,
-                perPage,
+                perPage
             };
         },
 
@@ -47,7 +46,7 @@ export default {
             {
                 guildId,
                 channelId,
-                messageId,
+                messageId
             }: { guildId: string; channelId: string; messageId: string }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
@@ -67,7 +66,7 @@ export default {
                 guildId,
                 channelId,
                 page,
-                perPage,
+                perPage
             }: {
                 guildId: string;
                 channelId: string;
@@ -93,8 +92,8 @@ export default {
                 data: messages[page],
                 count: messagesCache.size,
                 page,
-                perPage,
+                perPage
             };
-        },
-    },
+        }
+    }
 };

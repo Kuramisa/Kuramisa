@@ -1,12 +1,11 @@
 import { Command } from "@sapphire/framework";
-import { ComponentType } from "discord.js";
 
 export class ValorantCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
         super(ctx, {
             ...opts,
             name: "valorant",
-            description: "Valorant commands",
+            description: "Valorant commands"
         });
     }
 
@@ -321,14 +320,13 @@ export class ValorantCommand extends Command {
         const { options, user } = interaction;
 
         const {
-            logger,
-            games: { valorant },
+            games: { valorant }
         } = this.container;
 
         if (!valorant.initialized)
             return interaction.reply({
                 content: "**😲 Valorant is not initialized!**",
-                ephemeral: true,
+                ephemeral: true
             });
 
         const neededAuth = [
@@ -338,7 +336,7 @@ export class ValorantCommand extends Command {
             "privacy",
             "wishlist_add",
             "wishlist_remove",
-            "wishlist",
+            "wishlist"
         ];
 
         const subcommand = options.getSubcommand(true);
@@ -352,7 +350,7 @@ export class ValorantCommand extends Command {
                 return interaction.reply({
                     content:
                         "**😲 Your accounts were removed from the database, because their login expired. Please login again!**\n</valorant login:1172402671345467485>",
-                    ephemeral: true,
+                    ephemeral: true
                 });
         }
 
@@ -364,7 +362,7 @@ export class ValorantCommand extends Command {
             return interaction.reply({
                 content:
                     "**To use this Valorant Feature, you need to login at least to one account. use**\n</valorant login:1172402671345467485>",
-                ephemeral: true,
+                ephemeral: true
             });
 
         switch (options.getSubcommandGroup()) {

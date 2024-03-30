@@ -37,7 +37,7 @@ export default {
             {
                 fetchDb,
                 page = 0,
-                perPage,
+                perPage
             }: { fetchDb?: boolean; page: number; perPage?: number }
         ) => {
             const { client, database, util } = container;
@@ -63,7 +63,7 @@ export default {
 
                     if (fetchDb) {
                         const db = await database.users.fetch(user.id);
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
                         const { valorant, ...rest } = db._doc;
 
                         if (db) info = { ...db, ...rest };
@@ -77,7 +77,7 @@ export default {
                 data: usersResolve,
                 count: usersCache.size,
                 page,
-                perPage,
+                perPage
             };
         },
 
@@ -87,7 +87,7 @@ export default {
                 auth: authData,
                 fetchDb,
                 page = 0,
-                perPage,
+                perPage
             }: {
                 auth: string;
                 page: number;
@@ -105,7 +105,7 @@ export default {
                 guildId,
                 userId,
                 first,
-                offset,
+                offset
             }: {
                 guildId: string;
                 userId: string;
@@ -129,7 +129,7 @@ export default {
                 guildId,
                 userId,
                 first,
-                offset,
+                offset
             }: {
                 guildId: string;
                 userId: string;
@@ -153,7 +153,7 @@ export default {
             { server: { auth } }: { server: Dashboard }
         ) => {
             return auth.generateToken(code);
-        },
+        }
     },
     Mutation: {
         warnUser: async (
@@ -161,7 +161,7 @@ export default {
             {
                 guildId,
                 userId,
-                reason,
+                reason
             }: { guildId: string; userId: string; reason?: string },
             { req, server: { auth } }: { req: Request; server: Dashboard }
         ) => {
@@ -194,7 +194,7 @@ export default {
                 guildId: guild.id,
                 by: warnedBy.id,
                 reason,
-                timestamp: Date.now(),
+                timestamp: Date.now()
             };
 
             dbUser.warns.push(warn);
@@ -216,8 +216,8 @@ export default {
                     .setAuthor({
                         name: `${guild.name} Logs`,
                         iconURL: guild.iconURL({
-                            extension: "gif",
-                        }) as string,
+                            extension: "gif"
+                        }) as string
                     })
                     .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                     .setDescription(`${warnedBy} **Warned** ${member}`)
@@ -233,7 +233,7 @@ export default {
             {
                 guildId,
                 userId,
-                reason,
+                reason
             }: { guildId: string; userId: string; reason?: string },
             { req, server: { auth } }: { req: Request; server: Dashboard }
         ) => {
@@ -263,7 +263,7 @@ export default {
                 guildId: guild.id,
                 by: warnedBy.id,
                 reason,
-                timestamp: Date.now(),
+                timestamp: Date.now()
             };
 
             dbUser.reports.push(report);
@@ -285,8 +285,8 @@ export default {
                     .setAuthor({
                         name: `${guild.name} Logs`,
                         iconURL: guild.iconURL({
-                            extension: "gif",
-                        }) as string,
+                            extension: "gif"
+                        }) as string
                     })
                     .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                     .setDescription(`${warnedBy} **Reported** ${member}`)
@@ -303,6 +303,6 @@ export default {
             { server: { auth } }: { server: Dashboard }
         ) => {
             return auth.authUser(authData);
-        },
-    },
+        }
+    }
 };

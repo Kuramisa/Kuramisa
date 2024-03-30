@@ -1,6 +1,6 @@
 import { container } from "@sapphire/pieces";
 
-import { Guild, PermissionsBitField } from "discord.js";
+import { PermissionsBitField } from "discord.js";
 
 import jwt from "jsonwebtoken";
 import { GraphQLError } from "graphql";
@@ -38,7 +38,7 @@ export default class Auth {
             client,
             systems: { crypt },
             database,
-            util,
+            util
         } = container;
 
         const decoded = this.jwt.verify(crypt.decrypt(auth), this.secrets.jwt);
@@ -68,7 +68,7 @@ export default class Auth {
                           extension: guild.icon.startsWith("a_")
                               ? "gif"
                               : "png",
-                          size: 1024,
+                          size: 1024
                       })
                     : "https://i.imgur.com/SCv8M69.png";
 
@@ -94,7 +94,7 @@ export default class Auth {
             data: guilds[page],
             count: guildsCache.length,
             page,
-            perPage,
+            perPage
         };
     }
 
@@ -102,7 +102,7 @@ export default class Auth {
         const {
             dashboard,
             logger,
-            systems: { crypt },
+            systems: { crypt }
         } = container;
 
         const header = req.headers.authorization;
@@ -125,7 +125,7 @@ export default class Auth {
         const {
             dashboard,
             logger,
-            systems: { crypt },
+            systems: { crypt }
         } = container;
 
         if (!header) return null;
@@ -144,7 +144,7 @@ export default class Auth {
         const {
             client,
             logger,
-            systems: { crypt },
+            systems: { crypt }
         } = container;
 
         const decryptedCode = Buffer.from(code, "base64").toString("ascii");
@@ -163,13 +163,13 @@ export default class Auth {
                 redirectUri:
                     NODE_ENV === "development"
                         ? "http://localhost:5173/login"
-                        : "https://kuramisa.com/login",
+                        : "https://kuramisa.com/login"
             });
 
             return crypt.encrypt(
                 this.jwt.sign(
                     {
-                        token,
+                        token
                     },
                     this.secrets.jwt
                 )
@@ -188,7 +188,7 @@ export default class Auth {
             database,
             logger,
             systems: { crypt },
-            util,
+            util
         } = container;
 
         try {
@@ -204,7 +204,7 @@ export default class Auth {
 
             const bannerURL = user.banner
                 ? util.cdn.banner(user.id, user.banner, {
-                      size: 2048,
+                      size: 2048
                   })
                 : null;
 

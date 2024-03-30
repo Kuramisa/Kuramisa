@@ -39,7 +39,7 @@ export default class ValorantBundles {
             .embed()
             .setAuthor({
                 name: bundle.displayName,
-                iconURL: bundle.displayIcon,
+                iconURL: bundle.displayIcon
             })
             .setDescription(description)
             .setThumbnail(bundle.verticalPromoImage)
@@ -60,22 +60,24 @@ export default class ValorantBundles {
             kanvas,
             emojis,
             games: { valorant },
-            util,
+            util
         } = container;
 
         let description: string;
 
         if (item.basePrice === 0) description = "For Free";
         else
-            description = `**${emojis.get("val_points")} ${item.basePrice} VP ${item.basePrice === item.discountedPrice
-                ? ""
-                : `(${item.discountedPrice === 0
-                    ? "*Free*"
-                    : item.discountedPrice
-                }  with the bundle)`
-                }**`;
+            description = `**${emojis.get("val_points")} ${item.basePrice} VP ${
+                item.basePrice === item.discountedPrice
+                    ? ""
+                    : `(${
+                          item.discountedPrice === 0
+                              ? "*Free*"
+                              : item.discountedPrice
+                      }  with the bundle)`
+            }**`;
 
-        const embed = util.embed();
+        const embed = util.embed().setDescription(description);
 
         switch (item.type) {
             case "skin_level": {
@@ -86,7 +88,7 @@ export default class ValorantBundles {
                 embed
                     .setAuthor({
                         name: item.displayName,
-                        iconURL: contentTier.displayIcon,
+                        iconURL: contentTier.displayIcon
                     })
                     .setThumbnail(item.levels[0].displayIcon)
                     .setColor(`#${contentTier.highlightColor.substring(0, 6)}`);
@@ -102,7 +104,7 @@ export default class ValorantBundles {
                 embed
                     .setAuthor({
                         name: item.displayName,
-                        iconURL: item.displayIcon,
+                        iconURL: item.displayIcon
                     })
                     .setTitle(item.levels[0].displayName)
                     .setThumbnail(item.displayIcon)
@@ -117,7 +119,7 @@ export default class ValorantBundles {
                 embed
                     .setAuthor({
                         name: item.displayName,
-                        iconURL: item.displayIcon,
+                        iconURL: item.displayIcon
                     })
                     .setTitle(item.levels[0].displayName)
                     .setThumbnail(
@@ -135,7 +137,7 @@ export default class ValorantBundles {
                 embed
                     .setAuthor({
                         name: item.displayName,
-                        iconURL: item.displayIcon,
+                        iconURL: item.displayIcon
                     })
                     .setImage(item.wideArt)
                     .setThumbnail(item.largeArt)
@@ -146,7 +148,7 @@ export default class ValorantBundles {
             case "player_title": {
                 embed
                     .setAuthor({
-                        name: item.displayName,
+                        name: item.displayName
                     })
                     .setTitle(item.titleText);
                 break;
@@ -220,11 +222,11 @@ export default class ValorantBundles {
                         discountPercent: item.discount_percent,
                         basePrice: item.base_price,
                         discountedPrice: item.discounted_price,
-                        promoItem: item.promo_item,
+                        promoItem: item.promo_item
                     };
                 }),
                 secondsRemaining: bundle.seconds_remaining,
-                expiresAt: bundle.expires_at,
+                expiresAt: bundle.expires_at
             } as IValorantFeaturedBundle;
         }) as IValorantFeaturedBundle[];
     }

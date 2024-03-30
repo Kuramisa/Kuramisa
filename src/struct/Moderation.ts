@@ -30,7 +30,7 @@ export default class Moderation {
                 "scam",
                 "text-content",
                 "gore",
-                "qr-content",
+                "qr-content"
             ])
             .set_url(url);
 
@@ -101,7 +101,7 @@ export default class Moderation {
                 "scam",
                 "text-content",
                 "gore",
-                "qr-content",
+                "qr-content"
             ])
             .video_sync(url);
 
@@ -172,12 +172,12 @@ export default class Moderation {
 
     async text(text: string) {
         const {
-            systems: { openai },
+            systems: { openai }
         } = container;
 
         const completion = await openai.moderations.create({
             model: "text-moderation-latest",
-            input: text.trim(),
+            input: text.trim()
         });
 
         const response = completion.results[0];
@@ -225,9 +225,8 @@ export default class Moderation {
         const {
             client,
             database,
-            logger,
             systems: { openai },
-            util,
+            util
         } = container;
 
         if (message.author.id === client.user?.id) return;
