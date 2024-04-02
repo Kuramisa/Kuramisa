@@ -24,7 +24,8 @@ export default class ValorantPlayerTitles {
 
     // TODO: Add Embed method
     embed = (playerTitle: IValorantPlayerTitle) =>
-        container.util.embed()
+        container.util
+            .embed()
             .setAuthor({
                 name: playerTitle.displayName
             })
