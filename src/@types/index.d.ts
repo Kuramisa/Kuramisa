@@ -540,6 +540,8 @@ declare global {
     }
 
     type ValorantSkin = {
+        name: string;
+        uuid: string;
         level: {
             names: string[];
             embeds: EmbedBuilder[];

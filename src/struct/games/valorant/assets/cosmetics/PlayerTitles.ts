@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "@discordjs/builders";
+import { container } from "@sapphire/framework";
 import Valorant from "../..";
 
 export default class ValorantPlayerTitles {
@@ -24,7 +24,7 @@ export default class ValorantPlayerTitles {
 
     // TODO: Add Embed method
     embed = (playerTitle: IValorantPlayerTitle) =>
-        new EmbedBuilder()
+        container.util.embed()
             .setAuthor({
                 name: playerTitle.displayName
             })

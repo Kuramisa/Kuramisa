@@ -218,7 +218,7 @@ export class ValorantAutocomplete extends Listener {
 
                 let buddies = valorant.buddies.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((buddy) => buddy.cost !== 0)
+                    //.filter((buddy) => buddy.cost !== 0)
                     .filter(
                         (buddy) =>
                             !db.valorant.wishlist.some(
@@ -233,6 +233,7 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
+
                 if (buddies.length === 0) return;
 
                 buddies = buddies.slice(0, 25);
@@ -270,7 +271,6 @@ export class ValorantAutocomplete extends Listener {
 
                 let cards = valorant.playerCards.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((card) => card.cost !== 0)
                     .filter(
                         (card) =>
                             !db.valorant.wishlist.some(
@@ -321,7 +321,6 @@ export class ValorantAutocomplete extends Listener {
 
                 let sprays = valorant.sprays.all
                     .sort((a, b) => a.displayName.localeCompare(b.displayName))
-                    .filter((spray) => spray.cost !== 0)
                     .filter(
                         (spray) =>
                             !db.valorant.wishlist.some(

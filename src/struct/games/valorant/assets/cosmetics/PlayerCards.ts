@@ -1,4 +1,3 @@
-import { EmbedBuilder } from "discord.js";
 import Valorant from "../..";
 import { container } from "@sapphire/framework";
 
@@ -23,7 +22,8 @@ export default class ValorantPlayerCards {
 
     // TODO: Add Embed method
     embed = (playerCard: IValorantPlayerCard) =>
-        new EmbedBuilder()
+        container.util
+            .embed()
             .setAuthor({
                 name: playerCard.displayName,
                 iconURL: playerCard.displayIcon
@@ -35,7 +35,7 @@ export default class ValorantPlayerCards {
             )
             .setThumbnail(playerCard.largeArt)
             .setImage(playerCard.wideArt)
-            .setColor("Random");
+            .setColor("Orange");
 
     // TODO: Add card prices
     static async fetch() {

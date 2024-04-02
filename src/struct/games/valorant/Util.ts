@@ -14,7 +14,7 @@ import ffmpeg from "fluent-ffmpeg";
 import { Store } from "@valapi/web-client";
 import { Weapons } from "@valapi/valorant-api.com";
 import { container } from "@sapphire/framework";
-import { capitalize } from "lodash";
+import { capitalize, startCase } from "lodash";
 
 export default class ValorantUtil {
     readonly valorant: Valorant;
@@ -414,7 +414,11 @@ export default class ValorantUtil {
         return embed;
     }
 
-    async wishlistCard(user: User, privacytype: PrivacyTypes) {
+    async wishlistCard(
+        user: User,
+        privacytype: PrivacyTypes,
+        currentSelection: string
+    ) {
         const { util } = container;
         const embed = util
             .embed()
@@ -431,7 +435,7 @@ export default class ValorantUtil {
                 privacytype !== "friends" && privacytype === "private"
                     ? "Private"
                     : "Public"
-            })`
+            }) - ${startCase(currentSelection)}`
         );
 
         return embed;

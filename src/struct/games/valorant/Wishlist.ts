@@ -1,7 +1,18 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { container } from "@sapphire/framework";
 import Valorant from "./index";
-import { ButtonStyle, ChatInputCommandInteraction, User } from "discord.js";
+import {
+    ActionRowBuilder,
+    ButtonStyle,
+    ChatInputCommandInteraction,
+    Collection,
+    ComponentType,
+    EmbedBuilder,
+    MessageActionRowComponentBuilder,
+    StringSelectMenuBuilder,
+    User
+} from "discord.js";
+import { capitalize } from "lodash";
 
 export default class ValorantWishlist {
     private readonly valorant: Valorant;
@@ -96,11 +107,6 @@ export default class ValorantWishlist {
             if (title) titles.push(title);
         }
 
-        const mainEmbed = await valorant.util.wishlistCard(
-            user,
-            valDb.privacy.wishlist
-        );
-
         const skinEmbeds = [];
         const skinInfos = [];
         for (const skin of skins) {
@@ -172,6 +178,164 @@ export default class ValorantWishlist {
             valorant.playerTitles.embed(title)
         );
 
+        const wishlistInfo: Collection<
+            string,
+            {
+                embeds: EmbedBuilder[];
+                selectMenus: ActionRowBuilder<MessageActionRowComponentBuilder>[];
+            }
+        > = new Collection();
+
+        const skinSelectMenus = [];
+        let temp: any[] = [];
+
+        for (let i = 1; i <= skinInfos.length; i++) {
+            const skin = skinInfos[i - 1];
+            if (!skin) continue;
+            temp.push({
+                label: skin.name,
+                value: skin.uuid
+            });
+            if (
+                i % 4 === 0 ||
+                (skinInfos.length < 4 && i === skinInfos.length) ||
+                i === skinInfos.length
+            ) {
+                skinSelectMenus.push(
+                    util
+                        .row()
+                        .setComponents(
+                            util
+                                .stringMenu()
+                                .setCustomId("valorant_wishlist_skin")
+                                .setPlaceholder("Select a skin")
+                                .addOptions(temp)
+                        )
+                );
+            }
+        }
+
+        wishlistInfo.set("skins", {
+            embeds: skinEmbeds,
+            selectMenus: skinSelectMenus
+        });
+
+        const buddySelectMenus = [];
+        temp = [];
+
+        for (let i = 0; i < buddyInfos.length; i++) {
+            const buddy = buddyInfos[i];
+            temp.push({
+                label: buddy.name,
+                value: buddy.uuid
+            });
+            if (i % 4 === 0) {
+                buddySelectMenus.push(
+                    util
+                        .row()
+                        .setComponents(
+                            util
+                                .stringMenu()
+                                .setCustomId("valorant_wishlist_buddy")
+                                .setPlaceholder("Select a buddy")
+                                .addOptions(temp)
+                        )
+                );
+            }
+        }
+
+        wishlistInfo.set("buddies", {
+            embeds: buddyEmbeds,
+            selectMenus: buddySelectMenus
+        });
+
+        const cardSelectMenus = [];
+        temp = [];
+
+        for (let i = 0; i < cards.length; i++) {
+            const card = cards[i];
+            temp.push({
+                label: card.displayName,
+                value: card.uuid
+            });
+            if (i % 4 === 0) {
+                cardSelectMenus.push(
+                    util
+                        .row()
+                        .setComponents(
+                            util
+                                .stringMenu()
+                                .setCustomId("valorant_wishlist_card")
+                                .setPlaceholder("Select a card")
+                                .addOptions(temp)
+                        )
+                );
+            }
+        }
+
+        wishlistInfo.set("cards", {
+            embeds: cardEmbeds,
+            selectMenus: cardSelectMenus
+        });
+
+        const spraySelectMenus = [];
+        temp = [];
+
+        for (let i = 0; i < sprayInfos.length; i++) {
+            const spray = sprayInfos[i];
+            temp.push({
+                label: spray.name,
+                value: spray.uuid
+            });
+            if (i % 4 === 0) {
+                spraySelectMenus.push(
+                    util
+                        .row()
+                        .setComponents(
+                            util
+                                .stringMenu()
+                                .setCustomId("valorant_wishlist_spray")
+                                .setPlaceholder("Select a spray")
+                                .addOptions(temp)
+                        )
+                );
+            }
+        }
+
+        wishlistInfo.set("sprays", {
+            embeds: sprayEmbeds,
+            selectMenus: spraySelectMenus
+        });
+
+        const titleSelectMenus = [];
+        temp = [];
+
+        for (let i = 0; i < titles.length; i++) {
+            const title = titles[i];
+            temp.push({
+                label: title.displayName,
+                value: title.uuid
+            });
+            if (i % 4 === 0) {
+                titleSelectMenus.push(
+                    util
+                        .row()
+                        .setComponents(
+                            util
+                                .stringMenu()
+                                .setCustomId("valorant_wishlist_title")
+                                .setPlaceholder("Select a title")
+                                .addOptions(temp)
+                        )
+                );
+            }
+        }
+
+        wishlistInfo.set("titles", {
+            embeds: titleEmbeds,
+            selectMenus: titleSelectMenus
+        });
+
         const chooseTypeButtons = util
             .row()
             .setComponents(
@@ -202,32 +366,132 @@ export default class ValorantWishlist {
                     .setStyle(ButtonStyle.Primary)
             );
 
-        const addToWishlistButton = util
+        const navButtons = util
             .row()
             .setComponents(
                 util
                     .button()
-                    .setCustomId("add_to_wishlist")
-                    .setLabel("Add to Wishlist")
-                    .setStyle(ButtonStyle.Success)
+                    .setCustomId("previous_page")
+                    .setLabel("Previous")
+                    .setEmoji("⬅️")
+                    .setStyle(ButtonStyle.Secondary),
+                util
+                    .button()
+                    .setCustomId("next_page")
+                    .setLabel("Next")
+                    .setEmoji("➡️")
+                    .setStyle(ButtonStyle.Secondary)
             );
 
         const currentSelection = "skins";
 
-        const viewSelectMenu = util
-            .row()
-            .setComponents(
-                util
-                    .stringMenu()
-                    .setCustomId(`view_select_menu_${currentSelection}`)
-            );
+        let mainEmbed = await valorant.util.wishlistCard(
+            user,
+            valDb.privacy.wishlist,
+            currentSelection
+        );
 
-        const currentPage = 0;
+        const currentInfo = wishlistInfo.get(currentSelection);
 
-        await interaction.editReply({
+        if (!currentInfo) return;
+
+        const wishlistMenu = currentInfo.selectMenus;
+        const embeds = currentInfo.embeds;
+
+        let currentPage = 0;
+
+        let currentEmbeds = embeds.slice(currentPage, currentPage + 4);
+        let currentMenu = wishlistMenu[currentPage];
+
+        const message = await interaction.editReply({
             content: null,
-            embeds: [mainEmbed, skinEmbeds[currentPage]],
-            components: [chooseTypeButtons, viewSelectMenu, addToWishlistButton]
+            embeds: [mainEmbed, ...currentEmbeds],
+            components:
+                embeds.length <= 4
+                    ? [currentMenu, chooseTypeButtons]
+                    : [navButtons, currentMenu, chooseTypeButtons]
+        });
+
+        if (embeds.length > 4) {
+            const navCollector = message.createMessageComponentCollector({
+                componentType: ComponentType.Button,
+                time: 0,
+                filter: (i) => i.user.id === user.id
+            });
+
+            navCollector.on("collect", async (i) => {
+                if (i.customId === "previous_page") {
+                    currentPage -= 1;
+                    if (currentPage < 0) currentPage = 0;
+                } else if (i.customId === "next_page") {
+                    currentPage += 1;
+                    if (currentPage > embeds.length)
+                        currentPage = embeds.length;
+                }
+
+                mainEmbed = await valorant.util.wishlistCard(
+                    user,
+                    valDb.privacy.wishlist,
+                    currentSelection
+                );
+                currentEmbeds = embeds.slice(currentPage, currentPage + 4);
+                currentMenu = wishlistMenu[currentPage];
+
+                //console.log(wishlistMenu);
+                //console.log(currentMenu.components[0]);
+
+                await i.update({
+                    embeds: [mainEmbed, ...currentEmbeds],
+                    components:
+                        currentEmbeds.length <= 4
+                            ? [currentMenu, chooseTypeButtons]
+                            : [navButtons, currentMenu, chooseTypeButtons]
+                });
+            });
+        }
+
+        const typeSelectCollector = message.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            time: 0,
+            filter: (i) => i.user.id === user.id
+        });
+
+        typeSelectCollector.on("collect", async (i) => {
+            const type = i.customId.split("_")[2];
+            const info = wishlistInfo.get(type);
+
+            if (!info) return;
+
+            const embeds = info.embeds;
+            const menus = info.selectMenus;
+
+            if (embeds.length === 0) {
+                i.reply({
+                    content: `**😢 No ${capitalize(type)} items in ${
+                        userId === user.id ? "your" : `${user.globalName}'s`
+                    } wishlist**`,
+                    ephemeral: true
+                });
+                return;
+            }
+
+            currentPage = 0;
+
+            mainEmbed = await valorant.util.wishlistCard(
+                user,
+                valDb.privacy.wishlist,
+                type
+            );
+            currentEmbeds = embeds.slice(currentPage, currentPage + 4);
+            currentMenu = menus[currentPage];
+
+            await i.update({
+                embeds: [mainEmbed, ...currentEmbeds],
+                components:
+                    currentEmbeds.length <= 4
+                        ? [currentMenu, chooseTypeButtons]
+                        : [navButtons, currentMenu, chooseTypeButtons]
+            });
         });
     }
 
@@ -473,6 +737,8 @@ export default class ValorantWishlist {
         logger.debug(
             `Added ${item.displayName} to ${user.globalName}'s wishlist`
         );
+
+        return true;
     }
 
     async remove(
@@ -501,5 +767,7 @@ export default class ValorantWishlist {
         logger.debug(
             `Removed ${item.displayName} from ${user.globalName}'s wishlist`
         );
+
+        return true;
     }
 }

@@ -1,4 +1,3 @@
-import { EmbedBuilder } from "discord.js";
 import Valorant from "../..";
 import {
     ActionRowBuilder,
@@ -40,6 +39,8 @@ export default class ValorantBuddies {
             );
 
         return {
+            name: buddy.displayName,
+            uuid: buddy.uuid,
             level: {
                 names: levelNames,
                 embeds: levelEmbeds,
@@ -49,7 +50,8 @@ export default class ValorantBuddies {
     }
 
     levelEmbed = (buddy: IValorantBuddy, level: IValorantBuddyLevel) =>
-        new EmbedBuilder()
+        container.util
+            .embed()
             .setAuthor({ name: buddy.displayName })
             .setDescription(
                 `**${container.emojis.get("val_points")} ${buddy.cost} VP**`

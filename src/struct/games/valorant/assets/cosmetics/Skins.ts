@@ -4,7 +4,6 @@ import {
     ButtonBuilder,
     ButtonStyle,
     Collection,
-    EmbedBuilder,
     type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder
 } from "discord.js";
@@ -90,6 +89,8 @@ export default class ValorantSkins {
         const chromaVideos = this.chromaVideos(skin);
 
         return {
+            name: skin.displayName,
+            uuid: skin.uuid,
             level: {
                 names: levelNames,
                 embeds: levelEmbeds,
@@ -121,7 +122,8 @@ export default class ValorantSkins {
         level: IValorantWeaponSkinLevel,
         contentTier: IValorantContentTier
     ) =>
-        new EmbedBuilder()
+        container.util
+            .embed()
             .setAuthor({
                 name: level.displayName,
                 iconURL: contentTier.displayIcon
@@ -165,7 +167,8 @@ export default class ValorantSkins {
         chroma: Weapons.WeaponSkinChromas<"en-US">,
         contentTier: ContentTiers.ContentTiers<"en-US">
     ) =>
-        new EmbedBuilder()
+        container.util
+            .embed()
             .setAuthor({
                 name: chroma.displayName,
                 iconURL: contentTier.displayIcon

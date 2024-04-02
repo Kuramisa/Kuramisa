@@ -1,10 +1,10 @@
 import {
     ActionRowBuilder,
-    EmbedBuilder,
     MessageActionRowComponentBuilder,
     StringSelectMenuBuilder
 } from "discord.js";
 import Valorant from "../..";
+import { container } from "@sapphire/framework";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -35,6 +35,8 @@ export default class ValorantSprays {
             );
 
         return {
+            name: spray.displayName,
+            uuid: spray.uuid,
             level: {
                 names: levelNames,
                 embeds: levelEmbeds,
@@ -44,7 +46,8 @@ export default class ValorantSprays {
     }
 
     levelEmbed = (spray: IValorantSpray, level: IValorantSprayLevel) =>
-        new EmbedBuilder()
+        container.util
+            .embed()
             .setAuthor({
                 name: spray.displayName,
                 iconURL: spray.displayIcon
