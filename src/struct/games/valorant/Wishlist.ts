@@ -199,7 +199,7 @@ export default class ValorantWishlist {
             if (
                 i % 4 === 0 ||
                 (skinInfos.length < 4 && i === skinInfos.length) ||
-                i === skinInfos.length
+                i === skinInfos.length - 1 // Last item
             ) {
                 skinSelectMenus.push(
                     util
@@ -416,7 +416,10 @@ export default class ValorantWishlist {
             const navCollector = message.createMessageComponentCollector({
                 componentType: ComponentType.Button,
                 time: 0,
-                filter: (i) => i.user.id === user.id
+                filter: (i) =>
+                    i.user.id === user.id &&
+                    (i.customId === "next_page" ||
+                        i.customId === "previous_page")
             });
 
             navCollector.on("collect", async (i) => {
@@ -453,7 +456,9 @@ export default class ValorantWishlist {
         const typeSelectCollector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
             time: 0,
-            filter: (i) => i.user.id === user.id
+            filter: (i) =>
+                i.user.id === user.id &&
+                i.customId.startsWith("valorant_wishlist")
         });
 
         typeSelectCollector.on("collect", async (i) => {
