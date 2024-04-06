@@ -30,7 +30,6 @@ export class MusicAutocomplete extends Listener {
         switch (focused.name) {
             case "song_or_playlist_or_url": {
                 if (focused.value.length < 1) return;
-                // eslint-disable-next-line prefer-const
                 let { tracks, playlist } = await music.search(focused.value, {
                     requestedBy: interaction.user
                 });

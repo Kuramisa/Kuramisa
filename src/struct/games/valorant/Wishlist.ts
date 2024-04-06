@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { container } from "@sapphire/framework";
 import Valorant from "./index";
 import {

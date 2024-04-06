@@ -5,7 +5,6 @@ export default {
     Query: {
         weapons: () => {
             return container.games.valorant.weapons.all.map((wp) => {
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { skins, ...weapon } = wp;
                 return weapon;
             });
@@ -20,7 +19,6 @@ export default {
             const weapon = container.games.valorant.weapons.getByID(weaponUuid);
             if (!weapon) return null;
             if (withSkins) return weapon;
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
             const { skins, ...weaponWithoutSkins } = weapon;
             return weaponWithoutSkins;
         },

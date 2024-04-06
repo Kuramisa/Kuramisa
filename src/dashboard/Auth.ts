@@ -217,7 +217,6 @@ export default class Auth {
                 ).toJSON();
 
                 if (db) {
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     const { card, valorant, ...dbInfo } = db;
 
                     info = { ...info, ...dbInfo };

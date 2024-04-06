@@ -25,7 +25,6 @@ export default {
 
             if (fetchDb) {
                 const db = await database.users.fetch(user.id);
-                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 const { valorant, ...rest } = db._doc;
                 if (db) info = { ...db, ...rest };
             }
@@ -63,7 +62,6 @@ export default {
 
                     if (fetchDb) {
                         const db = await database.users.fetch(user.id);
-                        // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
                         const { valorant, ...rest } = db._doc;
 
                         if (db) info = { ...db, ...rest };
