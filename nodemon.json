@@ -1,11 +1,6 @@
 {
-    "ignore": [
-        "node_modules"
-    ],
-    "watch": [
-        "src",
-        ".env"
-    ],
-    "exec": "pnpm build && pnpm start",
+    "ignore": ["node_modules"],
+    "watch": ["src", ".env"],
+    "exec": "pnpm beautify && pnpm build && pnpm start",
     "ext": "ts"
 }
