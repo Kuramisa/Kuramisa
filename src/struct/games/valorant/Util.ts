@@ -368,7 +368,7 @@ export default class ValorantUtil {
     }
 
     async shopCard(
-        account: ValorantAccount,
+        account: IValorantAccount,
         shopType: "daily" | "featured" | "night" | "accessory",
         time: number,
         privacytype: PrivacyTypes

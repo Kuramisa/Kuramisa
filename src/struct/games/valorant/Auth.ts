@@ -134,7 +134,7 @@ export default class ValorantAuth {
         }
 
         try {
-            const playerInfo: ValorantPlayerInfo = (await web.getUserInfo())
+            const playerInfo: IValorantPlayerInfo = (await web.getUserInfo())
                 .data;
 
             accounts.set(username, {

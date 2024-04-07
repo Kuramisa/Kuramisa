@@ -1,6 +1,6 @@
 import { model, Schema } from "mongoose";
 
-export interface IGuild extends MongoResult {
+export interface IGuild extends IMongoResult {
     id: string;
     name: string;
     prefix: string;

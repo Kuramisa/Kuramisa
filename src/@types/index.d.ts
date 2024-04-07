@@ -16,7 +16,7 @@ import type {
 import type { WebClient } from "valorant.ts";
 
 declare global {
-    interface MongoResult {
+    interface IMongoResult {
         _doc: any;
     }
 
@@ -558,7 +558,7 @@ declare global {
 
     type ValorantSkinCollection = Collection<string, ValorantSkin>;
 
-    interface ValorantAccount {
+    interface IValorantAccount {
         username: string;
         user: User;
         auth: WebClient;
@@ -596,7 +596,7 @@ declare global {
         ContractID: string;
     };
 
-    interface ValorantPlayerInfo {
+    interface IValorantPlayerInfo {
         country: string;
         sub: string;
         email_verified: boolean;

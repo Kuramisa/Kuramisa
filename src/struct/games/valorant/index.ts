@@ -42,8 +42,10 @@ import ValorantWishlist from "./Wishlist";
 import { capitalize } from "lodash";
 
 export default class Valorant {
-    readonly accounts: Collection<string, Collection<string, ValorantAccount>> =
-        new Collection();
+    readonly accounts: Collection<
+        string,
+        Collection<string, IValorantAccount>
+    > = new Collection();
 
     initialized: boolean = false;
 
@@ -369,7 +371,7 @@ export default class Valorant {
                 continue;
             }
 
-            const playerInfo: ValorantPlayerInfo | null = (
+            const playerInfo: IValorantPlayerInfo | null = (
                 await web.getUserInfo().catch((err) => {
                     logger.error(err);
                     logger.error(
