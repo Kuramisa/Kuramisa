@@ -2,5 +2,8 @@
     "ignore": ["node_modules"],
     "watch": ["src", ".env"],
     "exec": "pnpm eslint && pnpm build && pnpm start",
-    "ext": "ts"
+    "ext": "ts",
+    "env": {
+        "NODE_ENV": "development"
+    }
 }
