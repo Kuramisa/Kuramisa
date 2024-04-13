@@ -20,7 +20,7 @@ export class WarnsCommand extends Command {
                 .addSubcommand((command) =>
                     command
                         .setName("view")
-                        .setDescription("View member's reports")
+                        .setDescription("View member's warns")
                         .addUserOption((option) =>
                             option
                                 .setName("member")
@@ -42,7 +42,7 @@ export class WarnsCommand extends Command {
                 .addSubcommand((command) =>
                     command
                         .setName("clear")
-                        .setDescription("Clear Member's all reports")
+                        .setDescription("Clear Member's all warns")
                         .addUserOption((option) =>
                             option
                                 .setName("member")
@@ -97,7 +97,7 @@ export class WarnsCommand extends Command {
                         .setDescription(
                             `**Warned by**: <@${warn.by}>\n**Reason**: ${warn.reason}`
                         )
-                        .setTimestamp(warn.timestamp);
+                        .setTimestamp(warn.createdTimestamp);
 
                     embeds.push(embed);
                 }
