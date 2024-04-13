@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { ComponentType } from "discord.js";
+import { ChannelType, ComponentType } from "discord.js";
 
 export class VoiceCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -28,7 +28,7 @@ export class VoiceCommand extends Command {
                             option
                                 .setName("channel")
                                 .setDescription("Channel to move them into")
-                                .addChannelTypes(2)
+                                .addChannelTypes(ChannelType.GuildVoice)
                                 .setRequired(true)
                         )
                 )
@@ -40,7 +40,7 @@ export class VoiceCommand extends Command {
                             option
                                 .setName("channel")
                                 .setDescription("Channel to move them into")
-                                .addChannelTypes(2)
+                                .addChannelTypes(ChannelType.GuildVoice)
                                 .setRequired(true)
                         )
                 )
