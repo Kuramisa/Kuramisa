@@ -16,6 +16,7 @@ import Util from "./struct/Util";
 
 const { TOKEN, NODE_ENV } = process.env;
 
+// TODO: Work on a help command
 export default class Kuramisa extends SapphireClient {
     constructor() {
         super({
