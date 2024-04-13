@@ -18,7 +18,7 @@ export class AudioTrackAddListener extends Listener {
         if (!queue.currentTrack?.url) return;
 
         const { guild } = queue;
-        const { channel } = queue.metadata as Metadata;
+        const { channel } = queue.metadata as IMetadata;
 
         const embed = util
             .embed()

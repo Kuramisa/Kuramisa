@@ -15,7 +15,7 @@ export class PlayerStartListener extends Listener {
         const { client, util } = this.container;
 
         const { guild } = queue;
-        const { channel } = queue.metadata as Metadata;
+        const { channel } = queue.metadata as IMetadata;
 
         const embed = util
             .embed()
