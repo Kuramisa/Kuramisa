@@ -11,6 +11,8 @@ import moment from "moment";
 export default class KanvasMember {
     private readonly kanvas: Kanvas;
 
+    private readonly twentyPxBold = "20px Poppins Bold";
+
     constructor(kanvas: Kanvas) {
         this.kanvas = kanvas;
     }
@@ -450,15 +452,6 @@ export default class KanvasMember {
                             )
                         )
                     );
-                } else if (flag.startsWith("NITRO")) {
-                    badges.push(
-                        await loadImage(
-                            Buffer.from(
-                                otherBadges[flag as keyof typeof otherBadges],
-                                "base64"
-                            )
-                        )
-                    );
                 } else {
                     badges.push(
                         await loadImage(
@@ -481,7 +474,7 @@ export default class KanvasMember {
                 ? user.globalName
                 : user.username;
 
-            ctx.font = "20px Poppins Bold";
+            ctx.font = this.twentyPxBold;
             ctx.fillText(
                 `${
                     globalName.length > 16
@@ -539,29 +532,30 @@ export default class KanvasMember {
 
                 ctx.font = "10px Poppins";
                 ctx.fillText(
-                    `${activity.details ? `${activity.details}` : ""}`,
+                    activity.details ? `${activity.details}` : "",
                     110,
                     345
                 );
                 ctx.fillText(
-                    `${activity.state ? `${activity.state}` : ""}`,
+                    activity.state ? `${activity.state}` : "",
                     110,
                     358
                 );
+
+                const assetDefaultURL =
+                    "https://cdn.discordapp.com/attachments/1106235099743264768/1109156957182505010/2023-05-19_19-33-08.png";
 
                 try {
                     const largeImage = activity.assets
                         ? activity.assets.largeImageURL()
                             ? activity.assets.largeImageURL()!
-                            : "https://cdn.discordapp.com/attachments/1106235099743264768/1109156957182505010/2023-05-19_19-33-08.png"
-                        : "https://cdn.discordapp.com/attachments/1106235099743264768/1109156957182505010/2023-05-19_19-33-08.png";
+                            : assetDefaultURL
+                        : assetDefaultURL;
 
                     ctx.drawImage(await loadImage(largeImage), 60, 320, 45, 45);
-                } catch (error) {
+                } catch {
                     ctx.drawImage(
-                        await loadImage(
-                            "https://cdn.discordapp.com/attachments/1106235099743264768/1109156957182505010/2023-05-19_19-33-08.png"
-                        ),
+                        await loadImage(assetDefaultURL),
                         60,
                         320,
                         45,
@@ -798,7 +792,7 @@ export default class KanvasMember {
 
         const levelWidth = ctx.measureText(`${currentLevel}`).width + 5;
 
-        ctx.font = "20px Poppins Bold";
+        ctx.font = this.twentyPxBold;
         ctx.fillText("Level", 250 + maxXpBarWidth - levelWidth, 90);
 
         const levelTextWidth = ctx.measureText("Level").width + 30;
@@ -813,7 +807,7 @@ export default class KanvasMember {
 
         const rankWidth = ctx.measureText(`${currentRank}`).width + 5;
 
-        ctx.font = "20px Poppins Bold";
+        ctx.font = this.twentyPxBold;
         ctx.fillText(
             "Rank",
             200 + maxXpBarWidth - levelTextWidth - levelWidth - rankWidth,
@@ -1001,12 +995,7 @@ export default class KanvasMember {
                     else strokeStyle = "#FFA500";
                     break;
                 }
-                case "status": {
-                    strokeStyle = user.hexAccentColor
-                        ? user.hexAccentColor
-                        : "#808080";
-                    break;
-                }
+                case "status":
                 case "avatar": {
                     strokeStyle = user.hexAccentColor
                         ? user.hexAccentColor
@@ -1090,7 +1079,7 @@ export default class KanvasMember {
                 );
             else ctx.fillText(`${user.username}`, 80, tagY, 260);
 
-            ctx.font = "20px Poppins Bold";
+            ctx.font = this.twentyPxBold;
             ctx.textAlign = "right";
             ctx.fillText(`Level: ${dbUser.level}`, 560, xpY, 200);
 

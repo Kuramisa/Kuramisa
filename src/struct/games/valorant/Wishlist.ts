@@ -8,7 +8,6 @@ import {
     ComponentType,
     EmbedBuilder,
     MessageActionRowComponentBuilder,
-    StringSelectMenuBuilder,
     User
 } from "discord.js";
 import { capitalize } from "lodash";

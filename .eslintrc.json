@@ -24,6 +24,7 @@
         "no-else-return": "error",
         "no-var": "error",
         "no-console": "error",
+        "sonarjs/cognitive-complexity": "off",
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-var-requires": "off",
         "@typescript-eslint/no-unused-vars": [
@@ -76,19 +77,13 @@
             },
             {
                 "selector": "enumMember",
-                "format": ["UPPER_CASE"],
+                "format": ["UPPER_CASE", "PascalCase"],
                 "leadingUnderscore": "forbid",
                 "trailingUnderscore": "forbid"
             },
             {
                 "selector": "parameter",
                 "format": ["camelCase"],
-                "leadingUnderscore": "allow",
-                "trailingUnderscore": "forbid"
-            },
-            {
-                "selector": "property",
-                //"format": ["camelCase", "UPPER_CASE", "PascalCase", "snake_case"],
                 "leadingUnderscore": "allow",
                 "trailingUnderscore": "forbid"
             },

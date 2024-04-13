@@ -23,28 +23,24 @@ export class AutoRoleACListener extends Listener {
 
         const focused = options.getFocused(true);
 
-        switch (focused.name) {
-            case "role_to_remove": {
-                let roles = db.autorole.map((role) =>
-                    guild.roles.cache.get(role)
+        if (focused.name === "role_to_remove") {
+            let roles = db.autorole.map((role) => guild.roles.cache.get(role));
+
+            if (focused.value.length > 1)
+                roles = roles.filter((role) =>
+                    role?.name
+                        .toLowerCase()
+                        .startsWith(focused.value.toLowerCase())
                 );
 
-                if (focused.value.length > 1)
-                    roles = roles.filter((role) =>
-                        role?.name
-                            .toLowerCase()
-                            .startsWith(focused.value.toLowerCase())
-                    );
+            roles = roles.slice(0, 25);
 
-                roles = roles.slice(0, 25);
-
-                return interaction.respond(
-                    roles.map((role) => ({
-                        name: role ? role.name : "Unknown Role",
-                        value: role ? role.id : ""
-                    }))
-                );
-            }
+            return interaction.respond(
+                roles.map((role) => ({
+                    name: role ? role.name : "Unknown Role",
+                    value: role ? role.id : ""
+                }))
+            );
         }
     }
 }

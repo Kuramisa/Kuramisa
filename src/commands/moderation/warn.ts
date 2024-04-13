@@ -33,7 +33,7 @@ export class WarnCommand extends Command {
         );
 
         registry.registerContextMenuCommand((builder) =>
-            builder.setName("Warn").setType(2)
+            builder.setName("Warn").setType(2).setDMPermission(false)
         );
     }
 

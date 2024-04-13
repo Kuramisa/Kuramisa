@@ -231,27 +231,27 @@ export class SelfRolesCommand extends Command {
 
         switch (options.getSubcommand()) {
             case "setup":
-                return moderation.selfroles.setup(interaction);
-        }
-
-        switch (options.getSubcommandGroup()) {
-            case "buttons":
-                switch (options.getSubcommand()) {
-                    case "add":
-                        return moderation.selfroles.addButton(interaction);
-                    case "remove":
-                        return moderation.selfroles.removeButton(interaction);
+                await moderation.selfroles.setup(interaction);
+                break;
+            case "add": {
+                if (options.getSubcommandGroup() === "message") {
+                    await moderation.selfroles.addMessage(interaction);
+                } else if (options.getSubcommandGroup() === "buttons") {
+                    await moderation.selfroles.addButton(interaction);
                 }
                 break;
-            case "message":
-                switch (options.getSubcommand()) {
-                    case "add":
-                        return moderation.selfroles.addMessage(interaction);
-                    case "remove":
-                        return moderation.selfroles.removeMessage(interaction);
-                    case "edit":
-                        return moderation.selfroles.editMessage(interaction);
+            }
+            case "remove": {
+                if (options.getSubcommandGroup() === "message") {
+                    await moderation.selfroles.removeMessage(interaction);
+                } else if (options.getSubcommandGroup() === "buttons") {
+                    await moderation.selfroles.removeButton(interaction);
                 }
+                break;
+            }
+            case "edit":
+                await moderation.selfroles.editMessage(interaction);
+                break;
         }
     }
 }

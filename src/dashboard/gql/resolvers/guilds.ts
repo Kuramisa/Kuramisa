@@ -10,6 +10,8 @@ import {
     Invite
 } from "discord.js";
 
+const server404 = "Server not found";
+
 export default {
     Query: {
         guild: async (
@@ -20,9 +22,9 @@ export default {
             const { client, database, util } = container;
 
             const guild = await client.guilds.fetch(guildId).catch(() => {
-                throw new GraphQLError("Server not found");
+                throw new GraphQLError(server404);
             });
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const iconURL = guild.icon
                 ? util.cdn.icon(guild.id, guild.icon, {
@@ -177,7 +179,7 @@ export default {
             const { client, database, util } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const member = await guild.members.fetch(memberId);
             if (!member) throw new GraphQLError("Member not found");
@@ -216,7 +218,7 @@ export default {
             const { client, database, util } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const membersCache = guild.members.cache.filter(
                 (member) => !member.user.bot
@@ -262,7 +264,7 @@ export default {
             { guildId, roleId }: { guildId: string; roleId: string }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const role =
                 guild.roles.cache.get(roleId) ??
                 guild.roles.cache.find((role) => role.name === roleId);
@@ -271,7 +273,7 @@ export default {
         },
         roles: (_: any, { guildId }: { guildId: string }) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             return guild.roles.cache.toJSON();
         },
 
@@ -286,7 +288,7 @@ export default {
             }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const emoji =
                 guild.emojis.cache.get(emojiId) ??
                 guild.emojis.cache.find((emoji) => emoji.name === emojiId);
@@ -295,7 +297,7 @@ export default {
         },
         emojis: (_: any, { guildId }: { guildId: string }) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             return guild.emojis.cache.toJSON();
         }
     }

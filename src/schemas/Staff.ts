@@ -7,7 +7,7 @@ export interface IStaff extends IMongoResult {
     type: StaffType;
 }
 
-export const Staff = new Schema<IStaff>({
+export const staff = new Schema<IStaff>({
     id: {
         type: String,
         required: true,
@@ -26,8 +26,8 @@ export const Staff = new Schema<IStaff>({
     }
 });
 
-const StaffModel = model<IStaff>("Staff", Staff);
+const staffModel = model<IStaff>("staff", staff);
 
-export type StaffDocument = ReturnType<(typeof StaffModel)["hydrate"]>;
+export type StaffDocument = ReturnType<(typeof staffModel)["hydrate"]>;
 
-export default StaffModel;
+export default staffModel;

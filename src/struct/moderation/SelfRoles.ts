@@ -7,6 +7,9 @@ import {
 } from "discord.js";
 
 export default class SelfRoles {
+    private setupMessage =
+        "You need to setup at least one channel for self roles first!";
+
     // Set up the self roles channel and message
     async setup(interaction: ChatInputCommandInteraction) {
         const { database, util } = container;
@@ -115,8 +118,7 @@ export default class SelfRoles {
 
         if (db.selfRoles.length < 1)
             return interaction.reply({
-                content:
-                    "You need to setup at least one channel for self roles first!",
+                content: this.setupMessage,
                 ephemeral: true
             });
 
@@ -204,8 +206,7 @@ export default class SelfRoles {
 
         if (db.selfRoles.length < 1)
             return interaction.reply({
-                content:
-                    "You need to setup at least one channel for self roles first!",
+                content: this.setupMessage,
                 ephemeral: true
             });
 
@@ -248,8 +249,7 @@ export default class SelfRoles {
 
         if (db.selfRoles.length < 1)
             return interaction.reply({
-                content:
-                    "You need to setup at least one channel for self roles first!",
+                content: this.setupMessage,
                 ephemeral: true
             });
 
@@ -307,8 +307,7 @@ export default class SelfRoles {
 
         if (db.selfRoles.length < 1)
             return interaction.reply({
-                content:
-                    "You need to setup at least one channel for self roles first!",
+                content: this.setupMessage,
                 ephemeral: true
             });
 
@@ -430,8 +429,7 @@ export default class SelfRoles {
 
         if (db.selfRoles.length < 1)
             return interaction.reply({
-                content:
-                    "You need to setup at least one channel for self roles first!",
+                content: this.setupMessage,
                 ephemeral: true
             });
 

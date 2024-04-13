@@ -16,6 +16,8 @@ import { Bundles } from "./assets";
 export default class ValorantShop {
     private readonly valorant: Valorant;
 
+    private readonly somethingWentWrong = "**🥺 Something went wrong >.<**";
+
     constructor(valorant: Valorant) {
         this.valorant = valorant;
     }
@@ -184,7 +186,7 @@ export default class ValorantShop {
                 !wishlistSelectMenu
             )
                 return interaction.editReply({
-                    content: "**🥺 Something went wrong >.<**"
+                    content: this.somethingWentWrong
                 });
 
             let buttonRow = util
@@ -285,7 +287,7 @@ export default class ValorantShop {
         } catch (err) {
             logger.error(err);
             return interaction.editReply({
-                content: "**🥺 Something went wrong >.<**"
+                content: this.somethingWentWrong
             });
         }
     }

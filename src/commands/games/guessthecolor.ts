@@ -2,6 +2,8 @@ import { Command } from "@sapphire/framework";
 import { AttachmentBuilder, ButtonStyle, ComponentType } from "discord.js";
 import { shuffle } from "lodash";
 
+const answers = ["wrong-answer-1", "wrong-answer-2", "correct-answer"];
+
 export class GuessTheColorCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
         super(ctx, {
@@ -31,9 +33,7 @@ export class GuessTheColorCommand extends Command {
         const collector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
             filter: (i) =>
-                (i.customId === "wrong-answer-1" ||
-                    i.customId === "wrong-answer-2" ||
-                    i.customId === "correct-answer") &&
+                answers.includes(i.customId) &&
                 i.user.id === interaction.user.id,
             time: 30000
         });
@@ -41,7 +41,7 @@ export class GuessTheColorCommand extends Command {
         collector
             .on("collect", async (i) => {
                 switch (i.customId) {
-                    case "correct-answer": {
+                    case answers[2]: {
                         getColors = await this.getColors();
 
                         await i.update({
@@ -51,8 +51,8 @@ export class GuessTheColorCommand extends Command {
                         });
                         break;
                     }
-                    case "wrong-answer-1":
-                    case "wrong-answer-2":
+                    case answers[0]:
+                    case answers[1]:
                         await i.update({ content: "**⛔ Incorrect**" });
                         break;
                 }
@@ -72,17 +72,17 @@ export class GuessTheColorCommand extends Command {
         const buttons = [
             util
                 .button()
-                .setCustomId("wrong-answer-1")
+                .setCustomId(answers[0])
                 .setLabel(this.randomColor())
                 .setStyle(ButtonStyle.Secondary),
             util
                 .button()
-                .setCustomId("wrong-answer-2")
+                .setCustomId(answers[1])
                 .setLabel(this.randomColor())
                 .setStyle(ButtonStyle.Secondary),
             util
                 .button()
-                .setCustomId("correct-answer")
+                .setCustomId(answers[2])
                 .setLabel(correctColor)
                 .setStyle(ButtonStyle.Secondary)
         ];

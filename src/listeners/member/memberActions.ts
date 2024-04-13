@@ -60,6 +60,8 @@ export class MemberActionsListener extends Listener {
                 ephemeral: true
             });
 
+        const notEnoughPerms = "Not enough permissions";
+
         switch (interaction.customId) {
             case "show_rank": {
                 await interaction.deferReply({ ephemeral: true });
@@ -85,7 +87,7 @@ export class MemberActionsListener extends Listener {
                     !guild.members.me?.permissions.has("KickMembers")
                 )
                     return interaction.reply({
-                        content: "Not enough permissions",
+                        content: notEnoughPerms,
                         ephemeral: true
                     });
 
@@ -136,7 +138,7 @@ export class MemberActionsListener extends Listener {
                     !guild.members.me?.permissions.has("BanMembers")
                 )
                     return interaction.reply({
-                        content: "Not enough permissions",
+                        content: notEnoughPerms,
                         ephemeral: true
                     });
 
@@ -240,7 +242,7 @@ export class MemberActionsListener extends Listener {
             case "warn_member": {
                 if (!member.permissions.has("ModerateMembers"))
                     return interaction.reply({
-                        content: "Not enough permissions",
+                        content: notEnoughPerms,
                         ephemeral: true
                     });
                 const modal = moderation.warns.modal(target);
@@ -264,7 +266,7 @@ export class MemberActionsListener extends Listener {
             case "show_reports": {
                 if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
-                        content: "Not enough permissions",
+                        content: notEnoughPerms,
                         ephemeral: true
                     });
                 const reports = await moderation.reports.get(target);
@@ -301,7 +303,7 @@ export class MemberActionsListener extends Listener {
             case "show_warns": {
                 if (!member.permissions.has("ViewAuditLog"))
                     return interaction.reply({
-                        content: "Not enough permissions",
+                        content: notEnoughPerms,
                         ephemeral: true
                     });
                 const warns = await moderation.warns.get(target);

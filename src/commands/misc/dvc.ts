@@ -51,6 +51,9 @@ export class DVCCommand extends Command {
 
         const db = await database.guilds.fetch(guild.id);
 
+        const goBack = "convert-go-back";
+        const loadMore = "convert-load-more";
+
         switch (options.getSubcommand()) {
             case "convert": {
                 const message = await interaction.deferReply({
@@ -102,12 +105,12 @@ export class DVCCommand extends Command {
                     .setComponents(
                         util
                             .button()
-                            .setCustomId("convert-go-back")
+                            .setCustomId(goBack)
                             .setLabel("Go back")
                             .setStyle(ButtonStyle.Danger),
                         util
                             .button()
-                            .setCustomId("convert-load-more")
+                            .setCustomId(loadMore)
                             .setLabel("Load More")
                             .setStyle(ButtonStyle.Success)
                     );
@@ -120,24 +123,15 @@ export class DVCCommand extends Command {
                 const collector = message.createMessageComponentCollector({
                     componentType: ComponentType.Button,
                     filter: (i) =>
-                        (i.customId === "convert-go-back" ||
-                            i.customId === "convert-load-more") &&
+                        (i.customId === goBack || i.customId === loadMore) &&
                         i.user.id === interaction.user.id
                 });
 
                 collector.on("collect", async (i) => {
-                    switch (i.customId) {
-                        case "convert-go-back": {
-                            page = page > 0 ? --page : rows.length - 1;
-                            break;
-                        }
-                        case "convert-load-more": {
-                            page = page + 1 < rows.length ? ++page : 0;
-                            break;
-                        }
-                        default:
-                            break;
-                    }
+                    if (i.customId === goBack)
+                        page = page > 0 ? --page : rows.length - 1;
+                    if (i.customId === loadMore)
+                        page = page + 1 < rows.length ? ++page : 0;
 
                     await i.deferUpdate();
                     await i.update({

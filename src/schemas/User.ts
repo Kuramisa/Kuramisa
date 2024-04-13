@@ -53,7 +53,7 @@ export interface IUser extends IMongoResult {
     reports: IReport[];
 }
 
-export const User = new Schema<IUser>({
+export const user = new Schema<IUser>({
     id: {
         type: String,
         required: true,
@@ -186,8 +186,8 @@ export const User = new Schema<IUser>({
     ]
 });
 
-const UserModel = model<IUser>("users", User);
+const userModel = model<IUser>("users", user);
 
-export type UserDocument = ReturnType<(typeof UserModel)["hydrate"]>;
+export type UserDocument = ReturnType<(typeof userModel)["hydrate"]>;
 
-export default UserModel;
+export default userModel;

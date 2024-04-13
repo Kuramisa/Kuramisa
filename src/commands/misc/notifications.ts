@@ -39,17 +39,16 @@ export class NotificationsCommand extends Command {
 
         const enabled = options.getBoolean("enabled", true);
 
-        switch (options.getSubcommand()) {
-            case "bot_announcements":
-                db.notifications.botAnnouncements = enabled;
-                await db.save();
-                await interaction.reply({
-                    content: `Bot announcements have been ${
-                        enabled ? "enabled" : "disabled"
-                    }`,
-                    ephemeral: true
-                });
-                break;
+        // Switch to "switch" statement when needed
+        if (options.getSubcommand() === "bot_announcements") {
+            db.notifications.botAnnouncements = enabled;
+            await db.save();
+            await interaction.reply({
+                content: `Bot announcements have been ${
+                    enabled ? "enabled" : "disabled"
+                }`,
+                ephemeral: true
+            });
         }
     }
 }

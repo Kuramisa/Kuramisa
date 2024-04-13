@@ -30,9 +30,12 @@ export class MusicAutocomplete extends Listener {
         switch (focused.name) {
             case "song_or_playlist_or_url": {
                 if (focused.value.length < 1) return;
-                let { tracks, playlist } = await music.search(focused.value, {
+                const search = await music.search(focused.value, {
                     requestedBy: interaction.user
                 });
+
+                const { playlist } = search;
+                let { tracks } = search;
 
                 if (tracks.length < 1) return;
 

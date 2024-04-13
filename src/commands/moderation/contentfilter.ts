@@ -57,6 +57,11 @@ export class FiltersCommand extends Subcommand {
     async chatInputMessages(
         interaction: Subcommand.ChatInputCommandInteraction
     ) {
+        return interaction.reply({
+            content: "For now, this command is disabled",
+            ephemeral: true
+        });
+
         if (!interaction.inCachedGuild()) return;
         const { database } = this.container;
 

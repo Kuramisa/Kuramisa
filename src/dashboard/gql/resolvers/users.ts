@@ -5,6 +5,9 @@ import { GraphQLError } from "graphql";
 import { type Request } from "express";
 import { User } from "discord.js";
 
+const server404 = "Server not found";
+const member404 = "Member not found";
+
 export default {
     Query: {
         user: async (
@@ -114,10 +117,10 @@ export default {
             const { client, moderation } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError("Member not found");
+            if (!member) throw new GraphQLError(member404);
 
             return (await moderation.warns.get(member)).slice(first, offset);
         },
@@ -138,10 +141,10 @@ export default {
             const { client, moderation } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError("Member not found");
+            if (!member) throw new GraphQLError(member404);
 
             return (await moderation.reports.get(member)).slice(first, offset);
         },
@@ -168,16 +171,16 @@ export default {
             const { client, database, util } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const warnedBy = await guild.members.fetch(user.id);
-            if (!warnedBy) throw new GraphQLError("Member not found");
+            if (!warnedBy) throw new GraphQLError(member404);
 
             if (!warnedBy.permissions.has("ModerateMembers"))
                 throw new GraphQLError("Not enough permissions");
 
             const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError("Member not found");
+            if (!member) throw new GraphQLError(member404);
 
             const dbUser = await database.users.fetch(member.user.id);
             const dbGuild = await database.guilds.fetch(guild.id);
@@ -240,13 +243,13 @@ export default {
             const { client, database, util } = container;
 
             const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
 
             const warnedBy = await guild.members.fetch(user.id);
-            if (!warnedBy) throw new GraphQLError("Member not found");
+            if (!warnedBy) throw new GraphQLError(member404);
 
             const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError("Member not found");
+            if (!member) throw new GraphQLError(member404);
 
             const dbUser = await database.users.fetch(member.user.id);
             const dbGuild = await database.guilds.fetch(guild.id);

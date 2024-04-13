@@ -2,6 +2,14 @@ import { Subcommand } from "@sapphire/plugin-subcommands";
 import { QueueRepeatMode, Track } from "discord-player";
 import { ChannelType } from "discord.js";
 
+const mustBeInVc =
+    "> 🚫 **You must be in a voice channel to use this command**";
+
+const mustBeInSameVc =
+    "> 🚫 **You must be in the same voice channel as me to use this command**";
+
+const noMusicPlaying = "> 🚫 **There is no music playing**";
+
 // TODO: add more commands for music
 export class MusicCommand extends Subcommand {
     constructor(ctx: Subcommand.LoaderContext, opts: Subcommand.Options) {
@@ -192,8 +200,7 @@ export class MusicCommand extends Subcommand {
 
         if (!voiceChannel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -202,8 +209,7 @@ export class MusicCommand extends Subcommand {
             voiceChannel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -273,7 +279,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -283,8 +289,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -293,8 +298,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -348,7 +352,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -358,8 +362,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -368,8 +371,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -411,7 +413,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -421,8 +423,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -431,8 +432,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -506,7 +506,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -544,7 +544,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -554,8 +554,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -564,8 +563,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -617,7 +615,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -627,8 +625,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -637,8 +634,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -669,7 +665,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -679,8 +675,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -689,8 +684,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
 
@@ -721,7 +715,7 @@ export class MusicCommand extends Subcommand {
 
         if (!queue)
             return interaction.reply({
-                content: "> 🚫 **There is no music playing**",
+                content: noMusicPlaying,
                 ephemeral: true
             });
 
@@ -731,8 +725,7 @@ export class MusicCommand extends Subcommand {
 
         if (!channel)
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in a voice channel to use this command**",
+                content: mustBeInVc,
                 ephemeral: true
             });
 
@@ -741,8 +734,7 @@ export class MusicCommand extends Subcommand {
             channel.id !== guild.members.me.voice.channelId
         )
             return interaction.reply({
-                content:
-                    "> 🚫 **You must be in the same voice channel as me to use this command**",
+                content: mustBeInSameVc,
                 ephemeral: true
             });
     }

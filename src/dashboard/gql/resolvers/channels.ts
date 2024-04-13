@@ -1,6 +1,9 @@
 import { container } from "@sapphire/pieces";
 import { GraphQLError } from "graphql";
 
+const server404 = "Server not found";
+const channel404 = "Channel not found";
+
 export default {
     Query: {
         channel: (
@@ -8,9 +11,9 @@ export default {
             { guildId, channelId }: { guildId: string; channelId: string }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const channel = guild.channels.cache.get(channelId);
-            if (!channel) throw new GraphQLError("Channel not found");
+            if (!channel) throw new GraphQLError(channel404);
             return channel.toJSON();
         },
         channels: (
@@ -22,7 +25,7 @@ export default {
             }: { guildId: string; page: number; perPage?: number }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const channelsCache = guild.channels.cache;
             let channels = channelsCache.toJSON();
 
@@ -50,9 +53,9 @@ export default {
             }: { guildId: string; channelId: string; messageId: string }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const channel = guild.channels.cache.get(channelId);
-            if (!channel) throw new GraphQLError("Channel not found");
+            if (!channel) throw new GraphQLError(channel404);
             if (!channel.isTextBased())
                 throw new GraphQLError("Channel provided is not text based");
             const messages = await channel.messages.fetch();
@@ -75,9 +78,9 @@ export default {
             }
         ) => {
             const guild = container.client.guilds.cache.get(guildId);
-            if (!guild) throw new GraphQLError("Server not found");
+            if (!guild) throw new GraphQLError(server404);
             const channel = guild.channels.cache.get(channelId);
-            if (!channel) throw new GraphQLError("Channel not found");
+            if (!channel) throw new GraphQLError(channel404);
             if (!channel.isTextBased())
                 throw new GraphQLError("Channel provided is not text based");
             const messagesCache = await channel.messages.fetch();

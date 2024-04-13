@@ -49,7 +49,7 @@ export class AudioTrackAddListener extends Listener {
                 setTimeout(() => {
                     guild.musicMessage?.edit({ embeds: [oldEmbed] });
                 }, 3000);
-            } catch (error) {
+            } catch {
                 guild.musicMessage = await channel.send({ embeds: [embed] });
                 setTimeout(() => {
                     guild.musicMessage?.edit({ embeds: [oldEmbed] });

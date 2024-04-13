@@ -110,14 +110,12 @@ export default class ValorantUtil {
         let levelPage = 0;
 
         buttonCollector.on("collect", async (i) => {
-            switch (i.customId) {
-                case "add_to_wishlist": {
-                    await i.reply({
-                        content: "**😁 Coming Soon™️!**",
-                        ephemeral: true
-                    });
-                    return;
-                }
+            if (i.customId === "add_to_wishlist") {
+                await i.reply({
+                    content: "**😁 Coming Soon™️!**",
+                    ephemeral: true
+                });
+                return;
             }
 
             if (i.customId.includes("valorant_skin_chroma")) {

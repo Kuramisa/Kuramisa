@@ -365,82 +365,144 @@ export class ValorantCommand extends Command {
                 ephemeral: true
             });
 
-        switch (options.getSubcommandGroup()) {
+        if (options.getSubcommandGroup()) {
+            await this.handleSubcommandGroups(
+                interaction,
+                options.getSubcommandGroup(true)
+            );
+        }
+
+        if (subcommand) {
+            await this.handleSubcommand(interaction, subcommand);
+        } else {
+            await interaction.reply({
+                content: "**😲 Please provide a subcommand!**",
+                ephemeral: true
+            });
+        }
+    }
+
+    async handleSubcommandGroups(
+        interaction: Command.ChatInputCommandInteraction,
+        group: string
+    ) {
+        switch (group) {
             case "market":
-                switch (subcommand) {
-                    case "daily":
-                        await valorant.shop.daily(interaction);
-                        break;
-                    case "featured":
-                        await valorant.shop.featured(interaction);
-                        break;
-                }
+                await this.handleMarket(interaction);
                 break;
             case "wishlist_add":
-                switch (subcommand) {
-                    case "skin":
-                        await valorant.wishlist.addSkinCommand(interaction);
-                        break;
-                    case "buddy":
-                        await valorant.wishlist.addBuddyCommand(interaction);
-                        break;
-                    case "card":
-                        await valorant.wishlist.addCardCommand(interaction);
-                        break;
-                    case "spray":
-                        await valorant.wishlist.addSprayCommand(interaction);
-                        break;
-                }
+                await this.handleWishlistAdd(interaction);
                 break;
             case "wishlist_remove":
-                switch (subcommand) {
-                    case "skin":
-                        await valorant.wishlist.removeSkinCommand(interaction);
-                        break;
-                    case "buddy":
-                        await valorant.wishlist.removeBuddyCommand(interaction);
-                        break;
-                    case "card":
-                        await valorant.wishlist.removeCardCommand(interaction);
-                        break;
-                    case "spray":
-                        await valorant.wishlist.removeSprayCommand(interaction);
-                        break;
-                }
+                await this.handleWishlistRemove(interaction);
                 break;
-            default: {
-                switch (subcommand) {
-                    case "login":
-                        await valorant.auth.login(interaction);
-                        break;
-                    case "logout":
-                        await valorant.auth.logout(interaction);
-                        break;
-                    case "privacy":
-                        await valorant.privacy(interaction);
-                        break;
-                    case "agents": {
-                        await valorant.agentsCommand(interaction);
-                        break;
-                    }
-                    case "skins": {
-                        await valorant.skinsCommand(interaction);
-                        break;
-                    }
-                    case "skin": {
-                        await valorant.skinCommand(interaction);
-                        break;
-                    }
-                    case "weapons": {
-                        await valorant.weaponsCommand(interaction);
-                        break;
-                    }
-                    case "wishlist_view": {
-                        await valorant.wishlist.wishlistView(interaction);
-                        break;
-                    }
-                }
+        }
+    }
+
+    async handleSubcommand(
+        interaction: Command.ChatInputCommandInteraction,
+        command: string
+    ) {
+        const {
+            games: { valorant }
+        } = this.container;
+
+        switch (command) {
+            case "login":
+                await valorant.auth.login(interaction);
+                break;
+            case "logout":
+                await valorant.auth.logout(interaction);
+                break;
+            case "privacy":
+                await valorant.privacy(interaction);
+                break;
+            case "agents":
+                await valorant.agentsCommand(interaction);
+                break;
+            case "skins":
+                await valorant.skinsCommand(interaction);
+                break;
+            case "skin":
+                await valorant.skinCommand(interaction);
+                break;
+            case "weapons":
+                await valorant.weaponsCommand(interaction);
+                break;
+            case "wishlist_view":
+                await valorant.wishlist.wishlistView(interaction);
+                break;
+        }
+    }
+
+    async handleMarket(interaction: Command.ChatInputCommandInteraction) {
+        const { options } = interaction;
+
+        const {
+            games: {
+                valorant: { shop }
             }
+        } = this.container;
+
+        switch (options.getSubcommand()) {
+            case "daily":
+                await shop.daily(interaction);
+                break;
+            case "featured":
+                await shop.featured(interaction);
+                break;
+        }
+    }
+
+    async handleWishlistAdd(interaction: Command.ChatInputCommandInteraction) {
+        const { options } = interaction;
+
+        const {
+            games: {
+                valorant: { wishlist }
+            }
+        } = this.container;
+
+        switch (options.getSubcommand()) {
+            case "skin":
+                await wishlist.addSkinCommand(interaction);
+                break;
+            case "buddy":
+                await wishlist.addBuddyCommand(interaction);
+                break;
+            case "card":
+                await wishlist.addCardCommand(interaction);
+                break;
+            case "spray":
+                await wishlist.addSprayCommand(interaction);
+                break;
+        }
+    }
+
+    async handleWishlistRemove(
+        interaction: Command.ChatInputCommandInteraction
+    ) {
+        const { options } = interaction;
+
+        const {
+            games: {
+                valorant: { wishlist }
+            }
+        } = this.container;
+
+        switch (options.getSubcommand()) {
+            case "skin":
+                await wishlist.removeSkinCommand(interaction);
+                break;
+            case "buddy":
+                await wishlist.removeBuddyCommand(interaction);
+                break;
+            case "card":
+                await wishlist.removeCardCommand(interaction);
+                break;
+            case "spray":
+                await wishlist.removeSprayCommand(interaction);
+                break;
         }
     }
 }

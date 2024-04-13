@@ -629,7 +629,7 @@ declare global {
 
     // End of Valorant Declarations
 
-    interface Metadata {
+    interface IMetadata {
         interaction:
             | ChatInputCommandInteraction<"cached">
             | ContextMenuCommandInteraction<"cached">;
@@ -674,7 +674,7 @@ declare global {
     type CardType = "buffer" | "attachment";
 
     // Shinobi Types
-    interface ShinobiClan {
+    interface IShinobiClan {
         id: string;
         name: string;
         description: string;
@@ -683,7 +683,7 @@ declare global {
         stats: ShinobiStats;
     }
 
-    interface ShinobiVillage {
+    interface IShinobiVillage {
         id: string;
         name: {
             en: string;
@@ -694,7 +694,7 @@ declare global {
         icon: string;
     }
 
-    interface ShinobiStats {
+    interface IShinobiStats {
         hp: number;
         chakra: number;
         ninjutsu: number;
@@ -703,11 +703,11 @@ declare global {
         kenjutsu: number;
     }
 
-    interface Currencies {
+    interface ICurrencies {
         ryo: number;
     }
 
-    interface ShinobiWeapon {
+    interface IShinobiWeapon {
         id: string;
         name: string;
         icon: string;
@@ -727,6 +727,8 @@ declare global {
 }
 
 declare module "discord.js" {
+    // Below is needed to not mess with discord.js module
+    //eslint-disable-next-line @typescript-eslint/naming-convention
     export interface Guild {
         musicMessage: Message | null | undefined;
     }

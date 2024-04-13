@@ -73,7 +73,7 @@ export interface IGuild extends IMongoResult {
     };
 }
 
-export const Guild = new Schema<IGuild>({
+export const guild = new Schema<IGuild>({
     id: {
         type: String,
         required: true,
@@ -136,8 +136,8 @@ export const Guild = new Schema<IGuild>({
     }
 });
 
-const GuildModel = model<IGuild>("guilds", Guild);
+const guildModel = model<IGuild>("guilds", guild);
 
-export type GuildDocument = ReturnType<(typeof GuildModel)["hydrate"]>;
+export type GuildDocument = ReturnType<(typeof guildModel)["hydrate"]>;
 
-export default GuildModel;
+export default guildModel;

@@ -42,7 +42,7 @@ export class PlayerStartListener extends Listener {
         if (guild.musicMessage) {
             try {
                 await guild.musicMessage.edit({ embeds: [embed] });
-            } catch (error) {
+            } catch {
                 guild.musicMessage = await channel.send({ embeds: [embed] });
             }
         } else {

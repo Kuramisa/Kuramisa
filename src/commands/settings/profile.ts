@@ -1,8 +1,14 @@
+/* eslint-disable sonarjs/no-nested-switch */
 import { Command } from "@sapphire/framework";
 
 import toHex from "colornames";
 import fromHex from "color-namer";
 import { AttachmentBuilder } from "discord.js";
+
+const colorToSet = "Color to set it to";
+const noBanner = "You don't have a banner";
+
+// TODO: Fix the nested switches
 
 export class ProfileCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -38,7 +44,7 @@ export class ProfileCommand extends Command {
                                 .addStringOption((option) =>
                                     option
                                         .setName("color")
-                                        .setDescription("Color to set it to")
+                                        .setDescription(colorToSet)
                                 )
                         )
                         .addSubcommand((command) =>
@@ -78,7 +84,7 @@ export class ProfileCommand extends Command {
                                 .addStringOption((option) =>
                                     option
                                         .setName("color")
-                                        .setDescription("Color to set it to")
+                                        .setDescription(colorToSet)
                                 )
                         )
                 )
@@ -103,7 +109,7 @@ export class ProfileCommand extends Command {
                                 .addStringOption((option) =>
                                     option
                                         .setName("color")
-                                        .setDescription("Color to set it to")
+                                        .setDescription(colorToSet)
                                 )
                         )
                 )
@@ -134,7 +140,7 @@ export class ProfileCommand extends Command {
                         const banner = user.banner;
                         if (!banner)
                             return interaction.reply({
-                                content: "You don't have a banner",
+                                content: noBanner,
                                 ephemeral: true
                             });
                         db.card.background.type = "banner";
@@ -249,7 +255,7 @@ export class ProfileCommand extends Command {
                         const banner = user.banner;
                         if (!banner)
                             return interaction.reply({
-                                content: "You don't have a banner",
+                                content: noBanner,
                                 ephemeral: true
                             });
 
@@ -334,7 +340,7 @@ export class ProfileCommand extends Command {
                         const banner = user.banner;
                         if (!banner)
                             return interaction.reply({
-                                content: "You don't have a banner",
+                                content: noBanner,
                                 ephemeral: true
                             });
                         db.card.text.type = "banner";

@@ -22,28 +22,24 @@ export class DVCACListener extends Listener {
 
         const focused = options.getFocused(true);
 
-        switch (focused.name) {
-            case "channel_to_undo": {
-                let channels = db.dvc.map(
-                    (vc) =>
-                        guild.channels.cache.get(
-                            vc.parentId
-                        ) as GuildBasedChannel
+        if (focused.name === "channel_to_undo") {
+            let channels = db.dvc.map(
+                (vc) =>
+                    guild.channels.cache.get(vc.parentId) as GuildBasedChannel
+            );
+
+            if (focused.value.length > 0)
+                channels = channels.filter((ch) =>
+                    ch.name
+                        .toLowerCase()
+                        .startsWith(focused.value.toLowerCase())
                 );
 
-                if (focused.value.length > 0)
-                    channels = channels.filter((ch) =>
-                        ch.name
-                            .toLowerCase()
-                            .startsWith(focused.value.toLowerCase())
-                    );
+            channels = channels.slice(0, 25);
 
-                channels = channels.slice(0, 25);
-
-                return interaction.respond(
-                    channels.map((ch) => ({ name: ch.name, value: ch.id }))
-                );
-            }
+            return interaction.respond(
+                channels.map((ch) => ({ name: ch.name, value: ch.id }))
+            );
         }
     }
 }

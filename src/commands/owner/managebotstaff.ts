@@ -66,6 +66,9 @@ export class BotStaffCommand extends Command {
 
         const { database, owners, util } = this.container;
 
+        // TODO: Add more commands
+
+        //eslint-disable-next-line
         switch (options.getSubcommand()) {
             case "add": {
                 if (!owners.find((owner) => owner.id === executor.id))

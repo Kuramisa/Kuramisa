@@ -23,26 +23,25 @@ export class LogsACListener extends Listener {
 
         const focused = options.getFocused();
 
-        switch (options.getSubcommand()) {
-            case "toggles": {
-                let toggles = Object.keys(db.logs.types).map((string) =>
-                    string.split(/(?=[A-Z])/).join(" ")
+        // Switch to "switch" statement when needed
+        if (options.getSubcommand() === "toggles") {
+            let toggles = Object.keys(db.logs.types).map((string) =>
+                string.split(/(?=[A-Z])/).join(" ")
+            );
+
+            if (focused.length > 0)
+                toggles = toggles.filter((toggle) =>
+                    toggle.startsWith(focused)
                 );
 
-                if (focused.length > 0)
-                    toggles = toggles.filter((toggle) =>
-                        toggle.startsWith(focused)
-                    );
+            toggles = toggles.slice(0, 25);
 
-                toggles = toggles.slice(0, 25);
-
-                return await interaction.respond(
-                    toggles.map((choice) => ({
-                        name: capitalize(choice),
-                        value: choice.split(" ").join("")
-                    }))
-                );
-            }
+            return await interaction.respond(
+                toggles.map((choice) => ({
+                    name: capitalize(choice),
+                    value: choice.split(" ").join("")
+                }))
+            );
         }
     }
 }
