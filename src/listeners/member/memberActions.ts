@@ -21,7 +21,6 @@ export class MemberActionsListener extends Listener {
             ![
                 "show_rank",
                 "show_warns",
-                "show_reports",
                 "kick_member",
                 "ban_member",
                 "report_member",
@@ -220,25 +219,6 @@ export class MemberActionsListener extends Listener {
                     ephemeral: true
                 });
             }
-            case "report_member": {
-                const modal = moderation.reports.modal(target);
-
-                await interaction.showModal(modal);
-
-                const mIntereaction = await interaction.awaitModalSubmit({
-                    time: 0
-                });
-
-                const reason =
-                    mIntereaction.fields.getTextInputValue("report-reason");
-
-                await moderation.reports.create(target, member, reason);
-
-                return interaction.reply({
-                    content: `You reported ${target.user.username}`,
-                    ephemeral: true
-                });
-            }
             case "warn_member": {
                 if (!member.permissions.has("ModerateMembers"))
                     return interaction.reply({
@@ -262,43 +242,6 @@ export class MemberActionsListener extends Listener {
                     content: `You warned ${target.user.username}`,
                     ephemeral: true
                 });
-            }
-            case "show_reports": {
-                if (!member.permissions.has("ViewAuditLog"))
-                    return interaction.reply({
-                        content: notEnoughPerms,
-                        ephemeral: true
-                    });
-                const reports = await moderation.reports.get(target);
-                if (!reports || reports.length < 1)
-                    return interaction.reply({
-                        content: `${target} has no reports`,
-                        ephemeral: true
-                    });
-
-                const embeds = [];
-
-                for (const report of reports) {
-                    const embed = util
-                        .embed()
-                        .setAuthor({
-                            name: `${guild.name} Reports`,
-                            iconURL: guild.iconURL() as string
-                        })
-                        .setTitle(`${target.user.username} Report`)
-                        .setDescription(report.reason)
-                        .setFooter({
-                            text: `Reported by ${
-                                guild.members.cache.get(report.by)?.user
-                                    .username
-                            }`
-                        })
-                        .setTimestamp(report.timestamp);
-
-                    embeds.push(embed);
-                }
-
-                return util.pagination.embeds(interaction, embeds, true);
             }
             case "show_warns": {
                 if (!member.permissions.has("ViewAuditLog"))
@@ -329,7 +272,7 @@ export class MemberActionsListener extends Listener {
                                 guild.members.cache.get(warn.by)?.user.username
                             }`
                         })
-                        .setTimestamp(warn.timestamp);
+                        .setTimestamp(warn.createdTimestamp);
 
                     embeds.push(embed);
                 }

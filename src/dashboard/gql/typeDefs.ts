@@ -60,7 +60,6 @@ type Query {
     members(guildId: String!, fetchDb: Boolean, page: Int, perPage: Int): Data!
 
     warns(guildId: String!, userId: String!, page: Int, perPage: Int): Data!
-    reports(guildId: String!, userId: String!, page: Int, perPage: Int): Data!
     
     weapons: Data!
     weapon(weaponUuid: String!, withSkins: Boolean): Data!

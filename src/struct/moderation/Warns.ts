@@ -17,7 +17,8 @@ export default class Warns {
             guildId: guild.id,
             by: by.id,
             reason,
-            timestamp: Date.now()
+            createdTimestamp: Date.now(),
+            createdAt: new Date()
         });
 
         await dbUser.save();

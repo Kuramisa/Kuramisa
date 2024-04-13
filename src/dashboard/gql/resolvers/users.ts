@@ -124,30 +124,6 @@ export default {
 
             return (await moderation.warns.get(member)).slice(first, offset);
         },
-        reports: async (
-            _: any,
-            {
-                guildId,
-                userId,
-                first,
-                offset
-            }: {
-                guildId: string;
-                userId: string;
-                first?: number;
-                offset?: number;
-            }
-        ) => {
-            const { client, moderation } = container;
-
-            const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError(server404);
-
-            const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError(member404);
-
-            return (await moderation.reports.get(member)).slice(first, offset);
-        },
         login: async (
             _: any,
             { code }: { code: any },
@@ -195,7 +171,8 @@ export default {
                 guildId: guild.id,
                 by: warnedBy.id,
                 reason,
-                timestamp: Date.now()
+                createdTimestamp: Date.now(),
+                createdAt: new Date()
             };
 
             dbUser.warns.push(warn);
@@ -228,75 +205,6 @@ export default {
             }
 
             return warn;
-        },
-        reportUser: async (
-            _: any,
-            {
-                guildId,
-                userId,
-                reason
-            }: { guildId: string; userId: string; reason?: string },
-            { req, server: { auth } }: { req: Request; server: Dashboard }
-        ) => {
-            const user = await auth.checkToken(req);
-
-            const { client, database, util } = container;
-
-            const guild = await client.guilds.fetch(guildId);
-            if (!guild) throw new GraphQLError(server404);
-
-            const warnedBy = await guild.members.fetch(user.id);
-            if (!warnedBy) throw new GraphQLError(member404);
-
-            const member = await guild.members.fetch(userId);
-            if (!member) throw new GraphQLError(member404);
-
-            const dbUser = await database.users.fetch(member.user.id);
-            const dbGuild = await database.guilds.fetch(guild.id);
-
-            if (!dbUser || !dbGuild)
-                throw new GraphQLError("Database data is missing");
-
-            if (!reason || reason.length < 1) reason = "No reason specified";
-
-            const report = {
-                id: `report-${DiscordSnowflake.generate()}`,
-                guildId: guild.id,
-                by: warnedBy.id,
-                reason,
-                timestamp: Date.now()
-            };
-
-            dbUser.reports.push(report);
-
-            await dbUser.save();
-
-            if (dbGuild.logs.types.memberReported) {
-                const channel = guild.channels.cache.get(dbGuild.logs.channel);
-                if (!channel || !channel.isTextBased()) return;
-                if (
-                    !guild.members.me
-                        ?.permissionsIn(channel)
-                        .has("SendMessages")
-                )
-                    return;
-
-                const embed = util
-                    .embed()
-                    .setAuthor({
-                        name: `${guild.name} Logs`,
-                        iconURL: guild.iconURL({
-                            extension: "gif"
-                        }) as string
-                    })
-                    .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
-                    .setDescription(`${warnedBy} **Reported** ${member}`)
-                    .addFields({ name: "Reason", value: reason });
-
-                channel.send({ embeds: [embed] });
-            }
-
-            return report;
         },
         authUser: async (
             _: any,

@@ -12,28 +12,6 @@ export interface IGuild extends IMongoResult {
         parentId: string;
         id: string;
     }[];
-    polls: {
-        messageId: string;
-        channelId: string;
-        buttons?: {
-            customId: string;
-            text: string;
-            index: number;
-            votes: {
-                userId: string;
-                votedAt: number;
-            }[];
-        }[];
-        emojis?: {
-            text: string;
-            index: number;
-        }[];
-        type: "buttons" | "emojis";
-        duration: number | null;
-    }[];
-    channels: {
-        reports: string;
-    };
     logs: {
         channel: string;
         types: {
@@ -86,7 +64,6 @@ export const guild = new Schema<IGuild>({
     musicMessage: String,
     autorole: [],
     dvc: [],
-    polls: [],
     promoted: {
         type: Boolean,
         default: false

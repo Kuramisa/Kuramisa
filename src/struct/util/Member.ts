@@ -48,11 +48,6 @@ export default class UtilMember {
                     .button()
                     .setCustomId("show_warns")
                     .setLabel("Show Warns")
-                    .setStyle(ButtonStyle.Primary),
-                util
-                    .button()
-                    .setCustomId("show_reports")
-                    .setLabel("Show Reports")
                     .setStyle(ButtonStyle.Primary)
             );
 

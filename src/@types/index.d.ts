@@ -642,16 +642,8 @@ declare global {
         guildId: string;
         by: string;
         reason: string;
-        timestamp: number;
-    };
-
-    type IReport = {
-        id: string;
-        guildId: string;
-        by: string;
-        message?: { id: string; content: string };
-        reason: string;
-        timestamp: number;
+        createdTimestamp: number;
+        createdAt: Date;
     };
 
     type IInvite = {

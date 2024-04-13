@@ -32,22 +32,19 @@ export class MemberActionsModalListener extends Listener {
 
         const { fields, guild } = interaction;
 
-        const target = await guild.members.fetch(id);
+        const target = await guild.members.fetch(id).catch(() => null);
 
-        switch (interaction.customId) {
-            case `report_member_${id}`:
-                return moderation.reports.create(
-                    target,
-                    interaction.member,
-                    fields.getTextInputValue("report_reason")
-                );
-            case `warn_member_${id}`: {
-                return moderation.warns.create(
-                    target,
-                    interaction.member,
-                    fields.getTextInputValue("warn_reason")
-                );
-            }
-        }
+        if (!target)
+            return interaction.reply({
+                content: "Member not found",
+                ephemeral: true
+            });
+
+        if (interaction.customId === `warn_member_${id}`)
+            return moderation.warns.create(
+                target,
+                interaction.member,
+                fields.getTextInputValue("warn_reason")
+            );
     }
 }

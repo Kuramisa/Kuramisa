@@ -50,7 +50,6 @@ export interface IUser extends IMongoResult {
         };
     };
     warns: IWarn[];
-    reports: IReport[];
 }
 
 export const user = new Schema<IUser>({
@@ -168,20 +167,8 @@ export const user = new Schema<IUser>({
             guildId: String,
             by: String,
             reason: String,
-            timestamp: Number
-        }
-    ],
-    reports: [
-        {
-            id: String,
-            guildId: String,
-            by: String,
-            message: {
-                id: String,
-                content: String
-            },
-            reason: String,
-            timestamp: Number
+            createdTimestamp: Number,
+            createdAt: Date
         }
     ]
 });

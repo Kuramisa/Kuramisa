@@ -1,5 +1,4 @@
 import { container } from "@sapphire/framework";
-import Reports from "./moderation/Reports";
 import SelfRoles from "./moderation/SelfRoles";
 import Warns from "./moderation/Warns";
 
@@ -12,12 +11,10 @@ const { SIGHTENGINE_ID, SIGHTENGINE_API } = process.env;
 const sightengine = new SightEngine(SIGHTENGINE_ID, SIGHTENGINE_API);
 
 export default class Moderation {
-    readonly reports: Reports;
     readonly selfroles: SelfRoles;
     readonly warns: Warns;
 
     constructor() {
-        this.reports = new Reports();
         this.selfroles = new SelfRoles();
         this.warns = new Warns();
     }
