@@ -40,7 +40,8 @@ export class TSCommand extends Command {
         try {
             const voice = new Voice({
                 apiKey: ELEVENLABS_API,
-                voiceId: MY_VOICE_ID
+                voiceId: MY_VOICE_ID,
+                modelId: "eleven_multilingual_v2"
             });
 
             const response = await voice.textToSpeechStream({
