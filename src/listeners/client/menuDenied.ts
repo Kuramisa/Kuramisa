@@ -1,7 +1,7 @@
 import {
     type ContextMenuCommandDeniedPayload,
     Listener,
-    UserError
+    type UserError
 } from "@sapphire/framework";
 
 export class MenuDeniedListener extends Listener {

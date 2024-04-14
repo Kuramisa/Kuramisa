@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ActivityType, TextChannel, type PresenceData } from "discord.js";
+import { ActivityType, type TextChannel, type PresenceData } from "discord.js";
 import { CronJob } from "cron";
 
 export class ReadyListener extends Listener {

@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ButtonInteraction, ComponentType } from "discord.js";
+import { type ButtonInteraction, ComponentType } from "discord.js";
 
 export class ValorantWeaponEmbedButtons extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

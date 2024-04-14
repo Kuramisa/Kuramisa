@@ -1,14 +1,14 @@
 import { container } from "@sapphire/framework";
-import Valorant from "./index";
+import type Valorant from "./index";
 import {
-    ActionRowBuilder,
+    type ActionRowBuilder,
     ButtonStyle,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     Collection,
     ComponentType,
-    EmbedBuilder,
-    MessageActionRowComponentBuilder,
-    User
+    type EmbedBuilder,
+    type MessageActionRowComponentBuilder,
+    type User
 } from "discord.js";
 import { capitalize } from "lodash";
 

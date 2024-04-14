@@ -1,7 +1,7 @@
 import { container } from "@sapphire/pieces";
-import Kanvas from "../Kanvas";
+import type Kanvas from "../Kanvas";
 
-import { ActivityType, GuildMember } from "discord.js";
+import { ActivityType, type GuildMember } from "discord.js";
 import { createCanvas, loadImage, type SKRSContext2D } from "@napi-rs/canvas";
 
 import badgesOrder from "../../data/badgesOrder";

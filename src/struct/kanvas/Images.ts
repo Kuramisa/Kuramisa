@@ -1,7 +1,7 @@
-import Kanvas from "../Kanvas";
+import type Kanvas from "../Kanvas";
 
 import { createCanvas, loadImage } from "@napi-rs/canvas";
-import { GuildMember } from "discord.js";
+import { type GuildMember } from "discord.js";
 import { container } from "@sapphire/framework";
 
 export default class KanvasImages {

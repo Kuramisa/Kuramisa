@@ -1,9 +1,9 @@
 import Valorant from "./index";
 import { container } from "@sapphire/pieces";
 import {
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     ComponentType,
-    ModalSubmitInteraction
+    type ModalSubmitInteraction
 } from "discord.js";
 import { ValError, WebClient } from "valorant.ts";
 

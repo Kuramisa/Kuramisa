@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { Message } from "discord.js";
+import { type Message } from "discord.js";
 
 export class ImageModerationListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

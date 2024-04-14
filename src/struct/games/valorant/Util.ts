@@ -1,18 +1,18 @@
-import Valorant from "./index";
+import type Valorant from "./index";
 import {
-    ActionRowBuilder,
+    type ActionRowBuilder,
     AttachmentBuilder,
-    ButtonInteraction,
+    type ButtonInteraction,
     ButtonStyle,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     ComponentType,
     type MessageActionRowComponentBuilder,
-    StringSelectMenuInteraction,
-    User
+    type StringSelectMenuInteraction,
+    type User
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
-import { Store } from "@valapi/web-client";
-import { Weapons } from "@valapi/valorant-api.com";
+import { type Store } from "@valapi/web-client";
+import { type Weapons } from "@valapi/valorant-api.com";
 import { container } from "@sapphire/framework";
 import { capitalize, startCase } from "lodash";
 

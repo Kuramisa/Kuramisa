@@ -1,9 +1,9 @@
 import { container } from "@sapphire/pieces";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import Dashboard from "../../../dashboard";
+import type Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
-import { User } from "discord.js";
+import { type User } from "discord.js";
 
 const server404 = "Server not found";
 const member404 = "Member not found";

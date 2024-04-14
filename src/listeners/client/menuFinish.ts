@@ -1,7 +1,7 @@
 import { Listener } from "@sapphire/framework";
 import {
     ApplicationCommandType,
-    ContextMenuCommandInteraction
+    type ContextMenuCommandInteraction
 } from "discord.js";
 
 export class MenuFinishListener extends Listener {

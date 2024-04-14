@@ -1,5 +1,5 @@
 import { Subcommand } from "@sapphire/plugin-subcommands";
-import { QueueRepeatMode, Track } from "discord-player";
+import { QueueRepeatMode, type Track } from "discord-player";
 import { ChannelType } from "discord.js";
 
 const mustBeInVc =

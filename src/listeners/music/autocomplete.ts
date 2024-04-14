@@ -1,6 +1,6 @@
 import { Listener } from "@sapphire/framework";
-import { AutocompleteInteraction } from "discord.js";
-import { Track } from "discord-player";
+import { type AutocompleteInteraction } from "discord.js";
+import { type Track } from "discord-player";
 import { capitalize } from "lodash";
 
 export class MusicAutocomplete extends Listener {

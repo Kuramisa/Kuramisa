@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ChannelType, Message } from "discord.js";
+import { ChannelType, type Message } from "discord.js";
 
 export class MessageEditedLogListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

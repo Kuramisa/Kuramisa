@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { GuildMember } from "discord.js";
+import { type GuildMember } from "discord.js";
 
 export class MemberNicknameChangLogListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

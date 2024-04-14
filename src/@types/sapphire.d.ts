@@ -1,5 +1,5 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 // Line above is important since we do not want to enforce naming conventions for sapphire pieces
+/* eslint-disable @typescript-eslint/naming-convention */
 import type Kuramisa from "../Kuramisa";
 import type Database from "../struct/Database";
 import type Moderation from "../struct/Moderation";

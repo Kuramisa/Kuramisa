@@ -720,7 +720,7 @@ declare global {
 
 declare module "discord.js" {
     // Below is needed to not mess with discord.js module
-    //eslint-disable-next-line @typescript-eslint/naming-convention
+    // eslint-disable-next-line @typescript-eslint/naming-convention
     export interface Guild {
         musicMessage: Message | null | undefined;
     }

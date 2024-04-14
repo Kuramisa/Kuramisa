@@ -126,6 +126,8 @@ export class ProfileCommand extends Command {
 
         const db = await database.users.fetch(user.id);
 
+        // TODO: Fix the nested switches
+
         switch (options.getSubcommandGroup()) {
             case "background": {
                 switch (options.getSubcommand()) {

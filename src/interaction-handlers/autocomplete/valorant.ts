@@ -1,22 +1,33 @@
-import { Listener } from "@sapphire/framework";
-import type {
-    ApplicationCommandOptionChoiceData,
-    AutocompleteInteraction
+import {
+    InteractionHandler,
+    InteractionHandlerTypes
+} from "@sapphire/framework";
+import {
+    type ApplicationCommandOptionChoiceData,
+    type AutocompleteInteraction
 } from "discord.js";
 import { startCase } from "lodash";
 
-export class ValorantAutocomplete extends Listener {
-    constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
+export class ValorantACHandler extends InteractionHandler {
+    constructor(
+        ctx: InteractionHandler.LoaderContext,
+        opts: InteractionHandler.Options
+    ) {
         super(ctx, {
             ...opts,
-            name: "valorantAutocomplete",
-            event: "interactionCreate"
+            interactionHandlerType: InteractionHandlerTypes.Autocomplete
         });
     }
 
-    async run(interaction: AutocompleteInteraction) {
-        if (!interaction.isAutocomplete()) return;
-        if (interaction.commandName !== "valorant") return;
+    override async run(
+        interaction: AutocompleteInteraction,
+        result: InteractionHandler.ParseResult<this>
+    ) {
+        return interaction.respond(result);
+    }
+
+    override async parse(interaction: AutocompleteInteraction) {
+        if (interaction.commandName !== "valorant") return this.none();
 
         const { options, user } = interaction;
 
@@ -26,7 +37,7 @@ export class ValorantAutocomplete extends Listener {
             games: { valorant }
         } = this.container;
 
-        if (!valorant.initialized) return;
+        if (!valorant.initialized) return this.none();
 
         const focused = options.getFocused(true);
 
@@ -35,9 +46,9 @@ export class ValorantAutocomplete extends Listener {
                 if (!valorant.accounts.get(user.id))
                     await valorant.loadAccounts(user.id);
                 const accounts = valorant.accounts.get(user.id);
-                if (!accounts || accounts.size === 0) return;
+                if (!accounts || accounts.size === 0) return this.none();
 
-                return interaction.respond(
+                return this.some(
                     accounts.map((acc) => ({
                         name: `${acc.player.acct.game_name}#${acc.player.acct.tag_line} (${acc.username})`,
                         value: acc.username
@@ -56,7 +67,7 @@ export class ValorantAutocomplete extends Listener {
                     wishlist.push(skinData);
                 }
 
-                return interaction.respond(
+                return this.some(
                     wishlist.map((skin) => ({
                         name: skin.displayName,
                         value: skin.uuid
@@ -75,7 +86,7 @@ export class ValorantAutocomplete extends Listener {
                     wishlist.push(buddyData);
                 }
 
-                return interaction.respond(
+                return this.some(
                     wishlist.map((buddy) => ({
                         name: buddy.displayName,
                         value: buddy.uuid
@@ -94,7 +105,7 @@ export class ValorantAutocomplete extends Listener {
                     wishlist.push(cardData);
                 }
 
-                return interaction.respond(
+                return this.some(
                     wishlist.map((card) => ({
                         name: card.displayName,
                         value: card.uuid
@@ -113,7 +124,7 @@ export class ValorantAutocomplete extends Listener {
                     wishlist.push(sprayData);
                 }
 
-                return interaction.respond(
+                return this.some(
                     wishlist.map((spray) => ({
                         name: spray.displayName,
                         value: spray.uuid
@@ -130,11 +141,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (agents.length === 0) return;
+                if (agents.length === 0) return this.none();
 
                 agents = agents.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     agents.map((agent) => ({
                         name: `${agent.displayName} (${agent.role.displayName})`,
                         value: agent.uuid
@@ -151,11 +162,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (skins.length === 0) return;
+                if (skins.length === 0) return this.none();
 
                 skins = skins.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     skins.map((skin) => ({
                         name: skin.displayName,
                         value: skin.uuid
@@ -181,11 +192,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (skins.length === 0) return;
+                if (skins.length === 0) return this.none();
 
                 skins = skins.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     skins.map((skin) => ({
                         name: skin.displayName,
                         value: skin.uuid
@@ -202,11 +213,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (buddies.length === 0) return;
+                if (buddies.length === 0) return this.none();
 
                 buddies = buddies.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     buddies.map((buddy) => ({
                         name: buddy.displayName,
                         value: buddy.uuid
@@ -234,11 +245,11 @@ export class ValorantAutocomplete extends Listener {
                             .includes(focused.value.toLowerCase())
                     );
 
-                if (buddies.length === 0) return;
+                if (buddies.length === 0) return this.none();
 
                 buddies = buddies.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     buddies.map((buddy) => ({
                         name: buddy.displayName,
                         value: buddy.uuid
@@ -255,11 +266,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (cards.length === 0) return;
+                if (cards.length === 0) return this.none();
 
                 cards = cards.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     cards.map((card) => ({
                         name: card.displayName,
                         value: card.uuid
@@ -284,11 +295,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (cards.length === 0) return;
+                if (cards.length === 0) return this.none();
 
                 cards = cards.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     cards.map((card) => ({
                         name: card.displayName,
                         value: card.uuid
@@ -305,11 +316,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (sprays.length === 0) return;
+                if (sprays.length === 0) return this.none();
 
                 sprays = sprays.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     sprays.map((spray) => ({
                         name: spray.displayName,
                         value: spray.uuid
@@ -335,11 +346,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (sprays.length === 0) return;
+                if (sprays.length === 0) return this.none();
 
                 sprays = sprays.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     sprays.map((spray) => ({
                         name: spray.displayName,
                         value: spray.uuid
@@ -359,11 +370,11 @@ export class ValorantAutocomplete extends Listener {
                             .toLowerCase()
                             .includes(focused.value.toLowerCase())
                     );
-                if (weapons.length === 0) return;
+                if (weapons.length === 0) return this.none();
 
                 weapons = weapons.slice(0, 25);
 
-                return interaction.respond(
+                return this.some(
                     weapons.map((weapon) => ({
                         name: `${weapon.displayName} (${
                             weapon.shopData?.category ?? "Melee"
@@ -404,14 +415,14 @@ export class ValorantAutocomplete extends Listener {
                         .startsWith(focused.value.toLowerCase())
                 );
 
-                await interaction.respond(opts.slice(0, 25));
+                return this.some(opts.slice(0, 25));
                 break;
             }
             case "valorant_privacy_setting": {
                 const db = await database.users.fetch(user.id);
                 const privacy = db.valorant.privacy;
 
-                return interaction.respond(
+                return this.some(
                     Object.keys(privacy)
                         .sort((a, b) => a.localeCompare(b))
                         .map((key) => ({
@@ -420,6 +431,8 @@ export class ValorantAutocomplete extends Listener {
                         }))
                 );
             }
+            default:
+                return this.none();
         }
     }
 }

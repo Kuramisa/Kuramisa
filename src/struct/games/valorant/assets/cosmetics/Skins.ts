@@ -1,4 +1,4 @@
-import { ContentTiers, Weapons } from "@valapi/valorant-api.com";
+import { type ContentTiers, type Weapons } from "@valapi/valorant-api.com";
 import {
     ActionRowBuilder,
     ButtonBuilder,

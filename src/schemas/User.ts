@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { AuthCore } from "@valapi/auth";
+import { type AuthCore } from "@valapi/auth";
 
 export interface IUser extends IMongoResult {
     id: string;

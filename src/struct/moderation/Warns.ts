@@ -1,6 +1,6 @@
 import { container } from "@sapphire/pieces";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import { GuildMember, TextInputStyle } from "discord.js";
+import { type GuildMember, TextInputStyle } from "discord.js";
 
 export default class Warns {
     async create(member: GuildMember, by: GuildMember, reason: string) {

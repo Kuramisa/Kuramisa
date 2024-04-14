@@ -27,7 +27,7 @@ import {
     Version
 } from "./assets";
 import {
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     Collection,
     ComponentType,
     type Snowflake

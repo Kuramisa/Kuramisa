@@ -1,13 +1,13 @@
 import { container } from "@sapphire/framework";
-import Valorant from "./index";
+import type Valorant from "./index";
 import {
-    ButtonBuilder,
+    type ButtonBuilder,
     ButtonStyle,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     Collection,
     ComponentType,
-    EmbedBuilder,
-    StringSelectMenuBuilder
+    type EmbedBuilder,
+    type StringSelectMenuBuilder
 } from "discord.js";
 
 import moment from "moment";

@@ -5,7 +5,7 @@ import {
     type EmbedBuilder,
     ComponentType,
     Message,
-    InteractionCollector
+    type InteractionCollector
 } from "discord.js";
 
 import { container } from "@sapphire/framework";

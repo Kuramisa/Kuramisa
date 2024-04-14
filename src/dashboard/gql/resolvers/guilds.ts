@@ -1,13 +1,13 @@
 import { container } from "@sapphire/pieces";
-import Dashboard from "../../../dashboard";
+import type Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
 import {
-    BaseChannel,
+    type BaseChannel,
     ChannelType,
-    Guild,
-    GuildMember,
-    Invite
+    type Guild,
+    type GuildMember,
+    type Invite
 } from "discord.js";
 
 const server404 = "Server not found";

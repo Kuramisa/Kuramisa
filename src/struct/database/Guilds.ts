@@ -1,9 +1,9 @@
 import { container } from "@sapphire/framework";
 import {
     Collection,
-    Guild,
-    InviteGuild,
-    OAuth2Guild,
+    type Guild,
+    type InviteGuild,
+    type OAuth2Guild,
     type Snowflake
 } from "discord.js";
 

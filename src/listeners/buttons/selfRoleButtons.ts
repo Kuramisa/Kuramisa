@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ButtonInteraction } from "discord.js";
+import { type ButtonInteraction } from "discord.js";
 
 export class SelfRoleButtons extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

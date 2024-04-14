@@ -1,7 +1,7 @@
 import { Listener } from "@sapphire/framework";
 import {
     AttachmentBuilder,
-    ButtonInteraction,
+    type ButtonInteraction,
     TextInputStyle
 } from "discord.js";
 

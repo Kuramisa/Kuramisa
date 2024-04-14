@@ -1,7 +1,7 @@
 import Valorant from "../..";
 import {
     ActionRowBuilder,
-    MessageActionRowComponentBuilder,
+    type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder
 } from "@discordjs/builders";
 import { container } from "@sapphire/framework";

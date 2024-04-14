@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ChannelType, GuildChannel } from "discord.js";
+import { ChannelType, type GuildChannel } from "discord.js";
 
 export class DeletedDVCListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

@@ -1,7 +1,7 @@
 import { container } from "@sapphire/pieces";
 import {
     ChannelType,
-    ChatInputCommandInteraction,
+    type ChatInputCommandInteraction,
     ComponentType,
     TextInputStyle
 } from "discord.js";

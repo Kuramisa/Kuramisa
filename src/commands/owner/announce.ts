@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { ButtonStyle, GuildMember, TextInputStyle } from "discord.js";
+import { ButtonStyle, type GuildMember, TextInputStyle } from "discord.js";
 
 const { version } = require("../../../package.json");
 

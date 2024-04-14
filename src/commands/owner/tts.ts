@@ -1,4 +1,4 @@
-import { ApplicationCommandRegistry, Command } from "@sapphire/framework";
+import { type ApplicationCommandRegistry, Command } from "@sapphire/framework";
 import { AttachmentBuilder } from "discord.js";
 import Voice from "elevenlabs-node";
 

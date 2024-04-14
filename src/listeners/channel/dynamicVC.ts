@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ChannelType, VoiceState } from "discord.js";
+import { ChannelType, type VoiceState } from "discord.js";
 
 export class DynamicVCListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

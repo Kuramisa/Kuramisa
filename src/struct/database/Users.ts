@@ -1,5 +1,5 @@
 import { container } from "@sapphire/framework";
-import { Collection, User, type Snowflake } from "discord.js";
+import { Collection, type User, type Snowflake } from "discord.js";
 
 import DBUser, { type UserDocument } from "../../schemas/User";
 import DBStaff from "../../schemas/Staff";

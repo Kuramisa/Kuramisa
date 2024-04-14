@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { AuditLogEvent, ChannelType, Message } from "discord.js";
+import { AuditLogEvent, ChannelType, type Message } from "discord.js";
 
 export class MessageDeletedLogListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

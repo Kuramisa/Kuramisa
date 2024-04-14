@@ -1,5 +1,5 @@
 import { container, Listener } from "@sapphire/framework";
-import { GuildQueue, Track } from "discord-player";
+import { type GuildQueue, type Track } from "discord-player";
 
 export class PlayerStartListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

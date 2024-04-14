@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { AuditLogEvent, GuildMember, Role } from "discord.js";
+import { AuditLogEvent, type GuildMember, type Role } from "discord.js";
 
 export class MemberRoleAddLogListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

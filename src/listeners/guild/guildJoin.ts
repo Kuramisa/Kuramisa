@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { Guild } from "discord.js";
+import { type Guild } from "discord.js";
 
 export class GuildJoinListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

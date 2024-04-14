@@ -1,7 +1,7 @@
 import { Precondition } from "@sapphire/framework";
 import {
-    ChatInputCommandInteraction,
-    ContextMenuCommandInteraction
+    type ChatInputCommandInteraction,
+    type ContextMenuCommandInteraction
 } from "discord.js";
 
 export class InDevelopmentPrecondition extends Precondition {

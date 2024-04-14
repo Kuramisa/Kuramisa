@@ -1,5 +1,5 @@
 import { Command } from "@sapphire/framework";
-import { ChannelType, Guild } from "discord.js";
+import { ChannelType, type Guild } from "discord.js";
 import { capitalize } from "lodash";
 
 export class ServerCommand extends Command {

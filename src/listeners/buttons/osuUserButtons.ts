@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ButtonInteraction, EmbedBuilder } from "discord.js";
+import { type ButtonInteraction, type EmbedBuilder } from "discord.js";
 import { capitalize } from "lodash";
 import type { LegacyUserBestScore, LegacyUserRecentScore } from "osu-web.js";
 

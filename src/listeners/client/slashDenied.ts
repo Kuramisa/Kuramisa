@@ -1,7 +1,7 @@
 import {
     type ChatInputCommandDeniedPayload,
     Listener,
-    UserError
+    type UserError
 } from "@sapphire/framework";
 
 export class SlashCommandListener extends Listener {

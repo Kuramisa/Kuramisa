@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { ModalSubmitInteraction } from "discord.js";
+import { type ModalSubmitInteraction } from "discord.js";
 
 export class MemberActionsModalListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

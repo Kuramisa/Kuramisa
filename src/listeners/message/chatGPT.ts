@@ -1,5 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import { AttachmentBuilder, Message } from "discord.js";
+import { AttachmentBuilder, type Message } from "discord.js";
 
 export class ChatGPTListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {

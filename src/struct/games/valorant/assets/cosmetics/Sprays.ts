@@ -1,6 +1,6 @@
 import {
     ActionRowBuilder,
-    MessageActionRowComponentBuilder,
+    type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder
 } from "discord.js";
 import Valorant from "../..";
