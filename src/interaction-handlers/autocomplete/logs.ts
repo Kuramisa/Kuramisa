@@ -3,7 +3,7 @@ import {
     InteractionHandlerTypes
 } from "@sapphire/framework";
 import { type AutocompleteInteraction } from "discord.js";
-import { capitalize } from "lodash";
+import { camelCase, capitalize, startCase } from "lodash";
 
 export class LogsACHandler extends InteractionHandler {
     constructor(
@@ -38,9 +38,8 @@ export class LogsACHandler extends InteractionHandler {
         const focused = options.getFocused();
 
         if (options.getSubcommand() === "toggles") {
-            let toggles = Object.keys(db.logs.types).map((string) =>
-                string.split(/(?=[A-Z])/).join(" ")
-            );
+            let toggles = Object.keys(db.logs.types).map(startCase);
+            console.log(toggles);
 
             if (focused.length > 0)
                 toggles = toggles.filter((toggle) =>
@@ -51,8 +50,8 @@ export class LogsACHandler extends InteractionHandler {
 
             return this.some(
                 toggles.map((choice) => ({
-                    name: capitalize(choice),
-                    value: choice.split(" ").join("")
+                    name: choice,
+                    value: camelCase(choice)
                 }))
             );
         }
