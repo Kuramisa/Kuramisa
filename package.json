@@ -3,7 +3,7 @@
     "main": "./build/index.js",
     "version": "3.2.2",
     "scripts": {
-        "build": "tsc",
+        "build": "rm -rf build && tsc",
         "start": "node ./build/index.js",
         "dev": "nodemon",
         "prepare": "husky",
