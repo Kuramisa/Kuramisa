@@ -16,7 +16,6 @@ export interface IGuild extends IMongoResult {
         channel: string;
         types: {
             memberWarned: boolean;
-            memberReported: boolean;
             memberJoin: boolean;
             memberLeave: boolean;
             memberBoost: boolean;
@@ -72,7 +71,6 @@ export const guild = new Schema<IGuild>({
         channel: String,
         types: {
             memberWarned: Boolean,
-            memberReported: Boolean,
             memberJoin: Boolean,
             memberLeave: Boolean,
             memberBoost: Boolean,
