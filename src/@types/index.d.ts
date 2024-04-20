@@ -6,7 +6,6 @@ import type {
     ColorResolvable,
     ContextMenuCommandInteraction,
     EmbedBuilder,
-    Guild,
     Message,
     MessageActionRowComponentBuilder,
     TextChannel,
@@ -633,7 +632,6 @@ declare global {
         interaction:
             | ChatInputCommandInteraction<"cached">
             | ContextMenuCommandInteraction<"cached">;
-        guild: Guild;
         channel: TextChannel | VoiceChannel;
     }
 
