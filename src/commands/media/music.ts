@@ -14,7 +14,8 @@ export class MusicCommand extends Subcommand {
                     name: "play",
                     chatInputRun: "slashPlay"
                 }
-            ]
+            ],
+            preconditions: ["InDevelopment"]
         });
     }
 
