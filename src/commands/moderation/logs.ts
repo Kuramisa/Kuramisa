@@ -1,6 +1,6 @@
 import { Command } from "@sapphire/framework";
 import { ComponentType } from "discord.js";
-import { capitalize } from "lodash";
+import { camelCase, startCase } from "lodash";
 
 export class LogsCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -100,9 +100,7 @@ export class LogsCommand extends Command {
                 const toggle = options.getString("toggle");
 
                 if (toggle) {
-                    const toggleName = capitalize(
-                        toggle.split(/(?=[A-Z])/).join(" ")
-                    );
+                    const toggleName = startCase(toggle);
 
                     db.logs.types[toggle as keyof typeof db.logs.types] =
                         !db.logs.types[toggle as keyof typeof db.logs.types];
@@ -115,27 +113,24 @@ export class LogsCommand extends Command {
                         ? "Enabled"
                         : "Disabled";
 
-                    await interaction.reply({
+                    return interaction.reply({
                         content: `\`${toggleName}\` - **${newValue}**`,
                         ephemeral: true
                     });
-                    break;
                 }
 
                 const toggles = Object.keys(db.logs.types)
-                    .map((toggle) => toggle.split(/(?=[A-Z])/).join(" "))
+                    .map(startCase)
                     .map((toggle) => {
                         const currentStatus = db.logs.types[
-                            toggle
-                                .split(" ")
-                                .join("") as keyof typeof db.logs.types
+                            camelCase(toggle) as keyof typeof db.logs.types
                         ]
                             ? "Enabled"
                             : "Disabled";
 
                         return {
-                            label: `${capitalize(toggle)} - ${currentStatus}`,
-                            value: toggle.split(" ").join("")
+                            label: `${toggle} - ${currentStatus}`,
+                            value: camelCase(toggle)
                         };
                     });
 
@@ -154,7 +149,7 @@ export class LogsCommand extends Command {
                 const message = await interaction.reply({
                     content: "⬇ Choose Toggles From Below ⬇",
                     components: [row],
-                    fetchReply: true
+                    ephemeral: true
                 });
 
                 const sInteraction = await message.awaitMessageComponent({
@@ -166,14 +161,11 @@ export class LogsCommand extends Command {
 
                 const chosenToggles = sInteraction.values;
                 const messages = [];
-                await message.delete();
-                await sInteraction.deferReply({ ephemeral: true });
+                await sInteraction.deferUpdate();
                 for (let i = 0; i < chosenToggles.length; i++) {
                     const chosenToggle = chosenToggles[i];
 
-                    const toggleName = capitalize(
-                        chosenToggle.split(/(?=[A-Z])/).join(" ")
-                    );
+                    const toggleName = startCase(chosenToggle);
 
                     db.logs.types[chosenToggle as keyof typeof db.logs.types] =
                         !db.logs.types[
@@ -196,16 +188,18 @@ export class LogsCommand extends Command {
                     .setTitle("Toggled Logs")
                     .setDescription(messages.join("\n"));
 
-                await sInteraction.editReply({ embeds: [embed] });
+                await sInteraction.editReply({
+                    embeds: [embed],
+                    content: "",
+                    components: []
+                });
                 break;
             }
             case "status": {
                 const channel = guild.channels.cache.get(db.logs.channel);
 
                 const toggles = Object.keys(db.logs.types).map((key) => {
-                    const formatted = capitalize(
-                        key.split(/(?=[A-Z])/).join(" ")
-                    );
+                    const formatted = startCase(key);
                     const value =
                         db.logs.types[key as keyof typeof db.logs.types];
 

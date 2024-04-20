@@ -3,7 +3,7 @@ import {
     InteractionHandlerTypes
 } from "@sapphire/framework";
 import { type AutocompleteInteraction } from "discord.js";
-import { camelCase, capitalize, startCase } from "lodash";
+import { camelCase, startCase } from "lodash";
 
 export class LogsACHandler extends InteractionHandler {
     constructor(
@@ -39,7 +39,6 @@ export class LogsACHandler extends InteractionHandler {
 
         if (options.getSubcommand() === "toggles") {
             let toggles = Object.keys(db.logs.types).map(startCase);
-            console.log(toggles);
 
             if (focused.length > 0)
                 toggles = toggles.filter((toggle) =>
