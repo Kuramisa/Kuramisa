@@ -371,7 +371,7 @@ export default class Valorant {
                 continue;
             }
 
-            const playerInfo: IValorantPlayerInfo | null = (
+            const playerInfo = (
                 await web.getUserInfo().catch((err) => {
                     logger.error(err);
                     logger.error(

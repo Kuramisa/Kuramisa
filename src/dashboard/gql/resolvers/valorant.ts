@@ -122,7 +122,7 @@ export default {
 
                 const { auth } = account;
 
-                const storeRequest = await auth.Store.getStorefront(
+                const storeRequest = await auth.Store.StoreFront.get(
                     account.player.sub
                 );
 
