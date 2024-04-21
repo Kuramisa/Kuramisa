@@ -30,20 +30,20 @@ dependencies:
     specifier: ^6.0.3
     version: 6.0.3
   '@valapi/auth':
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   '@valapi/lib':
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   '@valapi/riot-api':
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   '@valapi/valorant-api.com':
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   '@valapi/web-client':
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   axios:
     specifier: ^1.6.8
     version: 1.6.8
@@ -135,8 +135,8 @@ dependencies:
     specifier: ^3.0.0
     version: 3.0.0
   openai:
-    specifier: ^4.38.0
-    version: 4.38.0
+    specifier: ^4.38.2
+    version: 4.38.2
   osu-web.js:
     specifier: ^2.4.0
     version: 2.4.0
@@ -150,8 +150,8 @@ dependencies:
     specifier: ^1.3.1
     version: 1.3.1
   valorant.ts:
-    specifier: ^3.3.0
-    version: 3.3.0
+    specifier: ^4.0.0
+    version: 4.0.0
   youtube-ext:
     specifier: ^1.1.23
     version: 1.1.23
@@ -1207,11 +1207,11 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@valapi/auth@3.3.0:
-    resolution: {integrity: sha512-RarigEc6EcT4U0pbUr92W//VPAbIdp8iyRxJRxZhqdl+5Cy+anvBkNJtQEOcw+lxxwTyl+Eskf+k6k1Sbn4uLg==}
+  /@valapi/auth@4.0.0:
+    resolution: {integrity: sha512-1Hn3pD7nCT8tqDdhIZsO/CIbWtgwxyo1RGfYG4NDryU/DKU+pHfiw8Z/Kb2VAEjFyjqHKp+OMpj/UDJQLrXxIw==}
     dependencies:
-      '@valapi/lib': 3.3.0
-      http-cookie-agent: 5.0.4(tough-cookie@4.1.3)
+      '@valapi/lib': 4.0.0
+      http-cookie-agent: 6.0.3(tough-cookie@4.1.3)
       tough-cookie: 4.1.3
     transitivePeerDependencies:
       - deasync
@@ -1220,8 +1220,8 @@ packages:
       - undici
     dev: false
 
-  /@valapi/lib@3.3.0:
-    resolution: {integrity: sha512-7+OlfAGjLyPOBRWK/Y8eJyNQp6Vz2NttqKVi58YIWs3li7D2PfF+G7HkS3T/sWcxoyuH8V0Sm77V/2qAco6/8w==}
+  /@valapi/lib@4.0.0:
+    resolution: {integrity: sha512-IfZ4r5E4v286pBjPrIc/NmyVx2xogD1neX7a6b7X+3zeI/fVTQoGGEpLjzTqN/keK4DYMVY55+iCpQ9SO4NFuA==}
     dependencies:
       axios: 1.6.8
       tslib: 2.6.2
@@ -1229,27 +1229,27 @@ packages:
       - debug
     dev: false
 
-  /@valapi/riot-api@3.3.0:
-    resolution: {integrity: sha512-5ZkqvAqnFaz8weRbj+Ck1kd3cvtfRWrumV0elOKzuhd0MKYJo4v70gIodWoHUCXdGXY6WeW5h4gS5MLK2o8CGQ==}
+  /@valapi/riot-api@4.0.0:
+    resolution: {integrity: sha512-bcB2HnTTqEE0KDaHXtnibFArqSO745pf/gV1vhJZp4rq6BCqVrRb3gI9Z2wBPtd640Wpjx9UmgDR9rUI8VuMRQ==}
     dependencies:
-      '@valapi/lib': 3.3.0
+      '@valapi/lib': 4.0.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@valapi/valorant-api.com@3.3.0:
-    resolution: {integrity: sha512-g68de/7XTgfWAbHb6B8P4UiYd7BcJYqP+QK33iXvmrirGY6n90qEJIqAjLQ/ipsP38WK2wz9PjdhWYrIyad49w==}
+  /@valapi/valorant-api.com@4.0.0:
+    resolution: {integrity: sha512-JoXA3p3cjQ70ONxERQyMl7jFlVPiBEsMSCatlqACiOIbXQxHn81RAgI2Q8Gi9ad8MX20UT7LmZ7By/volbpnKQ==}
     dependencies:
-      '@valapi/lib': 3.3.0
+      '@valapi/lib': 4.0.0
     transitivePeerDependencies:
       - debug
     dev: false
 
-  /@valapi/web-client@3.3.0:
-    resolution: {integrity: sha512-RoeCfjTimf44/Vpo1PdEu5+Cv91G0CgkxAQryHj3izukkvyIU96LJbolNodqvdukop96YkHyXW18DzFhzQ/LNw==}
+  /@valapi/web-client@4.0.0:
+    resolution: {integrity: sha512-LXQ6HwdezmSi19WIEIVRAAw0o3IWie+etaSqFY3360DuW+Yq43WpGoA54M9IkXtWFUIxJ5gj9hNwDrCNiP0ojA==}
     dependencies:
-      '@valapi/auth': 3.3.0
-      '@valapi/lib': 3.3.0
+      '@valapi/auth': 4.0.0
+      '@valapi/lib': 4.0.0
     transitivePeerDependencies:
       - deasync
       - debug
@@ -2612,13 +2612,13 @@ packages:
       entities: 4.5.0
     dev: false
 
-  /http-cookie-agent@5.0.4(tough-cookie@4.1.3):
-    resolution: {integrity: sha512-OtvikW69RvfyP6Lsequ0fN5R49S+8QcS9zwd58k6VSr6r57T8G29BkPdyrBcSwLq6ExLs9V+rBlfxu7gDstJag==}
-    engines: {node: '>=14.18.0 <15.0.0 || >=16.0.0'}
+  /http-cookie-agent@6.0.3(tough-cookie@4.1.3):
+    resolution: {integrity: sha512-6JdymEgWgsg9VQ5VN9FGpRRcivyu4WdM0Ud3kW+Q0PB7knt0EFtlhNPU8wCuscXLfIEI5y6jEMdFTBODNsJR6g==}
+    engines: {node: '>=18.0.0'}
     peerDependencies:
       deasync: ^0.1.26
       tough-cookie: ^4.0.0
-      undici: ^5.11.0
+      undici: ^5.11.0 || ^6.0.0
     peerDependenciesMeta:
       deasync:
         optional: true
@@ -3406,8 +3406,8 @@ packages:
       wrappy: 1.0.2
     dev: true
 
-  /openai@4.38.0:
-    resolution: {integrity: sha512-q1w04cRm+7CgUAGDXqt+OMa89zXBffHrEK0FcVDRhD+zL1S1aAatu4iYO5sIxR2QFEP//i8CM3QaxGVTNajxuw==}
+  /openai@4.38.2:
+    resolution: {integrity: sha512-M16ehj0D84Gjq5cjvBzXRb5X+UvtWlxPDRAWAWMC0EN+6nHqnULIn5fWWeiexDPup25FeSZYv/ldp8KefcZVJQ==}
     hasBin: true
     dependencies:
       '@types/node': 18.19.31
@@ -4144,14 +4144,14 @@ packages:
     hasBin: true
     dev: false
 
-  /valorant.ts@3.3.0:
-    resolution: {integrity: sha512-6QSYbF3ESfzAACzCPEv9PDCm05ACzWZE19kESzc2a9y6YgbZW/Yc3ANcBQU6Anlo80F4Mq1wSAVZg/3X7f0G7A==}
+  /valorant.ts@4.0.0:
+    resolution: {integrity: sha512-fR4OocABTKngJBjDMUM7xYZdtqLtAhaUNBFhh4RqJKhnsLICR5H2cdK+/0buAKRrSuRLTjHVFKk2eTszrsCGlw==}
     dependencies:
-      '@valapi/auth': 3.3.0
-      '@valapi/lib': 3.3.0
-      '@valapi/riot-api': 3.3.0
-      '@valapi/valorant-api.com': 3.3.0
-      '@valapi/web-client': 3.3.0
+      '@valapi/auth': 4.0.0
+      '@valapi/lib': 4.0.0
+      '@valapi/riot-api': 4.0.0
+      '@valapi/valorant-api.com': 4.0.0
+      '@valapi/web-client': 4.0.0
     transitivePeerDependencies:
       - deasync
       - debug
