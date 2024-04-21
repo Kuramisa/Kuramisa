@@ -13,6 +13,58 @@ export class MusicCommand extends Subcommand {
                 {
                     name: "play",
                     chatInputRun: "slashPlay"
+                },
+                {
+                    name: "pause",
+                    chatInputRun: "slashPause"
+                },
+                {
+                    name: "resume",
+                    chatInputRun: "slashResume"
+                },
+                {
+                    name: "skip",
+                    chatInputRun: "slashSkip"
+                },
+                {
+                    name: "stop",
+                    chatInputRun: "slashStop"
+                },
+                {
+                    name: "queue",
+                    chatInputRun: "slashQueue"
+                },
+                {
+                    name: "loop",
+                    chatInputRun: "slashLoop"
+                },
+                {
+                    name: "shuffle",
+                    chatInputRun: "slashShuffle"
+                },
+                {
+                    name: "volume",
+                    chatInputRun: "slashVolume"
+                },
+                {
+                    name: "seek",
+                    chatInputRun: "slashSeek"
+                },
+                {
+                    name: "lyrics",
+                    chatInputRun: "slashLyrics"
+                },
+                {
+                    name: "nowplaying",
+                    chatInputRun: "slashNowPlaying"
+                },
+                {
+                    name: "remove",
+                    chatInputRun: "slashRemove"
+                },
+                {
+                    name: "search",
+                    chatInputRun: "slashSearch"
                 }
             ],
             preconditions: ["InDevelopment"]
@@ -112,7 +164,8 @@ export class MusicCommand extends Subcommand {
                         interaction,
                         channel: interaction.channel
                     }
-                }
+                },
+                requestedBy: interaction.user
             });
 
             return interaction.reply({

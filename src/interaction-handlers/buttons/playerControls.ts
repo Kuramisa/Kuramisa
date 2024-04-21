@@ -53,35 +53,71 @@ export class PlayerControlsHandler extends InteractionHandler {
 
         switch (interaction.customId) {
             case "player_previous":
+                if (
+                    queue.currentTrack &&
+                    queue.currentTrack.requestedBy?.id !== interaction.user.id
+                )
+                    return interaction.reply({
+                        content: `> 🚫 You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
+                        ephemeral: true
+                    });
                 history.back();
                 break;
             case "player_next":
+                if (
+                    queue.currentTrack &&
+                    queue.currentTrack.requestedBy?.id !== interaction.user.id
+                )
+                    return interaction.reply({
+                        content: `> 🚫 You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
+                        ephemeral: true
+                    });
                 history.next();
-                break;
+                return interaction.reply({
+                    content: "> ⏭️ Skipped the current track",
+                    ephemeral: true
+                });
             case "player_playpause":
                 queue.node.setPaused(!queue.node.isPaused());
-                break;
+                return interaction.reply({
+                    content: `> ${
+                        queue.node.isPaused() ? "⏸️ Paused" : "▶️ Resumed"
+                    } the player`,
+                    ephemeral: true
+                });
             case "player_shuffle":
                 queue.tracks.shuffle();
-                break;
+                return interaction.reply({
+                    content: "> 🔀 Shuffled the queue",
+                    ephemeral: true
+                });
             case "player_queue":
-                music.showQueue(queue);
+                music.showQueue(interaction, queue);
                 break;
             case "player_loop":
-                queue.setRepeatMode(
-                    queue.repeatMode === 0 ? 1 : queue.repeatMode === 1 ? 2 : 0
-                );
+                music.askForLoopMode(interaction, queue);
                 break;
             case "player_volume_down":
                 queue.node.setVolume(queue.node.volume - 10);
-                break;
+                return interaction.reply({
+                    content: `> 🔉 Volume set to ${queue.node.volume}%`,
+                    ephemeral: true
+                });
             case "player_volume_mute":
                 if (queue.node.volume === 0) queue.node.setVolume(50);
                 else queue.node.setVolume(0);
-                break;
+                return interaction.reply({
+                    content: `> ${
+                        queue.node.volume === 0 ? "🔇 Muted" : "🔊 Unmuted"
+                    } the player`,
+                    ephemeral: true
+                });
             case "player_volume_up":
                 queue.node.setVolume(queue.node.volume + 10);
-                break;
+                return interaction.reply({
+                    content: `> 🔊 Volume set to ${queue.node.volume}%`,
+                    ephemeral: true
+                });
         }
     }
 }
