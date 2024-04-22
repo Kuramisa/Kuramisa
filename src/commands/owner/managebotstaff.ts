@@ -2,6 +2,7 @@ import { Command } from "@sapphire/framework";
 import { ButtonStyle, TextInputStyle } from "discord-api-types/v10";
 
 import DbStaff from "../../schemas/Staff";
+import { startCase } from "lodash";
 
 export class BotStaffCommand extends Command {
     constructor(ctx: Command.LoaderContext, opts: Command.Options) {
@@ -95,12 +96,7 @@ export class BotStaffCommand extends Command {
                 "staff_type",
                 true
             ) as StaffType;
-            const staffTypeName =
-                staffType === "lead_developer"
-                    ? "Lead Developer"
-                    : staffType === "developer"
-                      ? "Developer"
-                      : "Helper";
+            const staffTypeName = startCase(staffType);
 
             const acceptRow = util
                 .row()
