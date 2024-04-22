@@ -20,8 +20,6 @@ export default class ValorantBundles {
         return this.data.find((bundle) => bundle.uuid === id);
     }
 
-    // TODO: Add Embed method
-
     static embed(bundle: IValorantBundle, time?: number) {
         const { util } = container;
 

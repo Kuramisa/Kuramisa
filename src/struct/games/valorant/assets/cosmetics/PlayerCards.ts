@@ -20,7 +20,6 @@ export default class ValorantPlayerCards {
         return this.data.find((playerCard) => playerCard.uuid === id);
     }
 
-    // TODO: Add Embed method
     embed = (playerCard: IValorantPlayerCard) =>
         container.util
             .embed()
@@ -37,7 +36,6 @@ export default class ValorantPlayerCards {
             .setImage(playerCard.wideArt)
             .setColor("Orange");
 
-    // TODO: Add card prices
     static async fetch() {
         const cardData = await fetch(`${Valorant.assetsURL}/playercards`)
             .then((res) => res.json())

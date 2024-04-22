@@ -31,7 +31,6 @@ export default class ValorantPlayerTitles {
             })
             .setTitle(playerTitle.titleText);
 
-    // TODO: add player title prices
     static async fetch() {
         const titleData = await fetch(`${Valorant.assetsURL}/playertitles`)
             .then((res) => res.json())
