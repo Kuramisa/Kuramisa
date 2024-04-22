@@ -21,14 +21,14 @@ import { chunk, startCase } from "lodash";
 
 export default class Music extends Player {
     constructor() {
-        super(container.client);
+        super(container.client, {
+            skipFFmpeg: false
+        });
 
         this.extractors
-            .loadDefault((ext) => ext !== "YouTubeExtractor")
+            .loadDefault()
             .then(() => {
-                container.logger.info(
-                    "[Music] Loaded all extractors except YouTubeExtractor"
-                );
+                container.logger.info("[Music] Loaded all extractors");
             })
             .catch(container.logger.error);
     }
@@ -42,7 +42,10 @@ export default class Music extends Player {
             ...options,
             nodeOptions: {
                 volume: 50,
-                selfDeaf: true
+                selfDeaf: true,
+                leaveOnEmpty: true,
+                leaveOnEnd: false,
+                ...options?.nodeOptions
             }
         });
     }
@@ -230,7 +233,7 @@ export default class Music extends Player {
             .setAuthor({ name: "Now Playing" })
             .setTitle(`${track.title} - ${track.author}`)
             .setDescription(
-                `${this.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n**Duration** 0:00/${track.duration}`
+                `${this.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n\n${queue.node.createProgressBar()}`
             )
             .setThumbnail(track.thumbnail)
             .setFooter({

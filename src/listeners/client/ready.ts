@@ -18,11 +18,13 @@ export class ReadyListener extends Listener {
             client,
             dashboard,
             games: { valorant },
+            systems: { music },
             logger,
             util
         } = container;
 
         try {
+            logger.debug(music.scanDeps());
             logger.info("[Bot] Removing nonexistent commands...");
             const removedCommands = await util.removeNonexistentCommands();
             removedCommands.forEach((command) =>

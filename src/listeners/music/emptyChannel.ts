@@ -18,19 +18,21 @@ export class EmptyChannelListener extends Listener {
         if (guild.musicMessage) {
             await guild.musicMessage.edit({
                 content:
-                    "> 🚫 The voice channel is empty, so I left the channel",
+                    "> 🥲 The voice channel got lonely , so I left the channel",
                 embeds: []
             });
             queue.connection?.disconnect();
+            queue.delete();
             return;
         }
 
         guild.musicMessage = await channel.send({
-            content: "> 🚫 The voice channel is empty, so I left the channel",
+            content: "> 🥲 The voice channel is empty, so I left the channel",
             embeds: [],
             components: []
         });
 
         queue.connection?.disconnect();
+        queue.delete();
     }
 }

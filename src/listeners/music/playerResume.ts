@@ -20,7 +20,7 @@ export class PlayerResumeListener extends Listener {
         if (!guild.musicMessage) return;
 
         guild.musicMessage.edit({
-            components: music.playerControls(false)
+            components: music.playerControls()
         });
     }
 }

@@ -52,7 +52,7 @@ export class PlayerControlsHandler extends InteractionHandler {
         } = this.container;
 
         switch (interaction.customId) {
-            case "player_previous":
+            case "player_previous": {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy?.id !== interaction.user.id
@@ -61,9 +61,25 @@ export class PlayerControlsHandler extends InteractionHandler {
                         content: `> 🚫 You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
                         ephemeral: true
                     });
-                history.back();
-                break;
-            case "player_next":
+
+                const back = history
+                    .back()
+                    .then(() => true)
+                    .catch(() => false);
+
+                if (!back)
+                    return interaction.reply({
+                        content:
+                            "> 🚫 There are no previous tracks in the queue",
+                        ephemeral: true
+                    });
+
+                return interaction.reply({
+                    content: "> ⏮️ Went back to the previous track",
+                    ephemeral: true
+                });
+            }
+            case "player_next": {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy?.id !== interaction.user.id
@@ -72,17 +88,28 @@ export class PlayerControlsHandler extends InteractionHandler {
                         content: `> 🚫 You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
                         ephemeral: true
                     });
+
+                if (queue.tracks.size === 0) {
+                    queue.node.stop();
+                    return interaction.reply({
+                        content:
+                            "> 🚫 There are no more tracks in the queue, the player has been stopped",
+                        ephemeral: true
+                    });
+                }
+
                 history.next();
                 return interaction.reply({
                     content: "> ⏭️ Skipped the current track",
                     ephemeral: true
                 });
+            }
             case "player_playpause":
                 queue.node.setPaused(!queue.node.isPaused());
                 return interaction.reply({
-                    content: `> ${
+                    content: `> **${
                         queue.node.isPaused() ? "⏸️ Paused" : "▶️ Resumed"
-                    } the player`,
+                    }** the player`,
                     ephemeral: true
                 });
             case "player_shuffle":
@@ -100,22 +127,22 @@ export class PlayerControlsHandler extends InteractionHandler {
             case "player_volume_down":
                 queue.node.setVolume(queue.node.volume - 10);
                 return interaction.reply({
-                    content: `> 🔉 Volume set to ${queue.node.volume}%`,
+                    content: `> 🔉 Volume set to **${queue.node.volume}**`,
                     ephemeral: true
                 });
             case "player_volume_mute":
                 if (queue.node.volume === 0) queue.node.setVolume(50);
                 else queue.node.setVolume(0);
                 return interaction.reply({
-                    content: `> ${
+                    content: `> **${
                         queue.node.volume === 0 ? "🔇 Muted" : "🔊 Unmuted"
-                    } the player`,
+                    }** the player`,
                     ephemeral: true
                 });
             case "player_volume_up":
                 queue.node.setVolume(queue.node.volume + 10);
                 return interaction.reply({
-                    content: `> 🔊 Volume set to ${queue.node.volume}%`,
+                    content: `> 🔊 Volume set to **${queue.node.volume}%**`,
                     ephemeral: true
                 });
         }

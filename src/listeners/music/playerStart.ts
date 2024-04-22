@@ -17,18 +17,32 @@ export class PlayerStartListener extends Listener {
         const {
             systems: { music }
         } = this.container;
+
         const { channel } = queue.metadata as IMetadata;
 
         if (guild.musicMessage) {
             guild.musicMessage.edit({
                 embeds: [music.nowPlayingEmbed(queue, track)]
             });
+
+            setInterval(() => {
+                guild.musicMessage?.edit({
+                    embeds: [music.nowPlayingEmbed(queue, track)]
+                });
+            }, 5000);
+
             return;
         }
 
-        guild.musicMessage = await channel.send({
+        const msg = (guild.musicMessage = await channel.send({
             embeds: [music.nowPlayingEmbed(queue, track)],
             components: music.playerControls()
-        });
+        }));
+
+        setInterval(() => {
+            msg.edit({
+                embeds: [music.nowPlayingEmbed(queue, track)]
+            });
+        }, 5000);
     }
 }

@@ -44,9 +44,21 @@ export class AudioTrackRemoveListener extends Listener {
             return;
         }
 
-        guild.musicMessage = await channel.send({
-            embeds: [embed],
-            components: music.playerControls()
-        });
+        guild.musicMessage = await channel
+            .send({
+                embeds: [embed],
+                components: music.playerControls()
+            })
+            .then((m) => {
+                setTimeout(() => {
+                    if (!queue.currentTrack) return null;
+                    m.edit({
+                        embeds: [
+                            music.nowPlayingEmbed(queue, queue.currentTrack)
+                        ]
+                    });
+                }, 5000);
+                return m;
+            });
     }
 }

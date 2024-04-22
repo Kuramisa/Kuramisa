@@ -17,16 +17,15 @@ export class EmptyQueueListener extends Listener {
 
         if (guild.musicMessage) {
             await guild.musicMessage.edit({
-                content: "> ⏹️ The queue is empty",
-                embeds: []
+                content: "> 😊 The queue is empty",
+                embeds: [],
+                components: []
             });
             return;
         }
 
         guild.musicMessage = await channel.send({
-            content: "> ⏹️ The queue is empty",
-            embeds: [],
-            components: []
+            content: "> 😊 The queue is empty"
         });
     }
 }
