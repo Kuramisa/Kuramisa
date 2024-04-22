@@ -19,7 +19,8 @@ export class InDevelopmentPrecondition extends Precondition {
     ) => await this.checkDevelopment(interaction.user.id);
 
     private checkDevelopment = async (userId: string) =>
-        this.container.owners.find((owner) => owner.id === userId)
+        this.container.owners.find((owner) => owner.id === userId) ||
+        this.container.staff.find((staff) => staff.id === userId)
             ? this.ok()
             : this.error({
                   message: "This command is currently in development"
