@@ -20,7 +20,7 @@ export default class ValorantWishlist {
     }
 
     async wishlistView(interaction: ChatInputCommandInteraction) {
-        const { database, util } = container;
+        const { database, emojis, util } = container;
         const { options, user } = interaction;
         const { valorant } = this;
 
@@ -364,22 +364,19 @@ export default class ValorantWishlist {
                     .setStyle(ButtonStyle.Primary)
             );
 
-        const navButtons = util
-            .row()
-            .setComponents(
-                util
-                    .button()
-                    .setCustomId("previous_page")
-                    .setLabel("Previous")
-                    .setEmoji("⬅️")
-                    .setStyle(ButtonStyle.Secondary),
-                util
-                    .button()
-                    .setCustomId("next_page")
-                    .setLabel("Next")
-                    .setEmoji("➡️")
-                    .setStyle(ButtonStyle.Secondary)
-            );
+        const navButtons = util.row().setComponents(
+            util
+                .button()
+                .setCustomId("previous_page")
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
+                .setStyle(ButtonStyle.Secondary),
+            util
+                .button()
+                .setCustomId("next_page")
+                .setLabel("Next")
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
+                .setStyle(ButtonStyle.Secondary)
+        );
 
         const currentSelection = "skins";
 

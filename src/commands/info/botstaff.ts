@@ -17,7 +17,7 @@ export class BotStaffCommand extends Command {
     }
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-        const { staff: staffs, util } = this.container;
+        const { emojis, staff: staffs, util } = this.container;
 
         if (staffs.length === 0)
             return interaction.reply({
@@ -45,22 +45,18 @@ export class BotStaffCommand extends Command {
 
         if (embeds.length <= 1) return;
 
-        const row = util
-            .row()
-            .setComponents(
-                util
-                    .button()
-                    .setCustomId("previous")
-                    .setStyle(ButtonStyle.Primary)
-                    .setLabel("Previous")
-                    .setEmoji("⬅️"),
-                util
-                    .button()
-                    .setCustomId("next")
-                    .setStyle(ButtonStyle.Primary)
-                    .setLabel("Next")
-                    .setEmoji("➡️")
-            );
+        const row = util.row().setComponents(
+            util
+                .button()
+                .setCustomId("previous_page")
+                .setStyle(ButtonStyle.Primary)
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️"),
+            util
+                .button()
+                .setCustomId("next_page")
+                .setStyle(ButtonStyle.Primary)
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
+        );
 
         await msg.edit({ components: [row] });
 
@@ -70,24 +66,20 @@ export class BotStaffCommand extends Command {
 
         collector.on("collect", async (i) => {
             switch (i.customId) {
-                case "previous": {
-                    page--;
-
-                    if (page < 0) page = embeds.length - 1;
-
-                    await i.update({ embeds: [embeds[page]] });
+                case "previous_page": {
+                    page = page > 0 ? --page : embeds.length - 1;
                     break;
                 }
 
-                case "next": {
-                    page++;
-
-                    if (page > embeds.length - 1) page = 0;
-
-                    await i.update({ embeds: [embeds[page]] });
+                case "next_page": {
+                    page = page + 1 < embeds.length ? ++page : 0;
                     break;
                 }
             }
+
+            await i.update({
+                embeds: [embeds[page]]
+            });
         });
     }
 }

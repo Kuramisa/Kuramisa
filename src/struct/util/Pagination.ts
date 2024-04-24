@@ -20,7 +20,7 @@ export default class UtilPagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { util } = container;
+        const { emojis, util } = container;
 
         let page = 0;
 
@@ -28,12 +28,12 @@ export default class UtilPagination {
             util
                 .button()
                 .setCustomId("previous_page")
-                .setEmoji("⬅️")
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
                 .setStyle(ButtonStyle.Secondary),
             util
                 .button()
                 .setCustomId("next_page")
-                .setEmoji("➡️")
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
                 .setStyle(ButtonStyle.Secondary)
         ];
 
@@ -117,7 +117,7 @@ export default class UtilPagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { util } = container;
+        const { emojis, util } = container;
 
         let page = 0;
 
@@ -125,12 +125,12 @@ export default class UtilPagination {
             util
                 .button()
                 .setCustomId("previous_page")
-                .setEmoji("⬅️")
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
                 .setStyle(ButtonStyle.Secondary),
             util
                 .button()
                 .setCustomId("next_page")
-                .setEmoji("➡️")
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
                 .setStyle(ButtonStyle.Secondary)
         ];
 
@@ -213,7 +213,7 @@ export default class UtilPagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { util } = container;
+        const { emojis, util } = container;
 
         let page = 0;
 
@@ -221,12 +221,12 @@ export default class UtilPagination {
             util
                 .button()
                 .setCustomId("previous_page")
-                .setEmoji("⬅️")
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
                 .setStyle(ButtonStyle.Secondary),
             util
                 .button()
                 .setCustomId("next_page")
-                .setEmoji("➡️")
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
                 .setStyle(ButtonStyle.Secondary)
         ];
 

@@ -22,7 +22,7 @@ export class SlashCommandListener extends Listener {
         if (!initialized)
             return interaction.reply({
                 content:
-                    "Kuramisa is not ready yet, please wait a few seconds.",
+                    "**Kuramisa is not ready yet, please wait a few seconds**",
                 ephemeral: true
             });
 

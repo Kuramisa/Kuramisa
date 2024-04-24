@@ -125,7 +125,10 @@ export class ReadyListener extends Listener {
             if (supportServer.available) {
                 (await supportServer.emojis.fetch()).each((emoji) => {
                     if (emoji.name != null)
-                        container.emojis.set(emoji.name, emoji);
+                        container.emojis.set(
+                            emoji.name,
+                            `<${emoji.name}:${emoji.id}>`
+                        );
                 });
             }
 

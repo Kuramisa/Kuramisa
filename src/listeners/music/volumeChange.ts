@@ -15,6 +15,7 @@ export class VolumeChangeListener extends Listener {
         const { guild } = queue;
 
         const {
+            util,
             systems: { music }
         } = this.container;
 
@@ -25,9 +26,10 @@ export class VolumeChangeListener extends Listener {
         if (!plainEmbed.description) return;
 
         const oldVolumeText = plainEmbed.description.split("\n")[0];
-        const newVolumeText = `${music.volumeEmoji(newVolume)} **Volume**: ${newVolume}%`;
+        const newVolumeText = `${await util.toEmoji(music.volumeEmoji(newVolume))} **Volume**: ${newVolume}%`;
 
         guild.musicMessage.edit({
+            content: "",
             embeds: [
                 embed.setDescription(
                     plainEmbed.description.replace(oldVolumeText, newVolumeText)

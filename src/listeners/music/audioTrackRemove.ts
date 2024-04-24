@@ -1,5 +1,5 @@
 import { Listener, container } from "@sapphire/framework";
-import { GuildQueue, Track } from "discord-player";
+import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 
 export class AudioTrackRemoveListener extends Listener {
     constructor(ctx: Listener.LoaderContext, opts: Listener.Options) {
@@ -24,7 +24,20 @@ export class AudioTrackRemoveListener extends Listener {
             .embed()
             .setAuthor({ name: "Removed from queue" })
             .setTitle(`${track.title} - ${track.author}`)
+            .setDescription(
+                `${await util.toEmoji(music.volumeEmoji(queue.node.volume))} **Volume** ${queue.node.volume}%\n${await util.toEmoji(music.loopEmoji(queue.repeatMode))} **Loop Mode:** ${
+                    queue.repeatMode === QueueRepeatMode.TRACK
+                        ? "Track"
+                        : queue.repeatMode === QueueRepeatMode.QUEUE
+                          ? "Queue"
+                          : "Off"
+                }`
+            )
             .setThumbnail(track.thumbnail)
+            .setFooter({
+                text: `Requested by ${track.requestedBy?.globalName ?? track.requestedBy?.username}`,
+                iconURL: track.requestedBy?.displayAvatarURL()
+            })
             .setURL(track.url);
 
         if (guild.musicMessage) {
@@ -32,11 +45,14 @@ export class AudioTrackRemoveListener extends Listener {
 
             await guild.musicMessage
                 .edit({
-                    embeds: [embed]
+                    content: "",
+                    embeds: [embed],
+                    components: music.playerControls()
                 })
                 .then((m) => {
                     setTimeout(() => {
                         m.edit({
+                            content: "",
                             embeds: [oldEmbed]
                         });
                     }, 5000);
@@ -50,11 +66,14 @@ export class AudioTrackRemoveListener extends Listener {
                 components: music.playerControls()
             })
             .then((m) => {
-                setTimeout(() => {
+                setTimeout(async () => {
                     if (!queue.currentTrack) return null;
                     m.edit({
                         embeds: [
-                            music.nowPlayingEmbed(queue, queue.currentTrack)
+                            await music.nowPlayingEmbed(
+                                queue,
+                                queue.currentTrack
+                            )
                         ]
                     });
                 }, 5000);

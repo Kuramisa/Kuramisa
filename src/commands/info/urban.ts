@@ -28,7 +28,7 @@ export class UrbanCommand extends Command {
     }
 
     async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-        const { logger, util } = this.container;
+        const { emojis, logger, util } = this.container;
 
         const word = interaction.options.getString("word", true);
 
@@ -44,20 +44,18 @@ export class UrbanCommand extends Command {
 
         let page = 0;
 
-        const row = util
-            .row()
-            .setComponents(
-                util
-                    .button()
-                    .setCustomId("previous_page")
-                    .setEmoji("⬅️")
-                    .setStyle(ButtonStyle.Secondary),
-                util
-                    .button()
-                    .setCustomId("next_page")
-                    .setEmoji("➡️")
-                    .setStyle(ButtonStyle.Secondary)
-            );
+        const row = util.row().setComponents(
+            util
+                .button()
+                .setCustomId("previous_page")
+                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
+                .setStyle(ButtonStyle.Secondary),
+            util
+                .button()
+                .setCustomId("next_page")
+                .setEmoji(emojis.get("right_arrow") ?? "➡️")
+                .setStyle(ButtonStyle.Secondary)
+        );
 
         const embeds = list.map((def: any, i: number) =>
             util

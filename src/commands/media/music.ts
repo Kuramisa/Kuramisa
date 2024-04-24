@@ -175,8 +175,11 @@ export class MusicCommand extends Subcommand {
         }
 
         if (queue && !queue.isEmpty()) {
-            queue.addTrack(search.tracks);
-            return interaction.reply({ content: "Added to queue" });
+            queue.addTrack(search.tracks[0]);
+            return interaction.reply({
+                content: `Added to the queue: [${search.tracks[0].title}](${search.tracks[0].url})`,
+                ephemeral: true
+            });
         }
 
         await player.play(member.voice.channel, search.tracks[0], {

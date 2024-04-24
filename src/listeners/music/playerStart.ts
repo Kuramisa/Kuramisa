@@ -22,27 +22,16 @@ export class PlayerStartListener extends Listener {
 
         if (guild.musicMessage) {
             guild.musicMessage.edit({
-                embeds: [music.nowPlayingEmbed(queue, track)]
+                content: "",
+                embeds: [await music.nowPlayingEmbed(queue, track)],
+                components: music.playerControls()
             });
-
-            setInterval(() => {
-                guild.musicMessage?.edit({
-                    embeds: [music.nowPlayingEmbed(queue, track)]
-                });
-            }, 5000);
-
             return;
         }
 
-        const msg = (guild.musicMessage = await channel.send({
-            embeds: [music.nowPlayingEmbed(queue, track)],
+        guild.musicMessage = await channel.send({
+            embeds: [await music.nowPlayingEmbed(queue, track)],
             components: music.playerControls()
-        }));
-
-        setInterval(() => {
-            msg.edit({
-                embeds: [music.nowPlayingEmbed(queue, track)]
-            });
-        }, 5000);
+        });
     }
 }

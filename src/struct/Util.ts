@@ -97,12 +97,23 @@ export default class KUtil {
     daysToSeconds = (days: number) => days * 24 * 60 * 60;
 
     // Predefined Builders
-    embed = () => new EmbedBuilder().setTimestamp(new Date());
+    embed = () =>
+        new EmbedBuilder().setColor("#f99753").setTimestamp(new Date());
     row = () => new ActionRowBuilder<MessageActionRowComponentBuilder>();
     modalRow = () => new ActionRowBuilder<ModalActionRowComponentBuilder>();
     button = () => new ButtonBuilder();
 
     stringMenu = () => new StringSelectMenuBuilder();
+
+    toEmoji(str: string) {
+        const { supportServer } = container;
+
+        if (!supportServer) return str;
+
+        return supportServer.emojis
+            .fetch(str.split(":")[1].replace(">", ""))
+            .catch(() => str);
+    }
 
     menu(type?: MenuType) {
         switch (type) {
