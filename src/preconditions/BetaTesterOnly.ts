@@ -28,7 +28,7 @@ export class BetaTesterOnlyPrecondition extends Precondition {
 
         if (!db.betaTester)
             return this.error({
-                message: "You are not a Beta Tester"
+                message: "**You are not a Beta Tester**"
             });
 
         return this.ok();
