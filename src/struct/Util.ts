@@ -6,7 +6,9 @@ import {
     CDN,
     ChannelSelectMenuBuilder,
     EmbedBuilder,
+    InteractionResponse,
     MentionableSelectMenuBuilder,
+    Message,
     ModalBuilder,
     RoleSelectMenuBuilder,
     StringSelectMenuBuilder,
@@ -27,7 +29,7 @@ type MenuType = "string" | "role" | "mentionable" | "user" | "channel";
 
 const { JAPI_KEY } = process.env;
 
-export default class KuramisaUtil {
+export default class KUtil {
     readonly cdn: CDN;
     readonly nekos: Nekos;
 
@@ -175,6 +177,19 @@ export default class KuramisaUtil {
         });
 
         return deletedCommands;
+    }
+
+    static async timedDelete(
+        message: InteractionResponse | Message,
+        time = 5000
+    ) {
+        if (message instanceof Message && !message.deletable) return;
+        setTimeout(() => message.delete(), time);
+    }
+
+    async timedDelete(message: InteractionResponse | Message, time = 5000) {
+        if (message instanceof Message && !message.deletable) return;
+        setTimeout(() => message.delete(), time);
     }
 
     conj(arr: string[], conj = "and") {
