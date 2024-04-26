@@ -81,8 +81,8 @@ dependencies:
     specifier: ^2.12.1
     version: 2.12.1
   discord-player:
-    specifier: ^6.6.8
-    version: 6.6.8(@discord-player/extractor@4.4.7)
+    specifier: 6.6.9-dev.0
+    version: 6.6.9-dev.0(@discord-player/extractor@4.4.7)
   discord-voip:
     specifier: ^0.1.3
     version: 0.1.3
@@ -1780,8 +1780,8 @@ packages:
     resolution: {integrity: sha512-/Um39bRxVjcGHUu1YaTLangZvZveXjsX4BNsa1Iyd6OQG0jL972IBQGKD0mYqQswxC3bT+hqWSouabfI2RdaZA==}
     dev: false
 
-  /discord-player@6.6.8(@discord-player/extractor@4.4.7):
-    resolution: {integrity: sha512-aZQxtWbHaQPYs0KWU3XObxQLabWg7RWvLlytEitVsqbyfoBFKv2KMYX4swq0/I6eBbu2755z80pbvwU7ycjmsw==}
+  /discord-player@6.6.9-dev.0(@discord-player/extractor@4.4.7):
+    resolution: {integrity: sha512-S3TNprQ6dojxqR9BZ7MkzHvVr34su2euewTihqCxGNeCl8YqV7UDynKXom1bcVi8Zoowsl4CJexNn7vhmZPuHA==}
     peerDependencies:
       '@discord-player/extractor': ^4.4.7
     dependencies:
@@ -1790,7 +1790,7 @@ packages:
       '@discord-player/ffmpeg': 0.1.0
       '@discord-player/utils': 0.2.2
       discord-voip: 0.1.3
-      ip: 1.1.9
+      ip: 2.0.1
       libsodium-wrappers: 0.7.13
     transitivePeerDependencies:
       - '@discordjs/opus'
@@ -2723,8 +2723,8 @@ packages:
     resolution: {integrity: sha512-pZ2xT+LOHckCatGQ3DcG/a+QuEqvoxqkiL7tvE8nn3uuu+f6i1TtpB5/FtWFbxUuVr5PZCx8KskuGatbJDXOWA==}
     dev: false
 
-  /ip@1.1.9:
-    resolution: {integrity: sha512-cyRxvOEpNHNtchU3Ln9KC/auJgup87llfQpQ+t5ghoC/UhL16SWzbueiCsdTnWmqAWl7LadfuwhlqmtOaqMHdQ==}
+  /ip@2.0.1:
+    resolution: {integrity: sha512-lJUL9imLTNi1ZfXT+DU6rBBdbiKGBuay9B6xGSPVjUeQwaH1RIGqef8RZkUtHioLmSNpPR5M4HVKJGm1j8FWVQ==}
     dev: false
 
   /ipaddr.js@1.9.1:
