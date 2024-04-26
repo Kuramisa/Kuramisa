@@ -16,19 +16,28 @@ export default class UtilMember {
                     .setStyle(ButtonStyle.Secondary)
             );
 
-        const midRow = util
-            .row()
-            .setComponents(
+        const midRow = util.row().setComponents();
+
+        if (executor.permissions.has("KickMembers") && target.kickable)
+            midRow.addComponents(
                 util
                     .button()
                     .setCustomId("kick_member")
                     .setLabel("Kick Member")
-                    .setStyle(ButtonStyle.Danger),
+                    .setStyle(ButtonStyle.Danger)
+            );
+
+        if (executor.permissions.has("BanMembers") && target.bannable)
+            midRow.addComponents(
                 util
                     .button()
                     .setCustomId("ban_member")
                     .setLabel("Ban Member")
-                    .setStyle(ButtonStyle.Danger),
+                    .setStyle(ButtonStyle.Danger)
+            );
+
+        if (executor.permissions.has("ModerateMembers"))
+            midRow.addComponents(
                 util
                     .button()
                     .setCustomId("warn_member")
@@ -36,9 +45,10 @@ export default class UtilMember {
                     .setStyle(ButtonStyle.Danger)
             );
 
-        const bottomRow = util
-            .row()
-            .setComponents(
+        const bottomRow = util.row();
+
+        if (executor.permissions.has("ViewAuditLog"))
+            bottomRow.addComponents(
                 util
                     .button()
                     .setCustomId("show_warns")
@@ -46,11 +56,15 @@ export default class UtilMember {
                     .setStyle(ButtonStyle.Primary)
             );
 
-        return executor.id === target.id
-            ? [topRow]
-            : executor.permissions.has("ViewAuditLog")
-              ? [topRow, midRow, bottomRow]
-              : [topRow];
+        if (executor.id === target.id) return [topRow];
+
+        const rowsToShow = [];
+
+        if (topRow.components.length > 0) rowsToShow.push(topRow);
+        if (midRow.components.length > 0) rowsToShow.push(midRow);
+        if (bottomRow.components.length > 0) rowsToShow.push(bottomRow);
+
+        return rowsToShow;
     }
 
     statusColor(status?: PresenceStatus) {
