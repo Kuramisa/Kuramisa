@@ -83,8 +83,6 @@ export default class Music extends Player {
                 content: `${await util.toEmoji(emojis.get("no") ?? "🚫")} **No lyrics found**`,
                 ephemeral: true
             });
-
-        console.log(results);
     }
 
     async showPlaylistTracks(message: Message, playlist: Playlist) {
