@@ -562,7 +562,7 @@ export default class Music extends Player {
                 components: []
             });
 
-            queue.node.skipTo(track);
+            queue.node.jump(track);
         });
     }
 
