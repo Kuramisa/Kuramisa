@@ -8,6 +8,7 @@ import {
 import { GuildMember } from "discord.js";
 import { startCase } from "lodash";
 
+// TODO: Work on this
 export class MusicCommand extends Subcommand {
     constructor(ctx: Subcommand.LoaderContext, opts: Subcommand.Options) {
         super(ctx, {
