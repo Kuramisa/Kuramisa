@@ -31,11 +31,6 @@ export default class UtilMember {
                     .setStyle(ButtonStyle.Danger),
                 util
                     .button()
-                    .setCustomId("report_member")
-                    .setLabel("Report Member")
-                    .setStyle(ButtonStyle.Danger),
-                util
-                    .button()
                     .setCustomId("warn_member")
                     .setLabel("Warn Member")
                     .setStyle(ButtonStyle.Danger)
@@ -55,15 +50,7 @@ export default class UtilMember {
             ? [topRow]
             : executor.permissions.has("ViewAuditLog")
               ? [topRow, midRow, bottomRow]
-              : [
-                    topRow.addComponents(
-                        util
-                            .button()
-                            .setCustomId("report_member")
-                            .setLabel("Report Member")
-                            .setStyle(ButtonStyle.Danger)
-                    )
-                ];
+              : [topRow];
     }
 
     statusColor(status?: PresenceStatus) {

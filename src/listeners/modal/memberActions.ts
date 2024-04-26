@@ -15,12 +15,7 @@ export class MemberActionsModalListener extends Listener {
 
         const id = interaction.customId.split("_")[2];
 
-        if (
-            ![`report_member_${id}`, `warn_member_${id}`].includes(
-                interaction.customId
-            )
-        )
-            return;
+        if (![`warn_member_${id}`].includes(interaction.customId)) return;
 
         if (!interaction.inCachedGuild())
             return interaction.reply({

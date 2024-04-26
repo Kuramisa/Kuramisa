@@ -17,7 +17,6 @@ scalar Object
 scalar Ticket
 
 scalar Warn
-scalar Report
 
 scalar Data
 
@@ -74,6 +73,5 @@ type Query {
 type Mutation {
     authUser(auth: String!): User!
     warnUser(guildId: String!, userId: String!, reason: String): Warn!
-    reportUser(guildId: String!, userId: String!, reason: String): Report!
 }
 `;

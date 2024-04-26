@@ -23,7 +23,6 @@ export class MemberActionsListener extends Listener {
                 "show_warns",
                 "kick_member",
                 "ban_member",
-                "report_member",
                 "warn_member"
             ].includes(interaction.customId)
         )
