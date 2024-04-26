@@ -27,6 +27,8 @@ import UtilPagination from "./util/Pagination";
 
 type MenuType = "string" | "role" | "mentionable" | "user" | "channel";
 
+// TODO: Recode for Utils to be just functions
+
 const { JAPI_KEY } = process.env;
 
 export default class KUtil {
