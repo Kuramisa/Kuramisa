@@ -13,10 +13,12 @@ import {
     ActionRowBuilder,
     ButtonInteraction,
     ButtonStyle,
+    ChatInputCommandInteraction,
     ComponentType,
     EmbedBuilder,
     GuildVoiceChannelResolvable,
     InteractionResponse,
+    Message,
     MessageActionRowComponentBuilder
 } from "discord.js";
 import { chunk, startCase } from "lodash";
@@ -52,10 +54,40 @@ export default class Music extends Player {
         });
     }
 
-    async showPlaylistTracks(
-        interaction: InteractionResponse,
-        playlist: Playlist
+    async showLyrics(
+        interaction: ChatInputCommandInteraction | ButtonInteraction,
+        queue: GuildQueue
     ) {
+        const { emojis, util } = container;
+
+        if (!queue.currentTrack)
+            return interaction.reply({
+                content: `${await util.toEmoji(emojis.get("no") ?? "🚫")} No track is currently playing`,
+                ephemeral: true
+            });
+
+        const { currentTrack: track } = queue;
+
+        const results = await this.lyrics
+            .search({
+                trackName: track.title,
+                artistName: track.author
+            })
+            .catch((e) => {
+                container.logger.error(e);
+                return null;
+            });
+
+        if (!results)
+            return interaction.reply({
+                content: `${await util.toEmoji(emojis.get("no") ?? "🚫")} **No lyrics found**`,
+                ephemeral: true
+            });
+
+        console.log(results);
+    }
+
+    async showPlaylistTracks(message: Message, playlist: Playlist) {
         const { emojis, util } = container;
 
         const tracksChunk = chunk(playlist.tracks, 20);
@@ -70,11 +102,11 @@ export default class Music extends Player {
                     .setStyle(ButtonStyle.Success)
             );
 
-        await interaction.edit({
+        await message.edit({
             components: [row]
         });
 
-        const collector = interaction.createMessageComponentCollector({
+        const collector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
             time: 0,
             filter: (i) => i.customId === "list_tracks"
@@ -109,7 +141,7 @@ export default class Music extends Player {
 
         let page = 0;
 
-        let navIR = interaction;
+        let navIR: Message | InteractionResponse = message;
 
         collector.on("collect", async (i) => {
             if (i.customId === "list_tracks") {
@@ -222,26 +254,31 @@ export default class Music extends Player {
                 util
                     .button()
                     .setCustomId("player_shuffle")
-                    .setLabel("Shuffle")
+                    //.setLabel("Shuffle")
                     .setEmoji(emojis.get("player_shuffle") ?? "🔀")
                     .setStyle(ButtonStyle.Secondary),
                 util
                     .button()
                     .setCustomId("player_queue")
-                    .setLabel("Queue")
+                    //.setLabel("Queue")
                     .setEmoji(emojis.get("playlist") ?? "📜")
                     .setStyle(ButtonStyle.Secondary),
                 util
                     .button()
                     .setCustomId("player_progress")
-                    .setLabel("Progress")
+                    //.setLabel("Progress")
                     .setEmoji(emojis.get("time") ?? "🕰️")
                     .setStyle(ButtonStyle.Secondary),
                 util
                     .button()
                     .setCustomId("player_loop")
-                    .setLabel("Loop")
+                    //.setLabel("Loop")
                     .setEmoji(emojis.get("player_repeat") ?? "🔁")
+                    .setStyle(ButtonStyle.Secondary),
+                util
+                    .button()
+                    .setCustomId("player_lyrics")
+                    .setEmoji(emojis.get("genius") ?? "📝")
                     .setStyle(ButtonStyle.Secondary)
             ),
             util.row().setComponents(
@@ -309,7 +346,10 @@ export default class Music extends Player {
         return embed;
     }
 
-    async showQueue(interaction: ButtonInteraction, queue: GuildQueue) {
+    async showQueue(
+        interaction: ChatInputCommandInteraction | ButtonInteraction,
+        queue: GuildQueue
+    ) {
         const { emojis, util } = container;
 
         const tracksChunk = chunk(queue.tracks.toArray(), 10);

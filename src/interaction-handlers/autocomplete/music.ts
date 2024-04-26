@@ -4,7 +4,7 @@ import {
 } from "@sapphire/framework";
 import { AutocompleteInteraction } from "discord.js";
 
-import { useMainPlayer } from "discord-player";
+import { useMainPlayer, useQueue } from "discord-player";
 import { startCase, truncate } from "lodash";
 
 export class MusicACHandler extends InteractionHandler {
@@ -39,18 +39,9 @@ export class MusicACHandler extends InteractionHandler {
                 return this.some([
                     {
                         name: "Random Song",
-                        value: "https://open.spotify.com/track/4PTG3Z6ehGkBFwjybzWkR8?si=449b1042f9944f8c"
+                        value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
                     }
                 ]);
-
-            if (focused.value.includes("youtube")) {
-                return this.some([
-                    {
-                        name: "We do not support YouTube, because of their TOS. We are sorry.",
-                        value: "no_youtube"
-                    }
-                ]);
-            }
 
             const search = await player.search(focused.value, {
                 requestedBy: interaction.user
@@ -63,7 +54,7 @@ export class MusicACHandler extends InteractionHandler {
 
                 return this.some([
                     {
-                        name: `${startCase(playlist.source)} ${startCase(playlist.type)} - ${playlist.title} (${playlist.author.name}) [${playlist.tracks.length} Tracks]`,
+                        name: `${startCase(playlist.source)} ${startCase(playlist.type)} - ${truncate(playlist.title, { length: 20 })} (${playlist.author.name}) [${playlist.tracks.length} Tracks]`,
                         value: playlist.url
                     }
                 ]);
@@ -73,8 +64,31 @@ export class MusicACHandler extends InteractionHandler {
 
             return this.some(
                 tracks.map((track) => ({
-                    name: `${startCase(track.source)} - ${truncate(track.title, { length: 20 })} (${track.author})`,
+                    name: `${truncate(track.title, { length: 10 })} (${track.author})`,
                     value: track.url
+                }))
+            );
+        } else if (focused.name === "track_in_queue") {
+            if (!interaction.guildId) return this.none();
+
+            const queue = useQueue(interaction.guildId);
+            if (!queue) return this.none();
+
+            let tracks = queue.tracks.toArray();
+            if (tracks.length < 1) return this.none();
+            if (focused.value.length < 1) tracks = tracks.slice(0, 25);
+
+            if (focused.value.length > 0)
+                tracks = tracks.filter((track) =>
+                    track.title
+                        .toLowerCase()
+                        .includes(focused.value.toLowerCase())
+                );
+
+            return this.some(
+                tracks.map((track) => ({
+                    name: `${startCase(track.source)} - ${truncate(track.title, { length: 10 })} (${track.author})`,
+                    value: track.id
                 }))
             );
         }
