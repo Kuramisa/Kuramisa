@@ -40,15 +40,15 @@ export default class ValorantPlayerTitles {
             "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
-            .then((res: any) => res.data.offers)
+            .then((res: any) => res.data?.offers)
             .then((res) =>
-                res.filter((offer: any) => offer.type === "player_title")
+                res?.filter((offer: any) => offer.type === "player_title")
             );
 
         const data = titleData.map((title: any) => ({
             ...title,
             cost:
-                titlePrices.find(
+                titlePrices?.find(
                     (price: any) => price.player_title_id === title.uuid
                 )?.cost ?? 0
         }));

@@ -45,15 +45,15 @@ export default class ValorantPlayerCards {
             "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
-            .then((res: any) => res.data.offers)
+            .then((res: any) => res.data?.offers)
             .then((res) =>
-                res.filter((offer: any) => offer.type === "player_card")
+                res?.filter((offer: any) => offer.type === "player_card")
             );
 
         const data = cardData.map((card: any) => ({
             ...card,
             cost:
-                cardPrices.find(
+                cardPrices?.find(
                     (price: any) => price.player_card_id === card.uuid
                 )?.cost ?? 0
         }));

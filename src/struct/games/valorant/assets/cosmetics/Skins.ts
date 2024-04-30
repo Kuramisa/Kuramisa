@@ -49,15 +49,15 @@ export default class ValorantSkins {
             "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
-            .then((res: any) => res.data.offers)
+            .then((res: any) => res.data?.offers)
             .then((res) =>
-                res.filter((offer: any) => offer.type === "skin_level")
+                res?.filter((offer: any) => offer.type === "skin_level")
             );
 
         const data = skinData.map((skin: any) => ({
             ...skin,
             cost:
-                skinPrices.find((price: any) => price.skin_id === skin.uuid)
+                skinPrices?.find((price: any) => price.skin_id === skin.uuid)
                     ?.cost ?? 0
         }));
 

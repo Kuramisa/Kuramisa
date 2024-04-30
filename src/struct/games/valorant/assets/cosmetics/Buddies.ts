@@ -82,13 +82,15 @@ export default class ValorantBuddies {
             "https://api.henrikdev.xyz/valorant/v2/store-offers"
         )
             .then((res) => res.json())
-            .then((res: any) => res.data.offers)
-            .then((res) => res.filter((offer: any) => offer.type === "buddy"));
+            .then((res: any) => res.data?.offers)
+            .then((res) =>
+                res?.filter((offer: any) => offer?.type === "buddy")
+            );
 
         const data = buddyData.map((buddy: any) => ({
             ...buddy,
             cost:
-                buddyPrices.find((price: any) => price.buddy_id === buddy.uuid)
+                buddyPrices?.find((price: any) => price.buddy_id === buddy.uuid)
                     ?.cost ?? 0
         }));
 
