@@ -5,21 +5,33 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  axios:
+    specifier: ^1.6.8
+    version: 1.6.8
   discord-logs:
     specifier: ^2.2.1
     version: 2.2.1
   discord.js:
     specifier: ^14.15.2
     version: 14.15.2
+  japi.rest.ts:
+    specifier: ^1.0.2
+    version: 1.0.2
   lodash:
     specifier: ^4.17.21
     version: 4.17.21
   moment:
     specifier: ^2.30.1
     version: 2.30.1
+  moment-timezone:
+    specifier: ^0.5.45
+    version: 0.5.45
   mongoose:
     specifier: ^8.3.4
     version: 8.3.4
+  nekos.life:
+    specifier: ^3.0.0
+    version: 3.0.0
   owospeak:
     specifier: ^1.0.4
     version: 1.0.4
@@ -771,6 +783,10 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /arraybuffer-to-buffer@0.0.7:
+    resolution: {integrity: sha512-WAIA2Mq+KLJ7Ua40KD6zMshvSsJbnXRuVG0/MNEIPhIMEWRkcmLMcQvx0OkAeMIZi2jHJOXxK9ZqVJ+A+Z6knw==}
+    dev: false
+
   /async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
     dev: false
@@ -1427,6 +1443,13 @@ packages:
     resolution: {integrity: sha512-RHxMLp9lnKHGHRng9QFhRCMbYAcVpn69smSGcq3f36xjgVVWThj4qqLbTLlq7Ssj8B+fIQ1EuCEGI2lKsyQeIw==}
     dev: true
 
+  /japi.rest.ts@1.0.2:
+    resolution: {integrity: sha512-MQs+ib7Yr7LqKuaTKSaktPP4pO8ldSknPbP3TFfOfP227fRc3i+1oNVHxszRWh+A/bSeHiEbuGPnZMHXElcueQ==}
+    engines: {node: '>=18.x'}
+    dependencies:
+      node-superfetch: 0.3.4
+    dev: false
+
   /js-yaml@4.1.0:
     resolution: {integrity: sha512-wpxZs9NoxZaJESJGIZTyDEaYpl0FKSA+FB9aJiyemKhMwkxQg63h4T1KJgUGHpTqPDNRcmmYLugrRjJlBtWvRA==}
     hasBin: true
@@ -1546,6 +1569,12 @@ packages:
       brace-expansion: 2.0.1
     dev: true
 
+  /moment-timezone@0.5.45:
+    resolution: {integrity: sha512-HIWmqA86KcmCAhnMAN0wuDOARV/525R2+lOLotuGFzn4HO+FH+/645z2wx0Dt3iDv6/p61SIvKnDstISainhLQ==}
+    dependencies:
+      moment: 2.30.1
+    dev: false
+
   /moment@2.30.1:
     resolution: {integrity: sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==}
     dev: false
@@ -1635,6 +1664,18 @@ packages:
   /natural-compare@1.4.0:
     resolution: {integrity: sha512-OWND8ei3VtNC9h7V60qff3SVobHr996CTwgxubgyQYEpg290h9J0buyECNNJexkFm5sOajh5G116RYA1c8ZMSw==}
     dev: true
+
+  /nekos.life@3.0.0:
+    resolution: {integrity: sha512-7LbvSqLtfK4XRA91nJaGOWthrNADmG7Vx9d54TC77Hx5qFvRCssFUaHraI6bZGjVENBCUaF7CreisoFX+8mnKQ==}
+    dev: false
+
+  /node-superfetch@0.3.4:
+    resolution: {integrity: sha512-DxplfN34JynRdEdY4H/4YFSWj2DXkLEWXiGAOkKa7hUDVyp1ZXMbcfg7R4MWKKAhnLvs1D2zRV/wkyFI+xy2yw==}
+    engines: {node: '>=18'}
+    dependencies:
+      arraybuffer-to-buffer: 0.0.7
+      form-data: 4.0.0
+    dev: false
 
   /nodemon@3.1.0:
     resolution: {integrity: sha512-xqlktYlDMCepBJd43ZQhjWwMw2obW/JRvkrLxq5RCNcuDDX1DbcPT+qT1IlIIdf+DhnWs90JpTMe+Y5KxOchvA==}
