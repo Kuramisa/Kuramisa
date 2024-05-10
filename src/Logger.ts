@@ -1,11 +1,13 @@
 import { createLogger, format, transports, config } from "winston";
 import "winston-daily-rotate-file";
+import "moment-timezone";
 import { capitalize } from "lodash";
 import moment from "moment";
 
 const { combine, timestamp, printf } = format;
 
-const tsFormat = () => moment().format("YYYY-MM-DD HH:mm:ss A").trim();
+const tsFormat = () =>
+    moment().tz("America/Los_Angeles").format("YYYY-MM-DD hh:mm:ss A").trim();
 
 const myFormat = printf(
     ({ level, message, timestamp }) =>
