@@ -1,0 +1,9 @@
+{
+    "ignore": ["node_modules"],
+    "watch": ["src", ".env"],
+    "exec": "pnpm lint && pnpm start",
+    "ext": "ts",
+    "env": {
+        "NODE_ENV": "development"
+    }
+}

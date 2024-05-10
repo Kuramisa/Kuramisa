@@ -1,0 +1,5 @@
+!src
+build
+assets
+node_modules
+*.js

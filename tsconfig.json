@@ -1,0 +1,29 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "lib": [
+      "ESNext"
+    ],
+    "module": "ESNext",
+    "baseUrl": "src",
+    "rootDir": "src",
+    "moduleResolution": "Bundler",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noImplicitAny": true,
+    "resolveJsonModule": true,
+    "experimentalDecorators": true,
+    "paths": {
+      "@kuramisa": ["index.ts"],
+      "@classes/*": ["classes/*"],
+      "@stores/*": ["stores/*"],
+      "@schemas/*": ["schemas/*"],
+    }
+  },
+  "exclude": [
+    "node_modules",
+    "build"
+  ]
+}
