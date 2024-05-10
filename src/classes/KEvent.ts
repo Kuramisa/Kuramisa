@@ -1,5 +1,5 @@
-import { kuramisa } from "@kuramisa";
-import Kuramisa from "Kuramisa";
+import KuramisaClass from "Kuramisa";
+import kuramisa from "@kuramisa";
 import { Events } from "discord.js";
 import { EventEmitter } from "node:events";
 
@@ -7,7 +7,7 @@ export type IEvent = {
     readonly name: string;
     readonly once: boolean;
     readonly description: string;
-    readonly emitter: Kuramisa | EventEmitter;
+    readonly emitter: KuramisaClass | EventEmitter;
 
     run(...args: any[] | undefined[]): any;
 };
@@ -16,11 +16,11 @@ export type IEventOptions = {
     name: string | Events;
     once?: boolean;
     description?: string;
-    emitter?: Kuramisa | EventEmitter;
+    emitter?: KuramisaClass | EventEmitter;
 };
 
-export function DiscordEvent(options: IEventOptions) {
-    return function (target: typeof AbstractDiscordEvent) {
+export function KEvent(options: IEventOptions) {
+    return function (target: typeof AbstractKEvent) {
         return class extends target {
             constructor() {
                 super(options);
@@ -34,14 +34,14 @@ export function DiscordEvent(options: IEventOptions) {
     };
 }
 
-export abstract class AbstractDiscordEvent implements IEvent {
+export abstract class AbstractKEvent implements IEvent {
     readonly client = kuramisa;
     readonly logger = kuramisa.logger;
     readonly managers = kuramisa.managers;
     readonly name: string | Events;
     readonly once: boolean;
     readonly description: string;
-    readonly emitter: Kuramisa | EventEmitter;
+    readonly emitter: KuramisaClass | EventEmitter;
 
     /**
      *
@@ -66,7 +66,7 @@ export abstract class AbstractDiscordEvent implements IEvent {
 
     init() {
         if (this.once) {
-            if (this.emitter instanceof Kuramisa) {
+            if (this.emitter instanceof KuramisaClass) {
                 this.emitter.once(this.name, this.run);
                 return;
             }
@@ -75,7 +75,7 @@ export abstract class AbstractDiscordEvent implements IEvent {
             return;
         }
 
-        if (this.emitter instanceof Kuramisa) {
+        if (this.emitter instanceof KuramisaClass) {
             this.emitter.on(this.name, this.run);
             return;
         }
