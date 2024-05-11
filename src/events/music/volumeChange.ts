@@ -1,7 +1,8 @@
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import kuramisa from "@kuramisa";
-import { KEmbed, toEmoji } from "@utils";
+import { KEmbed } from "@builders";
 import { GuildQueue } from "discord-player";
+import { toEmoji } from "@utils";
 
 @KEvent({
     event: "volumeChange",

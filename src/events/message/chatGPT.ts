@@ -1,5 +1,6 @@
+import { KAttachment } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
-import { KAttachment, Pagination } from "@utils";
+import { Pagination } from "@utils";
 import { Message } from "discord.js";
 import { chunk } from "lodash";
 

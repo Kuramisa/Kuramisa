@@ -1,5 +1,5 @@
+import { KRow, KButton } from "@builders";
 import { ButtonStyle, GuildMember, PresenceStatus } from "discord.js";
-import { KButton, KRow } from ".";
 
 export const memberActions = (executor: GuildMember, target: GuildMember) => {
     const topRow = new KRow().setComponents(

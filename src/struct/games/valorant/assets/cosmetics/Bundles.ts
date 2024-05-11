@@ -1,6 +1,7 @@
 import kuramisa from "@kuramisa";
-import { KEmbed, randEl } from "@utils";
+import { randEl } from "@utils";
 import Valorant from "../..";
+import { KEmbed } from "@builders";
 
 export default class ValorantBundles {
     private readonly data: IValorantBundle[];

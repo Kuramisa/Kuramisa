@@ -4,6 +4,7 @@ import { ApplicationCommandType, Collection } from "discord.js";
 import fs from "fs/promises";
 import path from "path";
 import logger from "@struct/Logger";
+import ms from "ms";
 
 export default class CommandStore {
     readonly slashCommands: Collection<string, AbstractSlashCommand> =
@@ -17,6 +18,9 @@ export default class CommandStore {
         new Collection();
 
     async load() {
+        const startTime = Date.now();
+        logger.info("[Command Store] Loading commands...");
+
         const commandDirectory = path.resolve(`${__dirname}/../commands`);
         const files = await fs.readdir(commandDirectory);
 
@@ -99,5 +103,11 @@ export default class CommandStore {
                 `[Command Store] Loaded command ${instance.name} (${commandType}) in category none`
             );
         }
+
+        logger.info(
+            `[Command Store] Loaded ${
+                this.commands.size
+            } commands in ${ms(Date.now() - startTime)}`
+        );
     }
 }

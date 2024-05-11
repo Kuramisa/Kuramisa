@@ -1,7 +1,7 @@
 import kuramisa from "@kuramisa";
-import { ButtonStyle, EmbedBuilder } from "discord.js";
+import { ButtonStyle } from "discord.js";
 import Valorant from "../..";
-import { KButton, KRow } from "@utils";
+import { KButton, KEmbed, KRow } from "@builders";
 
 export default class ValorantWeapons {
     private readonly data: IValorantWeapon[];
@@ -61,7 +61,7 @@ export default class ValorantWeapons {
     }
 
     embed(weapon: IValorantWeapon) {
-        const embed = new EmbedBuilder()
+        const embed = new KEmbed()
             .setTitle(
                 `${weapon.displayName} (${
                     weapon.shopData?.category ?? "Melee"

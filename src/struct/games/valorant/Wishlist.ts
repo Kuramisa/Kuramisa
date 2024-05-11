@@ -6,12 +6,11 @@ import {
     type ChatInputCommandInteraction,
     Collection,
     ComponentType,
-    type EmbedBuilder,
     type MessageActionRowComponentBuilder,
     type User
 } from "discord.js";
 import { capitalize } from "lodash";
-import { KEmbed, KStringSelectMenu, KRow, KButton } from "@utils";
+import { KEmbed, KStringSelectMenu, KRow, KButton } from "@builders";
 
 export default class ValorantWishlist {
     private readonly valorant: Valorant;
@@ -177,7 +176,7 @@ export default class ValorantWishlist {
         const wishlistInfo: Collection<
             string,
             {
-                embeds: EmbedBuilder[];
+                embeds: KEmbed[];
                 selectMenus: ActionRowBuilder<MessageActionRowComponentBuilder>[];
             }
         > = new Collection();

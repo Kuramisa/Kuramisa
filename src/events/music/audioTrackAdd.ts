@@ -1,6 +1,7 @@
+import { KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import kuramisa from "@kuramisa";
-import { KEmbed, toEmoji } from "@utils";
+import { toEmoji } from "@utils";
 import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 
 @KEvent({

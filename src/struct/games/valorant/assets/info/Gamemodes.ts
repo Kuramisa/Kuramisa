@@ -1,5 +1,5 @@
-import { EmbedBuilder } from "discord.js";
 import Valorant from "../..";
+import { KEmbed } from "@builders";
 
 export default class ValorantGamemodes {
     private readonly data: IValorantGamemode[];
@@ -30,7 +30,7 @@ export default class ValorantGamemodes {
 
     // TODO: Add more embed info
     embed = (gamemode: IValorantGamemode) =>
-        new EmbedBuilder()
+        new KEmbed()
             .setAuthor({
                 name: gamemode.displayName,
                 iconURL: gamemode.displayIcon

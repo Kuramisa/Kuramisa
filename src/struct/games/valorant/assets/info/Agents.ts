@@ -1,5 +1,6 @@
-import { type ColorResolvable, EmbedBuilder } from "discord.js";
+import { type ColorResolvable } from "discord.js";
 import Valorant from "../..";
+import { KEmbed } from "@builders";
 
 export default class ValorantAgents {
     private readonly data: IValorantAgent[];
@@ -19,7 +20,7 @@ export default class ValorantAgents {
 
     // Add voice lines part when available
     embed = (agent: IValorantAgent) =>
-        new EmbedBuilder()
+        new KEmbed()
             .setAuthor({
                 name: agent.displayName,
                 iconURL: agent.displayIcon

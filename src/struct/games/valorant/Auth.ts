@@ -6,7 +6,7 @@ import {
     type ModalSubmitInteraction
 } from "discord.js";
 import { ValError, WebClient } from "valorant.ts";
-import { KRow, KStringSelectMenu } from "@utils";
+import { KRow, KStringSelectMenu } from "@builders";
 
 export default class ValorantAuth {
     private readonly valorant: Valorant;

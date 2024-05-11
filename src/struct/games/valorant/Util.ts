@@ -15,7 +15,8 @@ import ffmpeg from "fluent-ffmpeg";
 import { type Store } from "@valapi/web-client";
 import { type Weapons } from "@valapi/valorant-api.com";
 import { capitalize, startCase } from "lodash";
-import { KButton, KEmbed, KRow, randEl } from "@utils";
+import { KButton, KEmbed, KRow } from "@builders";
+import { randEl } from "@utils";
 
 export default class ValorantUtil {
     readonly valorant: Valorant;

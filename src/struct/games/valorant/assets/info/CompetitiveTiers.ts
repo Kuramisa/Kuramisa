@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { KEmbed } from "@builders";
 import Valorant from "../..";
 
 export default class ValorantCompetitiveTiers {
@@ -20,7 +20,7 @@ export default class ValorantCompetitiveTiers {
     getByID = (id: string) => this.data.find((tiers) => tiers.uuid === id);
 
     embed = (tier: CompetitiveTierSingleton) =>
-        new EmbedBuilder()
+        new KEmbed()
             .setAuthor({
                 name: tier.tierName,
                 iconURL: tier.smallIcon

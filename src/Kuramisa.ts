@@ -11,6 +11,7 @@ import {
     User
 } from "discord.js";
 import logger from "struct/Logger";
+import ms from "ms";
 
 import dLogs from "discord-logs";
 
@@ -30,6 +31,7 @@ const { CLIENT_ID, NODE_ENV, TOKEN } = process.env;
 
 export default class Kuramisa extends Client {
     initialized = false;
+    startTime = Date.now();
 
     // Server Declarations
     mainServer?: Guild;
@@ -123,7 +125,7 @@ export default class Kuramisa extends Client {
         const { commands } = this.stores.commands;
 
         const startTime = Date.now();
-        logger.debug("[REST] Updating Commands...");
+        logger.info("[REST] Updating Commands...");
 
         // find deleted commands and update rest
         for (const restCommand of restCommands) {
@@ -158,7 +160,7 @@ export default class Kuramisa extends Client {
             }
         }
 
-        logger.debug(`[REST] Updated Commands in ${Date.now() - startTime}ms`);
+        logger.info(`[REST] Updated Commands in ${ms(Date.now() - startTime)}`);
     }
 
     getActivities(): PresenceData {
@@ -199,7 +201,7 @@ export default class Kuramisa extends Client {
     }
 
     async initStaff() {
-        logger.info("[Staff System] Initializing staff...");
+        logger.info("[Staff System] Initializing Bot Staff...");
 
         const staffDbs = await this.database.users.fetchStaff();
         const staffs: BotStaff[] = [];
@@ -256,6 +258,6 @@ export default class Kuramisa extends Client {
             await guild.save();
         }
 
-        logger.info("Cleared out empty dynamic voice channels");
+        logger.info("[Bot] Cleared out empty dynamic voice channels");
     }
 }

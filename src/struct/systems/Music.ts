@@ -17,21 +17,14 @@ import {
     ButtonStyle,
     ChatInputCommandInteraction,
     ComponentType,
-    EmbedBuilder,
     GuildVoiceChannelResolvable,
     InteractionResponse,
     Message,
     MessageActionRowComponentBuilder
 } from "discord.js";
 import { chunk, startCase, truncate } from "lodash";
-import {
-    KButton,
-    KEmbed,
-    KRow,
-    KStringSelectMenu,
-    timedDelete,
-    toEmoji
-} from "@utils";
+import { KButton, KEmbed, KRow, KStringSelectMenu } from "@builders";
+import { toEmoji, timedDelete } from "@utils";
 
 export default class Music extends Player {
     private readonly kuramisa: Kuramisa;
@@ -123,7 +116,7 @@ export default class Music extends Player {
             filter: (i) => i.customId === "list_tracks"
         });
 
-        const embeds: EmbedBuilder[] = [];
+        const embeds: KEmbed[] = [];
 
         let trackNumber = 1;
 
@@ -353,7 +346,7 @@ export default class Music extends Player {
                 ephemeral: true
             });
 
-        const embeds: EmbedBuilder[] = [];
+        const embeds: KEmbed[] = [];
 
         let trackNumber = 1;
 

@@ -6,7 +6,7 @@ import {
     KRow,
     KStringSelectMenu,
     KTextInput
-} from "@utils";
+} from "@builders";
 
 import {
     ChannelType,

@@ -1,4 +1,4 @@
-import { KEmbed } from "@utils";
+import { KEmbed } from "@builders";
 import Valorant from "../..";
 
 export default class ValorantPlayerTitles {

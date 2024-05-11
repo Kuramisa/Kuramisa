@@ -1,9 +1,8 @@
-import { KEmbed, KStringSelectMenu } from "@utils";
+import { KEmbed, KStringSelectMenu } from "@builders";
 import Valorant from "../..";
 import {
     ActionRowBuilder,
-    type MessageActionRowComponentBuilder,
-    StringSelectMenuBuilder
+    type MessageActionRowComponentBuilder
 } from "@discordjs/builders";
 import kuramisa from "@kuramisa";
 import { truncate } from "lodash";

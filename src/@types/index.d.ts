@@ -4,7 +4,6 @@ import type {
     Collection,
     ColorResolvable,
     ContextMenuCommandInteraction,
-    EmbedBuilder,
     Guild,
     Message,
     MessageActionRowComponentBuilder,
@@ -15,6 +14,7 @@ import type {
 import { IGuild } from "@schemas/Guild";
 import { IUser } from "@schemas/User";
 import type { WebClient } from "valorant.ts";
+import { KEmbed } from "@builders";
 
 declare global {
     interface IMongoResult<T = any> {
@@ -550,13 +550,13 @@ declare global {
         uuid: string;
         level: {
             names: string[];
-            embeds: EmbedBuilder[];
+            embeds: KEmbed[];
             components: ActionRowBuilder<MessageActionRowComponentBuilder>;
             videos: string[];
         };
         chroma: {
             names: string[];
-            embeds: EmbedBuilder[];
+            embeds: KEmbed[];
             components: ActionRowBuilder<MessageActionRowComponentBuilder>;
             videos: string[];
         };

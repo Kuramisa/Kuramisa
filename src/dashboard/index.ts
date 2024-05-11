@@ -64,6 +64,8 @@ export default class Dashboard extends ApolloServer {
 
         httpServer.listen({ port: process.env.PORT });
 
-        kuramisa.logger.info(`Server ready at port: ${process.env.PORT}`);
+        kuramisa.logger.info(
+            `[Dashboard] Server ready at port: ${process.env.PORT}`
+        );
     }
 }

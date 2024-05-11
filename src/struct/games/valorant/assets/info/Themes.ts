@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { KEmbed } from "@builders";
 import Valorant from "../..";
 
 export default class ValorantThemes {
@@ -29,7 +29,7 @@ export default class ValorantThemes {
     }
 
     embed = (theme: IValorantTheme) =>
-        new EmbedBuilder()
+        new KEmbed()
             .setAuthor({
                 name: theme.displayName,
                 iconURL: theme.displayIcon

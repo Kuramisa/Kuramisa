@@ -6,13 +6,13 @@ import {
     type ChatInputCommandInteraction,
     Collection,
     ComponentType,
-    type EmbedBuilder,
     type StringSelectMenuBuilder
 } from "discord.js";
 
 import moment from "moment";
 import { Bundles } from "./assets";
-import { KButton, KRow, KStringSelectMenu } from "@utils";
+import { KButton, KRow, KStringSelectMenu } from "@builders";
+import { KEmbed } from "@builders";
 
 export default class ValorantShop {
     private readonly valorant: Valorant;
@@ -71,9 +71,8 @@ export default class ValorantShop {
             ephemeral
         });
 
-        const accountEmbeds: Collection<string, EmbedBuilder> =
-            new Collection();
-        const skinEmbeds: Collection<string, EmbedBuilder[]> = new Collection();
+        const accountEmbeds: Collection<string, KEmbed> = new Collection();
+        const skinEmbeds: Collection<string, KEmbed[]> = new Collection();
         const viewSelectMenus: Collection<string, StringSelectMenuBuilder> =
             new Collection();
         const wishlistSelectMenus: Collection<string, StringSelectMenuBuilder> =
@@ -294,8 +293,8 @@ export default class ValorantShop {
 
         const featured = await bundles.fetchFeatured();
 
-        const bundleEmbeds: Collection<string, EmbedBuilder> = new Collection();
-        const itemEmbeds: Collection<string, EmbedBuilder[]> = new Collection();
+        const bundleEmbeds: Collection<string, KEmbed> = new Collection();
+        const itemEmbeds: Collection<string, KEmbed[]> = new Collection();
 
         const viewSelectMenus: Collection<string, StringSelectMenuBuilder> =
             new Collection();
@@ -314,7 +313,7 @@ export default class ValorantShop {
 
             const bundleEmbed = Bundles.embed(bundle, timeRemaining);
 
-            const embeds: EmbedBuilder[] = [];
+            const embeds: KEmbed[] = [];
             const viewOpts = [];
             const wishlistOpts = [];
 

@@ -11,7 +11,7 @@ import {
 } from "discord.js";
 
 import Valorant from "../..";
-import { KEmbed } from "@utils";
+import { KEmbed } from "@builders";
 import { truncate } from "lodash";
 
 export default class ValorantSkins {

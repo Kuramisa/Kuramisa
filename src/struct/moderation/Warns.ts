@@ -7,8 +7,8 @@ import {
     Guild
 } from "discord.js";
 
-import { KEmbed, KModal, KModalRow, KTextInput } from "@utils";
-import { cdn } from "../../utils/index";
+import { KEmbed, KModal, KModalRow, KTextInput } from "@builders";
+import { cdn } from "@utils";
 
 export default class Warns {
     async create(

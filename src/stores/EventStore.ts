@@ -3,11 +3,15 @@ import { Collection } from "discord.js";
 import fs from "fs/promises";
 import path from "path";
 import logger from "@struct/Logger";
+import ms from "ms";
 
 export default class EventStore {
     readonly events: Collection<string, AbstractKEvent[]> = new Collection();
 
     async load() {
+        const startTime = Date.now();
+        logger.info("[Event Store] Loading events...");
+
         const eventDirectory = path.resolve(`${__dirname}/../events`);
         const files = await fs.readdir(eventDirectory);
 
@@ -37,7 +41,7 @@ export default class EventStore {
                     this.events.get(instance.event)?.push(instance);
 
                     logger.debug(
-                        `[Event Store] Loaded event ${instance.event}`
+                        `[Event Store] Loaded event ${instance.event} (${instance.description})`
                     );
                 }
             }
@@ -57,7 +61,16 @@ export default class EventStore {
 
             this.events.get(instance.event)?.push(instance);
 
-            logger.debug(`[Event Store] Loaded event ${instance.event}`);
+            logger.debug(
+                `[Event Store] Loaded event ${instance.event} (${instance.description})`
+            );
         }
+
+        logger.info(
+            `[Event Store] Loaded ${this.events.reduce(
+                (acc, events) => acc + events.length,
+                0
+            )} events in ${ms(Date.now() - startTime)}`
+        );
     }
 }

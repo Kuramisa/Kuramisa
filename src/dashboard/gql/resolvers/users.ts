@@ -3,7 +3,7 @@ import { DiscordSnowflake } from "@sapphire/snowflake";
 import type Dashboard from "../../../dashboard";
 import { GraphQLError } from "graphql";
 import { type Request } from "express";
-import { KEmbed } from "@utils";
+import { KEmbed } from "@builders";
 import { chunk } from "lodash";
 
 const server404 = "Server not found";

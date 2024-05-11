@@ -1,5 +1,6 @@
+import { KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
-import { KEmbed, logsChannel } from "@utils";
+import { logsChannel } from "@utils";
 import { GuildMember } from "discord.js";
 
 @KEvent({

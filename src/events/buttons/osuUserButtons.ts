@@ -1,5 +1,6 @@
+import { KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
-import { KEmbed, embedUrl, formatNumber } from "@utils";
+import { embedUrl, formatNumber } from "@utils";
 import { Pagination } from "@utils";
 import { Interaction } from "discord.js";
 import { capitalize } from "lodash";

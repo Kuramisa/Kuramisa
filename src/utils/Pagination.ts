@@ -4,7 +4,6 @@ import {
     ButtonStyle,
     type ButtonInteraction,
     type ChatInputCommandInteraction,
-    type EmbedBuilder,
     ComponentType,
     Message,
     type InteractionCollector
@@ -203,7 +202,7 @@ export default class Pagination {
 
     static async embeds(
         interaction: Interactions | Message,
-        embeds: EmbedBuilder[],
+        embeds: KEmbed[],
         ephemeral = false,
         timeout = 0
     ) {

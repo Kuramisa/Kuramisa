@@ -4,7 +4,7 @@ import {
     StringSelectMenuBuilder
 } from "discord.js";
 import Valorant from "../..";
-import { KEmbed, KStringSelectMenu } from "@utils";
+import { KEmbed, KStringSelectMenu } from "@builders";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];

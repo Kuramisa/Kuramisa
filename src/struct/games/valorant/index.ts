@@ -40,6 +40,7 @@ import ValorantUtil from "./Util";
 import ValorantWishlist from "./Wishlist";
 
 import { capitalize } from "lodash";
+import ms from "ms";
 
 export default class Valorant {
     readonly accounts: Collection<
@@ -122,6 +123,7 @@ export default class Valorant {
             return;
         }
 
+        const startTime = Date.now();
         logger.info("[Valorant] Initializing...");
 
         //const assets = new ValorantApiCom();
@@ -272,7 +274,7 @@ export default class Valorant {
 
         this.initialized = true;
 
-        logger.info("[Valorant] Initialized!");
+        logger.info(`[Valorant] Initialized in ${ms(Date.now() - startTime)}`);
     }
 
     async privacy(interaction: ChatInputCommandInteraction) {

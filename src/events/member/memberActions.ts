@@ -1,13 +1,6 @@
+import { KAttachment, KModal, KModalRow, KTextInput, KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
-import {
-    KAttachment,
-    KEmbed,
-    KModal,
-    KModalRow,
-    KTextInput,
-    Pagination,
-    daysToSeconds
-} from "@utils";
+import { Pagination, daysToSeconds } from "@utils";
 import {
     GuildMember,
     Interaction,

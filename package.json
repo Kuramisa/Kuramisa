@@ -6,13 +6,12 @@
     "main": "index.js",
     "scripts": {
         "build": "rm -rf build && tsc",
-        "start": "pnpm test && tsx -r dotenv/config ./src/index.ts",
+        "start": "tsx -r dotenv/config ./src/index.ts",
         "dev": "nodemon",
         "prepare": "husky",
         "test": "tsc --noEmit",
         "lint": "eslint . --fix",
-        "prettier": "prettier --write .",
-        "beautify": "pnpm eslint && pnpm prettier"
+        "prettier": "prettier --write ."
     },
     "keywords": [],
     "author": "",
@@ -67,6 +66,7 @@
         "@types/get-image-colors": "^4.0.5",
         "@types/jsonwebtoken": "^9.0.6",
         "@types/lodash": "^4.17.1",
+        "@types/ms": "^0.7.34",
         "@types/node": "^20.12.11",
         "@typescript-eslint/eslint-plugin": "^7.8.0",
         "@typescript-eslint/parser": "^7.8.0",

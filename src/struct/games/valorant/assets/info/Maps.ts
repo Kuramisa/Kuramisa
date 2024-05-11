@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { KEmbed } from "@builders";
 import Valorant from "../..";
 
 export default class ValorantMaps {
@@ -29,7 +29,7 @@ export default class ValorantMaps {
     }
 
     embed = (map: IValorantMap) =>
-        new EmbedBuilder()
+        new KEmbed()
             .setAuthor({
                 name: map.displayName,
                 iconURL: map.displayIcon

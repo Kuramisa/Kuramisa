@@ -1,13 +1,14 @@
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import { CronJob } from "cron";
 import { TextChannel } from "discord.js";
+import ms from "ms";
 
 const { ASH, STEALTH } = process.env;
 
 @KEvent({
     event: "ready",
     once: true,
-    description: "Bot is ready!"
+    description: "Emits when the bot is ready"
 })
 export default class ReadyEvent extends AbstractKEvent {
     async run() {
@@ -69,6 +70,9 @@ export default class ReadyEvent extends AbstractKEvent {
             await dashboard.init();
 
             client.initialized = true;
+            logger.info(
+                `[Bot] Started in ${ms(Date.now() - client.startTime)}`
+            );
             logger.info(`[Bot] Ready! Logged in as ${client.user?.tag}`);
         } catch (err) {
             logger.error(err);
