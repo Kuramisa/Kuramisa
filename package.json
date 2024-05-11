@@ -11,7 +11,8 @@
         "prepare": "husky",
         "test": "tsc --noEmit",
         "lint": "eslint . --fix",
-        "prettier": "prettier --write ."
+        "prettier": "prettier --write .",
+        "beautify": "pnpm lint && pnpm prettier"
     },
     "keywords": [],
     "author": "",
