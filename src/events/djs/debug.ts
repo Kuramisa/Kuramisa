@@ -1,10 +1,10 @@
-import { AbstractDiscordEvent, DiscordEvent } from "@classes/DiscordEvent";
+import { AbstractKEvent, KEvent } from "@classes/KEvent";
 
-@DiscordEvent({
-    name: "debug",
+@KEvent({
+    event: "debug",
     description: "Debug event"
 })
-export default class DebugEvent extends AbstractDiscordEvent {
+export default class DebugEvent extends AbstractKEvent {
     async run(debug: string) {
         this.logger.debug(`[Discord.js] ${debug}`);
     }

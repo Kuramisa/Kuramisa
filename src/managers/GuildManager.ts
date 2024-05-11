@@ -1,5 +1,5 @@
+import kuramisa from "@kuramisa";
 import { Collection, Guild, Snowflake } from "discord.js";
-import { kuramisa } from "@kuramisa";
 import DBGuild from "@schemas/Guild";
 
 export default class GuildManager {

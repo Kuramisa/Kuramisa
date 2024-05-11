@@ -12,6 +12,7 @@ const converOpts = {
 
 @MenuCommand({
     name: "OwOify",
+    description: "OwOify a message",
     type: ApplicationCommandType.Message
 })
 export default class OwOCommand extends AbstractMenuCommand {

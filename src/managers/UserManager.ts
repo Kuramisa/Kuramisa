@@ -1,4 +1,4 @@
-import { kuramisa } from "@kuramisa";
+import kuramisa from "@kuramisa";
 import { Collection, Snowflake, User } from "discord.js";
 import DBUser from "@schemas/User";
 

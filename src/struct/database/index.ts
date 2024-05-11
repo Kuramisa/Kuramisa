@@ -1,13 +1,22 @@
-import logger from "Logger";
+import logger from "struct/Logger";
 import mongoose from "mongoose";
+
+import DatabaseGuilds from "./Guilds";
+import DatabaseUsers from "./Users";
 
 const { DB } = process.env;
 
 export default class KDatabase {
-    connection: typeof mongoose;
+    readonly connection: typeof mongoose;
+
+    readonly guilds: DatabaseGuilds;
+    readonly users: DatabaseUsers;
 
     constructor() {
         this.connection = mongoose;
+
+        this.guilds = new DatabaseGuilds();
+        this.users = new DatabaseUsers();
     }
 
     connect = () =>

@@ -4,7 +4,7 @@ import { Events } from "discord.js";
 import { EventEmitter } from "node:events";
 
 export type IEvent = {
-    readonly name: string;
+    readonly event: string;
     readonly once: boolean;
     readonly description: string;
     readonly emitter: KuramisaClass | EventEmitter;
@@ -13,7 +13,7 @@ export type IEvent = {
 };
 
 export type IEventOptions = {
-    name: string | Events;
+    event: string | Events;
     once?: boolean;
     description?: string;
     emitter?: KuramisaClass | EventEmitter;
@@ -37,8 +37,7 @@ export function KEvent(options: IEventOptions) {
 export abstract class AbstractKEvent implements IEvent {
     readonly client = kuramisa;
     readonly logger = kuramisa.logger;
-    readonly managers = kuramisa.managers;
-    readonly name: string | Events;
+    readonly event: string;
     readonly once: boolean;
     readonly description: string;
     readonly emitter: KuramisaClass | EventEmitter;
@@ -50,13 +49,13 @@ export abstract class AbstractKEvent implements IEvent {
      * @param description Description for it
      */
     constructor({
-        name,
+        event,
         once = false,
         description = "Not set",
         emitter = kuramisa
     }: IEventOptions) {
-        if (!name) throw new Error("Event name must be provided.");
-        this.name = name;
+        if (!event) throw new Error("Event name must be provided.");
+        this.event = event;
         this.once = once;
         this.description = description;
         this.emitter = emitter;
@@ -67,20 +66,20 @@ export abstract class AbstractKEvent implements IEvent {
     init() {
         if (this.once) {
             if (this.emitter instanceof KuramisaClass) {
-                this.emitter.once(this.name, this.run);
+                this.emitter.once(this.event, this.run);
                 return;
             }
 
-            this.emitter.once(this.name as string, this.run);
+            this.emitter.once(this.event as string, this.run);
             return;
         }
 
         if (this.emitter instanceof KuramisaClass) {
-            this.emitter.on(this.name, this.run);
+            this.emitter.on(this.event, this.run);
             return;
         }
 
-        this.emitter.on(this.name, this.run);
+        this.emitter.on(this.event, this.run);
     }
 
     abstract run(...args: any[] | undefined[]): any;

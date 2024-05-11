@@ -1,11 +1,11 @@
-import { AbstractDiscordEvent } from "@classes/DiscordEvent";
+import { AbstractKEvent } from "@classes/KEvent";
 import { Collection } from "discord.js";
 import fs from "fs/promises";
 import path from "path";
+import logger from "@struct/Logger";
 
 export default class EventStore {
-    readonly events: Collection<string, AbstractDiscordEvent[]> =
-        new Collection();
+    readonly events: Collection<string, AbstractKEvent[]> = new Collection();
 
     async load() {
         const eventDirectory = path.resolve(`${__dirname}/../events`);
@@ -30,11 +30,15 @@ export default class EventStore {
                     ).default;
                     const instance = new event();
 
-                    if (!this.events.has(instance.name)) {
-                        this.events.set(instance.name, []);
+                    if (!this.events.has(instance.event)) {
+                        this.events.set(instance.event, []);
                     }
 
-                    this.events.get(instance.name)?.push(instance);
+                    this.events.get(instance.event)?.push(instance);
+
+                    logger.debug(
+                        `[Event Store] Loaded event ${instance.event}`
+                    );
                 }
             }
 
@@ -47,11 +51,13 @@ export default class EventStore {
 
             const instance = new event();
 
-            if (!this.events.has(instance.name)) {
-                this.events.set(instance.name, []);
+            if (!this.events.has(instance.event)) {
+                this.events.set(instance.event, []);
             }
 
-            this.events.get(instance.name)?.push(instance);
+            this.events.get(instance.event)?.push(instance);
+
+            logger.debug(`[Event Store] Loaded event ${instance.event}`);
         }
     }
 }

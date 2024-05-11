@@ -1,4 +1,3 @@
-import type { IStaff } from "../schemas/Staff";
 import type {
     ActionRowBuilder,
     ChatInputCommandInteraction,
@@ -25,7 +24,9 @@ declare global {
     type KGuild = Guild & IGuild;
     type KUser = User & IUser;
 
-    type BotStaff = User & IStaff;
+    type BotStaff = KUser & StaffDocument;
+
+    type MenuType = "string" | "role" | "mentionable" | "user" | "channel";
 
     // Valorant Declarations
 

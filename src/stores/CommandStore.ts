@@ -1,8 +1,9 @@
 import { AbstractMenuCommand } from "@classes/MenuCommand";
 import { AbstractSlashCommand } from "@classes/SlashCommand";
-import { Collection } from "discord.js";
+import { ApplicationCommandType, Collection } from "discord.js";
 import fs from "fs/promises";
 import path from "path";
+import logger from "@struct/Logger";
 
 export default class CommandStore {
     readonly slashCommands: Collection<string, AbstractSlashCommand> =
@@ -47,11 +48,21 @@ export default class CommandStore {
                         this.slashCommands.set(instance.name, instance);
                     }
 
-                    this.commands.set(instance.name, instance);
-
                     if (instance instanceof AbstractMenuCommand) {
                         this.menuCommands.set(instance.name, instance);
                     }
+
+                    this.commands.set(instance.name, instance);
+
+                    const commandType =
+                        instance instanceof AbstractSlashCommand
+                            ? "Slash Command"
+                            : instance.type === ApplicationCommandType.Message
+                              ? "Message Menu"
+                              : "User Menu";
+                    logger.debug(
+                        `[Command Store] Loaded command ${instance.name} (${commandType}) in category ${fileOrDir}`
+                    );
                 }
             }
 
@@ -68,9 +79,25 @@ export default class CommandStore {
 
             this.categories.get("none")?.set(instance.name, instance);
 
+            if (instance instanceof AbstractSlashCommand) {
+                this.slashCommands.set(instance.name, instance);
+            }
+
             if (instance instanceof AbstractMenuCommand) {
                 this.menuCommands.set(instance.name, instance);
             }
+
+            this.commands.set(instance.name, instance);
+
+            const commandType =
+                instance instanceof AbstractSlashCommand
+                    ? "Slash Command"
+                    : instance.type === ApplicationCommandType.Message
+                      ? "Message Menu"
+                      : "User Menu";
+            logger.debug(
+                `[Command Store] Loaded command ${instance.name} (${commandType}) in category none`
+            );
         }
     }
 }

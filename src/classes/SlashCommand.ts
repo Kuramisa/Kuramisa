@@ -35,27 +35,22 @@ type SlashCommandOption =
     | SlashCommandStringOption
     | SlashCommandUserOption;
 
-export interface ISlashCommandOptions extends ICommandOptions {
-    description: string;
-}
-
-export interface ISlashCommandWithOptions extends ISlashCommandOptions {
+export interface ISlashCommandWithOptions extends ICommandOptions {
     options?: SlashCommandOption[];
 }
 
-export interface ISlashCommandSubcommandOptions extends ISlashCommandOptions {
-    subcommands: (ISlashCommandOptions & ISlashCommandWithOptions)[];
+export interface ISlashCommandSubcommandOptions extends ICommandOptions {
+    subcommands: (ICommandOptions & ISlashCommandWithOptions)[];
 }
 
-export interface ISlashCommandSubcommandGroupOptions
-    extends ISlashCommandOptions {
+export interface ISlashCommandSubcommandGroupOptions extends ICommandOptions {
     groups: ISlashCommandSubcommandOptions[];
 }
 
-export interface ISlashCommandOptionsAll extends ISlashCommandOptions {
+export interface ISlashCommandOptionsAll extends ICommandOptions {
     description: string;
     options?: SlashCommandOption[];
-    subcommands?: (ISlashCommandOptions & ISlashCommandWithOptions)[];
+    subcommands?: (ICommandOptions & ISlashCommandWithOptions)[];
     groups?: ISlashCommandSubcommandOptions[];
 }
 
@@ -121,10 +116,8 @@ export abstract class AbstractSlashCommand
     extends AbstractCommand
     implements ISlashCommand
 {
-    readonly description: string;
     readonly options: SlashCommandOption[] = [];
-    readonly subcommands: (ISlashCommandOptions & ISlashCommandWithOptions)[] =
-        [];
+    readonly subcommands: (ICommandOptions & ISlashCommandWithOptions)[] = [];
     readonly groups: ISlashCommandSubcommandOptions[] = [];
 
     readonly data: SlashCommandBuilder = new SlashCommandBuilder();
@@ -132,13 +125,31 @@ export abstract class AbstractSlashCommand
     constructor({
         name,
         description,
+        cooldown,
+        ownerOnly,
+        staffOnly,
+        inDevelopment,
+        betaTesterOnly,
+        dmOnly,
         options,
         subcommands,
         groups
     }: ISlashCommandOptionsAll) {
-        super({ name });
-        this.description = description;
-        this.data.setName(this.name).setDescription(this.description);
+        super({
+            name,
+            description,
+            cooldown,
+            ownerOnly,
+            staffOnly,
+            inDevelopment,
+            betaTesterOnly,
+            dmOnly
+        });
+        this.data
+            .setName(this.name)
+            .setDescription(this.description)
+            .setDMPermission(this.dmOnly);
+
         if (options && subcommands)
             throw new Error("Cannot have both options and subcommands.");
         if (options && groups)

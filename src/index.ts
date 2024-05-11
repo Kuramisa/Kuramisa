@@ -1,5 +1,5 @@
 import Kuramisa from "./Kuramisa";
 
-const instance = new Kuramisa();
+const kuramisa = new Kuramisa();
 
-export { instance as kuramisa };
+export default kuramisa;

@@ -15,9 +15,14 @@
         "experimentalDecorators": true,
         "paths": {
             "@kuramisa": ["index.ts"],
+            "@builders": ["Builders.ts"],
             "@classes/*": ["classes/*"],
+            "@data/*": ["data/*"],
             "@stores/*": ["stores/*"],
-            "@schemas/*": ["schemas/*"]
+            "@schemas/*": ["schemas/*"],
+            "@struct/*": ["struct/*"],
+            "@utils": ["utils/index.ts"],
+            "@utils/*": ["utils/*"]
         }
     },
     "exclude": ["node_modules", "build"]

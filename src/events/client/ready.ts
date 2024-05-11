@@ -1,17 +1,77 @@
-import { AbstractDiscordEvent, DiscordEvent } from "@classes/DiscordEvent";
+import { AbstractKEvent, KEvent } from "@classes/KEvent";
+import { CronJob } from "cron";
+import { TextChannel } from "discord.js";
 
-@DiscordEvent({
-    name: "ready",
+const { ASH, STEALTH } = process.env;
+
+@KEvent({
+    event: "ready",
     once: true,
     description: "Bot is ready!"
 })
-export default class ReadyEvent extends AbstractDiscordEvent {
+export default class ReadyEvent extends AbstractKEvent {
     async run() {
         const { client, logger } = this;
+        const {
+            dashboard,
+            games: { valorant },
+            systems: { music },
+            owners
+        } = client;
 
-        client.updateRest();
+        try {
+            logger.debug(music.scanDeps());
 
-        client.initialized = true;
-        logger.info(`[Bot] Ready! Logged in as ${client.user?.tag}`);
+            owners.push(await client.users.fetch(ASH ?? "390399421780590603"));
+            owners.push(
+                await client.users.fetch(STEALTH ?? "401269337924829186")
+            );
+
+            const mainServer = await client.guilds.fetch("1110011068488613931");
+            client.mainServer = mainServer;
+
+            client.botLogs = (await mainServer.channels.fetch(
+                "1110495993847361597"
+            )) as TextChannel;
+
+            client.devReports = (await mainServer.channels.fetch(
+                "1110495968593448962"
+            )) as TextChannel;
+            client.devSuggestions = (await mainServer.channels.fetch(
+                "1110495873638617192"
+            )) as TextChannel;
+            client.promoteChannel = (await mainServer.channels.fetch(
+                "1117299595836395560"
+            )) as TextChannel;
+
+            client.user?.setPresence(client.getActivities());
+
+            const updatePresence = new CronJob("*/1 * * * *", async () => {
+                client.user?.setPresence(client.getActivities());
+            });
+
+            updatePresence.start();
+
+            await client.clearEmptyDynamicChannels();
+            await valorant.init();
+            await client.initStaff();
+
+            if (mainServer.available) {
+                (await mainServer.emojis.fetch()).each((emoji) => {
+                    if (emoji.name != null)
+                        client.kEmojis.set(
+                            emoji.name,
+                            `<${emoji.name}:${emoji.id}>`
+                        );
+                });
+            }
+
+            await dashboard.init();
+
+            client.initialized = true;
+            logger.info(`[Bot] Ready! Logged in as ${client.user?.tag}`);
+        } catch (err) {
+            logger.error(err);
+        }
     }
 }

@@ -34,17 +34,35 @@ export abstract class AbstractMenuCommand
 {
     readonly type: ContextMenuCommandType;
 
-    readonly data: ContextMenuCommandBuilder;
+    readonly data: ContextMenuCommandBuilder = new ContextMenuCommandBuilder();
 
-    constructor({ name, type }: IMenuCommandOptions) {
-        super({ name });
+    constructor({
+        name,
+        description,
+        cooldown,
+        ownerOnly,
+        staffOnly,
+        inDevelopment,
+        betaTesterOnly,
+        dmOnly,
+        type
+    }: IMenuCommandOptions) {
+        super({
+            name,
+            description,
+            cooldown,
+            ownerOnly,
+            staffOnly,
+            inDevelopment,
+            betaTesterOnly,
+            dmOnly
+        });
         this.type = type;
 
-        const builder = new ContextMenuCommandBuilder()
+        this.data
             .setName(this.name)
-            .setType(this.type);
-
-        this.data = builder;
+            .setType(this.type)
+            .setDMPermission(this.dmOnly);
     }
 
     abstract run(interaction: ContextMenuCommandInteraction): any;
