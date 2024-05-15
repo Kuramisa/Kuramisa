@@ -138,6 +138,28 @@ export default class Kuramisa extends Client {
                     { body: commands }
                 )) as APIApplicationCommand[];
             } else {
+                const ownerCommands = this.stores.commands.commands
+                    .filter((cmd) => cmd.ownerOnly)
+                    .map((cmd) => cmd.data.toJSON());
+
+                if (ownerCommands.length > 0) {
+                    const updatedOwnerCommands = (await rest.put(
+                        Routes.applicationGuildCommands(
+                            bot.id,
+                            "1110011068488613931"
+                        ),
+                        { body: ownerCommands }
+                    )) as APIApplicationCommand[];
+
+                    for (const command of updatedOwnerCommands) {
+                        logger.debug(
+                            `[REST] Updated Owner Command (${command.name})`
+                        );
+                    }
+
+                    updatedCommands.push(...updatedOwnerCommands);
+                }
+
                 updatedCommands = (await rest.put(
                     Routes.applicationCommands(bot.id),
                     { body: commands }

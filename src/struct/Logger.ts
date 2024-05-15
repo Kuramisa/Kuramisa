@@ -61,14 +61,11 @@ const logger = createLogger({
         new transports.DailyRotateFile({
             filename: "logs/all-%DATE%.log",
             ...rotateOpts
+        }),
+        new transports.Console({
+            format: format.colorize({ all: true })
         })
     ]
 });
-
-if (process.env.NODE_ENV === "development") {
-    logger.add(
-        new transports.Console({ format: format.colorize({ all: true }) })
-    );
-}
 
 export default logger;
