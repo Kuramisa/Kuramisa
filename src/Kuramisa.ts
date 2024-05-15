@@ -3,6 +3,7 @@ import {
     ActivityType,
     Client,
     Collection,
+    EmojiResolvable,
     Guild,
     Partials,
     PresenceData,
@@ -25,9 +26,11 @@ import Stores from "./stores";
 import Systems from "@struct/systems";
 
 import Kanvas from "@struct/kanvas";
-import { staffName } from "@utils";
+import { staffName, weighStaffType } from "@utils";
+import { merge } from "lodash";
+import { inspect } from "node:util";
 
-const { CLIENT_ID, NODE_ENV, TOKEN } = process.env;
+const { NODE_ENV, TOKEN } = process.env;
 
 export default class Kuramisa extends Client {
     initialized = false;
@@ -54,8 +57,8 @@ export default class Kuramisa extends Client {
 
     // Channel Declarations
     botLogs?: TextChannel;
-    devReports?: TextChannel;
-    devSuggestions?: TextChannel;
+    bugReports?: TextChannel;
+    suggestions?: TextChannel;
     promoteChannel?: TextChannel;
 
     // Staff Declarations
@@ -64,7 +67,7 @@ export default class Kuramisa extends Client {
 
     // Kuramisa Colletions
     readonly cooldowns = new Collection<string, Collection<string, number>>();
-    readonly kEmojis = new Collection<string, string>();
+    readonly kEmojis = new Collection<string, EmojiResolvable>();
 
     constructor() {
         super({
@@ -109,58 +112,48 @@ export default class Kuramisa extends Client {
         await this.database.connect();
         await this.stores.events.load();
         await this.stores.commands.load();
-        await this.updateRest();
         return super.login(TOKEN);
     }
 
     async updateRest() {
         const { rest, user: bot } = this;
-        rest.setToken(TOKEN ?? "");
-
-        const botId = CLIENT_ID ?? bot?.id ?? "";
-        const restCommands = (await rest.get(
-            Routes.applicationCommands(botId)
-        )) as APIApplicationCommand[];
-
-        const { commands } = this.stores.commands;
+        rest.setToken(this.token ?? TOKEN ?? "");
+        if (!bot) return logger.error("[REST] Bot is not ready yet");
 
         const startTime = Date.now();
         logger.info("[REST] Updating Commands...");
 
-        // find deleted commands and update rest
-        for (const restCommand of restCommands) {
-            const command = commands.get(restCommand.name);
+        const commands = this.stores.commands.commands.map((cmd) =>
+            cmd.data.toJSON()
+        );
 
-            if (!command) {
-                logger.debug(`[REST] Deleting (${restCommand.name})`);
-                await rest.delete(
-                    Routes.applicationCommand(botId, restCommand.id)
-                );
-            }
-        }
-
-        for (const command of commands.values()) {
-            const commandData = command.data.toJSON();
-            const restCommand = restCommands.find(
-                (c) => c.name === commandData.name
-            );
-
-            if (!restCommand) {
-                logger.debug(`[REST] Creating (${commandData.name})`);
-                await rest.post(Routes.applicationCommands(botId), {
-                    body: commandData
-                });
+        try {
+            let updatedCommands: APIApplicationCommand[] = [];
+            if (NODE_ENV === "development") {
+                updatedCommands = (await rest.put(
+                    Routes.applicationGuildCommands(
+                        bot.id,
+                        "1110011068488613931"
+                    ),
+                    { body: commands }
+                )) as APIApplicationCommand[];
             } else {
-                // TODO: Add check for if command is equal later
-                logger.debug(`[REST] Updating (${commandData.name})`);
-                await rest.patch(
-                    Routes.applicationCommand(botId, restCommand.id),
-                    { body: commandData }
-                );
+                updatedCommands = (await rest.put(
+                    Routes.applicationCommands(bot.id),
+                    { body: commands }
+                )) as APIApplicationCommand[];
             }
-        }
 
-        logger.info(`[REST] Updated Commands in ${ms(Date.now() - startTime)}`);
+            for (const command of updatedCommands) {
+                logger.debug(`[REST] Updated Command (${command.name})`);
+            }
+
+            logger.info(
+                `[REST] Updated (${updatedCommands.length}) Commands in ${ms(Date.now() - startTime)}`
+            );
+        } catch (err) {
+            logger.error(err);
+        }
     }
 
     getActivities(): PresenceData {
@@ -210,10 +203,7 @@ export default class Kuramisa extends Client {
             const user = await this.managers.users.get(staffDb.id);
             if (!user) continue;
 
-            staffs.push({
-                ...user,
-                ...staffDb._doc
-            });
+            staffs.push(merge(user, staffDb._doc));
 
             logger.info(
                 `[Staff System] Initialized ${
@@ -226,7 +216,9 @@ export default class Kuramisa extends Client {
             `[Staff System] Initialized ${staffs.length} staff members`
         );
 
-        this.staff = staffs;
+        this.staff = staffs.sort(
+            (a, b) => weighStaffType(b.type) - weighStaffType(a.type)
+        );
     }
 
     async clearEmptyDynamicChannels() {
@@ -259,5 +251,19 @@ export default class Kuramisa extends Client {
         }
 
         logger.info("[Bot] Cleared out empty dynamic voice channels");
+    }
+
+    async clean(text: any) {
+        if (text && text.constructor.name === "Promise") text = await text;
+
+        if (typeof text !== "string") text = inspect(text, { depth: 1 });
+
+        text = text
+            .replace(/`/g, "`" + String.fromCharCode(8203))
+            .replace(/@/g, "@" + String.fromCharCode(8203));
+
+        text = text.replaceAll(this.token, "[REDACTED]");
+
+        return text;
     }
 }

@@ -1,4 +1,4 @@
-import { KEmbed, KStringSelectMenu } from "@builders";
+import { KEmbed, KStringDropdown } from "@builders";
 import Valorant from "../..";
 import {
     ActionRowBuilder,
@@ -63,7 +63,7 @@ export default class ValorantBuddies {
         buddy.levels.map((level) => this.levelEmbed(buddy, level));
 
     levelSelectMenu = (buddy: IValorantBuddy) =>
-        new KStringSelectMenu()
+        new KStringDropdown()
             .setCustomId("valorant_buddy_level_select")
             .setPlaceholder("Select a Buddy Level")
             .setOptions(

@@ -7,7 +7,7 @@ import { GuildQueue } from "discord-player";
     description: "Event that triggers when a music player is resumed",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class PlayerResumeEvent extends AbstractKEvent {
     async run(queue: GuildQueue) {
         const { guild } = queue;
 

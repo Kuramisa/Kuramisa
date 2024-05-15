@@ -5,10 +5,10 @@ import { Message } from "discord.js";
 import { isEqual } from "lodash";
 
 @KEvent({
-    event: "messageDelete",
+    event: "messageUpdate",
     description: "Logs when a message is deleted"
 })
-export default class Event extends AbstractKEvent {
+export default class MessageEditedEvent extends AbstractKEvent {
     async run(oldMessage: Message, newMessage: Message) {
         if (!newMessage.inGuild()) return;
         if (!newMessage.author) return;

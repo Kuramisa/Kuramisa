@@ -44,7 +44,6 @@ export abstract class AbstractMenuCommand
         staffOnly,
         inDevelopment,
         betaTesterOnly,
-        dmOnly,
         type
     }: IMenuCommandOptions) {
         super({
@@ -54,15 +53,14 @@ export abstract class AbstractMenuCommand
             ownerOnly,
             staffOnly,
             inDevelopment,
-            betaTesterOnly,
-            dmOnly
+            betaTesterOnly
         });
         this.type = type;
 
         this.data
             .setName(this.name)
             .setType(this.type)
-            .setDMPermission(this.dmOnly);
+            .setDMPermission(!this.guildOnly);
     }
 
     abstract run(interaction: ContextMenuCommandInteraction): any;

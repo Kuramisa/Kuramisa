@@ -1,6 +1,7 @@
 import kuramisa from "@kuramisa";
 import { Collection, Guild, Snowflake } from "discord.js";
 import DBGuild from "@schemas/Guild";
+import { merge } from "lodash";
 
 export default class GuildManager {
     readonly cache: Collection<string, KGuild>;
@@ -13,7 +14,7 @@ export default class GuildManager {
         const { logger } = kuramisa;
 
         logger.info(
-            `[GuildManager] Guild added to the database (ID: ${guild.id} - Name: ${guild.name})`
+            `[Guild Manager] Guild added to the database (ID: ${guild.id} - Name: ${guild.name})`
         );
 
         const doc = await DBGuild.create({
@@ -21,7 +22,7 @@ export default class GuildManager {
             name: guild.name
         });
 
-        const info: KGuild = Object.assign({}, doc._doc, guild);
+        const info: KGuild = merge(guild, doc._doc);
 
         if (!this.cache.has(guild.id)) this.cache.set(guild.id, info);
 
@@ -39,7 +40,7 @@ export default class GuildManager {
         const doc = await DBGuild.findOne({ id });
         if (!doc) return this.create(guild);
 
-        const info: KGuild = Object.assign({}, doc._doc, guild);
+        const info: KGuild = merge(guild, doc._doc);
 
         this.cache.set(id, info);
 

@@ -7,7 +7,7 @@ import { GuildQueue } from "discord-player";
     description: "Empty channel event",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class EmptyChannelEvent extends AbstractKEvent {
     async run(queue: GuildQueue) {
         const { guild } = queue;
 

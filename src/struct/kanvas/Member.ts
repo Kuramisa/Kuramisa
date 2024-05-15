@@ -48,6 +48,10 @@ export default class KanvasMember {
                 background = card.background.image;
                 break;
             }
+            case "status": {
+                backgroundFill = statusColor(member.presence?.status);
+                break;
+            }
         }
 
         switch (card.text.type) {
@@ -67,6 +71,10 @@ export default class KanvasMember {
             }
             case "color": {
                 strokeStyle = card.text.color;
+                break;
+            }
+            case "status": {
+                fillStyle = statusColor(member.presence?.status);
                 break;
             }
         }

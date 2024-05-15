@@ -35,14 +35,8 @@ export default class ValorantUtil {
 
         if (withNavigation) {
             const navRow = new KRow().setComponents(
-                new KButton()
-                    .setCustomId("previous_skin")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setEmoji("◀️"),
-                new KButton()
-                    .setCustomId("next_skin")
-                    .setStyle(ButtonStyle.Secondary)
-                    .setEmoji("▶️")
+                new KButton().setCustomId("previous_skin").setEmoji("◀️"),
+                new KButton().setCustomId("next_skin").setEmoji("▶️")
             );
 
             components.push(navRow);
@@ -443,5 +437,29 @@ export default class ValorantUtil {
             .setThumbnail(skin.displayIcon)
             .setDescription(`**<:val_points:1114492900181553192> ${cost} VP**`)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
+    }
+
+    async isAuthed(interaction: ChatInputCommandInteraction) {
+        const { user } = interaction;
+        const { valorant } = this;
+
+        if (!valorant.accounts.get(user.id)) {
+            const allDeleted = await valorant.loadAccounts(user.id);
+            if (allDeleted)
+                return interaction.reply({
+                    content:
+                        "**😲 Your accounts were removed from the database, because their login expired. Please login again!**\n</valorant login:1172402671345467485>",
+                    ephemeral: true
+                });
+        }
+
+        if (valorant.accounts.get(user.id)?.size === 0)
+            return interaction.reply({
+                content:
+                    "**To logout from any account(s), you need to login at least to one account. use**\n</valorant login:1172402671345467485>",
+                ephemeral: true
+            });
+
+        return null;
     }
 }

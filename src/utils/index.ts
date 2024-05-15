@@ -40,16 +40,6 @@ export const validateHex = (hex: string) =>
 export const containsUrl = (str: string) => urlPattern.test(str);
 export const extractUrls = (str: string) => str.match(urlPattern);
 
-export const toEmoji = (str: string) => {
-    const { mainServer } = kuramisa;
-
-    if (!mainServer) return str;
-
-    return mainServer.emojis
-        .fetch(str.split(":")[1].replace(">", ""))
-        .catch(() => str);
-};
-
 export const randElement = <T>(array: T[]): T =>
     array[Math.floor(Math.random() * array.length)];
 
@@ -154,6 +144,23 @@ export const changeShade = (hexColor: string, magnitude: number) => {
     return hexColor;
 };
 
+export const weighStaffType = (staff: StaffType) => {
+    switch (staff) {
+        case "lead_developer":
+            return 4;
+        case "developer":
+            return 3;
+        case "designer":
+            return 2;
+        case "bug_tester":
+            return 1;
+        case "translator":
+            return 0;
+        default:
+            return -1;
+    }
+};
+
 export const logsChannel = async (_guild: Guild) => {
     const { managers } = kuramisa;
     const guild = await managers.guilds.fetch(_guild.id);
@@ -167,5 +174,32 @@ export const logsChannel = async (_guild: Guild) => {
 
     return channel;
 };
+
+export const mentionCommand = (
+    command: string,
+    group?: string,
+    subName?: string
+) => {
+    const commandId = kuramisa.application?.commands.cache.find(
+        (c) => c.name === command
+    )?.id;
+    if (!commandId) {
+        logger.error(`Couldn't mention ${command}, since it doesn't exist`);
+        return "";
+    }
+
+    let commandLiteral = command;
+    if (group) commandLiteral += `/${group}`;
+    if (subName) commandLiteral += `/${subName}`;
+
+    return `</${commandLiteral}:${commandId}>`;
+};
+
+export const imageToBuffer = async (url: string) =>
+    (
+        await axios.get(url, {
+            responseType: "arraybuffer"
+        })
+    ).data;
 
 export { memberActions, statusColor, statusEmoji, statusText, Pagination };

@@ -95,7 +95,7 @@ export default class OsuUserButtons extends AbstractKEvent {
                                       `osu_${score.rank
                                           .replaceAll("XH", "ssh")
                                           .toLowerCase()}grade`
-                                  )
+                                  ) ?? score.rank
                                 : "F"
                         }\n**Max Combo**: ${score.maxcombo}\n**Star Rating**: ${
                             Math.round(beatmap.difficultyrating * 10) / 10

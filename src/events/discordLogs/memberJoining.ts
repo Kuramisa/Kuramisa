@@ -7,7 +7,7 @@ import { GuildMember } from "discord.js";
     event: "guildMemberAdd",
     description: "Logs when member joins the server"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberJoinEvent extends AbstractKEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 

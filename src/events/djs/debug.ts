@@ -4,7 +4,7 @@ import { AbstractKEvent, KEvent } from "@classes/KEvent";
     event: "debug",
     description: "Debug event"
 })
-export default class DebugEvent extends AbstractKEvent {
+export default class DjsDebugEvent extends AbstractKEvent {
     async run(debug: string) {
         this.logger.debug(`[Discord.js] ${debug}`);
     }

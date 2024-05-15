@@ -1,7 +1,7 @@
 import { KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import kuramisa from "@kuramisa";
-import { toEmoji } from "@utils";
+import {} from "@utils";
 import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 
 @KEvent({
@@ -9,7 +9,7 @@ import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
     description: "Event when a track is added to the queue",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class AudioTrackAddEvent extends AbstractKEvent {
     async run(queue: GuildQueue, track: Track) {
         if (queue.currentTrack === null) return;
         const { guild } = queue;
@@ -24,7 +24,7 @@ export default class Event extends AbstractKEvent {
             .setAuthor({ name: "Added to queue" })
             .setTitle(`${track.title} - ${track.author}`)
             .setDescription(
-                `${await toEmoji(music.volumeEmoji(queue.node.volume))} **Volume** ${queue.node.volume}%\n${await toEmoji(music.loopEmoji(queue.repeatMode))} **Loop Mode:** ${
+                `${music.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n${music.loopEmoji(queue.repeatMode)} **Loop Mode:** ${
                     queue.repeatMode === QueueRepeatMode.TRACK
                         ? "Track"
                         : queue.repeatMode === QueueRepeatMode.QUEUE

@@ -4,7 +4,7 @@ import {
     KModal,
     KModalRow,
     KRow,
-    KStringSelectMenu,
+    KStringDropdown,
     KTextInput
 } from "@builders";
 
@@ -462,7 +462,7 @@ export default class SelfRoles {
         }));
 
         const buttonRow = new KRow().setComponents(
-            new KStringSelectMenu()
+            new KStringDropdown()
                 .setCustomId("self_roles_buttons")
                 .setPlaceholder("Select a button to remove")
                 .setOptions(buttonOptions)

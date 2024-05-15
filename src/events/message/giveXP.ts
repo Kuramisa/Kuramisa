@@ -5,7 +5,7 @@ import { Message } from "discord.js";
     event: "messageCreate",
     description: "Give xp to users"
 })
-export default class Event extends AbstractKEvent {
+export default class GiveXPEvent extends AbstractKEvent {
     async run(message: Message) {
         if (message.author.bot) return;
         if (!message.member) return;

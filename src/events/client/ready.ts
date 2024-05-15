@@ -21,6 +21,9 @@ export default class ReadyEvent extends AbstractKEvent {
         } = client;
 
         try {
+            await this.client.updateRest();
+            await client.initStaff();
+
             logger.debug(music.scanDeps());
 
             owners.push(await client.users.fetch(ASH ?? "390399421780590603"));
@@ -35,10 +38,10 @@ export default class ReadyEvent extends AbstractKEvent {
                 "1110495993847361597"
             )) as TextChannel;
 
-            client.devReports = (await mainServer.channels.fetch(
+            client.bugReports = (await mainServer.channels.fetch(
                 "1110495968593448962"
             )) as TextChannel;
-            client.devSuggestions = (await mainServer.channels.fetch(
+            client.suggestions = (await mainServer.channels.fetch(
                 "1110495873638617192"
             )) as TextChannel;
             client.promoteChannel = (await mainServer.channels.fetch(
@@ -55,20 +58,15 @@ export default class ReadyEvent extends AbstractKEvent {
 
             await client.clearEmptyDynamicChannels();
             await valorant.init();
-            await client.initStaff();
 
             if (mainServer.available) {
                 (await mainServer.emojis.fetch()).each((emoji) => {
-                    if (emoji.name != null)
-                        client.kEmojis.set(
-                            emoji.name,
-                            `<${emoji.name}:${emoji.id}>`
-                        );
+                    if (emoji.name) client.kEmojis.set(emoji.name, emoji);
                 });
             }
 
             await dashboard.init();
-
+            await client.application?.commands.fetch();
             client.initialized = true;
             logger.info(
                 `[Bot] Started in ${ms(Date.now() - client.startTime)}`

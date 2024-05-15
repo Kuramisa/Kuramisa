@@ -7,7 +7,7 @@ import { GuildQueue } from "discord-player";
     description: "Pause event for music player",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class PlayerPauseEvent extends AbstractKEvent {
     async run(queue: GuildQueue) {
         const { guild } = queue;
 

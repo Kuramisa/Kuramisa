@@ -1,19 +1,14 @@
 import { KAttachment, KModal, KModalRow, KTextInput, KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import { Pagination, daysToSeconds } from "@utils";
-import {
-    GuildMember,
-    Interaction,
-    PermissionResolvable,
-    TextInputStyle
-} from "discord.js";
+import { GuildMember, Interaction, PermissionResolvable } from "discord.js";
 import { startCase } from "lodash";
 
 @KEvent({
     event: "interactionCreate",
     description: "Button interactions for member actions"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberActionsButtons extends AbstractKEvent {
     async run(interaction: Interaction) {
         if (!interaction.isButton()) return;
         if (
@@ -108,7 +103,6 @@ export default class Event extends AbstractKEvent {
                                 .setCustomId("kick-reason")
                                 .setLabel("Reason")
                                 .setRequired(true)
-                                .setStyle(TextInputStyle.Short)
                         )
                     );
 
@@ -155,13 +149,11 @@ export default class Event extends AbstractKEvent {
                                 .setCustomId("ban-reason")
                                 .setLabel("Reason")
                                 .setRequired(true)
-                                .setStyle(TextInputStyle.Short)
                         ),
                         new KModalRow().setComponents(
                             new KTextInput()
                                 .setCustomId("messages-days")
                                 .setLabel("Days of messages to delete")
-                                .setStyle(TextInputStyle.Short)
                                 .setRequired(false)
                                 .setMinLength(1)
                                 .setMaxLength(1)
@@ -226,12 +218,12 @@ export default class Event extends AbstractKEvent {
                 });
 
                 const reason =
-                    mInteraction.fields.getTextInputValue("warn-reason");
+                    mInteraction.fields.getTextInputValue("warn_reason");
 
                 await moderation.warns.create(guild, target, member, reason);
 
-                return interaction.reply({
-                    content: `You warned ${target.user.username}`,
+                return mInteraction.reply({
+                    content: `You warned ${target}`,
                     ephemeral: true
                 });
             }

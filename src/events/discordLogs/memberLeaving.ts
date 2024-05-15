@@ -7,7 +7,7 @@ import { GuildMember } from "discord.js";
     event: "guildMemberRemove",
     description: "Logs when member leaves the server"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberLeaveEvent extends AbstractKEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 

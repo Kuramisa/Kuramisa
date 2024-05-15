@@ -7,7 +7,7 @@ import { AuditLogEvent, GuildMember, Role } from "discord.js";
     event: "guildMemberRoleAdd",
     description: "Logs when member has a role added"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberRoleAddEvent extends AbstractKEvent {
     async run(member: GuildMember, role: Role) {
         const { guild } = member;
 

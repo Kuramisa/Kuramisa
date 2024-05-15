@@ -1,7 +1,6 @@
 import { KButton, KRow, KEmbed } from "@builders";
 import kuramisa from "@kuramisa";
 import {
-    ButtonStyle,
     type ButtonInteraction,
     type ChatInputCommandInteraction,
     ComponentType,
@@ -26,12 +25,11 @@ export default class Pagination {
         const buttons = [
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         ];
 
         const row = new KRow().addComponents(buttons);
@@ -119,12 +117,11 @@ export default class Pagination {
         const buttons = [
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         ];
 
         const row = new KRow().addComponents(buttons);
@@ -213,12 +210,11 @@ export default class Pagination {
         const buttons = [
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         ];
 
         const row = new KRow().addComponents(buttons);

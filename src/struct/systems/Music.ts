@@ -23,8 +23,8 @@ import {
     MessageActionRowComponentBuilder
 } from "discord.js";
 import { chunk, startCase, truncate } from "lodash";
-import { KButton, KEmbed, KRow, KStringSelectMenu } from "@builders";
-import { toEmoji, timedDelete } from "@utils";
+import { KButton, KEmbed, KRow, KStringDropdown } from "@builders";
+import { timedDelete } from "@utils";
 
 export default class Music extends Player {
     private readonly kuramisa: Kuramisa;
@@ -71,7 +71,7 @@ export default class Music extends Player {
 
         if (!queue.currentTrack)
             return interaction.reply({
-                content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} No track is currently playing`,
+                content: `${kEmojis.get("no") ?? "🚫"} No track is currently playing`,
                 ephemeral: true
             });
 
@@ -89,7 +89,7 @@ export default class Music extends Player {
 
         if (!results)
             return interaction.reply({
-                content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} **No lyrics found**`,
+                content: `${kEmojis.get("no") ?? "🚫"} **No lyrics found**`,
                 ephemeral: true
             });
     }
@@ -152,12 +152,15 @@ export default class Music extends Player {
                 const navButtons = new KRow().setComponents(
                     new KButton()
                         .setCustomId("previous_page")
-                        .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                        .setStyle(ButtonStyle.Secondary),
+                        .setEmoji(
+                            kEmojis.get("left_arrow")?.toString() ?? "⬅️"
+                        ),
+
                     new KButton()
                         .setCustomId("next_page")
-                        .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                        .setStyle(ButtonStyle.Secondary)
+                        .setEmoji(
+                            kEmojis.get("right_arrow")?.toString() ?? "➡️"
+                        )
                 );
 
                 navIR = await i.reply({
@@ -224,68 +227,69 @@ export default class Music extends Player {
             new KRow().setComponents(
                 new KButton()
                     .setCustomId("player_goback_to")
-                    .setEmoji(kEmojis.get("player_rewind") ?? "⏮️")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("player_rewind")?.toString() ?? "⏮️"),
                 new KButton()
                     .setCustomId("player_previous")
-                    .setEmoji(kEmojis.get("player_previous") ?? "⏪")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(
+                        kEmojis.get("player_previous")?.toString() ?? "⏪"
+                    ),
                 new KButton()
                     .setCustomId("player_playpause")
                     .setEmoji(
                         paused
-                            ? kEmojis.get("player_play") ?? "▶️"
-                            : kEmojis.get("player_pause") ?? "⏸️"
-                    )
-                    .setStyle(ButtonStyle.Secondary),
+                            ? kEmojis.get("player_play")?.toString() ?? "▶️"
+                            : kEmojis.get("player_pause")?.toString() ?? "⏸️"
+                    ),
                 new KButton()
                     .setCustomId("player_next")
-                    .setEmoji(kEmojis.get("player_skip") ?? "⏩")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("player_skip")?.toString() ?? "⏩"),
                 new KButton()
                     .setCustomId("player_skip_to")
-                    .setEmoji(kEmojis.get("player_skip_to") ?? "⏭️")
-                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(kEmojis.get("player_skip_to")?.toString() ?? "⏭️")
             ),
             new KRow().setComponents(
                 new KButton()
                     .setCustomId("player_shuffle")
                     //.setLabel("Shuffle")
-                    .setEmoji(kEmojis.get("player_shuffle") ?? "🔀")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(
+                        kEmojis.get("player_shuffle")?.toString() ?? "🔀"
+                    ),
+
                 new KButton()
                     .setCustomId("player_queue")
                     //.setLabel("Queue")
-                    .setEmoji(kEmojis.get("playlist") ?? "📜")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("playlist")?.toString() ?? "📜"),
+
                 new KButton()
                     .setCustomId("player_progress")
                     //.setLabel("Progress")
-                    .setEmoji(kEmojis.get("time") ?? "🕰️")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("time")?.toString() ?? "🕰️"),
+
                 new KButton()
                     .setCustomId("player_loop")
                     //.setLabel("Loop")
-                    .setEmoji(kEmojis.get("player_repeat") ?? "🔁")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("player_repeat")?.toString() ?? "🔁"),
+
                 new KButton()
                     .setCustomId("player_lyrics")
-                    .setEmoji(kEmojis.get("genius") ?? "📝")
-                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(kEmojis.get("genius")?.toString() ?? "📝")
             ),
             new KRow().setComponents(
                 new KButton()
                     .setCustomId("player_volume_down")
-                    .setEmoji(kEmojis.get("player_low_volume") ?? "🔉")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(
+                        kEmojis.get("player_low_volume")?.toString() ?? "🔉"
+                    ),
+
                 new KButton()
                     .setCustomId("player_volume_mute")
-                    .setEmoji(kEmojis.get("player_muted") ?? "🔇")
-                    .setStyle(ButtonStyle.Secondary),
+                    .setEmoji(kEmojis.get("player_muted")?.toString() ?? "🔇"),
+
                 new KButton()
                     .setCustomId("player_volume_up")
-                    .setEmoji(kEmojis.get("player_high_volume") ?? "🔊")
-                    .setStyle(ButtonStyle.Secondary)
+                    .setEmoji(
+                        kEmojis.get("player_high_volume")?.toString() ?? "🔊"
+                    )
             )
         ];
     }
@@ -296,7 +300,7 @@ export default class Music extends Player {
                 name: "Now Playing"
             })
             .setDescription(
-                `${await toEmoji(this.volumeEmoji(queue.node.volume))} **Volume** ${queue.node.volume}%\n${await toEmoji(this.loopEmoji(queue.repeatMode))} **Loop Mode:** ${
+                `${this.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n${this.loopEmoji(queue.repeatMode)} **Loop Mode:** ${
                     queue.repeatMode === QueueRepeatMode.TRACK
                         ? "Track"
                         : queue.repeatMode === QueueRepeatMode.QUEUE
@@ -342,7 +346,7 @@ export default class Music extends Player {
 
         if (tracksChunk.length === 0)
             return interaction.reply({
-                content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} The queue is empty`,
+                content: `${kEmojis.get("no") ?? "🚫"} The queue is empty`,
                 ephemeral: true
             });
 
@@ -376,12 +380,11 @@ export default class Music extends Player {
         const navButtons = new KRow().setComponents(
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         );
 
         let page = 0;
@@ -417,17 +420,23 @@ export default class Music extends Player {
             new KButton()
                 .setCustomId("loop_track")
                 .setLabel("Track")
-                .setEmoji(this.loopEmoji(QueueRepeatMode.TRACK) ?? "🎵")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(
+                    this.loopEmoji(QueueRepeatMode.TRACK)?.toString() ?? "🎵"
+                ),
+
             new KButton()
                 .setCustomId("loop_queue")
                 .setLabel("Queue")
-                .setEmoji(this.loopEmoji(QueueRepeatMode.QUEUE) ?? "🎶")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(
+                    this.loopEmoji(QueueRepeatMode.QUEUE)?.toString() ?? "🎶"
+                ),
+
             new KButton()
                 .setCustomId("loop_none")
                 .setLabel("Off")
-                .setEmoji(this.loopEmoji(QueueRepeatMode.OFF ?? "🚫"))
+                .setEmoji(
+                    this.loopEmoji(QueueRepeatMode.OFF)?.toString() ?? "🚫"
+                )
                 .setStyle(ButtonStyle.Danger)
         );
 
@@ -466,7 +475,7 @@ export default class Music extends Player {
 
         await bInteraction
             .update({
-                content: `${await toEmoji(this.loopEmoji(queue.repeatMode))} Loop mode set to **${loopMode}**`,
+                content: `${this.loopEmoji(queue.repeatMode)} Loop mode set to **${loopMode}**`,
                 components: []
             })
             .then((i) => timedDelete(i, 4000));
@@ -489,7 +498,7 @@ export default class Music extends Player {
 
         if (tracksChunk.length === 0)
             return interaction.reply({
-                content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} The queue is empty`,
+                content: `${kEmojis.get("no") ?? "🚫"} The queue is empty`,
                 ephemeral: true
             });
 
@@ -499,7 +508,7 @@ export default class Music extends Player {
 
         for (let i = 0; i < tracksChunk.length; i++) {
             const tracks = tracksChunk[i];
-            const menu = new KStringSelectMenu().setCustomId(`skip_to_${i}`);
+            const menu = new KStringDropdown().setCustomId(`skip_to_${i}`);
 
             const opts = [];
 
@@ -521,12 +530,11 @@ export default class Music extends Player {
         const navButtons = new KRow().setComponents(
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         );
 
         let page = 0;
@@ -569,13 +577,13 @@ export default class Music extends Player {
             if (!track)
                 return interaction
                     .reply({
-                        content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} Track not found`,
+                        content: `${kEmojis.get("no") ?? "🚫"} Track not found`,
                         ephemeral: true
                     })
                     .then((i) => timedDelete(i, 4000));
 
             await i.update({
-                content: `${await toEmoji(kEmojis.get("player_skip_to") ?? "⏩")} Skipped to **${track.title} - ${track.author}**`,
+                content: `${kEmojis.get("player_skip_to") ?? "⏩"} Skipped to **${track.title} - ${track.author}**`,
                 components: []
             });
 
@@ -590,7 +598,7 @@ export default class Music extends Player {
 
         if (tracksChunk.length === 0)
             return interaction.reply({
-                content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} Nothing to go back to`,
+                content: `${kEmojis.get("no") ?? "🚫"} Nothing to go back to`,
                 ephemeral: true
             });
 
@@ -600,7 +608,7 @@ export default class Music extends Player {
 
         for (let i = 0; i < tracksChunk.length; i++) {
             const tracks = tracksChunk[i];
-            const menu = new KStringSelectMenu().setCustomId(`go_back_to_${i}`);
+            const menu = new KStringDropdown().setCustomId(`go_back_to_${i}`);
 
             const opts = [];
 
@@ -622,12 +630,11 @@ export default class Music extends Player {
         const navButtons = new KRow().setComponents(
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(kEmojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(kEmojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
-                .setEmoji(kEmojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(kEmojis.get("right_arrow")?.toString() ?? "➡️")
         );
 
         let page = 0;
@@ -670,13 +677,13 @@ export default class Music extends Player {
             if (!track)
                 return interaction
                     .reply({
-                        content: `${await toEmoji(kEmojis.get("no") ?? "🚫")} Track not found`,
+                        content: `${kEmojis.get("no") ?? "🚫"} Track not found`,
                         ephemeral: true
                     })
                     .then((i) => timedDelete(i, 4000));
 
             await i.update({
-                content: `${await toEmoji(kEmojis.get("player_rewind") ?? "⏪")} Went back to **${track.title} - ${track.author}**`,
+                content: `${kEmojis.get("player_rewind") ?? "⏪"} Went back to **${track.title} - ${track.author}**`,
                 components: []
             });
 

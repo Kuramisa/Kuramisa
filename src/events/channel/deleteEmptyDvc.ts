@@ -5,7 +5,7 @@ import { ChannelType, VoiceState } from "discord.js";
     event: "voiceStateUpdate",
     description: "Manage Dynamic Voice Channel deletion."
 })
-export default class DeletedDvc extends AbstractKEvent {
+export default class DeletedEmptyDvcEvent extends AbstractKEvent {
     async run(state: VoiceState) {
         const { database } = this.client;
 

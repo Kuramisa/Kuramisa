@@ -5,7 +5,7 @@ import { Message } from "discord.js";
     event: "messageUpdate",
     description: "Filter words in edited messages"
 })
-export default class Event extends AbstractKEvent {
+export default class WordFilterEditedEvent extends AbstractKEvent {
     async run(_: Message, message: Message) {
         if (message.author.bot) return;
 

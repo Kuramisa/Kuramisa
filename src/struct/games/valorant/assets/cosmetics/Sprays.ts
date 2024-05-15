@@ -4,7 +4,7 @@ import {
     StringSelectMenuBuilder
 } from "discord.js";
 import Valorant from "../..";
-import { KEmbed, KStringSelectMenu } from "@builders";
+import { KEmbed, KStringDropdown } from "@builders";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -59,7 +59,7 @@ export default class ValorantSprays {
         spray.levels.map((level) => this.levelEmbed(spray, level));
 
     levelSelectMenu = (spray: IValorantSpray) =>
-        new KStringSelectMenu()
+        new KStringDropdown()
             .setCustomId("valorant_spray_level_select")
             .setPlaceholder("Select a Spray Level")
             .setOptions(

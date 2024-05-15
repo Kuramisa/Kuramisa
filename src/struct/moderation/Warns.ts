@@ -1,20 +1,15 @@
 import kuramisa from "@kuramisa";
 import { DiscordSnowflake } from "@sapphire/snowflake";
-import {
-    type GuildMember,
-    TextInputStyle,
-    APIInteractionGuildMember,
-    Guild
-} from "discord.js";
+import { type GuildMember, TextInputStyle, Guild } from "discord.js";
 
 import { KEmbed, KModal, KModalRow, KTextInput } from "@builders";
-import { cdn } from "@utils";
+import { mentionCommand } from "@utils";
 
 export default class Warns {
     async create(
         guild: Guild,
-        member: GuildMember | APIInteractionGuildMember,
-        by: GuildMember | APIInteractionGuildMember,
+        member: GuildMember,
+        by: GuildMember,
         reason: string
     ) {
         const { database } = kuramisa;
@@ -43,25 +38,32 @@ export default class Warns {
 
             const embed = new KEmbed()
                 .setAuthor({
-                    name: `${guild.name} Logs`,
-                    iconURL: guild.iconURL() as string
+                    name: `${guild.name} Warn Logs`,
+                    iconURL: guild.iconURL() ?? ""
                 })
-                .setThumbnail(
-                    member.user.avatar
-                        ? cdn.guildMemberAvatar(
-                              guild.id,
-                              member.user.id,
-                              member.user.avatar,
-                              {
-                                  extension: "gif"
-                              }
-                          )
-                        : ""
-                )
+                .setThumbnail(member.avatarURL() ?? "")
                 .setDescription(`${by} **Warned** ${member}`)
                 .addFields({ name: "Reason", value: reason });
 
             channel.send({ embeds: [embed] });
+        }
+
+        if (dbUser.notifications.warns) {
+            const embed = new KEmbed()
+                .setAuthor({
+                    name: guild.name,
+                    iconURL: guild.iconURL() ?? ""
+                })
+                .setTitle("You have been warned")
+                .setDescription(
+                    `You can turn off this notification with ${mentionCommand("notifications")}`
+                )
+                .setThumbnail(guild.iconURL() ?? "")
+                .addFields({ name: "Reason", value: reason });
+
+            member.send({
+                embeds: [embed]
+            });
         }
     }
 

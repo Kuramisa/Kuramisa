@@ -5,7 +5,7 @@ import { Guild } from "discord.js";
     event: "guildCreate",
     description: "When bot join a guild"
 })
-export default class Event extends AbstractKEvent {
+export default class GuildJoinedEvent extends AbstractKEvent {
     async run(guild: Guild) {
         this.client.managers.guilds.create(guild);
     }

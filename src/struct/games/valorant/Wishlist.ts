@@ -10,7 +10,7 @@ import {
     type User
 } from "discord.js";
 import { capitalize } from "lodash";
-import { KEmbed, KStringSelectMenu, KRow, KButton } from "@builders";
+import { KEmbed, KStringDropdown, KRow, KButton } from "@builders";
 
 export default class ValorantWishlist {
     private readonly valorant: Valorant;
@@ -198,7 +198,7 @@ export default class ValorantWishlist {
             ) {
                 skinSelectMenus.push(
                     new KRow().setComponents(
-                        new KStringSelectMenu()
+                        new KStringDropdown()
                             .setCustomId("valorant_wishlist_skin")
                             .setPlaceholder("Select a skin")
                             .addOptions(temp)
@@ -224,7 +224,7 @@ export default class ValorantWishlist {
             if (i % 4 === 0) {
                 buddySelectMenus.push(
                     new KRow().setComponents(
-                        new KStringSelectMenu()
+                        new KStringDropdown()
                             .setCustomId("valorant_wishlist_buddy")
                             .setPlaceholder("Select a buddy")
                             .addOptions(temp)
@@ -250,7 +250,7 @@ export default class ValorantWishlist {
             if (i % 4 === 0) {
                 cardSelectMenus.push(
                     new KRow().setComponents(
-                        new KStringSelectMenu()
+                        new KStringDropdown()
                             .setCustomId("valorant_wishlist_card")
                             .setPlaceholder("Select a card")
                             .addOptions(temp)
@@ -276,7 +276,7 @@ export default class ValorantWishlist {
             if (i % 4 === 0) {
                 spraySelectMenus.push(
                     new KRow().setComponents(
-                        new KStringSelectMenu()
+                        new KStringDropdown()
                             .setCustomId("valorant_wishlist_spray")
                             .setPlaceholder("Select a spray")
                             .addOptions(temp)
@@ -302,7 +302,7 @@ export default class ValorantWishlist {
             if (i % 4 === 0) {
                 titleSelectMenus.push(
                     new KRow().setComponents(
-                        new KStringSelectMenu()
+                        new KStringDropdown()
                             .setCustomId("valorant_wishlist_title")
                             .setPlaceholder("Select a title")
                             .addOptions(temp)
@@ -331,8 +331,7 @@ export default class ValorantWishlist {
                 .setStyle(ButtonStyle.Primary),
             new KButton()
                 .setCustomId("valorant_wishlist_cards")
-                .setLabel("Cards")
-                .setStyle(ButtonStyle.Secondary),
+                .setLabel("Cards"),
             new KButton()
                 .setCustomId("valorant_wishlist_titles")
                 .setLabel("Titles")
@@ -342,13 +341,12 @@ export default class ValorantWishlist {
         const navButtons = new KRow().setComponents(
             new KButton()
                 .setCustomId("previous_page")
-                .setEmoji(emojis.get("left_arrow") ?? "⬅️")
-                .setStyle(ButtonStyle.Secondary),
+                .setEmoji(emojis.get("left_arrow")?.toString() ?? "⬅️"),
+
             new KButton()
                 .setCustomId("next_page")
                 .setLabel("Next")
-                .setEmoji(emojis.get("right_arrow") ?? "➡️")
-                .setStyle(ButtonStyle.Secondary)
+                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
         );
 
         const currentSelection = "skins";

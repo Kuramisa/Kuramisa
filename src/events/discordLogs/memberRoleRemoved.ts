@@ -7,7 +7,7 @@ import { AuditLogEvent, GuildMember, Role } from "discord.js";
     event: "guildMemberRoleRemove",
     description: "Logs when member has a role removed"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberRoleRemovedEvent extends AbstractKEvent {
     async run(member: GuildMember, role: Role) {
         const { guild } = member;
 

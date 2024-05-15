@@ -5,7 +5,7 @@ import { Message } from "discord.js";
     event: "messageDelete",
     description: "Event that triggers when a music message is deleted"
 })
-export default class Event extends AbstractKEvent {
+export default class MusicMessageDeletedEvent extends AbstractKEvent {
     async run(message: Message) {
         if (!message.guild) return;
 

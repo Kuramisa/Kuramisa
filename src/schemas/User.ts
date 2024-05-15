@@ -33,10 +33,11 @@ export interface IUser extends IMongoResult<IUser> {
     };
     notifications: {
         botAnnouncements: boolean;
+        warns: boolean;
     };
     card: {
         background: {
-            type: "banner" | "color" | "image";
+            type: "banner" | "color" | "image" | "status";
             color: string;
             image: Buffer;
         };
@@ -45,7 +46,7 @@ export interface IUser extends IMongoResult<IUser> {
             color: string;
         };
         text: {
-            type: "banner" | "avatar" | "color";
+            type: "banner" | "avatar" | "color" | "status";
             color: string;
         };
     };
@@ -76,6 +77,10 @@ export const user = new Schema<IUser>({
     },
     notifications: {
         botAnnouncements: {
+            type: Boolean,
+            default: true
+        },
+        warns: {
             type: Boolean,
             default: true
         }

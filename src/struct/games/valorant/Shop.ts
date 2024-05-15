@@ -2,7 +2,6 @@ import kuramisa from "@kuramisa";
 import type Valorant from "./index";
 import {
     type ButtonBuilder,
-    ButtonStyle,
     type ChatInputCommandInteraction,
     Collection,
     ComponentType,
@@ -11,7 +10,7 @@ import {
 
 import moment from "moment";
 import { Bundles } from "./assets";
-import { KButton, KRow, KStringSelectMenu } from "@builders";
+import { KButton, KRow, KStringDropdown } from "@builders";
 import { KEmbed } from "@builders";
 
 export default class ValorantShop {
@@ -142,7 +141,7 @@ export default class ValorantShop {
                 skinEmbeds.set(account.username, embeds);
                 viewSelectMenus.set(
                     account.username,
-                    new KStringSelectMenu()
+                    new KStringDropdown()
                         .setCustomId(`valorant_daily_${account.username}_view`)
                         .setPlaceholder("Choose a skin to view")
                         .setMinValues(1)
@@ -152,7 +151,7 @@ export default class ValorantShop {
 
                 wishlistSelectMenus.set(
                     account.username,
-                    new KStringSelectMenu()
+                    new KStringDropdown()
                         .setCustomId(
                             `valorant_daily_${account.username}_wishlist`
                         )
@@ -168,7 +167,6 @@ export default class ValorantShop {
                         .setLabel(
                             `${account.player.acct.game_name}#${account.player.acct.tag_line}`
                         )
-                        .setStyle(ButtonStyle.Secondary)
                 );
             }
 
@@ -341,13 +339,12 @@ export default class ValorantShop {
             bundleButtons.push(
                 new KButton()
                     .setCustomId(`valorant_featured_${bundle.uuid}_${i}`)
-                    .setStyle(ButtonStyle.Secondary)
                     .setLabel(bundle.displayName)
             );
 
             viewSelectMenus.set(
                 bundle.uuid,
-                new KStringSelectMenu()
+                new KStringDropdown()
                     .setCustomId(`valorant_featured_${bundle.uuid}_view`)
                     .setPlaceholder("Choose a skin to view")
                     .setMinValues(1)
@@ -357,7 +354,7 @@ export default class ValorantShop {
 
             wishlistSelectMenus.set(
                 bundle.uuid,
-                new KStringSelectMenu()
+                new KStringDropdown()
                     .setCustomId(`valorant_featured_${bundle.uuid}_wishlist`)
                     .setPlaceholder("Choose a skin to add to your wishlist")
                     .setMinValues(1)

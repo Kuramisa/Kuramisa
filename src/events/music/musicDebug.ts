@@ -6,7 +6,7 @@ import kuramisa from "@kuramisa";
     description: "Debug event for music system",
     emitter: kuramisa.systems.music
 })
-export default class Event extends AbstractKEvent {
+export default class MusicDebugEvent extends AbstractKEvent {
     async run(debug: string) {
         this.logger.debug(`[Music] ${debug}`);
     }

@@ -6,7 +6,7 @@ import {
     type ModalSubmitInteraction
 } from "discord.js";
 import { ValError, WebClient } from "valorant.ts";
-import { KRow, KStringSelectMenu } from "@builders";
+import { KRow, KStringDropdown } from "@builders";
 
 export default class ValorantAuth {
     private readonly valorant: Valorant;
@@ -206,7 +206,7 @@ export default class ValorantAuth {
         }
 
         const row = new KRow().setComponents(
-            new KStringSelectMenu()
+            new KStringDropdown()
                 .setCustomId("your_val_accounts")
                 .setPlaceholder("Choose an account(s)")
                 .setMinValues(1)

@@ -7,7 +7,7 @@ import { GuildMember } from "discord.js";
     event: "guildMemeberUnboost",
     description: "Member unboosted a guild"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberUnboostEvent extends AbstractKEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 

@@ -6,7 +6,7 @@ import { GuildMember } from "discord.js";
     event: "voiceChannelLeave",
     description: "Event that triggers when a user leaves a voice channel"
 })
-export default class Event extends AbstractKEvent {
+export default class VoiceChannelLeaveEvent extends AbstractKEvent {
     async run(member: GuildMember) {
         if (!member.user.bot) return;
         const { guild } = member;

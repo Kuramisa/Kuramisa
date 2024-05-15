@@ -48,7 +48,6 @@ export interface ISlashCommandSubcommandGroupOptions extends ICommandOptions {
 }
 
 export interface ISlashCommandOptionsAll extends ICommandOptions {
-    description: string;
     options?: SlashCommandOption[];
     subcommands?: (ICommandOptions & ISlashCommandWithOptions)[];
     groups?: ISlashCommandSubcommandOptions[];
@@ -130,7 +129,9 @@ export abstract class AbstractSlashCommand
         staffOnly,
         inDevelopment,
         betaTesterOnly,
-        dmOnly,
+        guildOnly,
+        botPermissions,
+        userPermissions,
         options,
         subcommands,
         groups
@@ -143,19 +144,19 @@ export abstract class AbstractSlashCommand
             staffOnly,
             inDevelopment,
             betaTesterOnly,
-            dmOnly
+            guildOnly,
+            botPermissions,
+            userPermissions
         });
         this.data
             .setName(this.name)
             .setDescription(this.description)
-            .setDMPermission(this.dmOnly);
+            .setDMPermission(!this.guildOnly);
 
         if (options && subcommands)
             throw new Error("Cannot have both options and subcommands.");
         if (options && groups)
             throw new Error("Cannot have both options and groups.");
-        if (subcommands && groups)
-            throw new Error("Cannot have both subcommands and groups.");
 
         if (options) {
             this.options = options;
@@ -202,7 +203,9 @@ export abstract class AbstractSlashCommand
         }
     }
 
-    abstract run(interaction: ChatInputCommandInteraction): any;
+    run(_: ChatInputCommandInteraction) {
+        throw new Error("Method not implemented.");
+    }
     [key: `slash${string}`]: (interaction: ChatInputCommandInteraction) => any;
 
     private addOption(

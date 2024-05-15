@@ -1,7 +1,7 @@
 import { KEmbed } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import kuramisa from "@kuramisa";
-import { toEmoji } from "@utils";
+import {} from "@utils";
 import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 
 @KEvent({
@@ -9,7 +9,7 @@ import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
     description: "Fired when an audio track is removed from the queue",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class AudioTrackRemoveEvent extends AbstractKEvent {
     async run(queue: GuildQueue, track: Track) {
         const { guild } = queue;
 
@@ -23,7 +23,7 @@ export default class Event extends AbstractKEvent {
             .setAuthor({ name: "Removed from queue" })
             .setTitle(`${track.title} - ${track.author}`)
             .setDescription(
-                `${await toEmoji(music.volumeEmoji(queue.node.volume))} **Volume** ${queue.node.volume}%\n${await toEmoji(music.loopEmoji(queue.repeatMode))} **Loop Mode:** ${
+                `${music.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n${music.loopEmoji(queue.repeatMode)} **Loop Mode:** ${
                     queue.repeatMode === QueueRepeatMode.TRACK
                         ? "Track"
                         : queue.repeatMode === QueueRepeatMode.QUEUE

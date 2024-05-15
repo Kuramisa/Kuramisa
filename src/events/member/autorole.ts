@@ -5,7 +5,7 @@ import { GuildMember } from "discord.js";
     event: "guildMemberAdd",
     description: "Autorole for new members"
 })
-export default class Event extends AbstractKEvent {
+export default class AutoRoleEvent extends AbstractKEvent {
     async run(member: GuildMember) {
         const { managers } = this.client;
 

@@ -24,6 +24,37 @@ export default class SlashContextEvent extends AbstractKEvent {
         }
 
         if (
+            command.userPermissions &&
+            command.guildOnly &&
+            interaction.inCachedGuild()
+        ) {
+            const missingPermissions = interaction.member.permissions.missing(
+                command.userPermissions
+            );
+            if (missingPermissions && missingPermissions.length > 0)
+                return interaction.reply({
+                    content: `You need the following permissions to run this command: **${missingPermissions.join(", ")}**`,
+                    ephemeral: true
+                });
+        }
+
+        if (
+            command.botPermissions &&
+            command.guildOnly &&
+            interaction.inCachedGuild()
+        ) {
+            const missingPermissions =
+                interaction.guild.members.me?.permissions.missing(
+                    command.botPermissions
+                );
+            if (missingPermissions && missingPermissions.length > 0)
+                return interaction.reply({
+                    content: `I need the following permissions to run this command: **${missingPermissions.join(", ")}**`,
+                    ephemeral: true
+                });
+        }
+
+        if (
             command.ownerOnly &&
             !this.client.owners.find((owner) => owner.id === user.id)
         )
@@ -66,6 +97,15 @@ export default class SlashContextEvent extends AbstractKEvent {
                 });
         }
 
+        if (
+            commandName === "valorant" &&
+            !this.client.games.valorant.initialized
+        )
+            return interaction.reply({
+                content: "**😲 Valorant is not initialized!**",
+                ephemeral: true
+            });
+
         const { cooldowns } = this.client;
 
         if (!cooldowns.has(command.name))
@@ -101,12 +141,15 @@ export default class SlashContextEvent extends AbstractKEvent {
         if (command.groups.length > 0) {
             const group = interaction.options.getSubcommandGroup();
             const subcommand = interaction.options.getSubcommand();
-            const funcName = camelCase(`slash ${group} ${subcommand}`);
+            const funcName = group
+                ? camelCase(`slash ${group} ${subcommand}`)
+                : camelCase(`slash ${subcommand}`);
+
             try {
                 await command[funcName as any](interaction);
             } catch (e) {
                 this.logger.error(e);
-                await command.run(interaction);
+                command.run(interaction);
             }
             return;
         }
@@ -118,11 +161,11 @@ export default class SlashContextEvent extends AbstractKEvent {
                 await command[funcName as any](interaction);
             } catch (e) {
                 this.logger.error(e);
-                await command.run(interaction);
+                command.run(interaction);
             }
             return;
         }
 
-        await command.run(interaction);
+        command.run(interaction);
     }
 }

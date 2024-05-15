@@ -3,10 +3,7 @@ import { ButtonStyle, GuildMember, PresenceStatus } from "discord.js";
 
 export const memberActions = (executor: GuildMember, target: GuildMember) => {
     const topRow = new KRow().setComponents(
-        new KButton()
-            .setCustomId("show_rank")
-            .setLabel("Rank")
-            .setStyle(ButtonStyle.Secondary)
+        new KButton().setCustomId("show_rank").setLabel("Rank")
     );
 
     const midRow = new KRow();

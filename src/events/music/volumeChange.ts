@@ -2,7 +2,7 @@ import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import kuramisa from "@kuramisa";
 import { KEmbed } from "@builders";
 import { GuildQueue } from "discord-player";
-import { toEmoji } from "@utils";
+import {} from "@utils";
 
 @KEvent({
     event: "volumeChange",
@@ -10,7 +10,7 @@ import { toEmoji } from "@utils";
         "Event that triggers when the volume of a music player changes",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class VolumeChangeEvent extends AbstractKEvent {
     async run(queue: GuildQueue, _: number, newVolume: number) {
         const { guild } = queue;
 
@@ -25,7 +25,7 @@ export default class Event extends AbstractKEvent {
         if (!plainEmbed.description) return;
 
         const oldVolumeText = plainEmbed.description.split("\n")[0];
-        const newVolumeText = `${await toEmoji(music.volumeEmoji(newVolume))} **Volume**: ${newVolume}%`;
+        const newVolumeText = `${music.volumeEmoji(newVolume)} **Volume**: ${newVolume}%`;
 
         guild.musicMessage.edit({
             content: "",

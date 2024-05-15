@@ -7,7 +7,7 @@ import { AuditLogEvent, ChannelType, Message } from "discord.js";
     event: "messageDelete",
     description: "Logs when a message is deleted"
 })
-export default class Event extends AbstractKEvent {
+export default class MessageDeletedEvent extends AbstractKEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
         if (!message.author) return;

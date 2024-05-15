@@ -8,7 +8,7 @@ import { chunk } from "lodash";
     event: "messageCreate",
     description: "Chat GPT"
 })
-export default class Event extends AbstractKEvent {
+export default class ChatGPTEvent extends AbstractKEvent {
     async run(message: Message) {
         if (message.author.bot) return;
         if (message.interaction !== null) return;

@@ -1,6 +1,7 @@
 import kuramisa from "@kuramisa";
 import { Collection, Snowflake, User } from "discord.js";
 import DBUser from "@schemas/User";
+import { merge } from "lodash";
 
 export default class UserManager {
     readonly cache: Collection<string, KUser>;
@@ -13,7 +14,7 @@ export default class UserManager {
         const { logger } = kuramisa;
 
         logger.info(
-            `[UserManager] User added to the database (ID: ${user.id} - Username: ${user.username})`
+            `[User Manager] User added to the database (ID: ${user.id} - Username: ${user.username})`
         );
 
         const doc = await DBUser.create({
@@ -21,7 +22,7 @@ export default class UserManager {
             username: user.username
         });
 
-        const info: KUser = Object.assign({}, doc._doc, user);
+        const info: KUser = merge(user, doc._doc);
 
         if (!this.cache.has(user.id)) this.cache.set(user.id, info);
 
@@ -39,7 +40,7 @@ export default class UserManager {
         const doc = await DBUser.findOne({ id });
         if (!doc) return this.create(user);
 
-        const info: KUser = Object.assign({}, doc._doc, user);
+        const info: KUser = merge(user, doc._doc);
 
         this.cache.set(id, info);
 

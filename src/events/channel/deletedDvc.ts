@@ -5,7 +5,7 @@ import { ChannelType, GuildChannel } from "discord.js";
     event: "channelDelete",
     description: "Manage Dynamic Voice Channel deletion."
 })
-export default class DeletedDvc extends AbstractKEvent {
+export default class DeletedDvcEvent extends AbstractKEvent {
     async run(channel: GuildChannel) {
         if (channel.type !== ChannelType.GuildVoice) return;
 

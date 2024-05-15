@@ -5,7 +5,7 @@ import { Interaction } from "discord.js";
     event: "interactionCreate",
     description: "Dismiss announcement message."
 })
-export default class DismissAnnouncement extends AbstractKEvent {
+export default class DismissAnnouncementButton extends AbstractKEvent {
     async run(interaction: Interaction) {
         if (!interaction.isButton()) return;
         if (interaction.customId !== "dismiss_announcement") return;

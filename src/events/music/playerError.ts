@@ -6,7 +6,7 @@ import kuramisa from "@kuramisa";
     description: "Event that triggers when a music player error occurs",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class MusicPlayerErrorEvent extends AbstractKEvent {
     async run(_: any, error: string) {
         this.logger.error(`[Music Player] ${error}`);
     }

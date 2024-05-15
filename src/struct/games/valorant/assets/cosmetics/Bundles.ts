@@ -63,7 +63,7 @@ export default class ValorantBundles {
 
         if (item.basePrice === 0) description = "For Free";
         else
-            description = `**${kEmojis.get("val_points")} ${item.basePrice} VP ${
+            description = `**${kEmojis.get("val_points") ?? ""} ${item.basePrice} VP ${
                 item.basePrice === item.discountedPrice
                     ? ""
                     : `(${

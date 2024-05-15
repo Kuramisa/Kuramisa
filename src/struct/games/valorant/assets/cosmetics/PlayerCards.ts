@@ -1,6 +1,7 @@
 import kuramisa from "@kuramisa";
 import { KEmbed } from "@builders";
 import Valorant from "../..";
+import {} from "@utils";
 
 export default class ValorantPlayerCards {
     private readonly data: IValorantPlayerCard[];
@@ -28,7 +29,7 @@ export default class ValorantPlayerCards {
                 iconURL: playerCard.displayIcon
             })
             .setDescription(
-                `**${kuramisa.kEmojis.get("val_points")} ${
+                `**${kuramisa.kEmojis.get("val_points") ?? ""} ${
                     playerCard.cost
                 } VP**`
             )

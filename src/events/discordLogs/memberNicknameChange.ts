@@ -7,7 +7,7 @@ import { GuildMember } from "discord.js";
     event: "guildMemberNicknameUpdate",
     description: "Logs when member changes nickname"
 })
-export default class Event extends AbstractKEvent {
+export default class MemberNicknameChangeEvent extends AbstractKEvent {
     async run(member: GuildMember, oldNickname: string, newNickname: string) {
         const { guild } = member;
 

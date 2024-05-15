@@ -6,7 +6,7 @@ import kuramisa from "@kuramisa";
     description: "Error event for music queue system",
     emitter: kuramisa.systems.music.events
 })
-export default class Event extends AbstractKEvent {
+export default class QueueErrorEvent extends AbstractKEvent {
     async run(_: any, error: string) {
         this.logger.error(`[Music Queue] ${error}`);
     }

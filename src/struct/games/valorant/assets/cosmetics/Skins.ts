@@ -13,6 +13,7 @@ import {
 import Valorant from "../..";
 import { KEmbed } from "@builders";
 import { truncate } from "lodash";
+import {} from "@utils";
 
 export default class ValorantSkins {
     private readonly data: IValorantWeaponSkin[];
@@ -131,7 +132,7 @@ export default class ValorantSkins {
                 iconURL: contentTier.displayIcon
             })
             .setDescription(
-                `**${kuramisa.kEmojis.get("val_points")} ${skin.cost} VP**`
+                `**${kuramisa.kEmojis.get("val_points") ?? ""} ${skin.cost} VP**`
             )
             .setImage(level.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
@@ -177,7 +178,7 @@ export default class ValorantSkins {
                 iconURL: contentTier.displayIcon
             })
             .setDescription(
-                `**${kuramisa.kEmojis.get("val_points")} ${skin.cost}**`
+                `**${kuramisa.kEmojis.get("val_points") ?? ""} ${skin.cost}**`
             )
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
@@ -197,13 +198,11 @@ export default class ValorantSkins {
         skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">
     ) => {
-        const button = new ButtonBuilder()
-            .setCustomId(
-                `valorant_skin_chroma_${skin.chromas.findIndex(
-                    (c) => c.uuid === chroma.uuid
-                )}`
-            )
-            .setStyle(ButtonStyle.Secondary);
+        const button = new ButtonBuilder().setCustomId(
+            `valorant_skin_chroma_${skin.chromas.findIndex(
+                (c) => c.uuid === chroma.uuid
+            )}`
+        );
 
         let label = chroma.displayName.split(skin.displayName)[1];
         if (!label || label.length === 0) label = "Original";
