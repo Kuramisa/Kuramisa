@@ -21,7 +21,10 @@ import {
     SlashCommandNumberOption,
     SlashCommandRoleOption,
     SlashCommandStringOption,
-    SlashCommandUserOption
+    SlashCommandUserOption,
+    SlashCommandAttachmentOption,
+    TextInputStyle,
+    ButtonStyle
 } from "discord.js";
 import { Stream } from "winston-daily-rotate-file";
 
@@ -47,40 +50,42 @@ export class KEmbed extends EmbedBuilder {
     constructor() {
         super();
         this.setColor("#f99753");
+        this.setTimestamp();
     }
 }
 
 export class KButton extends ButtonBuilder {
     constructor() {
         super();
+        this.setStyle(ButtonStyle.Secondary);
     }
 }
 
-export class KStringSelectMenu extends StringSelectMenuBuilder {
+export class KStringDropdown extends StringSelectMenuBuilder {
     constructor() {
         super();
     }
 }
 
-export class KUserSelectMenu extends UserSelectMenuBuilder {
+export class KUserDropdown extends UserSelectMenuBuilder {
     constructor() {
         super();
     }
 }
 
-export class KRoleSelectMenu extends RoleSelectMenuBuilder {
+export class KRoleMenu extends RoleSelectMenuBuilder {
     constructor() {
         super();
     }
 }
 
-export class KChannelSelectMenu extends ChannelSelectMenuBuilder {
+export class KChannelDropdown extends ChannelSelectMenuBuilder {
     constructor() {
         super();
     }
 }
 
-export class KMentionableSelectMenu extends MentionableSelectMenuBuilder {
+export class KMentionableDropdown extends MentionableSelectMenuBuilder {
     constructor() {
         super();
     }
@@ -95,58 +100,59 @@ export class KModal extends ModalBuilder {
 export class KTextInput extends TextInputBuilder {
     constructor() {
         super();
+        this.setStyle(TextInputStyle.Short);
     }
 }
 
-export class KSlashStringOption extends SlashCommandStringOption {
+export class KStringOption extends SlashCommandStringOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashAttachmentOption extends SlashCommandStringOption {
+export class KAttachmentOption extends SlashCommandAttachmentOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashUserOption extends SlashCommandUserOption {
+export class KUserOption extends SlashCommandUserOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashRoleOption extends SlashCommandRoleOption {
+export class KRoleOption extends SlashCommandRoleOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashChannelOption extends SlashCommandChannelOption {
+export class KChannelOption extends SlashCommandChannelOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashBooleanOption extends SlashCommandBooleanOption {
+export class KBooleanOption extends SlashCommandBooleanOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashIntegerOption extends SlashCommandIntegerOption {
+export class KIntegerOption extends SlashCommandIntegerOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashMentionableOption extends SlashCommandMentionableOption {
+export class KMentionableOption extends SlashCommandMentionableOption {
     constructor() {
         super();
     }
 }
 
-export class KSlashNumberOption extends SlashCommandNumberOption {
+export class KNumberOption extends SlashCommandNumberOption {
     constructor() {
         super();
     }
