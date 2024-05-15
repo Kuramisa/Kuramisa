@@ -11,6 +11,7 @@ import type {
     User,
     VoiceChannel
 } from "discord.js";
+import { IStaff } from "@schemas/Staff";
 import { IGuild } from "@schemas/Guild";
 import { IUser } from "@schemas/User";
 import type { WebClient } from "valorant.ts";
@@ -24,7 +25,7 @@ declare global {
     type KGuild = Guild & IGuild;
     type KUser = User & IUser;
 
-    type BotStaff = KUser & StaffDocument;
+    type BotStaff = KUser & IStaff;
 
     type MenuType = "string" | "role" | "mentionable" | "user" | "channel";
 
