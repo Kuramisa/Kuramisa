@@ -8,6 +8,7 @@ import {
 @MenuCommand({
     name: "It won't affect my baby",
     description: "Won't affect my baby",
+    guildOnly: true,
     type: ApplicationCommandType.User
 })
 export default class OwOCommand extends AbstractMenuCommand {

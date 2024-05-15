@@ -1,22 +1,23 @@
-import { KAttachment, KSlashUserOption } from "@builders";
+import { KAttachment, KUserOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "ship",
     description: "Ship two people",
+    guildOnly: true,
     options: [
-        new KSlashUserOption()
+        new KUserOption()
             .setName("person_2")
             .setDescription("The second person you want to ship")
             .setRequired(true),
-        new KSlashUserOption()
+        new KUserOption()
             .setName("person_1")
             .setDescription("The first person you want to ship")
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class ShipCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { kanvas } = this.client;

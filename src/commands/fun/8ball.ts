@@ -9,7 +9,6 @@ import {
 @SlashCommand({
     name: "8ball",
     description: "Ask the magic 8ball a question",
-    ownerOnly: true,
     options: [
         new SlashCommandStringOption()
             .setName("question")
@@ -17,7 +16,7 @@ import {
             .setRequired(true)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class EightBallCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 

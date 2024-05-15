@@ -8,9 +8,10 @@ import {
 @MenuCommand({
     name: "Mock",
     description: "Mock someone's text",
+    guildOnly: true,
     type: ApplicationCommandType.Message
 })
-export default class OwOCommand extends AbstractMenuCommand {
+export default class MockCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { guild, channel, targetId, member } = interaction;

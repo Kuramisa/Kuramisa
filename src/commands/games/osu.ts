@@ -1,6 +1,6 @@
-import { KButton, KEmbed, KRow, KSlashStringOption } from "@builders";
+import { KButton, KEmbed, KRow, KStringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
-import { ButtonStyle, ChatInputCommandInteraction, time } from "discord.js";
+import { ChatInputCommandInteraction, time } from "discord.js";
 import moment from "moment";
 import { flag } from "country-emoji";
 
@@ -8,13 +8,13 @@ import { flag } from "country-emoji";
     name: "osu",
     description: "Osu! related commands",
     options: [
-        new KSlashStringOption()
+        new KStringOption()
             .setName("osu_player")
             .setDescription("The osu! player you want to get information about")
             .setRequired(true)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class Command extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const {
             games: { osu },
@@ -76,12 +76,10 @@ export default class PingCommand extends AbstractSlashCommand {
             new KButton()
                 .setCustomId("best-user-beatmaps")
                 .setLabel("Best Beatmaps")
-                .setStyle(ButtonStyle.Primary)
                 .setEmoji("🔥"),
             new KButton()
                 .setCustomId("recent-user-beatmaps")
                 .setLabel("Recent Beatmaps")
-                .setStyle(ButtonStyle.Primary)
                 .setEmoji("📜")
         );
 

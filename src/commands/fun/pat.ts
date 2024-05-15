@@ -8,9 +8,10 @@ import {
 @MenuCommand({
     name: "Pat",
     description: "Pat someone",
+    guildOnly: true,
     type: ApplicationCommandType.User
 })
-export default class OwOCommand extends AbstractMenuCommand {
+export default class PatCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
         if (!interaction.guild) return;
 

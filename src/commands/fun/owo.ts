@@ -1,8 +1,6 @@
-import { AbstractMenuCommand, MenuCommand } from "@classes/MenuCommand";
-import {
-    ApplicationCommandType,
-    ContextMenuCommandInteraction
-} from "discord.js";
+import { KStringOption } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
+import { ChatInputCommandInteraction } from "discord.js";
 import { convert } from "owospeak";
 
 const converOpts = {
@@ -10,26 +8,21 @@ const converOpts = {
     stutter: Math.random() < 0.5
 };
 
-@MenuCommand({
-    name: "OwOify",
-    description: "OwOify a message",
-    type: ApplicationCommandType.Message
+@SlashCommand({
+    name: "owo",
+    description: "OwOify a text",
+    options: [
+        new KStringOption()
+            .setName("text")
+            .setDescription("The text to OwOify")
+            .setRequired(true)
+    ]
 })
-export default class OwOCommand extends AbstractMenuCommand {
-    async run(interaction: ContextMenuCommandInteraction) {
-        const { channel, targetId } = interaction;
+export default class PingCommand extends AbstractSlashCommand {
+    async run(interaction: ChatInputCommandInteraction) {
+        const text = interaction.options.getString("text", true);
+        const owo = convert(text, converOpts);
 
-        if (!channel) return;
-        const message = await channel.messages.fetch(targetId);
-
-        if (message.content.length < 1)
-            return interaction.reply({
-                content: "Could not find text in the message",
-                ephemeral: true
-            });
-
-        const owo = convert(message.content, converOpts);
-
-        return interaction.reply({ content: owo });
+        interaction.reply({ content: owo });
     }
 }
