@@ -52,12 +52,11 @@ const logger = createLogger({
             level: "error",
             ...rotateOpts
         }),
-        // Re enable debug logs if needed (uncomment the line below)
-        /*new transports.DailyRotateFile({
+        new transports.DailyRotateFile({
             filename: "logs/debug-%DATE%.log",
             level: "debug",
-            ...rotateOpts,
-        }),*/
+            ...rotateOpts
+        }),
         new transports.DailyRotateFile({
             filename: "logs/all-%DATE%.log",
             ...rotateOpts
