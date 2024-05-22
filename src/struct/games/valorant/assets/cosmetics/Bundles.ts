@@ -2,6 +2,7 @@ import kuramisa from "@kuramisa";
 import { randEl } from "@utils";
 import Valorant from "../..";
 import { KEmbed } from "@builders";
+import { fetchStoreFeautured } from "..";
 
 export default class ValorantBundles {
     private readonly data: IValorantBundle[];
@@ -166,11 +167,7 @@ export default class ValorantBundles {
     }
 
     async fetchFeatured() {
-        const data = await fetch(
-            "https://api.henrikdev.xyz/valorant/v2/store-featured"
-        )
-            .then((res) => res.json())
-            .then((res: any) => res.data);
+        const data = await fetchStoreFeautured();
 
         return data.map((bundle: any) => {
             const bundleData = this.getByID(bundle.bundle_uuid);

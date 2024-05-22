@@ -5,6 +5,7 @@ import {
 } from "discord.js";
 import Valorant from "../..";
 import { KEmbed, KStringDropdown } from "@builders";
+import { fetchStoreOffers } from "..";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -74,10 +75,7 @@ export default class ValorantSprays {
             .then((res) => res.json())
             .then((res: any) => res.data);
 
-        const sprayPrices = await fetch(
-            "https://api.henrikdev.xyz/valorant/v2/store-offers"
-        )
-            .then((res) => res.json())
+        const sprayPrices = await fetchStoreOffers()
             .then((res: any) => res.data?.offers)
             .then((res) => res?.filter((offer: any) => offer.type === "spray"));
 

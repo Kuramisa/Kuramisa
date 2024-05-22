@@ -1,5 +1,6 @@
 import { KEmbed } from "@builders";
 import Valorant from "../..";
+import { fetchStoreOffers } from "..";
 
 export default class ValorantPlayerTitles {
     private readonly data: IValorantPlayerTitle[];
@@ -35,10 +36,7 @@ export default class ValorantPlayerTitles {
             .then((res) => res.json())
             .then((res: any) => res.data);
 
-        const titlePrices = await fetch(
-            "https://api.henrikdev.xyz/valorant/v2/store-offers"
-        )
-            .then((res) => res.json())
+        const titlePrices = await fetchStoreOffers()
             .then((res: any) => res.data?.offers)
             .then((res) =>
                 res?.filter((offer: any) => offer.type === "player_title")

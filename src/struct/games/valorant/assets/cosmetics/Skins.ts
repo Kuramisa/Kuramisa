@@ -14,6 +14,7 @@ import Valorant from "../..";
 import { KEmbed } from "@builders";
 import { truncate } from "lodash";
 import {} from "@utils";
+import { fetchStoreOffers } from "..";
 
 export default class ValorantSkins {
     private readonly data: IValorantWeaponSkin[];
@@ -49,10 +50,7 @@ export default class ValorantSkins {
             .then((res) => res.json())
             .then((res: any) => res.data);
 
-        const skinPrices = await fetch(
-            "https://api.henrikdev.xyz/valorant/v2/store-offers"
-        )
-            .then((res) => res.json())
+        const skinPrices = await fetchStoreOffers()
             .then((res: any) => res.data?.offers)
             .then((res) =>
                 res?.filter((offer: any) => offer.type === "skin_level")

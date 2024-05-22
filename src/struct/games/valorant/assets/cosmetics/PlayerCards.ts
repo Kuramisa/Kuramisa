@@ -2,6 +2,7 @@ import kuramisa from "@kuramisa";
 import { KEmbed } from "@builders";
 import Valorant from "../..";
 import {} from "@utils";
+import { fetchStoreOffers } from "..";
 
 export default class ValorantPlayerCards {
     private readonly data: IValorantPlayerCard[];
@@ -42,10 +43,7 @@ export default class ValorantPlayerCards {
             .then((res) => res.json())
             .then((res: any) => res.data);
 
-        const cardPrices = await fetch(
-            "https://api.henrikdev.xyz/valorant/v2/store-offers"
-        )
-            .then((res) => res.json())
+        const cardPrices = await fetchStoreOffers()
             .then((res: any) => res.data?.offers)
             .then((res) =>
                 res?.filter((offer: any) => offer.type === "player_card")
