@@ -38,7 +38,7 @@
                 "caughtErrors": "all",
                 "caughtErrorsIgnorePattern": "^_",
                 "destructuredArrayIgnorePattern": "^_",
-                "varsIgnorePattern": "^_",
+                "varsIgnorePattern": "(?:^_|JSX)",
                 "ignoreRestSiblings": true
             }
         ],
