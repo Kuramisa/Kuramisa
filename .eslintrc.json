@@ -50,7 +50,7 @@
                 "selector": "variable",
                 "format": ["camelCase", "UPPER_CASE", "PascalCase"],
                 "leadingUnderscore": "allow",
-                "trailingUnderscore": "forbid"
+                "trailingUnderscore": "allow"
             },
             {
                 "selector": "class",
