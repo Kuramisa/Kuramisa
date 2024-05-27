@@ -26,6 +26,9 @@ importers:
       '@sapphire/snowflake':
         specifier: ^3.5.3
         version: 3.5.3
+      '@web-scrobbler/metadata-filter':
+        specifier: ^3.1.0
+        version: 3.1.0
       axios:
         specifier: ^1.7.2
         version: 1.7.2
@@ -1067,6 +1070,10 @@ packages:
   '@vladfrangu/async_event_emitter@2.2.4':
     resolution: {integrity: sha512-ButUPz9E9cXMLgvAW8aLAKKJJsPu1dY1/l/E8xzLFuysowXygs6GBcyunK9rnGC4zTsnIc2mQo71rGw9U+Ykug==}
     engines: {node: '>=v14.0.0', npm: '>=7.0.0'}
+
+  '@web-scrobbler/metadata-filter@3.1.0':
+    resolution: {integrity: sha512-3VLxdrcfRZ/jac7VV3v5s3R+HUQ/o4gp8vqZoojGhrvyrYyrjsyuJGaoSiFLoYmwYNAjeqJ/tnvIeJt8DSi4sg==}
+    engines: {node: '>=10.0.0'}
 
   abort-controller@3.0.0:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
@@ -3985,6 +3992,8 @@ snapshots:
       - undici
 
   '@vladfrangu/async_event_emitter@2.2.4': {}
+
+  '@web-scrobbler/metadata-filter@3.1.0': {}
 
   abort-controller@3.0.0:
     dependencies:
