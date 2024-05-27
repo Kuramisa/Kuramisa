@@ -2,5 +2,5 @@ module.exports = {
     name: "Kuramisa",
     script: "src/index.ts",
     interpreter: "node",
-    interpreter_args: "--import tsx",
-}
+    interpreter_args: "--import tsx"
+};
