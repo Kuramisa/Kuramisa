@@ -37,7 +37,7 @@ export default class PatCommand extends AbstractMenuCommand {
         const slap = await nekos.pat();
 
         return interaction.reply({
-            content: `${user.toString()} slapped ${member.toString()}`,
+            content: `${user.toString()} patted ${member.toString()}`,
             files: [slap.url]
         });
     }
