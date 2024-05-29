@@ -19,7 +19,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const word = interaction.options.getString("word", true);
 
-        const list = await ud.define(word);
+        const list = await ud.define(word).catch(() => null);
 
         if (!list)
             return interaction.reply({
