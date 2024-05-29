@@ -129,7 +129,8 @@ export default class SelfRoles {
 
         const channelId = options.getString("sr_channel_name", true);
         const channel = await guild.channels.fetch(channelId);
-        if (!channel || !channel.isTextBased()) return;
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
             (sr) => (sr.channelId = channel.id)
@@ -215,7 +216,8 @@ export default class SelfRoles {
         const messageId = options.getString("sr_message", true);
 
         const channel = await guild.channels.fetch(channelId);
-        if (!channel || !channel.isTextBased()) return;
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
             (sr) => (sr.channelId = channel.id)
@@ -258,7 +260,8 @@ export default class SelfRoles {
         const messageId = options.getString("sr_message", true);
 
         const channel = await guild.channels.fetch(channelId);
-        if (!channel || !channel.isTextBased()) return;
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
 
         const message = await channel.messages.fetch(messageId);
         if (!message) return;
@@ -313,7 +316,8 @@ export default class SelfRoles {
         const channelId = options.getString("sr_channel_name", true);
 
         const channel = await guild.channels.fetch(channelId);
-        if (!channel || !channel.isTextBased()) return;
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
             (sr) => sr.channelId === channel.id
@@ -432,7 +436,8 @@ export default class SelfRoles {
         const channelId = options.getString("sr_channel_name", true);
 
         const channel = await guild.channels.fetch(channelId);
-        if (!channel || !channel.isTextBased()) return;
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
             (sr) => sr.channelId === channel.id
