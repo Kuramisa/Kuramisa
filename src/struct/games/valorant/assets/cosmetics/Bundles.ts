@@ -93,11 +93,9 @@ export default class ValorantBundles {
                 break;
             }
             case "buddy": {
-                let colors = await kanvas.popularColor(
-                    item.levels[0].displayIcon
-                );
-                if (!colors) colors = ["#808080"];
-                const color = randEl(colors);
+                const color =
+                    (await kanvas.popularColor(item.levels[0].displayIcon)) ??
+                    "#808080";
 
                 embed
                     .setAuthor({
@@ -111,9 +109,8 @@ export default class ValorantBundles {
                 break;
             }
             case "spray": {
-                let colors = await kanvas.popularColor(item.displayIcon);
-                if (!colors) colors = ["#808080"];
-                const color = randEl(colors);
+                const color =
+                    (await kanvas.popularColor(item.displayIcon)) ?? "#808080";
 
                 embed
                     .setAuthor({
@@ -130,9 +127,8 @@ export default class ValorantBundles {
                 break;
             }
             case "player_card": {
-                let colors = await kanvas.popularColor(item.wideArt);
-                if (!colors) colors = ["#808080"];
-                const color = randEl(colors);
+                const color =
+                    (await kanvas.popularColor(item.wideArt)) ?? "#808080";
 
                 embed
                     .setAuthor({

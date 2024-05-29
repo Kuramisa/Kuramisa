@@ -182,7 +182,8 @@ export default {
 
             if (dbGuild.logs.types.memberWarned) {
                 const channel = guild.channels.cache.get(dbGuild.logs.channel);
-                if (!channel || !channel.isTextBased()) return;
+                if (!channel) return;
+                if (!channel.isTextBased()) return;
                 if (
                     !guild.members.me
                         ?.permissionsIn(channel)

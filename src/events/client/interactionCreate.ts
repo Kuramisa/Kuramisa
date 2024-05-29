@@ -4,6 +4,8 @@ import { AbstractSlashCommand } from "@classes/SlashCommand";
 import { ApplicationCommandType, Collection, Interaction } from "discord.js";
 import { camelCase } from "lodash";
 
+const { NODE_ENV } = process.env;
+
 @KEvent({
     event: "interactionCreate",
     description: "Manage Slash and Context Menu interactions."
@@ -22,6 +24,16 @@ export default class SlashContextEvent extends AbstractKEvent {
                 ephemeral: true
             });
         }
+
+        if (
+            NODE_ENV === "development" &&
+            (!this.client.staff.find((staff) => staff.id === user.id) ||
+                !this.client.owners.find((owner) => owner.id === user.id))
+        )
+            return interaction.reply({
+                content: "Kuramisa is currently undergoing maintenance!",
+                ephemeral: true
+            });
 
         if (
             command.userPermissions &&

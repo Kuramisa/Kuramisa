@@ -168,7 +168,8 @@ export const logsChannel = async (_guild: Guild) => {
         guild.channels.cache.get(guild.logs.channel);
     if (!channel) channel = await guild.channels.fetch(guild.logs.channel);
 
-    if (!channel || !channel.isTextBased()) return false;
+    if (!channel) return false;
+    if (!channel.isTextBased()) return false;
     if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
         return false;
 

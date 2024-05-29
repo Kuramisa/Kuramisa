@@ -9,7 +9,7 @@ import { truncate } from "lodash";
 export default class SelfRolesAutocomplete extends AbstractKEvent {
     async run(interaction: Interaction) {
         if (!interaction.isAutocomplete()) return;
-        if (interaction.commandName !== "selfroles") return;
+        if (interaction.commandName !== "self-roles") return;
         if (!interaction.guildId) return;
 
         const { managers } = this.client;
@@ -53,7 +53,8 @@ export default class SelfRolesAutocomplete extends AbstractKEvent {
                 const channel = guild.channels.cache.find(
                     (ch) => ch.id === channelId
                 );
-                if (!channel || !channel.isTextBased()) return;
+                if (!channel) return;
+                if (!channel.isTextBased()) return;
 
                 const dbChannel = guild.selfRoles.find(
                     (sr) => sr.channelId === channel.id

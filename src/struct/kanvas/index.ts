@@ -1,11 +1,19 @@
 import { Canvas, GlobalFonts } from "@napi-rs/canvas";
+import path from "path";
+import fs from "fs/promises";
 import axios from "axios";
 import getColors from "get-image-colors";
+import { Font } from "canvacord";
+
 import KanvasImages from "./Images";
 import KanvasMember from "./Member";
 import KanvasModify from "./Modify";
 
-const fontsDir = `${process.cwd()}/assets/fonts`;
+import logger from "@struct/Logger";
+import { startCase } from "lodash";
+import { randEl } from "@utils";
+
+const fontsDir = path.resolve(`${process.cwd()}/assets/fonts`);
 
 GlobalFonts.registerFromPath(
     `${fontsDir}/Poppins/Poppins-Regular.ttf`,
@@ -23,10 +31,7 @@ GlobalFonts.registerFromPath(
     `${fontsDir}/Manrope/Manrope-Bold.ttf`,
     "Manrope Bold"
 );
-GlobalFonts.registerFromPath(
-    `${fontsDir}/Others/AbyssinicaSIL-Regular.ttf`,
-    "Abyss"
-);
+GlobalFonts.registerFromPath(`${fontsDir}/Others/Abyss.ttf`, "Abyss");
 
 export default class Kanvas {
     readonly images: KanvasImages;
@@ -37,6 +42,29 @@ export default class Kanvas {
         this.images = new KanvasImages(this);
         this.member = new KanvasMember(this);
         this.modify = new KanvasModify();
+
+        this.loadFonts();
+    }
+
+    async loadFonts() {
+        logger.info("[Fonts] Loading fonts...");
+
+        const fontsDir = path.resolve(`${process.cwd()}/assets/fonts`);
+
+        for (const fontDir of await fs.readdir(fontsDir)) {
+            const fonts = path.resolve(
+                `${process.cwd()}/assets/fonts/${fontDir}`
+            );
+
+            for (const font of await fs.readdir(fonts)) {
+                const fontName = startCase(font.split(".")[0]);
+
+                await Font.fromFile(`${fontsDir}/${fontDir}/${font}`, fontName);
+                logger.debug(`[Fonts] Loaded ${fontName}`);
+            }
+        }
+
+        logger.info("[Fonts] Fonts loaded!");
     }
 
     makeBackground(color: string, w = 1024, h = 450) {
@@ -63,7 +91,7 @@ export default class Kanvas {
         return ctx.font;
     }
 
-    async popularColor(url?: string | null) {
+    async popularColors(url?: string | null) {
         if (!url) return null;
         const buffer = await axios
             .get(url, {
@@ -77,6 +105,13 @@ export default class Kanvas {
         return (await getColors(buffer, "image/png")).map((color: any) =>
             color.hex()
         );
+    }
+
+    async popularColor(url?: string | null) {
+        if (!url) return null;
+        const colors = await this.popularColors(url);
+        if (!colors) return null;
+        return randEl(colors);
     }
 
     invertColor(hex?: string) {

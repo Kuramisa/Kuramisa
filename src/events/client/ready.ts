@@ -15,13 +15,15 @@ export default class ReadyEvent extends AbstractKEvent {
         const { client, logger } = this;
         const {
             dashboard,
+            kanvas,
             games: { valorant },
             systems: { music },
             owners
         } = client;
 
         try {
-            await this.client.updateRest();
+            await client.updateRest();
+            await kanvas.loadFonts();
             await client.initStaff();
 
             logger.debug(music.scanDeps());

@@ -22,6 +22,8 @@ declare global {
         _doc: T;
     }
 
+    const JSX = JSX;
+
     type KGuild = Guild & IGuild;
     type KUser = User & IUser;
 
