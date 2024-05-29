@@ -9,6 +9,7 @@ import badgesOrder from "@data/badgesOrder";
 import { nitroBadges, otherBadges, otherImgs } from "@data/profileFunc";
 
 import { japi, randEl, statusColor } from "@utils";
+import LevelUpCard from "./builders/LevelUpCard";
 
 const twentyPxBold = "20px Poppins Bold";
 
@@ -20,6 +21,94 @@ export default class KanvasMember {
     }
 
     async levelUpCard(iMember: GuildMember) {
+        const { xp } = kuramisa.managers;
+
+        const member = await iMember.fetch();
+        const user = await kuramisa.managers.users.get(member.id);
+
+        const { card } = user;
+
+        let background: string | Buffer = "";
+        let textColor = "#808080";
+        let outlinesColor = "#FFA500";
+
+        switch (card.background.type) {
+            case "banner":
+                background = user.bannerURL({ extension: "png" }) ?? "";
+                break;
+            case "color": {
+                background = card.background.color;
+                break;
+            }
+            case "image": {
+                background = card.background.image;
+                break;
+            }
+            case "status": {
+                background = statusColor(member.presence?.status);
+                break;
+            }
+        }
+
+        switch (card.text.type) {
+            case "avatar": {
+                textColor = user.hexAccentColor ?? "#808080";
+                break;
+            }
+            case "banner": {
+                textColor =
+                    (await this.kanvas.popularColor(
+                        user.bannerURL({ extension: "png" })
+                    )) ?? "#808080";
+                break;
+            }
+            case "color": {
+                textColor = card.text.color;
+                break;
+            }
+            case "status": {
+                textColor = statusColor(member.presence?.status);
+                break;
+            }
+        }
+
+        switch (card.outlines.type) {
+            case "avatar": {
+                outlinesColor = user.hexAccentColor ?? "#FFA500";
+                break;
+            }
+            case "banner": {
+                outlinesColor =
+                    (await this.kanvas.popularColor(
+                        user.bannerURL({ extension: "png" })
+                    )) ?? "#FFA500";
+                break;
+            }
+            case "color": {
+                outlinesColor = card.outlines.color;
+                break;
+            }
+            case "status": {
+                outlinesColor = statusColor(member.presence?.status);
+                break;
+            }
+        }
+
+        const newLevel = await xp.getLevel(user);
+        const oldLevel = newLevel - 1;
+
+        return new LevelUpCard({
+            member,
+            background,
+            textColor,
+            outlinesColor,
+            oldLevel,
+            newLevel
+        }).build();
+    }
+
+    /** @deprecated */
+    async levelUpCardOld(iMember: GuildMember) {
         const { xp } = kuramisa.managers;
 
         const member = await iMember.fetch();
