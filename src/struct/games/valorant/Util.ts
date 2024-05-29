@@ -16,7 +16,6 @@ import { type Store } from "@valapi/web-client";
 import { type Weapons } from "@valapi/valorant-api.com";
 import { capitalize, startCase } from "lodash";
 import { KButton, KEmbed, KRow } from "@builders";
-import { randEl } from "@utils";
 
 export default class ValorantUtil {
     readonly valorant: Valorant;
@@ -371,8 +370,8 @@ export default class ValorantUtil {
         const card = playerCards.getByID(identity.PlayerCardID);
         const title = playerTitles.getByID(identity.PlayerTitleID);
 
-        const colors = (await kanvas.popularColor(card?.wideArt ?? null)) ?? [];
-        const color = colors.length > 0 ? randEl(colors) : "#FFFFFF";
+        const color =
+            (await kanvas.popularColor(card?.wideArt ?? null)) ?? "#FFFFFF";
 
         const embed = new KEmbed()
             .setAuthor({
