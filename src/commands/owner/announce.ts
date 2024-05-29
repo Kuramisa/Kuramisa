@@ -58,12 +58,12 @@ export default class AnnounceCommand extends AbstractSlashCommand {
             })
             .setTitle("Announcement from The Developers")
             .setDescription(
-                `${text}\n\n*This is from the official developers and will not be used to spam the users*\n\n**Disclaimer: If you encounter any bugs or unresponsiveness, please DM me directly or use ${mentionCommand("report-bug")}**\n**If you have some suggestions please use ${mentionCommand("suggest")}**\n\n*To disable this notification, use ${mentionCommand("notifications")} command*\n\n- Sent by ${user}\n- **${this.client.user?.username} ${version}**`
+                `${text}\n\n*This is from the official developers and will not be used to spam the users*\n\n**Disclaimer: If you encounter any bugs or unresponsiveness, please DM me directly or use ${mentionCommand("report-bug")}**\n**If you have some suggestions please use ${mentionCommand("suggest")}**\n\n*To disable this notification, use ${mentionCommand("bot-notifications")} command*\n\n- Sent by ${user}\n- **${this.client.user?.username} ${version}**`
             );
 
         for (const owner of owners) {
             const db = await managers.users.get(owner.id);
-            if (!db.notifications.botAnnouncements) continue;
+            if (!db.botNotifications.announcements) continue;
 
             this.logger.info(
                 `Sending announcement to ${owner.user.globalName ?? owner.user.username}`

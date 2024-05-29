@@ -31,8 +31,8 @@ export interface IUser extends IMongoResult<IUser> {
             accessory: "public" | "friends" | "private";
         };
     };
-    notifications: {
-        botAnnouncements: boolean;
+    botNotifications: {
+        announcements: boolean;
         warns: boolean;
     };
     card: {
@@ -75,8 +75,8 @@ export const user = new Schema<IUser>({
         type: Number,
         default: 1
     },
-    notifications: {
-        botAnnouncements: {
+    botNotifications: {
+        announcements: {
             type: Boolean,
             default: true
         },

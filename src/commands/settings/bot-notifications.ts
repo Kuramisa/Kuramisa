@@ -4,17 +4,17 @@ import { ChatInputCommandInteraction } from "discord.js";
 import { startCase } from "lodash";
 
 @SlashCommand({
-    name: "notifications",
-    description: "Toggle notifications for the server",
+    name: "bot-notifications",
+    description: "Toggle Bot notifications",
     options: [
         new KStringOption()
-            .setName("notification")
+            .setName("bot-notification")
             .setDescription("The notification to toggle")
             .setRequired(true)
             .setChoices(
                 {
-                    name: "Bot Announcements",
-                    value: "botAnnouncements"
+                    name: "Announcements",
+                    value: "announcements"
                 },
                 {
                     name: "Warns",
@@ -27,22 +27,24 @@ export default class PingCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { options, user } = interaction;
 
-        const notification = options.getString("notification", true);
+        const notification = options.getString("bot-notification", true);
 
         const { database } = this.client;
 
         const db = await database.users.fetch(user.id);
 
-        const { notifications } = db;
+        const { botNotifications } = db;
 
-        db.notifications[notification as keyof typeof notifications] =
-            !db.notifications[notification as keyof typeof notifications];
+        db.botNotifications[notification as keyof typeof botNotifications] =
+            !db.botNotifications[notification as keyof typeof botNotifications];
 
         await db.save();
 
         interaction.reply({
-            content: `Notifications for **${startCase(notification)}** have been **${
-                db.notifications[notification as keyof typeof notifications]
+            content: `Bot Notifications for **${startCase(notification)}** have been **${
+                db.botNotifications[
+                    notification as keyof typeof botNotifications
+                ]
                     ? "enabled"
                     : "disabled"
             }**`,

@@ -49,7 +49,7 @@ export default class Warns {
             channel.send({ embeds: [embed] });
         }
 
-        if (dbUser.notifications.warns) {
+        if (dbUser.botNotifications.warns) {
             const embed = new KEmbed()
                 .setAuthor({
                     name: guild.name,
@@ -57,7 +57,7 @@ export default class Warns {
                 })
                 .setTitle("You have been warned")
                 .setDescription(
-                    `You can turn off this notification with ${mentionCommand("notifications")}`
+                    `You can turn off this notification with ${mentionCommand("bot-notifications")}`
                 )
                 .setThumbnail(guild.iconURL() ?? "")
                 .addFields({ name: "Reason", value: reason });
