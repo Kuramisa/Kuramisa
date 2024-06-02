@@ -123,47 +123,55 @@ export class KStringOption extends SlashCommandStringOption {
 export class KAttachmentOption extends SlashCommandAttachmentOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KUserOption extends SlashCommandUserOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KRoleOption extends SlashCommandRoleOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KChannelOption extends SlashCommandChannelOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KBooleanOption extends SlashCommandBooleanOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KIntegerOption extends SlashCommandIntegerOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KMentionableOption extends SlashCommandMentionableOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
 export class KNumberOption extends SlashCommandNumberOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
