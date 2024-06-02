@@ -19,7 +19,6 @@ import {
                     .setName("channel")
                     .setDescription("The channel to move the member(s) to")
                     .addChannelTypes(ChannelType.GuildVoice)
-                    .setRequired(true)
             ]
         },
         {
@@ -30,7 +29,6 @@ import {
                     .setName("channel")
                     .setDescription("The channel to move the members to")
                     .addChannelTypes(ChannelType.GuildVoice)
-                    .setRequired(true)
             ]
         }
     ]

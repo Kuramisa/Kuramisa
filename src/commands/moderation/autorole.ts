@@ -13,7 +13,6 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KRoleOption()
                     .setName("role_to_add")
                     .setDescription("The role to add as an autorole")
-                    .setRequired(true)
             ]
         },
         {
@@ -23,7 +22,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("role_to_remove")
                     .setDescription("The role to remove as an autorole")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         }

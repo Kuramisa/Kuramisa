@@ -102,7 +102,6 @@ export default class MemberActionsButtons extends AbstractKEvent {
                             new KTextInput()
                                 .setCustomId("kick-reason")
                                 .setLabel("Reason")
-                                .setRequired(true)
                         )
                     );
 
@@ -148,7 +147,6 @@ export default class MemberActionsButtons extends AbstractKEvent {
                             new KTextInput()
                                 .setCustomId("ban-reason")
                                 .setLabel("Reason")
-                                .setRequired(true)
                         ),
                         new KModalRow().setComponents(
                             new KTextInput()

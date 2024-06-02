@@ -28,12 +28,11 @@ import DBStaff from "@schemas/Staff";
             options: [
                 new KUserOption()
                     .setName("user")
-                    .setDescription("The user to add")
-                    .setRequired(true),
+                    .setDescription("The user to add"),
                 new KStringOption()
                     .setName("staff_type")
                     .setDescription("The staff type")
-                    .setRequired(true)
+
                     .setChoices(
                         {
                             name: "Lead Developer",

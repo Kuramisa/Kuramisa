@@ -21,7 +21,7 @@ import { startCase } from "lodash";
                 new KStringOption()
                     .setName("track_or_playlist_url")
                     .setDescription("The track or playlist URL")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -87,7 +87,6 @@ import { startCase } from "lodash";
                     .setDescription("The volume to set")
                     .setMinValue(0)
                     .setMaxValue(100)
-                    .setRequired(true)
             ]
         },
         // TODO: Implement seek command
@@ -112,7 +111,7 @@ import { startCase } from "lodash";
                 new KStringOption()
                     .setName("track_in_queue")
                     .setDescription("The track to remove")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -127,7 +126,6 @@ import { startCase } from "lodash";
                 new KStringOption()
                     .setName("query")
                     .setDescription("The query to search for")
-                    .setRequired(true)
             ]
         }
     ]

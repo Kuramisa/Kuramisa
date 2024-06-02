@@ -103,7 +103,7 @@ export default class ValorantAuth {
                         .setLabel("Multifactor Code")
                         .setPlaceholder("Enter the code from your email")
                         .setStyle(TextInputStyle.Short)
-                        .setRequired(true)
+                        
                 );
 
             const modal = util

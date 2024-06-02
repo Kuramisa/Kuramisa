@@ -18,7 +18,6 @@ export default class EvalCommand extends AbstractSlashCommand {
                         .setCustomId("code")
                         .setLabel("Code")
                         .setStyle(TextInputStyle.Paragraph)
-                        .setRequired(true)
                 )
             );
 

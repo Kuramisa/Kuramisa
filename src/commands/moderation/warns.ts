@@ -14,7 +14,6 @@ import { ChatInputCommandInteraction, ComponentType } from "discord.js";
                 new KUserOption()
                     .setName("member")
                     .setDescription("The member to check the warns for")
-                    .setRequired(true)
             ]
         },
         {
@@ -24,7 +23,6 @@ import { ChatInputCommandInteraction, ComponentType } from "discord.js";
                 new KUserOption()
                     .setName("member")
                     .setDescription("The member to remove the warns for")
-                    .setRequired(true)
             ]
         },
         {
@@ -34,7 +32,6 @@ import { ChatInputCommandInteraction, ComponentType } from "discord.js";
                 new KUserOption()
                     .setName("member")
                     .setDescription("The member to clear the warns for")
-                    .setRequired(true)
             ]
         }
     ]

@@ -9,8 +9,7 @@ import { ChatInputCommandInteraction } from "discord.js";
     options: [
         new KUserOption()
             .setName("person_2")
-            .setDescription("The second person you want to ship")
-            .setRequired(true),
+            .setDescription("The second person you want to ship"),
         new KUserOption()
             .setName("person_1")
             .setDescription("The first person you want to ship")

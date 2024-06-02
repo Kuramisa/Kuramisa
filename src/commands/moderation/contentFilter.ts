@@ -15,7 +15,6 @@ import { ChatInputCommandInteraction } from "discord.js";
                     .setDescription(
                         "Enable (True) or disable (False) the content filter"
                     )
-                    .setRequired(true)
             ]
         },
         {
@@ -27,7 +26,6 @@ import { ChatInputCommandInteraction } from "discord.js";
                     .setDescription(
                         "Enable (True) or disable (False) the content filter"
                     )
-                    .setRequired(true)
             ]
         }
     ]

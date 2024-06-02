@@ -7,10 +7,7 @@ import ud from "@dmzoneill/urban-dictionary";
     name: "urban",
     description: "Urban Dictionary Lookup",
     options: [
-        new KStringOption()
-            .setName("word")
-            .setDescription("The word to lookup")
-            .setRequired(true)
+        new KStringOption().setName("word").setDescription("The word to lookup")
     ]
 })
 export default class PingCommand extends AbstractSlashCommand {

@@ -29,7 +29,7 @@ import { chunk } from "lodash";
                 new KStringOption()
                     .setName("channel_to_undo")
                     .setDescription("Channel to undo")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         }

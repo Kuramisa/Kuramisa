@@ -57,7 +57,7 @@ export default class PingCommand extends AbstractSlashCommand {
                         .setCustomId("suggestion")
                         .setLabel("Suggestion")
                         .setPlaceholder("Describe the suggestion")
-                        .setRequired(true)
+
                         .setStyle(TextInputStyle.Paragraph)
                 )
             );

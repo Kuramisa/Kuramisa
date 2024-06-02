@@ -57,7 +57,7 @@ export default class PingCommand extends AbstractSlashCommand {
                         .setCustomId("bug")
                         .setLabel("Bug")
                         .setPlaceholder("Describe the bug")
-                        .setRequired(true)
+
                         .setStyle(TextInputStyle.Paragraph)
                 )
             );

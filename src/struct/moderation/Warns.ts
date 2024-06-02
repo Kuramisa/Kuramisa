@@ -111,7 +111,6 @@ export default class Warns {
                         .setMinLength(4)
                         .setMaxLength(100)
                         .setPlaceholder("Type your reason here")
-                        .setRequired(true)
                 )
             );
 }

@@ -20,14 +20,12 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                     .setName("channel_name")
                     .setDescription(
                         "The name of the channel to create for self roles"
-                    )
-                    .setRequired(true),
+                    ),
                 new KBooleanOption()
                     .setName("custom_message")
                     .setDescription(
                         "Whether to use a custom message for self roles"
                     )
-                    .setRequired(true)
             ]
         }
         // TODO: Add view command
@@ -46,14 +44,12 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                             .setDescription(
                                 "The name of the channel to add a new message in"
                             )
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KBooleanOption()
                             .setName("custom_message")
                             .setDescription(
                                 "Whether to use a custom message for self roles"
                             )
-                            .setRequired(true)
                     ]
                 },
                 {
@@ -65,13 +61,11 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                             .setDescription(
                                 "The name of the channel to remove a message from"
                             )
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KStringOption()
                             .setName("sr_message")
                             .setDescription("The message to remove")
                             .setAutocomplete(true)
-                            .setRequired(true)
                     ]
                 },
                 {
@@ -83,19 +77,16 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                             .setDescription(
                                 "The name of the channel to edit a message in"
                             )
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KStringOption()
                             .setName("sr_message")
                             .setDescription("The message to edit")
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KBooleanOption()
                             .setName("custom_message")
                             .setDescription(
                                 "Whether to use a custom message for self roles"
                             )
-                            .setRequired(true)
                     ]
                 }
             ]
@@ -114,21 +105,17 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                             .setDescription(
                                 "The name of the channel to add a new button in"
                             )
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KStringOption()
                             .setName("sr_message")
                             .setDescription("The message to add the button to")
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KRoleOption()
                             .setName("button_role")
-                            .setDescription("The role the button will give")
-                            .setRequired(true),
+                            .setDescription("The role the button will give"),
                         new KStringOption()
                             .setName("button_name")
-                            .setDescription("The name of the button")
-                            .setRequired(true),
+                            .setDescription("The name of the button"),
                         new KNumberOption()
                             .setName("button_style")
                             .setDescription("The style of the button")
@@ -149,8 +136,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                                     name: "Red",
                                     value: ButtonStyle.Danger
                                 }
-                            )
-                            .setRequired(true),
+                            ),
                         new KStringOption()
                             .setName("button_emoji")
                             .setDescription("The emoji of the button")
@@ -166,15 +152,13 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                             .setDescription(
                                 "The name of the channel to remove a button from"
                             )
-                            .setAutocomplete(true)
-                            .setRequired(true),
+                            .setAutocomplete(true),
                         new KStringOption()
                             .setName("sr_message")
                             .setDescription(
                                 "The message to remove the button from"
                             )
                             .setAutocomplete(true)
-                            .setRequired(true)
 
                         // TODO: Add autocomplete for buttons
                         /*new KStringOption()

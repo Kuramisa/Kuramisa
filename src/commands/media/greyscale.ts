@@ -9,7 +9,6 @@ import { ChatInputCommandInteraction } from "discord.js";
         new KAttachmentOption()
             .setName("image")
             .setDescription("The image to greyscale")
-            .setRequired(true)
     ]
 })
 export default class PingCommand extends AbstractSlashCommand {

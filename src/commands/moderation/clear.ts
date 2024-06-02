@@ -11,8 +11,7 @@ import { ChatInputCommandInteraction, GuildMember } from "discord.js";
             .setName("amount")
             .setDescription("The amount of messages to clear")
             .setMinValue(1)
-            .setMaxValue(100)
-            .setRequired(true),
+            .setMaxValue(100),
         new KUserOption()
             .setName("user")
             .setDescription("The user to clear messages from")

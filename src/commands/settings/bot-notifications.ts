@@ -10,7 +10,7 @@ import { startCase } from "lodash";
         new KStringOption()
             .setName("bot-notification")
             .setDescription("The notification to toggle")
-            .setRequired(true)
+
             .setChoices(
                 {
                     name: "Announcements",

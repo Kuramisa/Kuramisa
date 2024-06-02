@@ -13,7 +13,6 @@ const { ELEVENLABS_API, MY_VOICE_ID } = process.env;
         new KStringOption()
             .setName("text")
             .setDescription("The text to convert to speech")
-            .setRequired(true)
     ]
 })
 export default class TTSCommand extends AbstractSlashCommand {

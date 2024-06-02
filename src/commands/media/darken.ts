@@ -8,12 +8,10 @@ import { ChatInputCommandInteraction } from "discord.js";
     options: [
         new KAttachmentOption()
             .setName("image")
-            .setDescription("The user to darken the picture of")
-            .setRequired(true),
+            .setDescription("The user to darken the picture of"),
         new KNumberOption()
             .setName("intensity")
             .setDescription("The intensity of the darkening effect")
-            .setRequired(true)
     ]
 })
 export default class PingCommand extends AbstractSlashCommand {

@@ -8,8 +8,7 @@ import { ChatInputCommandInteraction } from "discord.js";
     options: [
         new KUserOption()
             .setName("member")
-            .setDescription("The member to warn")
-            .setRequired(true),
+            .setDescription("The member to warn"),
         new KStringOption()
             .setName("reason")
             .setDescription("The reason for the warning")

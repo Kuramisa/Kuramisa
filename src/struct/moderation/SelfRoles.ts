@@ -79,7 +79,6 @@ export default class SelfRoles {
                         .setCustomId("custom_message")
                         .setLabel("Custom Message")
                         .setStyle(TextInputStyle.Paragraph)
-                        .setRequired(true)
                 )
             );
 
@@ -168,7 +167,6 @@ export default class SelfRoles {
                         .setCustomId("custom_message")
                         .setLabel("Custom Message")
                         .setStyle(TextInputStyle.Paragraph)
-                        .setRequired(true)
                 )
             );
 
@@ -275,7 +273,7 @@ export default class SelfRoles {
                         .setCustomId("new_custom_message")
                         .setLabel("New Custom Message")
                         .setStyle(TextInputStyle.Paragraph)
-                        .setRequired(true)
+
                         .setValue(message.content)
                 )
             );

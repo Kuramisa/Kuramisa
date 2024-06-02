@@ -28,7 +28,6 @@ export default class AnnounceCommand extends AbstractSlashCommand {
                         .setCustomId("announcement")
                         .setLabel("Announcement")
                         .setStyle(TextInputStyle.Paragraph)
-                        .setRequired(true)
                 )
             );
 

@@ -13,7 +13,6 @@ import {
         new SlashCommandStringOption()
             .setName("question")
             .setDescription("The question you want to ask the 8ball")
-            .setRequired(true)
     ]
 })
 export default class EightBallCommand extends AbstractSlashCommand {

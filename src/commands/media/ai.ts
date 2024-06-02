@@ -15,7 +15,6 @@ import { chunk } from "lodash";
                 new KStringOption()
                     .setName("message")
                     .setDescription("Message to send to the AI")
-                    .setRequired(true)
             ]
         },
         {
@@ -25,7 +24,6 @@ import { chunk } from "lodash";
                 new KStringOption()
                     .setName("prompt")
                     .setDescription("Prompt for the AI")
-                    .setRequired(true)
             ]
         }
     ]

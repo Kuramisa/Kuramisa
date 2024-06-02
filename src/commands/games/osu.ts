@@ -11,7 +11,6 @@ import { flag } from "country-emoji";
         new KStringOption()
             .setName("osu_player")
             .setDescription("The osu! player you want to get information about")
-            .setRequired(true)
     ]
 })
 export default class Command extends AbstractSlashCommand {

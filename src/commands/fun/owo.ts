@@ -12,10 +12,7 @@ const converOpts = {
     name: "owo",
     description: "OwOify a text",
     options: [
-        new KStringOption()
-            .setName("text")
-            .setDescription("The text to OwOify")
-            .setRequired(true)
+        new KStringOption().setName("text").setDescription("The text to OwOify")
     ]
 })
 export default class PingCommand extends AbstractSlashCommand {

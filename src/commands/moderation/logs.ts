@@ -24,7 +24,7 @@ import { camelCase, startCase } from "lodash";
                 new KChannelOption()
                     .setName("text_channel")
                     .setDescription("The channel to set as the logging channel")
-                    .setRequired(true)
+
                     .addChannelTypes(ChannelType.GuildText)
             ]
         },

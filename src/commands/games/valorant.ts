@@ -12,12 +12,10 @@ import { ChatInputCommandInteraction } from "discord.js";
             options: [
                 new KStringOption()
                     .setName("val_username")
-                    .setDescription("Your VALORANT Username")
-                    .setRequired(true),
+                    .setDescription("Your VALORANT Username"),
                 new KStringOption()
                     .setName("val_password")
                     .setDescription("Your VALORANT Password")
-                    .setRequired(true)
             ]
         },
         {
@@ -38,7 +36,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("valorant_agent_name")
                     .setDescription("Valorant agent name")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -49,7 +47,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("valorant_weapon_name")
                     .setDescription("Valorant weapon name")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -60,7 +58,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("valorant_skin_name")
                     .setDescription("Valorant skin name")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -71,7 +69,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("valorant_weapon_name")
                     .setDescription("Valorant weapon name")
-                    .setRequired(true)
+
                     .setAutocomplete(true)
             ]
         },
@@ -82,12 +80,12 @@ import { ChatInputCommandInteraction } from "discord.js";
                 new KStringOption()
                     .setName("valorant_privacy_setting")
                     .setDescription("Valorant privacy setting")
-                    .setRequired(true)
+
                     .setAutocomplete(true),
                 new KStringOption()
                     .setName("valorant_privacy_value")
                     .setDescription("Valorant privacy value")
-                    .setRequired(true)
+
                     .setChoices(
                         { name: "Public", value: "public" },
                         { name: "Private", value: "private" }
@@ -144,7 +142,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_skin_name_wishlist")
                             .setDescription("Valorant skin name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -155,7 +153,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_buddy_name_wishlist")
                             .setDescription("Valorant buddy name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -166,7 +164,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_card_name_wishlist")
                             .setDescription("Valorant card name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -177,7 +175,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_spray_name_wishlist")
                             .setDescription("Valorant spray name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -188,7 +186,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_title_name_wishlist")
                             .setDescription("Valorant title name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 }
@@ -205,7 +203,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_skin_name_wishlist")
                             .setDescription("Valorant skin name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -216,7 +214,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_buddy_name_wishlist")
                             .setDescription("Valorant buddy name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -227,7 +225,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_card_name_wishlist")
                             .setDescription("Valorant card name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -238,7 +236,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_spray_name_wishlist")
                             .setDescription("Valorant spray name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 },
@@ -249,7 +247,7 @@ import { ChatInputCommandInteraction } from "discord.js";
                         new KStringOption()
                             .setName("valorant_title_name_wishlist")
                             .setDescription("Valorant title name")
-                            .setRequired(true)
+
                             .setAutocomplete(true)
                     ]
                 }
