@@ -17,6 +17,9 @@ importers:
       '@dmzoneill/urban-dictionary':
         specifier: ^3.0.3
         version: 3.0.3
+      '@extractus/feed-extractor':
+        specifier: ^7.1.3
+        version: 7.1.3(encoding@0.1.13)
       '@graphql-tools/schema':
         specifier: ^10.0.4
         version: 10.0.4(graphql@16.8.1)
@@ -543,6 +546,10 @@ packages:
   '@eslint/js@8.57.0':
     resolution: {integrity: sha512-Ys+3g2TaW7gADOJzPt83SJtCDhMjndcDMFVQ/Tj9iA1BfJzFKD9mAUXT3OenpuPHbI6P/myECxRJrofUsDx/5g==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
+
+  '@extractus/feed-extractor@7.1.3':
+    resolution: {integrity: sha512-USRVpGw4fWlnz8O8gB95UDJJaU5wg2EFESDe9nut0mHFJ8bOxDKGoo3g6EaKU24YzaPUBweKENdEJfuTUgr/uA==}
+    engines: {node: '>= 18'}
 
   '@graphql-tools/merge@8.4.2':
     resolution: {integrity: sha512-XbrHAaj8yDuINph+sAfuq3QCZ/tKblrTLOpirK0+CAgNlZUCHs0Fa+xtMUURgwCVThLle1AF7svJCxFizygLsw==}
@@ -1367,6 +1374,10 @@ packages:
   bcrypt-pbkdf@1.0.2:
     resolution: {integrity: sha512-qeFIXtP4MSoi6NLqO12WfqARWWuCKi2Rn/9hJLEmtB5yTNr9DqFWkJRCf2qShWzPeAMRnOgCrq0sg/KLv5ES9w==}
 
+  bellajs@11.2.0:
+    resolution: {integrity: sha512-Wjss+Bc674ZABPr+SCKWTqA4V1pyYFhzDTjNBJy4jdmgOv0oGIGXeKBRJyINwP5tIy+iIZD9SfgZpztduzQ5QA==}
+    engines: {node: '>= 18.4'}
+
   binary-extensions@2.3.0:
     resolution: {integrity: sha512-Ceh+7ox5qe7LJuLHoY0feh3pHuUDHAcRUeyL2VYghZwfpkNIy/+8Ocg0a3UuSoYzavmylwuLWQOf3hl0jjMMIw==}
     engines: {node: '>=8'}
@@ -1518,6 +1529,9 @@ packages:
 
   cron@3.1.7:
     resolution: {integrity: sha512-tlBg7ARsAMQLzgwqVxy8AZl/qlTc5nibqYwtNGoCrd+cV+ugI+tvZC1oT/8dFH8W455YrywGykx/KMmAqOr7Jw==}
+
+  cross-fetch@4.0.0:
+    resolution: {integrity: sha512-e4a5N8lVvuLgAWgnCrLr2PP0YyDOTHa9H/Rj54dirp61qXnNq46m82bRhNqIA5VccJtWBvPTFRV3TtvHUKPB1g==}
 
   cross-inspect@1.0.0:
     resolution: {integrity: sha512-4PFfn4b5ZN6FMNGSZlyb7wUhuN8wvj8t/VQHZdM4JsDcruGJ8L2kf9zao98QIrBPFCpdk27qst/AGTl7pL3ypQ==}
@@ -2082,6 +2096,9 @@ packages:
 
   himalaya@1.1.0:
     resolution: {integrity: sha512-LLase1dHCRMel68/HZTFft0N0wti0epHr3nNY7ynpLbyZpmrKMQ8YIpiOV77TM97cNpC8Wb2n6f66IRggwdWPw==}
+
+  html-entities@2.5.2:
+    resolution: {integrity: sha512-K//PSRMQk4FZ78Kyau+mZurHn3FH0Vwr+H36eE0rPbeYkRRi9YxceYPhuN60UwWorxyKHhqoAJl2OFKa4BVtaA==}
 
   htmlparser2@8.0.2:
     resolution: {integrity: sha512-GYdjWKDkbRLkZ5geuHs5NY1puJ+PXwP7+fHPRz06Eirsb9ugf6d8kkXav6ADhcODhFFPMIXyxkxSuMf3D6NCFA==}
@@ -3788,6 +3805,15 @@ snapshots:
 
   '@eslint/js@8.57.0': {}
 
+  '@extractus/feed-extractor@7.1.3(encoding@0.1.13)':
+    dependencies:
+      bellajs: 11.2.0
+      cross-fetch: 4.0.0(encoding@0.1.13)
+      fast-xml-parser: 4.4.0
+      html-entities: 2.5.2
+    transitivePeerDependencies:
+      - encoding
+
   '@graphql-tools/merge@8.4.2(graphql@16.8.1)':
     dependencies:
       '@graphql-tools/utils': 9.2.1(graphql@16.8.1)
@@ -4638,6 +4664,8 @@ snapshots:
     dependencies:
       tweetnacl: 0.14.5
 
+  bellajs@11.2.0: {}
+
   binary-extensions@2.3.0: {}
 
   bmp-js@0.1.0: {}
@@ -4818,6 +4846,12 @@ snapshots:
     dependencies:
       '@types/luxon': 3.4.2
       luxon: 3.4.4
+
+  cross-fetch@4.0.0(encoding@0.1.13):
+    dependencies:
+      node-fetch: 2.7.0(encoding@0.1.13)
+    transitivePeerDependencies:
+      - encoding
 
   cross-inspect@1.0.0:
     dependencies:
@@ -5504,6 +5538,8 @@ snapshots:
   hex-rgba@1.0.2: {}
 
   himalaya@1.1.0: {}
+
+  html-entities@2.5.2: {}
 
   htmlparser2@8.0.2:
     dependencies:
