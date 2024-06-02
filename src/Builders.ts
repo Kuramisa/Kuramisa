@@ -24,7 +24,9 @@ import {
     SlashCommandUserOption,
     SlashCommandAttachmentOption,
     TextInputStyle,
-    ButtonStyle
+    ButtonStyle,
+    GuildMember,
+    User
 } from "discord.js";
 import { Stream } from "winston-daily-rotate-file";
 
@@ -47,10 +49,17 @@ export class KAttachment extends AttachmentBuilder {
 }
 
 export class KEmbed extends EmbedBuilder {
-    constructor() {
+    constructor(user?: GuildMember | User) {
         super();
         this.setColor("#f99753");
         this.setTimestamp();
+
+        if (user) {
+            this.setAuthor({
+                name: user.displayName,
+                iconURL: user.displayAvatarURL()
+            });
+        }
     }
 }
 
@@ -107,6 +116,7 @@ export class KTextInput extends TextInputBuilder {
 export class KStringOption extends SlashCommandStringOption {
     constructor() {
         super();
+        this.setRequired(true);
     }
 }
 
