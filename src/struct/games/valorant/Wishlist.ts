@@ -406,9 +406,6 @@ export default class ValorantWishlist {
                 currentEmbeds = embeds.slice(currentPage, currentPage + 4);
                 currentMenu = wishlistMenu[currentPage];
 
-                //console.log(wishlistMenu);
-                //console.log(currentMenu.components[0]);
-
                 await i.update({
                     embeds: [mainEmbed, ...currentEmbeds],
                     components:
