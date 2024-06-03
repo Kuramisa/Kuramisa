@@ -227,7 +227,7 @@ export default class Kuramisa extends Client {
 
             staffs.push(merge(user, staffDb._doc));
 
-            logger.info(
+            logger.debug(
                 `[Staff System] Initialized ${
                     user.username
                 } as ${staffName(staffDb.type)}`
