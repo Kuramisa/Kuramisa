@@ -15,6 +15,8 @@ import {
     TextInputStyle
 } from "discord.js";
 
+// TODO: Refactor SelfRoles code
+
 export default class SelfRoles {
     private setupMessage =
         "You need to setup at least one channel for self roles first!";
