@@ -145,7 +145,7 @@ export default {
         ) => {
             const user = await auth.checkToken(req);
 
-            const { database } = kuramisa;
+            const { database, logger } = kuramisa;
 
             const guild = await kuramisa.guilds.fetch(guildId);
             if (!guild) throw new GraphQLError(server404);
@@ -183,7 +183,12 @@ export default {
             if (dbGuild.logs.types.memberWarned) {
                 const channel = guild.channels.cache.get(dbGuild.logs.channel);
                 if (!channel) return;
+                logger.error(
+                    "Caught the error with text based channel (warn user gql)"
+                );
+                logger.error(`Channel: ${channel}`);
                 if (!channel.isTextBased()) return;
+
                 if (
                     !guild.members.me
                         ?.permissionsIn(channel)

@@ -169,6 +169,10 @@ export const logsChannel = async (_guild: Guild) => {
     if (!channel) channel = await guild.channels.fetch(guild.logs.channel);
 
     if (!channel) return false;
+    logger.error(
+        "Caught the error with text based channel function (logs channel util)"
+    );
+    logger.error(`Channel: ${channel}`);
     if (!channel.isTextBased()) return false;
     if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
         return false;
