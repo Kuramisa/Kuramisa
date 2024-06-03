@@ -3,6 +3,7 @@ import "winston-daily-rotate-file";
 import "moment-timezone";
 import { capitalize } from "lodash";
 import moment from "moment";
+import { DiscordTransport } from "winston-transport-discord";
 
 const { combine, timestamp, printf } = format;
 
@@ -15,6 +16,10 @@ const myFormat = printf(
 );
 
 const { NODE_ENV } = process.env;
+
+const discordTransport = new DiscordTransport({
+    level: "error"
+});
 
 const rotateOpts = {
     datePattern: "YYYY-MM-DD-HH",
@@ -37,14 +42,16 @@ const logger = createLogger({
         new transports.DailyRotateFile({
             filename: "logs/rejections-%DATE%.log",
             ...rotateOpts
-        })
+        }),
+        discordTransport
     ],
     exceptionHandlers: [
         new transports.Console(),
         new transports.DailyRotateFile({
             filename: "logs/exceptions-%DATE%.log",
             ...rotateOpts
-        })
+        }),
+        discordTransport
     ],
     transports: [
         new transports.DailyRotateFile({
@@ -63,7 +70,8 @@ const logger = createLogger({
         }),
         new transports.Console({
             format: format.colorize({ all: true })
-        })
+        }),
+        discordTransport
     ]
 });
 
