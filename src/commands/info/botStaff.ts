@@ -17,8 +17,6 @@ export default class PingCommand extends AbstractSlashCommand {
                 ephemeral: true
             });
 
-        // console.log(staffs);
-
         const embeds = staffs.map((staff) =>
             new KEmbed()
                 .setAuthor({
