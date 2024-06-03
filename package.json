@@ -68,6 +68,7 @@
         "valorant.ts": "^4.0.0",
         "winston": "^3.13.0",
         "winston-daily-rotate-file": "^5.0.0",
+        "winston-transport-discord": "^1.0.3",
         "yt-stream": "^1.4.14"
     },
     "devDependencies": {
