@@ -405,7 +405,7 @@ export default class SelfRoles {
                 content: `Added button ${buttonName} to ${msg}`
             });
         } catch (err: any) {
-            logger.error(err);
+            logger.error(err.message, err);
 
             if (err.message.includes("duplicated"))
                 return interaction.editReply({

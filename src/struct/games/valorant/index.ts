@@ -268,8 +268,8 @@ export default class Valorant {
             this.version = await Version.fetch();
 
             logger.debug("[Valorant] Version fetched");
-        } catch (err) {
-            logger.error(err);
+        } catch (err: any) {
+            logger.error(err.message, err);
         }
 
         this.initialized = true;
@@ -356,7 +356,7 @@ export default class Valorant {
                 .refresh()
                 .then(() => true)
                 .catch((err) => {
-                    logger.error(err);
+                    logger.error(err.message, err);
                     logger.error(
                         `[Valorant] Failed to refresh the account for Player ${account.username}. Removing the account from the database`
                     );
@@ -375,7 +375,7 @@ export default class Valorant {
 
             const playerInfo = (
                 await web.getUserInfo().catch((err) => {
-                    logger.error(err);
+                    logger.error(err.message, err);
                     logger.error(
                         `[Valorant] Failed to get Valorant Player Info for ${account.username}. Removing the account from the database`
                     );

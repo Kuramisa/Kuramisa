@@ -149,7 +149,7 @@ export default class ValorantUtil {
                     .format("mp4")
                     .size("1280x720")
                     .on("error", (err, stdout, stderr) => {
-                        logger.error(err);
+                        logger.error(err.message, err);
                         logger.error(stdout);
                         logger.error(stderr);
                     })
@@ -213,7 +213,7 @@ export default class ValorantUtil {
             });
         } catch (err: any) {
             if (err.code !== 40005) {
-                logger.error(err);
+                logger.error(err.message, err);
                 return;
             }
 
@@ -271,7 +271,7 @@ export default class ValorantUtil {
                     .format("mp4")
                     .size("1280x720")
                     .on("error", (err, stdout, stderr) => {
-                        logger.error(err);
+                        logger.error(err.message, err);
                         logger.error(stdout);
                         logger.error(stderr);
                     })
@@ -326,7 +326,7 @@ export default class ValorantUtil {
             });
         } catch (err: any) {
             if (err.code !== 40005) {
-                logger.error(err);
+                logger.error(err.message, err);
                 return;
             }
 

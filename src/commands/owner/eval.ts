@@ -35,8 +35,8 @@ export default class EvalCommand extends AbstractSlashCommand {
                 content: `\`\`\`js\n${clean}\n\`\`\``,
                 ephemeral: true
             });
-        } catch (err) {
-            this.logger.error(err);
+        } catch (err: any) {
+            this.logger.error(err.message, err);
             return mInteraction.reply({
                 content: `\`\`\`xl\n${err}\n\`\`\``,
                 ephemeral: true

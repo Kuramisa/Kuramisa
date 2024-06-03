@@ -232,8 +232,8 @@ export default class KanvasImages {
                     canvas.width / 2 - 10,
                     canvas.height - 25
                 );
-            } catch (err) {
-                logger.error(err);
+            } catch (err: any) {
+                logger.error(err.message, err);
                 ctx.fillRect(10, 10, canvas.width / 2 - 10, canvas.height - 25);
             }
         } else ctx.fillRect(10, 10, canvas.width / 2 - 10, canvas.height - 25);
@@ -254,8 +254,8 @@ export default class KanvasImages {
                     canvas.width - 10,
                     canvas.height - 25
                 );
-            } catch (err) {
-                logger.error(err);
+            } catch (err: any) {
+                logger.error(err.message, err);
                 ctx.fillRect(10, 10, canvas.width / 2 - 10, canvas.height - 25);
             }
         } else

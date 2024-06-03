@@ -74,8 +74,8 @@ export default class ReadyEvent extends AbstractKEvent {
                 `[Bot] Started in ${ms(Date.now() - client.startTime)}`
             );
             logger.info(`[Bot] Ready! Logged in as ${client.user?.tag}`);
-        } catch (err) {
-            logger.error(err);
+        } catch (err: any) {
+            logger.error(err.message, err);
         }
     }
 }
