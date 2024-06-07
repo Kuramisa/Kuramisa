@@ -164,15 +164,12 @@ export const weighStaffType = (staff: StaffType) => {
 export const logsChannel = async (_guild: Guild) => {
     const { managers } = kuramisa;
     const guild = await managers.guilds.fetch(_guild.id);
+    if (!guild.logs.channel) return false;
     let channel: GuildBasedChannel | null | undefined =
         guild.channels.cache.get(guild.logs.channel);
     if (!channel) channel = await guild.channels.fetch(guild.logs.channel);
 
     if (!channel) return false;
-    logger.error(
-        "Caught the error with text based channel function (logs channel util)"
-    );
-    logger.error(`Channel: ${channel}`);
     if (!channel.isTextBased()) return false;
     if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
         return false;
