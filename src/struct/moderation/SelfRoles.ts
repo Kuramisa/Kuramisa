@@ -115,7 +115,7 @@ export default class SelfRoles {
     }
 
     async addMessage(interaction: ChatInputCommandInteraction) {
-        const { database, logger } = kuramisa;
+        const { database } = kuramisa;
 
         const { options, guild } = interaction;
         if (!guild) return;
@@ -131,10 +131,6 @@ export default class SelfRoles {
         const channelId = options.getString("sr_channel_name", true);
         const channel = await guild.channels.fetch(channelId);
         if (!channel) return;
-        logger.error(
-            "Caught the error with text based channel function (add message)"
-        );
-        logger.error(`Channel: ${channel}`);
         if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
@@ -203,7 +199,7 @@ export default class SelfRoles {
     }
 
     async removeMessage(interaction: ChatInputCommandInteraction) {
-        const { database, logger } = kuramisa;
+        const { database } = kuramisa;
 
         const { options, guild } = interaction;
         if (!guild) return;
@@ -221,10 +217,6 @@ export default class SelfRoles {
 
         const channel = await guild.channels.fetch(channelId);
         if (!channel) return;
-        logger.error(
-            "Caught the error with text based channel function (remove message)"
-        );
-        logger.error(`Channel: ${channel}`);
         if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
@@ -251,7 +243,7 @@ export default class SelfRoles {
     }
 
     async editMessage(interaction: ChatInputCommandInteraction) {
-        const { database, logger } = kuramisa;
+        const { database } = kuramisa;
 
         const { options, guild } = interaction;
         if (!guild) return;
@@ -269,10 +261,6 @@ export default class SelfRoles {
 
         const channel = await guild.channels.fetch(channelId);
         if (!channel) return;
-        logger.error(
-            "Caught the error with text based channel function (edit message)"
-        );
-        logger.error(`Channel: ${channel}`);
         if (!channel.isTextBased()) return;
 
         const message = await channel.messages.fetch(messageId);
@@ -329,10 +317,6 @@ export default class SelfRoles {
 
         const channel = await guild.channels.fetch(channelId);
         if (!channel) return;
-        logger.error(
-            "Caught the error with text based channel function (add button)"
-        );
-        logger.error(`Channel: ${channel}`);
         if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(
@@ -437,7 +421,7 @@ export default class SelfRoles {
     }
 
     async removeButton(interaction: ChatInputCommandInteraction) {
-        const { database, logger } = kuramisa;
+        const { database } = kuramisa;
 
         const { options, guild } = interaction;
         if (!guild) return;
@@ -453,10 +437,6 @@ export default class SelfRoles {
 
         const channel = await guild.channels.fetch(channelId);
         if (!channel) return;
-        logger.error(
-            "Caught the error with text based channel function (remove button)"
-        );
-        logger.error(`Channel: ${channel}`);
         if (!channel.isTextBased()) return;
 
         const dbChannel = db.selfRoles.find(

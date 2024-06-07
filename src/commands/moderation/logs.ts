@@ -169,6 +169,11 @@ export default class PingCommand extends AbstractSlashCommand {
         const { guild } = interaction;
 
         const db = await database.guilds.fetch(guild.id);
+        if (!db.logs.channel)
+            return interaction.reply({
+                content: "Logs channel is not set!",
+                ephemeral: true
+            });
 
         const channel = guild.channels.cache.get(db.logs.channel);
 

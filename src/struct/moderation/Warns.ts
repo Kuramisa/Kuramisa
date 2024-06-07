@@ -12,7 +12,7 @@ export default class Warns {
         by: GuildMember,
         reason: string
     ) {
-        const { database, logger } = kuramisa;
+        const { database } = kuramisa;
 
         const dbUser = await database.users.fetch(member.user.id);
         const dbGuild = await database.guilds.fetch(guild.id);
@@ -31,12 +31,9 @@ export default class Warns {
         await dbUser.save();
 
         if (dbGuild.logs.types.memberWarned) {
+            if (!dbGuild.logs.channel) return;
             const channel = guild.channels.cache.get(dbGuild.logs.channel);
             if (!channel) return;
-            logger.error(
-                "Caught the error with text based channel function (logs Warns)"
-            );
-            logger.error(`Channel: ${channel}`);
             if (!channel.isTextBased()) return;
             if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
                 return;

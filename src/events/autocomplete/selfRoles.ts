@@ -12,7 +12,7 @@ export default class SelfRolesAutocomplete extends AbstractKEvent {
         if (interaction.commandName !== "self-roles") return;
         if (!interaction.guildId) return;
 
-        const { managers, logger } = this.client;
+        const { managers } = this.client;
         const { options } = interaction;
 
         const guild = await managers.guilds.get(interaction.guildId);
@@ -54,10 +54,6 @@ export default class SelfRolesAutocomplete extends AbstractKEvent {
                     (ch) => ch.id === channelId
                 );
                 if (!channel) return;
-                logger.error(
-                    "Caught the error with text based channel (sr_message)"
-                );
-                logger.error(`Channel: ${channel}`);
                 if (!channel.isTextBased()) return;
 
                 const dbChannel = guild.selfRoles.find(
