@@ -11,8 +11,18 @@ export interface IGuild extends IMongoResult<IGuild> {
         parentId: string;
         id: string;
     }[];
+    votePolls: {
+        memberId: string;
+        channelId: string;
+        messageId: string;
+        createdBy: string;
+        duration: number;
+        pollDuration: number;
+        reason: string;
+        voteType: VoteType;
+    }[];
     logs: {
-        channel: string;
+        channel?: string;
         types: {
             memberWarned: boolean;
             memberJoin: boolean;
@@ -66,6 +76,18 @@ export const guild = new Schema<IGuild>({
         type: Boolean,
         default: false
     },
+    votePolls: [
+        {
+            memberId: String,
+            channelId: String,
+            messageId: String,
+            createdBy: String,
+            duration: Number,
+            pollDuration: Number,
+            reason: String,
+            voteType: String
+        }
+    ],
     logs: {
         channel: String,
         types: {

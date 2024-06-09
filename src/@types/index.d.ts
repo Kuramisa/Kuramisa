@@ -27,6 +27,19 @@ declare global {
     type KGuild = Guild & IGuild;
     type KUser = User & IUser;
 
+    type RSSType =
+        | "socialMedia"
+        | "applicationUpdates"
+        | "gaming"
+        | "reading"
+        | "finance"
+        | "shopping"
+        | "forecastAndAlerts"
+        | "multimedia"
+        | "live";
+
+    type VoteType = "kick" | "ban" | "timeout";
+
     type BotStaff = KUser & IStaff;
 
     type MenuType = "string" | "role" | "mentionable" | "user" | "channel";

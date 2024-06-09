@@ -1,13 +1,7 @@
 import kuramisa from "@kuramisa";
 import logger from "struct/Logger";
 
-import {
-    CDN,
-    Guild,
-    GuildBasedChannel,
-    InteractionResponse,
-    Message
-} from "discord.js";
+import { CDN, Guild, InteractionResponse, Message } from "discord.js";
 
 import axios from "axios";
 import dayjs from "dayjs";
@@ -165,9 +159,9 @@ export const logsChannel = async (_guild: Guild) => {
     const { managers } = kuramisa;
     const guild = await managers.guilds.fetch(_guild.id);
     if (!guild.logs.channel) return false;
-    let channel: GuildBasedChannel | null | undefined =
-        guild.channels.cache.get(guild.logs.channel);
-    if (!channel) channel = await guild.channels.fetch(guild.logs.channel);
+    let channel = guild.channels.cache.get(guild.logs.channel);
+    if (!channel)
+        channel = (await guild.channels.fetch(guild.logs.channel)) ?? undefined;
 
     if (!channel) return false;
     if (!channel.isTextBased()) return false;
