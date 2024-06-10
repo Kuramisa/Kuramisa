@@ -110,8 +110,8 @@ export default class Auth {
         try {
             const jwtData = jwt.verify(crypt.decrypt(token), this.secrets.jwt);
             return await this.getUser(jwtData);
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             throw new GraphQLError(
                 "Session timed out, please refresh the page and login again"
             );
@@ -130,8 +130,8 @@ export default class Auth {
         try {
             const jwtData = jwt.verify(crypt.decrypt(token), this.secrets.jwt);
             return await this.getUser(jwtData);
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             return null;
         }
     }
@@ -169,8 +169,8 @@ export default class Auth {
                     this.secrets.jwt
                 )
             );
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             throw new GraphQLError("Authentication failed, please try again");
         }
     }
@@ -217,8 +217,8 @@ export default class Auth {
             }
 
             return info;
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             throw new GraphQLError("Authentication failed, please try again");
         }
     }

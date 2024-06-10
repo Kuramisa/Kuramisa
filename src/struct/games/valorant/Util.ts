@@ -211,9 +211,9 @@ export default class ValorantUtil {
                 ),
                 files: []
             });
-        } catch (err: any) {
-            if (err.code !== 40005) {
-                logger.error(err.message, err);
+        } catch (error: any) {
+            if (error.code !== 40005) {
+                logger.error(error.message, { error });
                 return;
             }
 
@@ -324,9 +324,9 @@ export default class ValorantUtil {
                 components: this.determineComponents(skin, withNavigation),
                 files: []
             });
-        } catch (err: any) {
-            if (err.code !== 40005) {
-                logger.error(err.message, err);
+        } catch (error: any) {
+            if (error.code !== 40005) {
+                logger.error(error.message, { error });
                 return;
             }
 

@@ -3,7 +3,7 @@ import "winston-daily-rotate-file";
 import "moment-timezone";
 import { capitalize } from "lodash";
 import moment from "moment";
-import { DiscordTransport } from "winston-transport-discord";
+import DiscordTransport from "winston-discord-transport";
 
 const { combine, timestamp, printf } = format;
 
@@ -18,6 +18,8 @@ const myFormat = printf(
 const { NODE_ENV } = process.env;
 
 const discordTransport = new DiscordTransport({
+    webhook: process.env.LOGGING_WEBHOOK ?? "",
+    defaultMeta: {},
     level: "error"
 });
 

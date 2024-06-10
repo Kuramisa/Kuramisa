@@ -35,10 +35,10 @@ export default class EvalCommand extends AbstractSlashCommand {
                 content: `\`\`\`js\n${clean}\n\`\`\``,
                 ephemeral: true
             });
-        } catch (err: any) {
-            this.logger.error(err.message, err);
+        } catch (error: any) {
+            this.logger.error(error.message, { error });
             return mInteraction.reply({
-                content: `\`\`\`xl\n${err}\n\`\`\``,
+                content: `\`\`\`xl\n${error}\n\`\`\``,
                 ephemeral: true
             });
         }

@@ -82,10 +82,10 @@ export default class PingCommand extends AbstractSlashCommand {
             });
         } catch (error: any) {
             if (error.response) {
-                logger.error(`Prompt: ${prompt}`, error.response);
+                logger.error(`Prompt: ${prompt}`, { error });
                 await interaction.editReply(error.response.data.error.message);
             } else {
-                logger.error(`Prompt: ${prompt}`, error.message);
+                logger.error(`Prompt: ${prompt}`, { error });
                 await interaction.editReply(error.message);
             }
         }

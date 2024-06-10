@@ -68,9 +68,9 @@ export default class ValorantAuth {
 
         try {
             await web.login(username, password);
-        } catch (err: any) {
-            if (err instanceof Error) {
-                logger.error(err.message, err);
+        } catch (error: any) {
+            if (error instanceof Error) {
+                logger.error(error.message, { error });
                 return currentInteraction.reply({
                     content: "**😲 Your username or password is incorrect!**",
                     ephemeral: true
@@ -123,9 +123,9 @@ export default class ValorantAuth {
 
             try {
                 await web.verify(parseInt(code));
-            } catch (err: any) {
-                if (err instanceof ValError) {
-                    logger.error(err.message, err);
+            } catch (error: any) {
+                if (error instanceof ValError) {
+                    logger.error(error.message, {error});
                     return currentInteraction.reply({
                         content: "**😲 Incorrect MFA Code**",
                         ephemeral: true,
@@ -156,9 +156,9 @@ export default class ValorantAuth {
                 content: `**😊 You have successfully logged in as \`${playerInfo.acct.game_name}#${playerInfo.acct.tag_line} (${username})\`**`,
                 ephemeral: true
             });
-        } catch (err: any) {
-            if (err instanceof ValError) {
-                logger.error(err.message, err);
+        } catch (error: any) {
+            if (error instanceof ValError) {
+                logger.error(error.message, { error });
                 return currentInteraction.reply({
                     content: "**😲 Incorrect MFA Code provided**",
                     ephemeral: true

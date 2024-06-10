@@ -406,10 +406,10 @@ export default class SelfRoles {
             return interaction.editReply({
                 content: `Added button ${buttonName} to ${msg}`
             });
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
 
-            if (err.message.includes("duplicated"))
+            if (error.message.includes("duplicated"))
                 return interaction.editReply({
                     content: "This button already exists!"
                 });

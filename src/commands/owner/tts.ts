@@ -42,10 +42,11 @@ export default class TTSCommand extends AbstractSlashCommand {
             interaction.editReply({
                 files: [attachment]
             });
-        } catch (err: any) {
+        } catch (error: any) {
             interaction.editReply({
-                content: `An error occurred while converting the text to speech ${err.message}`
+                content: `An error occurred while converting the text to speech ${error.message}`
             });
+            this.logger.error(error.message, { error });
         }
     }
 }

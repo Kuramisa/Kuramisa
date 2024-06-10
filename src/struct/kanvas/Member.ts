@@ -487,8 +487,8 @@ export default class KanvasMember {
             if (background)
                 ctx.drawImage(await loadImage(background), 10, 10, 378, 140);
             else ctx.fillRect(10, 10, 378, 140);
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             ctx.fillRect(10, 10, 378, 140);
         }
 
@@ -683,8 +683,8 @@ export default class KanvasMember {
             ctx.clip();
             ctx.drawImage(await loadImage(avatar), 40, 70, 100, 100);
             ctx.closePath();
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
         }
 
         return canvas.toBuffer("image/png");
@@ -836,8 +836,8 @@ export default class KanvasMember {
                     canvas.height - 20
                 );
             else ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             ctx.fillRect(10, 10, canvas.width - 20, canvas.height - 20);
         }
 
@@ -1128,8 +1128,8 @@ export default class KanvasMember {
                         false,
                         true
                     );
-                } catch (err: any) {
-                    logger.error(err.message, err);
+                } catch (error: any) {
+                    logger.error(error.message, { error });
                     fillRoundRect(
                         ctx,
                         0,

@@ -173,8 +173,8 @@ export default class Kuramisa extends Client {
             logger.info(
                 `[REST] Updated (${updatedCommands.length}) Commands in ${ms(Date.now() - startTime)}`
             );
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
         }
     }
 

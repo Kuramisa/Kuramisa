@@ -23,16 +23,18 @@ export default class KDatabase {
         this.connection
             .connect(DB ?? "")
             .then(() => logger.info("[Database] Connected to database"))
-            .catch((err) =>
-                logger.error(`[Database] Error connecting to database: ${err}`)
+            .catch((error) =>
+                logger.error("[Database] Error connecting to database", {
+                    error
+                })
             );
     disconnect = () =>
         this.connection
             .disconnect()
             .then(() => logger.info("[Database] Disconnected from database"))
-            .catch((err) =>
-                logger.error(
-                    `[Database] Error disconnecting from database: ${err}`
-                )
+            .catch((error) =>
+                logger.error("[Database] Error disconnecting from database", {
+                    error
+                })
             );
 }

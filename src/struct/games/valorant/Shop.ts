@@ -273,8 +273,8 @@ export default class ValorantShop {
                     }
                 }
             });
-        } catch (err: any) {
-            logger.error(err.message, err);
+        } catch (error: any) {
+            logger.error(error.message, { error });
             return interaction.editReply({
                 content: this.somethingWentWrong
             });
