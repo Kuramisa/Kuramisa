@@ -5,7 +5,7 @@ import { capitalize } from "lodash";
 import moment from "moment";
 import DiscordTransport from "winston-discord-transport";
 
-const { combine, timestamp, printf } = format;
+const { combine, timestamp, printf, errors } = format;
 
 const tsFormat = () =>
     moment().tz("America/Los_Angeles").format("YYYY-MM-DD hh:mm:ss A").trim();
@@ -37,6 +37,7 @@ const logger = createLogger({
         timestamp({
             format: tsFormat
         }),
+        errors({ stack: true }),
         myFormat
     ),
     rejectionHandlers: [
