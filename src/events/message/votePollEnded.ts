@@ -7,8 +7,11 @@ import { Message } from "discord.js";
 })
 export default class Event extends AbstractKEvent {
     async run(_: any, message: Message) {
+        if (!message.poll) return;
+        if (!message.guild) return;
         message = await message.fetch();
 
+        // Needed since the message is fetched
         if (!message.poll) return;
         if (!message.guild) return;
 
