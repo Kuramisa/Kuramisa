@@ -8,7 +8,6 @@ import {
     type GuildMember,
     type Invite
 } from "discord.js";
-import { cdn } from "@utils";
 import { chunk } from "lodash";
 
 const server404 = "Server not found";
@@ -27,16 +26,9 @@ export default {
             });
             if (!guild) throw new GraphQLError(server404);
 
-            const iconURL = guild.icon
-                ? cdn.icon(guild.id, guild.icon, {
-                      extension: guild.icon.startsWith("a_") ? "gif" : "png",
-                      size: 1024
-                  })
-                : "https://i.imgur.com/SCv8M69.png";
-
             const json = guild.toJSON() as any;
 
-            let info = { iconURL, ...json };
+            let info = { ...json };
 
             if (fetchDb) {
                 const db = await database.guilds.fetch(guild.id);
@@ -110,16 +102,9 @@ export default {
 
             const guildsResolve = await Promise.all(
                 guildsPages[page].map(async (guild) => {
-                    const iconURL = guild.icon
-                        ? cdn.icon(guild.id, guild.icon, {
-                              extension: guild.icon.startsWith("a_")
-                                  ? "gif"
-                                  : "png",
-                              size: 1024
-                          })
-                        : "https://i.imgur.com/SCv8M69.png";
+                    const json = guild.toJSON() as any;
 
-                    let info = { iconURL, ...(guild.toJSON() as any) };
+                    let info = { ...json };
 
                     if (fetchDb) {
                         const db = await database.guilds.fetch(guild.id);
@@ -186,13 +171,8 @@ export default {
             if (!member) throw new GraphQLError("Member not found");
             if (member.user.bot) throw new GraphQLError("Member is a bot");
 
-            const avatarURL = member.user.avatar
-                ? cdn.avatar(member.id, member.user.avatar)
-                : cdn.defaultAvatar(0);
-
             let info = {
-                ...member,
-                avatarURL
+                ...member
             };
 
             if (fetchDb) {
@@ -236,11 +216,7 @@ export default {
 
             const membersResolve = await Promise.all(
                 memberPages[page].map(async (member: GuildMember) => {
-                    const avatarURL = member.user.avatar
-                        ? cdn.avatar(member.id, member.user.avatar)
-                        : cdn.defaultAvatar(0);
-
-                    let info = { ...member, avatarURL };
+                    let info = { ...member };
 
                     if (fetchDb) {
                         const db = await database.users.fetch(member.user.id);

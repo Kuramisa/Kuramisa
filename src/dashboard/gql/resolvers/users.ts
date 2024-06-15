@@ -21,11 +21,7 @@ export default {
             if (!user) throw new GraphQLError("User not found");
             if (user.bot) throw new GraphQLError("User is a bot");
 
-            const avatarURL = user.avatar
-                ? user.avatarURL()
-                : user.defaultAvatarURL;
-
-            let info = { ...user, avatarURL };
+            let info = { ...user };
 
             if (fetchDb) {
                 const db = await database.users.fetch(user.id);
@@ -58,11 +54,7 @@ export default {
 
             const usersResolve = await Promise.all(
                 usersPages[page].map(async (user) => {
-                    const avatarURL = user.avatar
-                        ? user.avatarURL()
-                        : user.defaultAvatarURL;
-
-                    let info = { ...user, avatarURL };
+                    let info = { ...user };
 
                     if (fetchDb) {
                         const db = await database.users.fetch(user.id);
@@ -92,7 +84,7 @@ export default {
                 perPage
             }: {
                 auth: string;
-                page: number;
+                page?: number;
                 fetchDb?: boolean;
                 perPage?: number;
             },
