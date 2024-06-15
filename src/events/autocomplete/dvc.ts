@@ -21,10 +21,11 @@ export default class DVCAutocomplete extends AbstractKEvent {
             let channels: GuildBasedChannel[] = [];
 
             for (const dbChannel of guild.dvc) {
-                let channel: GuildBasedChannel | null | undefined =
-                    guild.channels.cache.get(dbChannel.categoryId);
+                let channel = guild.channels.cache.get(dbChannel.categoryId);
                 if (!channel)
-                    channel = await guild.channels.fetch(dbChannel.categoryId);
+                    channel =
+                        (await guild.channels.fetch(dbChannel.categoryId)) ??
+                        undefined;
                 if (channel) channels.push(channel);
             }
 

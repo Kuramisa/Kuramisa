@@ -23,12 +23,11 @@ export default class SelfRolesAutocomplete extends AbstractKEvent {
                 let channels: GuildBasedChannel[] = [];
 
                 for (const dbChannel of guild.selfRoles) {
-                    let channel: GuildBasedChannel | null | undefined =
-                        guild.channels.cache.get(dbChannel.channelId);
+                    let channel = guild.channels.cache.get(dbChannel.channelId);
                     if (!channel)
-                        channel = await guild.channels.fetch(
-                            dbChannel.channelId
-                        );
+                        channel =
+                            (await guild.channels.fetch(dbChannel.channelId)) ??
+                            undefined;
                     if (channel) channels.push(channel);
                 }
 
