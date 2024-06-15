@@ -30,7 +30,7 @@ export default class Auth {
 
     async getUserGuilds(
         auth: string,
-        page: number,
+        page: number = 0,
         db?: boolean,
         perPage?: number
     ) {
@@ -56,17 +56,20 @@ export default class Auth {
             if (
                 !new PermissionsBitField(partialGuild.permissions as any).has(
                     "ManageGuild"
+                ) ||
+                !new PermissionsBitField(partialGuild.permissions as any).has(
+                    "CreateInstantInvite"
                 )
             )
                 continue;
 
-            const guild: Guild | KGuild | null = db
+            const fetchedGuild: Guild | KGuild | null = db
                 ? await managers.guilds.fetch(partialGuild.id).catch(() => null)
                 : await kuramisa.guilds
                       .fetch(partialGuild.id)
                       .catch(() => null);
 
-            if (!guild) {
+            if (!fetchedGuild) {
                 guildsCache.push({
                     botJoined: false,
                     ...partialGuild
@@ -74,6 +77,8 @@ export default class Auth {
 
                 continue;
             }
+
+            const { commands: _, ...guild } = fetchedGuild;
 
             guildsCache.push({
                 botJoined: true,
@@ -192,11 +197,15 @@ export default class Auth {
             const user = await this.oauth.getUser(decoded.token.access_token);
 
             const avatarURL = user.avatar
-                ? cdn.avatar(user.id, user.avatar)
+                ? cdn.avatar(user.id, user.avatar, {
+                      size: 2048,
+                      extension: user.avatar.startsWith("a_") ? "gif" : "png"
+                  })
                 : cdn.defaultAvatar(0);
 
             const bannerURL = user.banner
                 ? cdn.banner(user.id, user.banner, {
+                      extension: user.banner.startsWith("a_") ? "gif" : "png",
                       size: 2048
                   })
                 : null;
@@ -218,8 +227,10 @@ export default class Auth {
 
             return info;
         } catch (error: any) {
-            logger.error(error.message, { error });
-            throw new GraphQLError("Authentication failed, please try again");
+            if (error.code !== 401) logger.error(error.message, { error });
+            throw new GraphQLError(
+                "Your session has expired, please login again"
+            );
         }
     }
 }
