@@ -90,26 +90,20 @@ export default {
                 const allDeleted = await valorant.loadAccounts(userId);
                 if (allDeleted)
                     throw new GraphQLError(
-                        "Your accounts were removed from the database, because their login expired. Please login again with the bot on Discord!"
+                        "Your accounts were removed from the database, because their login expired"
                     );
             }
 
             if (valorant.accounts.get(userId)!.size < 1)
-                throw new GraphQLError(
-                    "You are not logged in to any accounts. Please login with the bot on Discord!"
-                );
+                throw new GraphQLError("You are not logged in to any accounts");
 
             const accounts = valorant.accounts.get(userId);
 
             if (!accounts)
-                throw new GraphQLError(
-                    "You do not have any accounts logged in. Please login with the bot on Discord!"
-                );
+                throw new GraphQLError("You are not logged in to any accounts");
 
             if (accounts.size === 0)
-                throw new GraphQLError(
-                    "You do not have any accounts logged in. Please login with the bot on Discord!"
-                );
+                throw new GraphQLError("You are not logged in to any accounts");
 
             const store = [];
 
