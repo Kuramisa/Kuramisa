@@ -27,7 +27,7 @@ export default class PingCommand extends AbstractSlashCommand {
             stickers
         } = guild;
 
-        const icon = guild.iconURL({ extension: "gif" }) as string;
+        const icon = guild.iconURL({ extension: "gif" }) ?? "";
 
         const embed = new KEmbed()
             .setAuthor({ name: guild.name, iconURL: icon })

@@ -188,9 +188,10 @@ export default {
                 const embed = new KEmbed()
                     .setAuthor({
                         name: `${guild.name} Logs`,
-                        iconURL: guild.iconURL({
-                            extension: "gif"
-                        }) as string
+                        iconURL:
+                            guild.iconURL({
+                                extension: "gif"
+                            }) ?? undefined
                     })
                     .setThumbnail(member.displayAvatarURL({ extension: "gif" }))
                     .setDescription(`${warnedBy} **Warned** ${member}`)

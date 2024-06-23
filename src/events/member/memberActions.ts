@@ -244,7 +244,7 @@ export default class MemberActionsButtons extends AbstractKEvent {
                     const embed = new KEmbed()
                         .setAuthor({
                             name: `${guild.name} Warns`,
-                            iconURL: guild.iconURL() as string
+                            iconURL: guild.iconURL() ?? undefined
                         })
                         .setTitle(`${target.user.username} Warn`)
                         .setDescription(warn.reason)

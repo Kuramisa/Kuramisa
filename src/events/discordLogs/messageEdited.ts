@@ -41,12 +41,10 @@ export default class MessageEditedEvent extends AbstractKEvent {
         const embed = new KEmbed()
             .setAuthor({
                 name: `${guild.name} Message Logs`,
-                iconURL: guild.iconURL() as string
+                iconURL: guild.iconURL() ?? undefined
             })
             .setTitle(`${newMessage.author.username} edited a message`)
-            .setThumbnail(
-                newMessage.author.avatarURL({ extension: "gif" }) as string
-            )
+            .setThumbnail(newMessage.author.avatarURL({ extension: "gif" }))
             .setDescription(`${fromContent}\n${toContent}`)
             .setFooter({ text: `ID: ${newMessage.id}` });
 

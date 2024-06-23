@@ -70,7 +70,7 @@ export abstract class AbstractKEvent implements IEvent {
                 return;
             }
 
-            this.emitter.once(this.event as string, this.run);
+            this.emitter.once(this.event, this.run);
             return;
         }
 

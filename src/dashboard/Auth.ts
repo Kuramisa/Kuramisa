@@ -19,7 +19,7 @@ export default class Auth {
     constructor() {
         this.jwt = jwt;
         this.oauth = new DiscordOAuth2();
-        this.secrets = { client: SECRET as string, jwt: JWT_SECRET as string };
+        this.secrets = { client: SECRET ?? "", jwt: JWT_SECRET ?? "" };
     }
 
     async getUser(auth: any) {

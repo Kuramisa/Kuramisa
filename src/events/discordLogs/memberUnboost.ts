@@ -17,7 +17,7 @@ export default class MemberUnboostEvent extends AbstractKEvent {
         const embed = new KEmbed()
             .setAuthor({
                 name: `${guild.name} Member Logs`,
-                iconURL: guild.iconURL() as string
+                iconURL: guild.iconURL() ?? undefined
             })
             .setTitle(
                 `${member.user.username} Removed the boost from the server`

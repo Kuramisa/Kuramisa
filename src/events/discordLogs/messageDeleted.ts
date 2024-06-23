@@ -42,9 +42,7 @@ export default class MessageDeletedEvent extends AbstractKEvent {
                 name: `${guild.name} Message Logs`,
                 iconURL: guild.iconURL()!
             })
-            .setThumbnail(
-                message.author.avatarURL({ extension: "gif" }) as string
-            )
+            .setThumbnail(message.author.avatarURL({ extension: "gif" }))
             .setTitle(title)
             .setDescription(
                 message.content.length > 0
