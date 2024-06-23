@@ -12,6 +12,7 @@ export default class MessageEditedEvent extends AbstractKEvent {
     async run(oldMessage: Message, newMessage: Message) {
         if (!newMessage.inGuild()) return;
         if (!newMessage.author) return;
+        if (!oldMessage.content && !newMessage.content) return;
         if (
             oldMessage.content === newMessage.content &&
             isEqual(oldMessage.attachments, newMessage.attachments)

@@ -7,6 +7,7 @@ import { Message } from "discord.js";
 })
 export default class WordFilterEditedEvent extends AbstractKEvent {
     async run(_: Message, message: Message) {
+        if (!message.author) return;
         if (message.author.bot) return;
 
         const { moderation } = this.client;
