@@ -1,7 +1,7 @@
 import KuramisaClass from "Kuramisa";
 import kuramisa from "@kuramisa";
 import { Events } from "discord.js";
-import { EventEmitter } from "node:events";
+import EventEmitter from "events";
 
 export type IEvent = {
     readonly event: string;
