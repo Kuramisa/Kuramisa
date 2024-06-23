@@ -1,7 +1,8 @@
 import {
     ContextMenuCommandBuilder,
     ContextMenuCommandInteraction,
-    ContextMenuCommandType
+    ContextMenuCommandType,
+    PermissionsBitField
 } from "discord.js";
 import { AbstractCommand, ICommand, ICommandOptions } from "./Command";
 
@@ -44,6 +45,9 @@ export abstract class AbstractMenuCommand
         staffOnly,
         inDevelopment,
         betaTesterOnly,
+        guildOnly,
+        botPermissions,
+        userPermissions,
         type
     }: IMenuCommandOptions) {
         super({
@@ -53,7 +57,10 @@ export abstract class AbstractMenuCommand
             ownerOnly,
             staffOnly,
             inDevelopment,
-            betaTesterOnly
+            betaTesterOnly,
+            guildOnly,
+            botPermissions,
+            userPermissions
         });
         this.type = type;
 
@@ -61,6 +68,11 @@ export abstract class AbstractMenuCommand
             .setName(this.name)
             .setType(this.type)
             .setDMPermission(!this.guildOnly);
+
+        if (userPermissions)
+            this.data.setDefaultMemberPermissions(
+                new PermissionsBitField(userPermissions).bitfield
+            );
     }
 
     abstract run(interaction: ContextMenuCommandInteraction): any;

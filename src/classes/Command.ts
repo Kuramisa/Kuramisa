@@ -29,7 +29,6 @@ export interface ICommandOptions {
     userPermissions?: PermissionResolvable[];
 }
 
-// TODO: Implement user permission system
 export abstract class AbstractCommand implements ICommand {
     readonly client = kuramisa;
     readonly logger = kuramisa.logger;

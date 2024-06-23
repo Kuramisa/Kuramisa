@@ -1,6 +1,7 @@
 import {
     ApplicationCommandOptionType,
     ChatInputCommandInteraction,
+    PermissionsBitField,
     SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
     SlashCommandBuilder,
@@ -201,6 +202,11 @@ export abstract class AbstractSlashCommand
                 this.data.addSubcommandGroup(command);
             }
         }
+
+        if (userPermissions)
+            this.data.setDefaultMemberPermissions(
+                new PermissionsBitField(userPermissions).bitfield
+            );
     }
 
     run(_: ChatInputCommandInteraction) {
