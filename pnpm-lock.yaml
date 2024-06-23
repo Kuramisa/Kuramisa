@@ -190,7 +190,7 @@ importers:
         specifier: ^0.7.34
         version: 0.7.34
       '@types/node':
-        specifier: ^20.14.2
+        specifier: ^20.14.8
         version: 20.14.8
       '@types/react':
         specifier: ^18.3.3
@@ -235,7 +235,7 @@ importers:
         specifier: ^4.15.7
         version: 4.15.7
       typescript:
-        specifier: ^5.4.5
+        specifier: ^5.5.2
         version: 5.5.2
 
 packages:
