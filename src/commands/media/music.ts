@@ -1,11 +1,6 @@
 import { KEmbed, KIntegerOption, KStringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
-import {
-    GuildQueue,
-    QueueRepeatMode,
-    useMainPlayer,
-    useQueue
-} from "discord-player";
+import { QueueRepeatMode, useMainPlayer, useQueue } from "discord-player";
 import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import { startCase } from "lodash";
 
@@ -164,9 +159,7 @@ export default class PingCommand extends AbstractSlashCommand {
             systems: { music }
         } = this.client;
 
-        // TODO: refactor
-        let queue: GuildQueue | null = null;
-        if (useQueue(guild.id)) queue = useQueue(guild.id);
+        const queue = useQueue(guild.id);
 
         if (search.hasPlaylist() && search.playlist) {
             if (queue && !queue.isEmpty()) {
@@ -230,8 +223,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashPause(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
