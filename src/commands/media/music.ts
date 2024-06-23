@@ -164,6 +164,7 @@ export default class PingCommand extends AbstractSlashCommand {
             systems: { music }
         } = this.client;
 
+        // TODO: refactor
         let queue: GuildQueue | null = null;
         if (useQueue(guild.id)) queue = useQueue(guild.id);
 
