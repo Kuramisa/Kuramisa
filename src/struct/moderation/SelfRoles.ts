@@ -42,7 +42,7 @@ export default class SelfRoles {
                     deny: ["SendMessages"]
                 },
                 {
-                    id: guild.members.me?.id as string,
+                    id: guild.members.me?.id ?? "",
                     allow: ["SendMessages"]
                 }
             ]
