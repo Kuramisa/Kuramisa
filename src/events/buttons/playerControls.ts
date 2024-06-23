@@ -19,6 +19,7 @@ export default class PlayerControlsButtons extends AbstractKEvent {
                 "player_playpause",
                 "player_shuffle",
                 "player_queue",
+                "player_lyrics",
                 "player_progress",
                 "player_loop",
                 "player_volume_down",
@@ -103,6 +104,11 @@ export default class PlayerControlsButtons extends AbstractKEvent {
                     })
                     .then((i) => timedDelete(i));
             }
+            case "player_lyrics":
+                return interaction.reply({
+                    content: `${kEmojis.get("no") ?? "🚫"} This feature is not available yet`,
+                    ephemeral: true
+                });
             case "player_next": {
                 if (
                     queue.currentTrack &&
