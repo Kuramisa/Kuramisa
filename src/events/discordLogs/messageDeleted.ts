@@ -14,8 +14,6 @@ export default class MessageDeletedEvent extends AbstractKEvent {
         if (message.author.id === this.client.user?.id) return;
         if (message.channel.type !== ChannelType.PrivateThread) return;
 
-        // TODO: Implement message deletion logging
-
         const { guild } = message;
         const channel = await logsChannel(guild);
         if (!channel) return;
