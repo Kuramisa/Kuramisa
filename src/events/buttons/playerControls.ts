@@ -1,7 +1,8 @@
+import { KButton, KRow } from "@builders";
 import { AbstractKEvent, KEvent } from "@classes/KEvent";
 import { timedDelete } from "@utils";
-import { useQueue } from "discord-player";
-import { Interaction } from "discord.js";
+import { QueueRepeatMode, useQueue } from "discord-player";
+import { ButtonStyle, ComponentType, Interaction } from "discord.js";
 
 @KEvent({
     event: "interactionCreate",
@@ -82,14 +83,24 @@ export default class PlayerControlsButtons extends AbstractKEvent {
                         ephemeral: true
                     });
 
-                const back = history
-                    .back()
+                if (queue.repeatMode === QueueRepeatMode.TRACK) {
+                    queue.node.seek(0);
+                    return interaction
+                        .reply({
+                            content: `${kEmojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
+                            ephemeral: true
+                        })
+                        .then((i) => timedDelete(i));
+                }
+
+                const previous = await history
+                    .previous(true)
                     .then(() => true)
                     .catch(() => false);
 
                 // TODO: Make sure to take repeat mode into account
 
-                if (!back)
+                if (!previous)
                     return interaction
                         .reply({
                             content: `${kEmojis.get("no") ?? "🚫"} There are no previous tracks in the queue`,
@@ -119,14 +130,65 @@ export default class PlayerControlsButtons extends AbstractKEvent {
                         ephemeral: true
                     });
 
-                // TODO: Make sure to take repeat mode into account
-
-                if (queue.tracks.size === 0) {
-                    queue.node.stop();
+                if (queue.repeatMode === QueueRepeatMode.TRACK) {
+                    queue.node.seek(0);
                     return interaction
                         .reply({
-                            content: `${kEmojis.get("no") ?? "🚫"} There are no more tracks in the queue, the player has been stopped`,
+                            content: `${kEmojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
                             ephemeral: true
+                        })
+                        .then((i) => timedDelete(i));
+                }
+
+                if (queue.tracks.size === 0) {
+                    const buttons = new KRow().setComponents(
+                        new KButton()
+                            .setCustomId("i_am_sure")
+                            .setLabel("I am sure")
+                            .setStyle(ButtonStyle.Danger),
+                        new KButton()
+                            .setCustomId("cancel")
+                            .setLabel("Cancel")
+                            .setStyle(ButtonStyle.Secondary)
+                    );
+                    const nextInteraction = await interaction.reply({
+                        content:
+                            "There are no more tracks in the queue, the player will be stopped, are you sure? **(You have 15 seconds to respond)**",
+                        ephemeral: true,
+                        fetchReply: true,
+                        components: [buttons]
+                    });
+
+                    const bInteraction = await nextInteraction
+                        .awaitMessageComponent({
+                            componentType: ComponentType.Button,
+                            filter: (i) => i.user.id === interaction.user.id,
+                            time: 15000
+                        })
+                        .catch(() => null);
+
+                    if (!bInteraction)
+                        return nextInteraction
+                            .edit({
+                                content: `${kEmojis.get("no") ?? "🚫"} You took too long to respond, the player will continue playing`,
+                                components: []
+                            })
+                            .then((i) => timedDelete(i));
+
+                    if (bInteraction.customId === "i_am_sure") {
+                        queue.node.stop();
+                        return bInteraction
+                            .update({
+                                content: `${kEmojis.get("no") ?? "🚫"} There are no more tracks in the queue, the player has been stopped`,
+                                components: []
+                            })
+                            .then((i) => timedDelete(i));
+                    }
+
+                    return bInteraction
+                        .update({
+                            content: `${kEmojis.get("no") ?? "🚫"} The player will continue playing`,
+                            components: []
                         })
                         .then((i) => timedDelete(i));
                 }
