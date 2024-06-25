@@ -98,8 +98,6 @@ export default class PlayerControlsButtons extends AbstractKEvent {
                     .then(() => true)
                     .catch(() => false);
 
-                // TODO: Make sure to take repeat mode into account
-
                 if (!previous)
                     return interaction
                         .reply({
