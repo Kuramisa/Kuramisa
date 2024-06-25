@@ -127,10 +127,8 @@ import { startCase } from "lodash";
 })
 export default class PingCommand extends AbstractSlashCommand {
     async slashPlay(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!member || !guild) return;
-        if (!(member instanceof GuildMember)) return;
-
         if (!member.voice.channel)
             return interaction.reply({
                 content:
@@ -303,8 +301,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashSkip(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
@@ -356,8 +354,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashStop(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
@@ -390,8 +388,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashQueue(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const {
             kEmojis: emojis,
@@ -422,8 +420,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashLoop(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
@@ -466,8 +464,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashShuffle(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
@@ -500,8 +498,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashVolume(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis } = this.client;
 
@@ -538,8 +536,8 @@ export default class PingCommand extends AbstractSlashCommand {
     }
 
     async slashLyrics(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
-        if (!(member instanceof GuildMember) || !guild) return;
 
         const { kEmojis: emojis, systems } = this.client;
 
