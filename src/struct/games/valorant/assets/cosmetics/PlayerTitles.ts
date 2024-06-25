@@ -23,7 +23,6 @@ export default class ValorantPlayerTitles {
         return this.data.find((playerTitle) => playerTitle.uuid === id);
     }
 
-    // TODO: Add Embed method
     embed = (playerTitle: IValorantPlayerTitle) =>
         new KEmbed()
             .setAuthor({
