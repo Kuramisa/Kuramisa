@@ -14,8 +14,8 @@ import { startCase } from "lodash";
             description: "Play a song",
             options: [
                 new KStringOption()
-                    .setName("track_or_playlist_url")
-                    .setDescription("The track or playlist URL")
+                    .setName("track_or_playlist_name_or_url")
+                    .setDescription("The track or playlist Name or URL")
 
                     .setAutocomplete(true)
             ]
@@ -45,6 +45,10 @@ import { startCase } from "lodash";
         {
             name: "queue",
             description: "Show the queue"
+        },
+        {
+            name: "synced-lyrics",
+            description: "Sync the lyrics to current track"
         },
         {
             name: "loop",
@@ -92,10 +96,6 @@ import { startCase } from "lodash";
         */
         // TODO: implement so people can choose a song from the queue or a song from the search results
         {
-            name: "lyrics",
-            description: "Get the lyrics of the current song"
-        },
-        {
             name: "nowplaying",
             description: "Get the current song"
         },
@@ -119,13 +119,36 @@ import { startCase } from "lodash";
             description: "Search for a song",
             options: [
                 new KStringOption()
-                    .setName("query")
-                    .setDescription("The query to search for")
+                    .setName("track_or_playlist_name_or_url")
+                    .setDescription("The track or playlist Name or URL")
+                    .setAutocomplete(true)
+            ]
+        }
+    ],
+    groups: [
+        {
+            name: "lyrics",
+            description: "Lyrics commands",
+            subcommands: [
+                {
+                    name: "search",
+                    description: "Search for lyrics",
+                    options: [
+                        new KStringOption()
+                            .setName("track_or_playlist_name_or_url")
+                            .setDescription("The track or playlist Name or URL")
+                            .setAutocomplete(true)
+                    ]
+                },
+                {
+                    name: "current-track",
+                    description: "Get the lyrics of the current track"
+                }
             ]
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class MusicCommand extends AbstractSlashCommand {
     async slashPlay(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
@@ -138,7 +161,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const { options } = interaction;
 
-        const query = options.getString("track_or_playlist_url", true);
+        const query = options.getString("track_or_playlist_name_or_url", true);
 
         await interaction.deferReply({ ephemeral: true });
 
@@ -240,7 +263,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -280,7 +303,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -320,7 +343,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -373,7 +396,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -410,7 +433,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -439,7 +462,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -483,7 +506,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -517,7 +540,7 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
@@ -535,7 +558,7 @@ export default class PingCommand extends AbstractSlashCommand {
         });
     }
 
-    async slashLyrics(interaction: ChatInputCommandInteraction) {
+    async slashLyricsCurrentTrack(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { member, guild } = interaction;
 
@@ -555,12 +578,69 @@ export default class PingCommand extends AbstractSlashCommand {
 
         const queue = useQueue(guild);
 
-        if (!queue || queue.isEmpty())
+        if (!queue)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
                 ephemeral: true
             });
 
-        return systems.music.showLyrics(interaction, queue);
+        if (!queue.currentTrack)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} No track is currently playing`,
+                ephemeral: true
+            });
+
+        const { currentTrack: track } = queue;
+
+        return systems.music.showLyrics(interaction, track);
+    }
+
+    async slashLyricsSearch(interaction: ChatInputCommandInteraction) {
+        const { options } = interaction;
+
+        const query = options.getString("track_or_playlist_name_or_url", true);
+
+        const {
+            systems: { music }
+        } = this.client;
+
+        const result = await music.search(query);
+
+        if (!result)
+            return interaction.reply({
+                content: "No results found.",
+                ephemeral: true
+            });
+
+        return music.showLyrics(interaction, result.tracks[0]);
+    }
+
+    async slashSyncedLyrics(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
+        const { member, guild } = interaction;
+
+        const { kEmojis: emojis, systems } = this.client;
+
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                ephemeral: true
+            });
+
+        if (member.voice.channelId !== guild.members.me?.voice.channelId)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
+                ephemeral: true
+            });
+
+        const queue = useQueue(guild);
+
+        if (!queue)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
+                ephemeral: true
+            });
+
+        return systems.music.syncedLyrics(interaction, queue);
     }
 }

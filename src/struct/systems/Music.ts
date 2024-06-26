@@ -24,7 +24,8 @@ import {
 } from "discord.js";
 import { chunk, startCase, truncate } from "lodash";
 import { KButton, KEmbed, KRow, KStringDropdown } from "@builders";
-import { timedDelete } from "@utils";
+import { Pagination, timedDelete } from "@utils";
+import moment from "moment";
 
 export default class Music extends Player {
     private readonly kuramisa: Kuramisa;
@@ -65,6 +66,68 @@ export default class Music extends Player {
 
     async showLyrics(
         interaction: ChatInputCommandInteraction | ButtonInteraction,
+        _track: string | Track
+    ) {
+        const { kEmojis, logger } = this.kuramisa;
+
+        let track = null;
+
+        if (typeof track === "string") {
+            track = await this.search(track)
+                .then((result) => result.tracks[0])
+                .catch((e) => {
+                    logger.error(e);
+                    return null;
+                });
+        } else {
+            track = _track as Track;
+        }
+
+        if (!track)
+            return interaction.reply({
+                content: `${kEmojis.get("no") ?? "🚫"} **No track found**`,
+                ephemeral: true
+            });
+
+        const results = await this.lyrics
+            .search({
+                trackName: track.title,
+                artistName: track.author
+            })
+            .catch((e) => {
+                logger.error(e);
+                return null;
+            });
+
+        if (!results)
+            return interaction.reply({
+                content: `${kEmojis.get("no") ?? "🚫"} **No lyrics found**`,
+                ephemeral: true
+            });
+
+        await interaction.deferReply();
+
+        const { plainLyrics: lyrics } = results[0];
+
+        const chunked = chunk(lyrics.split("\n"), 15);
+
+        const embeds = chunked.map((chunk, i) => {
+            return new KEmbed()
+                .setAuthor({
+                    name: `${track.title} Lyrics`
+                })
+                .setThumbnail(track.thumbnail)
+                .setDescription(chunk.join("\n"))
+                .setFooter({
+                    text: `Page ${i + 1} / ${chunked.length}`
+                });
+        });
+
+        Pagination.embeds(interaction, embeds);
+    }
+
+    async syncedLyrics(
+        interaction: ChatInputCommandInteraction | ButtonInteraction,
         queue: GuildQueue
     ) {
         const { kEmojis, logger } = this.kuramisa;
@@ -92,6 +155,33 @@ export default class Music extends Player {
                 content: `${kEmojis.get("no") ?? "🚫"} **No lyrics found**`,
                 ephemeral: true
             });
+
+        await interaction.deferReply();
+
+        const lyrics = results[0];
+
+        if (!lyrics.syncedLyrics)
+            return interaction.editReply({
+                content: `${kEmojis.get("no") ?? "🚫"} **No synced lyrics found**`
+            });
+
+        const syncLyrics = queue.syncedLyrics(lyrics);
+
+        await interaction.editReply({
+            content: "**...**"
+        });
+
+        syncLyrics.onChange(async (lyrics, timestamp) => {
+            let text = "";
+
+            text += `__${moment(timestamp).format("mm:ss")}__ **${lyrics}**\n`;
+
+            await interaction.editReply({
+                content: text
+            });
+        });
+
+        syncLyrics.subscribe();
     }
 
     async showPlaylistTracks(message: Message, playlist: Playlist) {
