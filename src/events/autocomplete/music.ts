@@ -17,12 +17,12 @@ export default class MusicAutocomplete extends AbstractKEvent {
         const focused = options.getFocused(true);
         const player = useMainPlayer();
 
-        if (focused.name === "track_or_playlist_url") {
+        if (focused.name === "track_or_playlist_name_or_url") {
             if (focused.value.length < 1)
                 return interaction.respond([
                     {
                         name: "Random Song",
-                        value: "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+                        value: "https://open.spotify.com/track/439TlnnznSiBbQbgXiBqAd?si=934b3ee65db448e6"
                     }
                 ]);
 
