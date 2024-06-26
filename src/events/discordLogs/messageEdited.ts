@@ -18,6 +18,7 @@ export default class MessageEditedEvent extends AbstractKEvent {
             isEqual(oldMessage.attachments, newMessage.attachments)
         )
             return;
+        if (newMessage.author.id === this.client.user?.id) return;
 
         const { guild } = newMessage;
 
