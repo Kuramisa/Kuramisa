@@ -12,7 +12,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class RankCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

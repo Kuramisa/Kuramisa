@@ -13,7 +13,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setMaxValue(25)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class LeaderboardCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { kanvas } = this.client;
         const { options } = interaction;

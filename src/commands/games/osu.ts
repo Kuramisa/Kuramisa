@@ -13,7 +13,7 @@ import { flag } from "country-emoji";
             .setDescription("The osu! player you want to get information about")
     ]
 })
-export default class Command extends AbstractSlashCommand {
+export default class OsuCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const {
             games: { osu },

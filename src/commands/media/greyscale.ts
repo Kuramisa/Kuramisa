@@ -11,7 +11,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setDescription("The image to greyscale")
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class GreyscaleCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const {
             kanvas: { modify }

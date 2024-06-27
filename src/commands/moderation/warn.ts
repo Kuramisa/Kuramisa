@@ -14,7 +14,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setDescription("The reason for the warning")
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class WarnCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

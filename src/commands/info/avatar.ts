@@ -82,7 +82,7 @@ import {
             )
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class AvatarCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 

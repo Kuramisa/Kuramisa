@@ -28,7 +28,7 @@ import { chunk } from "lodash";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class AICommand extends AbstractSlashCommand {
     async slashChat(interaction: ChatInputCommandInteraction) {
         const {
             systems: { openai }

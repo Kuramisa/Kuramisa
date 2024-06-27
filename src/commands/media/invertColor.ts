@@ -11,7 +11,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setDescription("The image to invert the color of")
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class InverColorCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const {
             kanvas: { modify }

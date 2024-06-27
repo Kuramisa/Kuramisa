@@ -30,7 +30,7 @@ import { ChatInputCommandInteraction } from "discord.js";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class ContentFilterCommand extends AbstractSlashCommand {
     async slashMessages(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId) return;
 

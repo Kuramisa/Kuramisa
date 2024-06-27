@@ -18,7 +18,7 @@ import { ChatInputCommandInteraction, GuildMember } from "discord.js";
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class ClearCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId || !interaction.channel) return;
         if (interaction.channel.isDMBased()) return;

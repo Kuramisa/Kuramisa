@@ -28,7 +28,7 @@ import { ChatInputCommandInteraction } from "discord.js";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class AutoRoleCommand extends AbstractSlashCommand {
     async slashAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId) return;
 

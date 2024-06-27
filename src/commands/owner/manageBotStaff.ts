@@ -59,7 +59,7 @@ import DBStaff from "@schemas/Staff";
         }
     ]
 })
-export default class SCommand extends AbstractSlashCommand {
+export default class ManageBotStaffCommand extends AbstractSlashCommand {
     async slashAdd(interaction: ChatInputCommandInteraction) {
         const { options, user: executor } = interaction;
 

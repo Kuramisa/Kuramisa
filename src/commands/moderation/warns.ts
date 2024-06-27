@@ -36,7 +36,7 @@ import { ChatInputCommandInteraction, ComponentType } from "discord.js";
         }
     ]
 })
-export default class SCommand extends AbstractSlashCommand {
+export default class WarnsCommand extends AbstractSlashCommand {
     async slashView(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

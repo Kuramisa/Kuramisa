@@ -172,7 +172,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class SelfRolesCommand extends AbstractSlashCommand {
     async slashSetup(interaction: ChatInputCommandInteraction) {
         this.client.moderation.selfRoles.setup(interaction);
     }

@@ -33,7 +33,7 @@ import {
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class VoiceCommand extends AbstractSlashCommand {
     async slashMove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { guild, options } = interaction;

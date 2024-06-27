@@ -9,7 +9,7 @@ import {
     description: "Warn a member",
     type: ApplicationCommandType.User
 })
-export default class MCommand extends AbstractMenuCommand {
+export default class WarnCtxCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

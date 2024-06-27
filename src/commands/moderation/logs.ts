@@ -45,7 +45,7 @@ import { camelCase, startCase } from "lodash";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class LogsCommand extends AbstractSlashCommand {
     async slashChannel(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId) return;
 

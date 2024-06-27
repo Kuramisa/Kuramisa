@@ -7,7 +7,7 @@ import os from "os";
     name: "bot-info",
     description: "Bot Info"
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class BotInfoCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { client } = this;
         const { database, stores } = client;

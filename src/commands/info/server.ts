@@ -8,7 +8,7 @@ import { capitalize } from "lodash";
     description: "Server information",
     guildOnly: true
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class ServerCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { guild } = interaction;
         if (!guild)

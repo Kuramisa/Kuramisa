@@ -17,7 +17,6 @@ import { startCase } from "lodash";
                 new KStringOption()
                     .setName("track_or_playlist_name_or_url")
                     .setDescription("The track or playlist Name or URL")
-
                     .setAutocomplete(true)
             ]
         },
@@ -110,7 +109,6 @@ import { startCase } from "lodash";
                 new KStringOption()
                     .setName("track_in_queue")
                     .setDescription("The track to remove")
-
                     .setAutocomplete(true)
             ]
         },

@@ -11,7 +11,7 @@ import {
     guildOnly: true,
     type: ApplicationCommandType.User
 })
-export default class OwOCommand extends AbstractMenuCommand {
+export default class AffectCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
         if (!interaction.guild) return;
 

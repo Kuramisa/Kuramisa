@@ -6,7 +6,7 @@ import { capitalize } from "lodash";
     event: "interactionCreate",
     description: "Manage autocomplete for vote polls"
 })
-export default class Event extends AbstractKEvent {
+export default class VotePolAutocomplete extends AbstractKEvent {
     async run(interaction: Interaction) {
         if (!interaction.isAutocomplete()) return;
         if (interaction.commandName !== "vote") return;

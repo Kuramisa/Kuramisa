@@ -18,7 +18,7 @@ import { ChatInputCommandInteraction, TextInputStyle } from "discord.js";
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class SuggestCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!this.client.suggestions)
             return interaction.reply({

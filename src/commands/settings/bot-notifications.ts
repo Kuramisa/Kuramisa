@@ -23,7 +23,7 @@ import { startCase } from "lodash";
             )
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class BotNotificationsCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { options, user } = interaction;
 

@@ -7,7 +7,7 @@ import { ChatInputCommandInteraction } from "discord.js";
     name: "bot-staff",
     description: "Shows the bot staff list"
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class BotStaffCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { kEmojis, staff: staffs } = this.client;
 

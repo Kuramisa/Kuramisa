@@ -5,7 +5,7 @@ import { Message } from "discord.js";
     event: "messageUpdate",
     description: "Fires when a vote poll ends"
 })
-export default class Event extends AbstractKEvent {
+export default class VotePollEndEvent extends AbstractKEvent {
     async run(_: any, message: Message) {
         if (!message.poll) return;
         if (!message.guild) return;

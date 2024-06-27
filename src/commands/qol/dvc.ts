@@ -35,7 +35,7 @@ import { chunk } from "lodash";
         }
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class DVCCommand extends AbstractSlashCommand {
     async slashConvert(interaction: ChatInputCommandInteraction) {
         if (!interaction.guild) return;
 

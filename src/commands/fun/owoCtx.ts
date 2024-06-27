@@ -16,7 +16,7 @@ const converOpts = {
     guildOnly: true,
     type: ApplicationCommandType.Message
 })
-export default class OwOCommand extends AbstractMenuCommand {
+export default class OwOCtxCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
         const { channel, targetId } = interaction;
 

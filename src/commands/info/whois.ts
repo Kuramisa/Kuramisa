@@ -13,7 +13,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class WhoisCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild())
             return interaction.reply({

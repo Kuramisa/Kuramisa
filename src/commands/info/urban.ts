@@ -10,7 +10,7 @@ import ud from "@dmzoneill/urban-dictionary";
         new KStringOption().setName("word").setDescription("The word to lookup")
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class UrbanCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const { kEmojis } = this.client;
 

@@ -14,7 +14,7 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setDescription("The intensity of the darkening effect")
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class DarkenCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const {
             kanvas: { modify }

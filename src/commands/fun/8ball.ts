@@ -1,16 +1,13 @@
 import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import { nekos } from "@utils";
-import { KAttachment } from "@builders";
-import {
-    ChatInputCommandInteraction,
-    SlashCommandStringOption
-} from "discord.js";
+import { KAttachment, KStringOption } from "@builders";
+import { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "8ball",
     description: "Ask the magic 8ball a question",
     options: [
-        new SlashCommandStringOption()
+        new KStringOption()
             .setName("question")
             .setDescription("The question you want to ask the 8ball")
     ]

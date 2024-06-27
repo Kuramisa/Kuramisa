@@ -18,7 +18,7 @@ import { ChatInputCommandInteraction, TextInputStyle } from "discord.js";
             .setRequired(false)
     ]
 })
-export default class PingCommand extends AbstractSlashCommand {
+export default class ReportBugCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         if (!this.client.bugReports)
             return interaction.reply({
