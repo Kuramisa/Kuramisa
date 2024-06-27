@@ -1,5 +1,6 @@
 import { KEmbed, KIntegerOption, KStringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
+import { durationPattern, durationToMs } from "@utils";
 import { QueueRepeatMode, useMainPlayer, useQueue } from "discord-player";
 import { ChatInputCommandInteraction, GuildMember } from "discord.js";
 import { startCase } from "lodash";
@@ -88,13 +89,16 @@ import { startCase } from "lodash";
                     .setMaxValue(100)
             ]
         },
-        // TODO: Implement seek command
-        /*
         {
             name: "seek",
-        }
-        */
-        // TODO: implement so people can choose a song from the queue or a song from the search results
+            description: "Seek to a specific time in the track",
+            options: [
+                new KStringOption()
+                    .setName("seek_time")
+                    .setDescription("The time to seek to")
+                    .setAutocomplete(true)
+            ]
+        },
         {
             name: "nowplaying",
             description: "Get the current song"
@@ -516,6 +520,70 @@ export default class MusicCommand extends AbstractSlashCommand {
 
         return interaction.reply({
             content: `${emojis.get("yes") ?? "✅"} **Shuffled the queue**`,
+            ephemeral: true
+        });
+    }
+
+    async slashSeek(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
+        const { member, guild } = interaction;
+
+        const { kEmojis: emojis } = this.client;
+
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                ephemeral: true
+            });
+
+        if (member.voice.channelId !== guild.members.me?.voice.channelId)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
+                ephemeral: true
+            });
+
+        const queue = useQueue(guild);
+
+        if (!queue)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
+                ephemeral: true
+            });
+
+        if (!queue.currentTrack)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **No track is currently playing**`,
+                ephemeral: true
+            });
+
+        const { options } = interaction;
+
+        const seekTimeStr = options.getString("seek_time", true);
+
+        if (!durationPattern.test(seekTimeStr))
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Invalid duration format**`,
+                ephemeral: true
+            });
+
+        const seekTime = durationToMs(seekTimeStr);
+
+        if (seekTime < 0)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Seek time cannot be negative**`,
+                ephemeral: true
+            });
+
+        if (seekTime > queue.currentTrack.durationMS)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Seek time cannot be greater than the track duration**`,
+                ephemeral: true
+            });
+
+        queue.node.seek(seekTime);
+
+        return interaction.reply({
+            content: `${emojis.get("yes") ?? "✅"} **Seeked to ${seekTimeStr}**`,
             ephemeral: true
         });
     }
