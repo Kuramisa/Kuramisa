@@ -22,6 +22,8 @@ export const nekos = new Nekos();
 export const urlPattern =
     /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)/;
 
+export const durationPattern = /^[0-5]?[0-9](:[0-5][0-9]){1,2}$/;
+
 export const clearCommaneds = () => {
     kuramisa.application?.commands.set([]);
 
@@ -78,6 +80,9 @@ export const formatNumber = (
               minimumFractionDigits,
               maximumFractionDigits
           });
+
+export const durationToMs = (duration: string) =>
+    duration.split(":").reduce((acc, time) => 60 * acc + +time, 0) * 1000;
 
 export const staffName = (staff: StaffType) => {
     switch (staff) {
