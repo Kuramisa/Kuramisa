@@ -78,12 +78,9 @@ export default class Kuramisa extends Client {
                 "GuildEmojisAndStickers",
                 "GuildMessageReactions",
                 "GuildMessagePolls",
-                "GuildMembers",
                 "GuildMessages",
                 "GuildVoiceStates",
-                "GuildPresences",
                 "GuildIntegrations",
-                "MessageContent",
                 "DirectMessages"
             ],
             partials: [Partials.Channel, Partials.Message, Partials.User]
