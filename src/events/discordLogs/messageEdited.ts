@@ -30,12 +30,14 @@ export default class MessageEditedEvent extends AbstractKEvent {
         const { attachments: newAttachments, content: newContent } = newMessage;
 
         const fromContent =
-            oldContent.length > 0
+            oldContent && oldContent.length > 0
                 ? `***From***\n\`\`\`${oldContent}\`\`\``
                 : "";
 
         const toContent =
-            newContent.length > 0 ? `***To***\n\`\`\`${newContent}\`\`\`` : "";
+            newContent && newContent.length > 0
+                ? `***To***\n\`\`\`${newContent}\`\`\``
+                : "";
 
         const attachments = newAttachments.toJSON();
 
