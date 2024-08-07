@@ -33,17 +33,17 @@ export default class BotNotificationsCommand extends AbstractSlashCommand {
 
         const db = await database.users.fetch(user.id);
 
-        const { botNotifications } = db;
-
-        db.botNotifications[notification as keyof typeof botNotifications] =
-            !db.botNotifications[notification as keyof typeof botNotifications];
+        db.botNotifications[notification as keyof typeof db.botNotifications] =
+            !db.botNotifications[
+                notification as keyof typeof db.botNotifications
+            ];
 
         await db.save();
 
         interaction.reply({
             content: `Bot Notifications for **${startCase(notification)}** have been **${
                 db.botNotifications[
-                    notification as keyof typeof botNotifications
+                    notification as keyof typeof db.botNotifications
                 ]
                     ? "enabled"
                     : "disabled"
