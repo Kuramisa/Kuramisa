@@ -154,7 +154,7 @@ export default class ValorantUtil {
                         logger.error(stderr);
                     })
                     .on("progress", async (progress) => {
-                        const percent = Math.round(progress.percent);
+                        const percent = Math.round(progress.percent ?? 0);
                         logger.debug(
                             `Processing ${chromaName} video: ${percent}% done`
                         );
@@ -276,7 +276,7 @@ export default class ValorantUtil {
                         logger.error(stderr);
                     })
                     .on("progress", async (progress) => {
-                        const percent = Math.round(progress.percent);
+                        const percent = Math.round(progress.percent ?? 0);
                         logger.debug(
                             `Processing ${skinName} video: ${percent}% done`
                         );

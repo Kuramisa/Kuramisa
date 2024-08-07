@@ -327,8 +327,8 @@ export default class Music extends Player {
                     .setCustomId("player_playpause")
                     .setEmoji(
                         paused
-                            ? kEmojis.get("player_play")?.toString() ?? "▶️"
-                            : kEmojis.get("player_pause")?.toString() ?? "⏸️"
+                            ? (kEmojis.get("player_play")?.toString() ?? "▶️")
+                            : (kEmojis.get("player_pause")?.toString() ?? "⏸️")
                     ),
                 new KButton()
                     .setCustomId("player_next")
