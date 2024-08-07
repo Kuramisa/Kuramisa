@@ -22,6 +22,7 @@ export default class ReadyEvent extends AbstractKEvent {
         } = client;
 
         try {
+            await client.setupEmojis();
             client.updateRest();
             await kanvas.loadFonts();
             await client.initStaff();

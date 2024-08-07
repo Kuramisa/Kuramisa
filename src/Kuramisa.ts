@@ -108,11 +108,31 @@ export default class Kuramisa extends Client {
     }
 
     async login() {
-        this.setMaxListeners(0);
         await this.database.connect();
         await this.stores.events.load();
         await this.stores.commands.load();
         return super.login(TOKEN);
+    }
+
+    async setupEmojis() {
+        const { rest, user: bot } = this;
+        rest.setToken(this.token ?? TOKEN ?? "");
+        if (!bot) return logger.error("[REST] Bot is not ready yet");
+
+        const startTime = Date.now();
+        logger.info("[REST] Updating Emojis...");
+
+        const emojis = (
+            (await rest.get(`/applications/${bot.id}/emojis`)) as any
+        ).items as any[];
+
+        for (const emoji of emojis) {
+            this.kEmojis.set(emoji.name, emoji);
+        }
+
+        logger.info(
+            `[REST] Updated (${emojis.length}) Emojis in ${ms(Date.now() - startTime)}`
+        );
     }
 
     async updateRest() {
