@@ -42,8 +42,7 @@
                 "ignoreRestSiblings": true
             }
         ],
-        "@typescript-eslint/semi": "error",
-        "@typescript-eslint/no-extra-semi": "error",
+        "@typescript-eslint/no-require-imports": "off",
         "@typescript-eslint/naming-convention": [
             "error",
             {
