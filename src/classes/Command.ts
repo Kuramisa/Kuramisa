@@ -51,9 +51,7 @@ export abstract class AbstractCommand implements ICommand {
     readonly botPermissions: PermissionResolvable[] = [];
     readonly userPermissions: PermissionResolvable[] = [];
 
-    readonly integrationTypes?: RestOrArray<ApplicationIntegrationType> = [
-        ApplicationIntegrationType.GuildInstall
-    ];
+    readonly integrationTypes?: RestOrArray<ApplicationIntegrationType>;
 
     constructor({
         name,

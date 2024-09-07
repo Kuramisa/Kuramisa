@@ -135,7 +135,8 @@ export abstract class AbstractSlashCommand
         userPermissions,
         options,
         subcommands,
-        groups
+        groups,
+        integrationTypes
     }: ISlashCommandOptionsAll) {
         super({
             name,
@@ -147,7 +148,8 @@ export abstract class AbstractSlashCommand
             betaTesterOnly,
             guildOnly,
             botPermissions,
-            userPermissions
+            userPermissions,
+            integrationTypes
         });
         this.data
             .setName(this.name)
@@ -207,6 +209,9 @@ export abstract class AbstractSlashCommand
             this.data.setDefaultMemberPermissions(
                 new PermissionsBitField(userPermissions).bitfield
             );
+
+        if (integrationTypes)
+            this.data.setIntegrationTypes(...integrationTypes);
     }
 
     run(_: ChatInputCommandInteraction) {

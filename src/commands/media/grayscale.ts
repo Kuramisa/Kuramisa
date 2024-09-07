@@ -3,8 +3,8 @@ import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
-    name: "greyscale",
-    description: "Greyscale an image!",
+    name: "grayscale",
+    description: "Grayscale an image!",
     options: [
         new KAttachmentOption()
             .setName("image")

@@ -48,6 +48,7 @@ export abstract class AbstractMenuCommand
         guildOnly,
         botPermissions,
         userPermissions,
+        integrationTypes,
         type
     }: IMenuCommandOptions) {
         super({
@@ -60,19 +61,20 @@ export abstract class AbstractMenuCommand
             betaTesterOnly,
             guildOnly,
             botPermissions,
-            userPermissions
+            userPermissions,
+            integrationTypes
         });
         this.type = type;
 
-        this.data
-            .setName(this.name)
-            .setType(this.type)
-            .setDMPermission(!this.guildOnly);
+        this.data.setName(this.name).setType(this.type);
 
         if (userPermissions)
             this.data.setDefaultMemberPermissions(
                 new PermissionsBitField(userPermissions).bitfield
             );
+
+        if (integrationTypes)
+            this.data.setIntegrationTypes(...integrationTypes);
     }
 
     abstract run(interaction: ContextMenuCommandInteraction): any;

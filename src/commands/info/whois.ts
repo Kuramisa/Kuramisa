@@ -11,7 +11,8 @@ import { ChatInputCommandInteraction } from "discord.js";
             .setName("user")
             .setDescription("The user to get information about")
             .setRequired(false)
-    ]
+    ],
+    inDevelopment: true
 })
 export default class WhoisCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {

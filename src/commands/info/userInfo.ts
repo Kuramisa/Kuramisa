@@ -10,7 +10,8 @@ import {
     name: "User Info",
     description: "Get information about a user",
     guildOnly: true,
-    type: ApplicationCommandType.User
+    type: ApplicationCommandType.User,
+    inDevelopment: true
 })
 export default class UserInfoCtxCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
