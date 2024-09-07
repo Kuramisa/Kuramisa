@@ -27,6 +27,8 @@ import { KButton, KEmbed, KRow, KStringDropdown } from "@builders";
 import { Pagination, timedDelete } from "@utils";
 import moment from "moment";
 
+import { YoutubeiExtractor } from "discord-player-youtubei";
+
 export default class Music extends Player {
     private readonly kuramisa: Kuramisa;
 
@@ -40,11 +42,13 @@ export default class Music extends Player {
         const { logger } = kuramisa;
 
         this.extractors
-            .loadDefault()
+            .loadDefault((ext) => ext !== "YouTubeExtractor")
             .then(() => {
                 logger.info("[Music] Loaded all extractors");
             })
             .catch(logger.error);
+
+        this.extractors.register(YoutubeiExtractor, {});
     }
 
     async play<T = unknown>(

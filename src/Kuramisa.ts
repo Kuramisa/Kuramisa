@@ -149,42 +149,32 @@ export default class Kuramisa extends Client {
 
         try {
             let updatedCommands: APIApplicationCommand[] = [];
-            if (NODE_ENV === "development") {
-                updatedCommands = (await rest.put(
+            const ownerCommands = this.stores.commands.commands
+                .filter((cmd) => cmd.ownerOnly)
+                .map((cmd) => cmd.data.toJSON());
+
+            if (ownerCommands.length > 0) {
+                const updatedOwnerCommands = (await rest.put(
                     Routes.applicationGuildCommands(
                         bot.id,
                         "1110011068488613931"
                     ),
-                    { body: commands }
+                    { body: ownerCommands }
                 )) as APIApplicationCommand[];
-            } else {
-                const ownerCommands = this.stores.commands.commands
-                    .filter((cmd) => cmd.ownerOnly)
-                    .map((cmd) => cmd.data.toJSON());
 
-                if (ownerCommands.length > 0) {
-                    const updatedOwnerCommands = (await rest.put(
-                        Routes.applicationGuildCommands(
-                            bot.id,
-                            "1110011068488613931"
-                        ),
-                        { body: ownerCommands }
-                    )) as APIApplicationCommand[];
-
-                    for (const command of updatedOwnerCommands) {
-                        logger.debug(
-                            `[REST] Updated Owner Command (${command.name})`
-                        );
-                    }
-
-                    updatedCommands.push(...updatedOwnerCommands);
+                for (const command of updatedOwnerCommands) {
+                    logger.debug(
+                        `[REST] Updated Owner Command (${command.name})`
+                    );
                 }
 
-                updatedCommands = (await rest.put(
-                    Routes.applicationCommands(bot.id),
-                    { body: commands }
-                )) as APIApplicationCommand[];
+                updatedCommands.push(...updatedOwnerCommands);
             }
+
+            updatedCommands = (await rest.put(
+                Routes.applicationCommands(bot.id),
+                { body: commands }
+            )) as APIApplicationCommand[];
 
             for (const command of updatedCommands) {
                 logger.debug(`[REST] Updated Command (${command.name})`);
@@ -261,38 +251,6 @@ export default class Kuramisa extends Client {
         this.staff = staffs.sort(
             (a, b) => weighStaffType(b.type) - weighStaffType(a.type)
         );
-    }
-
-    async clearEmptyDynamicChannels() {
-        logger.info("[Bot] Clearing out empty dynamic voice channels...");
-
-        const guilds = await this.database.guilds.fetchAll();
-
-        for (const guild of guilds) {
-            const { dvc } = guild;
-
-            if (!dvc.length) return;
-
-            const g = this.guilds.cache.get(guild.id);
-            if (!g) return;
-
-            const channels = g.channels.cache;
-
-            const emptyChannels = dvc.filter(
-                (channel) => !channels.has(channel.id)
-            );
-
-            if (!emptyChannels.length) return;
-
-            guild.dvc = guild.dvc.filter(
-                (channel) => !emptyChannels.find((ch) => ch.id === channel.id)
-            );
-
-            guild.markModified("dvc");
-            await guild.save();
-        }
-
-        logger.info("[Bot] Cleared out empty dynamic voice channels");
     }
 
     async clean(text: any) {

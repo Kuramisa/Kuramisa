@@ -12,12 +12,13 @@ export default class GiveXPEvent extends AbstractKEvent {
 
         const {
             kanvas,
-            managers: { xp }
+            managers: { xp, users }
         } = this.client;
 
         if (!this.client.isReady()) return;
 
         const { author, member, channel, guild } = message;
+        const dbUser = await users.get(author.id);
 
         const today = new Date();
         const ifWeekend = today.getDay() === 0 || today.getDay() === 6;
@@ -47,6 +48,8 @@ export default class GiveXPEvent extends AbstractKEvent {
                 )
                     return;
 
+                if (!dbUser.botNotifications.levelUp) return;
+
                 if (
                     !guild.members.me?.permissionsIn(channel).has("AttachFiles")
                 ) {
@@ -70,13 +73,13 @@ export default class GiveXPEvent extends AbstractKEvent {
                         );
                 }
 
-                const levelupCard = await kanvas.member.levelUpCard(member);
+                const levelUpCard = await kanvas.member.levelUpCard(member);
 
                 return channel
                     .send({
                         files: [
                             {
-                                attachment: levelupCard,
+                                attachment: levelUpCard,
                                 name: `levelup-${member.id}.png`
                             }
                         ],

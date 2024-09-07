@@ -1,5 +1,9 @@
 import kuramisa from "@kuramisa";
-import { PermissionResolvable } from "discord.js";
+import {
+    ApplicationIntegrationType,
+    PermissionResolvable,
+    RestOrArray
+} from "discord.js";
 
 export interface ICommand {
     readonly name: string;
@@ -27,6 +31,7 @@ export interface ICommandOptions {
     guildOnly?: boolean;
     botPermissions?: PermissionResolvable[];
     userPermissions?: PermissionResolvable[];
+    integrationTypes?: RestOrArray<ApplicationIntegrationType>;
 }
 
 export abstract class AbstractCommand implements ICommand {
@@ -46,6 +51,10 @@ export abstract class AbstractCommand implements ICommand {
     readonly botPermissions: PermissionResolvable[] = [];
     readonly userPermissions: PermissionResolvable[] = [];
 
+    readonly integrationTypes?: RestOrArray<ApplicationIntegrationType> = [
+        ApplicationIntegrationType.GuildInstall
+    ];
+
     constructor({
         name,
         description,
@@ -57,7 +66,8 @@ export abstract class AbstractCommand implements ICommand {
         betaTesterOnly,
         guildOnly,
         botPermissions,
-        userPermissions
+        userPermissions,
+        integrationTypes
     }: ICommandOptions) {
         if (!name) throw new Error("Command name must be provided.");
         this.name = name;
@@ -73,5 +83,6 @@ export abstract class AbstractCommand implements ICommand {
 
         this.botPermissions = botPermissions || this.botPermissions;
         this.userPermissions = userPermissions || this.userPermissions;
+        this.integrationTypes = integrationTypes || this.integrationTypes;
     }
 }

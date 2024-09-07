@@ -11,7 +11,8 @@ import { chunk } from "lodash";
 export default class ChatGPTEvent extends AbstractKEvent {
     async run(message: Message) {
         if (message.author.bot) return;
-        if (message.interaction !== null) return;
+        if (message.interactionMetadata !== null) return;
+        if (message.channel.isDMBased()) return;
 
         const {
             logger,

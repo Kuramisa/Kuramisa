@@ -58,8 +58,6 @@ export default class ReadyEvent extends AbstractKEvent {
             });
 
             updatePresence.start();
-
-            await client.clearEmptyDynamicChannels();
             await valorant.init();
 
             if (mainServer.available) {

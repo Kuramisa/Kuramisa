@@ -163,7 +163,10 @@ export default class SlashContextEvent extends AbstractKEvent {
                 this.logger.error(e);
                 if (interaction.deferred || interaction.replied)
                     interaction.editReply({
-                        content: "An error occurred while running this command!"
+                        content:
+                            "An error occurred while running this command!",
+                        components: [],
+                        embeds: []
                     });
             }
             return;
@@ -176,7 +179,13 @@ export default class SlashContextEvent extends AbstractKEvent {
                 await command[funcName as any](interaction);
             } catch (e) {
                 this.logger.error(e);
-                command.run(interaction);
+                if (interaction.deferred || interaction.replied)
+                    interaction.editReply({
+                        content:
+                            "An error occurred while running this command!",
+                        components: [],
+                        embeds: []
+                    });
             }
             return;
         }

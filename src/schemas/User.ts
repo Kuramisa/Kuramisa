@@ -34,6 +34,7 @@ export interface IUser extends IMongoResult<IUser> {
     botNotifications: {
         announcements: boolean;
         warns: boolean;
+        levelUp: boolean;
     };
     card: {
         background: {
@@ -78,7 +79,11 @@ export const user = new Schema<IUser>({
     botNotifications: {
         announcements: {
             type: Boolean,
-            default: true
+            default: false
+        },
+        levelUp: {
+            type: Boolean,
+            default: false
         },
         warns: {
             type: Boolean,

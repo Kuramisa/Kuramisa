@@ -7,6 +7,7 @@ import SightEngine from "sightengine";
 import type { Message } from "discord.js";
 import { capitalize } from "lodash";
 import { conj } from "@utils";
+import logger from "@struct/Logger";
 
 const { SIGHTENGINE_ID, SIGHTENGINE_API } = process.env;
 
@@ -22,72 +23,78 @@ export default class KModeration {
     }
 
     async image(url: string) {
-        const data = await sightengine
-            .check([
-                "nudity-2.0",
-                "offensive",
-                "scam",
-                "text-content",
-                "gore",
-                "qr-content"
-            ])
-            .set_url(url);
-
         const reasons = [];
-        const { nudity, offensive, scam, gore, text } = data;
 
-        for (let i = 0; i < Object.keys(nudity).length; i++) {
-            const key = Object.keys(nudity)[i];
-            const value = Object.values(nudity)[i] as number;
-            if (value > 0.25) {
-                switch (key) {
-                    case "sexual_activity":
-                        reasons.push("Sexual Activity");
-                        break;
-                    case "sexual_display":
-                        reasons.push("Sexual Display");
-                        break;
-                    case "erotica":
-                        reasons.push("Erotica");
-                        break;
-                    case "suggestive":
-                        reasons.push("Suggestive Content");
-                        break;
+        try {
+            const data = await sightengine
+                .check([
+                    "nudity-2.0",
+                    "offensive",
+                    "scam",
+                    "text-content",
+                    "gore",
+                    "qr-content",
+                    "self-harm"
+                ])
+                .set_url(url);
+
+            const { nudity, offensive, scam, gore, text } = data;
+
+            for (let i = 0; i < Object.keys(nudity).length; i++) {
+                const key = Object.keys(nudity)[i];
+                const value = Object.values(nudity)[i] as number;
+                if (value >= 0.2) {
+                    switch (key) {
+                        case "sexual_activity":
+                            reasons.push("Sexual Activity");
+                            break;
+                        case "sexual_display":
+                            reasons.push("Sexual Display");
+                            break;
+                        case "erotica":
+                            reasons.push("Erotica");
+                            break;
+                        case "suggestive":
+                            reasons.push("Suggestive Content");
+                            break;
+                    }
                 }
             }
-        }
 
-        for (let i = 0; i < Object.keys(offensive).length; i++) {
-            const key = Object.keys(offensive)[i];
-            const value = Object.values(offensive)[i] as number;
-            if (value > 0.25) {
-                switch (key) {
-                    case "nazi":
-                        reasons.push("Nazism");
-                        break;
-                    case "confederate":
-                        reasons.push("Confederatism");
-                        break;
-                    case "supremacist":
-                        reasons.push("Supremacy");
-                        break;
-                    case "terrorist":
-                        reasons.push("Terrorism");
-                        break;
+            for (let i = 0; i < Object.keys(offensive).length; i++) {
+                const key = Object.keys(offensive)[i];
+                const value = Object.values(offensive)[i] as number;
+                if (value >= 0.2) {
+                    switch (key) {
+                        case "nazi":
+                            reasons.push("Nazism");
+                            break;
+                        case "confederate":
+                            reasons.push("Confederatism");
+                            break;
+                        case "supremacist":
+                            reasons.push("Supremacy");
+                            break;
+                        case "terrorist":
+                            reasons.push("Terrorism");
+                            break;
+                    }
                 }
             }
-        }
 
-        if (scam.prob > 0.25) reasons.push("Scam");
-        if (gore.prob > 0.25) reasons.push("Gore");
+            if (scam.prob > 0.25) reasons.push("Scam");
+            if (gore.prob > 0.25) reasons.push("Gore");
 
-        for (let i = 0; i < Object.keys(text).length; i++) {
-            const value = Object.values(text)[i] as boolean | any[];
-            if (typeof value === "boolean") continue;
-            for (let j = 0; j < value.length; j++) {
-                const detected = value[j];
-                reasons.push(capitalize(detected.type));
+            for (let i = 0; i < Object.keys(text).length; i++) {
+                const value = Object.values(text)[i] as boolean | any[];
+                if (typeof value === "boolean") continue;
+                for (let j = 0; j < value.length; j++) {
+                    const detected = value[j];
+                    reasons.push(capitalize(detected.type));
+                }
             }
+        } catch (err) {
+            logger.error(err);
         }
 
         return reasons;
@@ -114,7 +121,7 @@ export default class KModeration {
             for (let i = 0; i < Object.keys(nudity).length; i++) {
                 const key = Object.keys(nudity)[i];
                 const value = Object.values(nudity)[i] as number;
-                if (value > 0.25) {
+                if (value >= 0.2) {
                     switch (key) {
                         case "sexual_activity":
                             reasons.push("Sexual Activity");
@@ -135,7 +142,7 @@ export default class KModeration {
             for (let i = 0; i < Object.keys(offensive).length; i++) {
                 const key = Object.keys(offensive)[i];
                 const value = Object.values(offensive)[i] as number;
-                if (value > 0.25) {
+                if (value >= 0.2) {
                     switch (key) {
                         case "nazi":
                             reasons.push("Nazism");
@@ -223,6 +230,7 @@ export default class KModeration {
     async moderate(message: Message) {
         if (message.author.id === kuramisa.user?.id) return;
         if (!message.guild) return;
+        if (message.channel.isDMBased()) return;
 
         const {
             managers,
@@ -239,11 +247,10 @@ export default class KModeration {
             const reasons = await this.text(message.content);
             if (!reasons) return;
 
-            const reason = conj(reasons);
             await message.delete();
-            await message.channel.send(
-                `${message.author}, Your message was deleted for the following reason(s): \`${reason}\``
-            );
+            message.channel.send({
+                content: `**${message.author}, your message was deleted because it contained: \`${conj(reasons)}\`**`
+            });
         } catch (error: any) {
             openai.throwError(error, message.content);
         }

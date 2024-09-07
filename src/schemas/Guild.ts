@@ -6,11 +6,6 @@ export interface IGuild extends IMongoResult<IGuild> {
     musicMessage: string;
     promoted: boolean;
     autorole: string[];
-    dvc: {
-        categoryId: string;
-        parentId: string;
-        id: string;
-    }[];
     votePolls: {
         memberId: string;
         channelId: string;
@@ -71,7 +66,6 @@ export const guild = new Schema<IGuild>({
     },
     musicMessage: String,
     autorole: [],
-    dvc: [],
     promoted: {
         type: Boolean,
         default: false

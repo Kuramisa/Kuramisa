@@ -28,7 +28,7 @@ import {
     GuildMember,
     User
 } from "discord.js";
-import { Stream } from "winston-daily-rotate-file";
+import { Stream } from "stream";
 
 export class KRow extends ActionRowBuilder<MessageActionRowComponentBuilder> {
     constructor() {
