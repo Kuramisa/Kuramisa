@@ -249,7 +249,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 if (!queue.currentTrack)
                     return interaction
                         .reply({
-                            content: `${emojis.get("no") ?? "🚫"}There is no track playing in this server`,
+                            content: `${emojis.get("no") ?? "🚫"} There is no track playing in this server`,
                             ephemeral: true,
                         })
                         .then((i) => timedDelete(i));

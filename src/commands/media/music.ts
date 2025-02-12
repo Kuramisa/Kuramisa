@@ -39,7 +39,8 @@ import { durationPattern, durationToMs } from "utils";
                 new StringOption()
                     .setName("track_in_queue")
                     .setDescription("Track to skip to")
-                    .setAutocomplete(true),
+                    .setAutocomplete(true)
+                    .setRequired(false),
             ],
         },
         {

@@ -13,6 +13,9 @@ import Systems from "systems";
 import mongoose from "mongoose";
 import logger from "Logger";
 import Managers from "managers";
+import Kanvas from "kanvas";
+
+import dLogs from "discord-logs";
 
 const { TOKEN, DATABASE } = process.env;
 
@@ -23,6 +26,7 @@ export default class Kuramisa extends Client {
     initialized = false;
     startTime = Date.now();
 
+    readonly kanvas: Kanvas;
     readonly managers: Managers;
     readonly stores: Stores;
     readonly systems: Systems;
@@ -50,6 +54,7 @@ export default class Kuramisa extends Client {
             partials: [Partials.Channel, Partials.Message, Partials.User],
         });
 
+        this.kanvas = new Kanvas();
         this.managers = new Managers();
         this.stores = new Stores();
         this.systems = new Systems(this);
@@ -100,6 +105,10 @@ export default class Kuramisa extends Client {
             .catch((err) =>
                 logger.error("[Database] Error connecting to the database", err)
             );
+
+        await dLogs(this, {
+            debug: process.env.NODE_ENV === "development",
+        });
 
         await this.systems.music.init();
 

@@ -20,6 +20,10 @@ export default class EmptyChannelEvent extends AbstractEvent {
                     "> 🥲 The voice channel got lonely , so I left the channel",
                 embeds: [],
             });
+            setTimeout(() => {
+                guild.musicMessage?.delete();
+                guild.musicMessage = null;
+            }, 5000);
             queue.connection?.disconnect();
             queue.delete();
             return;
@@ -30,6 +34,11 @@ export default class EmptyChannelEvent extends AbstractEvent {
             embeds: [],
             components: [],
         });
+
+        setTimeout(() => {
+            guild.musicMessage?.delete();
+            guild.musicMessage = null;
+        }, 5000);
 
         queue.connection?.disconnect();
         queue.delete();
