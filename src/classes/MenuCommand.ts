@@ -62,7 +62,7 @@ export abstract class AbstractMenuCommand
             );
     }
 
-    abstract run(interaction: ContextMenuCommandInteraction): void;
+    abstract run(interaction: ContextMenuCommandInteraction): any;
 }
 
 export function MenuCommand(options: IMenuCommandOptions) {

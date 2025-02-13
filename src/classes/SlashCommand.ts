@@ -140,11 +140,13 @@ export abstract class AbstractSlashCommand
             const command = new SlashCommandSubcommandBuilder()
                 .setName(subcommand.name)
                 .setDescription(subcommand.description);
+
             if (subcommand.options) {
                 for (const option of subcommand.options) {
                     this.addOption(command, option);
                 }
             }
+
             this.data.addSubcommand(command);
         }
     }
@@ -154,6 +156,7 @@ export abstract class AbstractSlashCommand
             const command = new SlashCommandSubcommandGroupBuilder()
                 .setName(group.name)
                 .setDescription(group.description);
+
             for (const subcommand of group.subcommands) {
                 const sub = new SlashCommandSubcommandBuilder()
                     .setName(subcommand.name)
@@ -164,8 +167,10 @@ export abstract class AbstractSlashCommand
                         this.addOption(sub, option);
                     }
                 }
+
                 command.addSubcommand(sub);
             }
+
             this.data.addSubcommandGroup(command);
         }
     }
