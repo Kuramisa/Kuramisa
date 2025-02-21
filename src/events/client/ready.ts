@@ -13,6 +13,8 @@ export default class ReadyEvent extends AbstractEvent {
         if (!this.client.isReady()) return;
         const { client } = this;
 
+        client.managers.commands.updateCommands();
+
         client.user.setPresence(client.getActivities());
 
         new CronJob("*/1 * * * *", () => {
