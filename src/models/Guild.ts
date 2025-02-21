@@ -1,6 +1,50 @@
-import { model, Schema, type InferSchemaType } from "mongoose";
+import { model, Schema } from "mongoose";
 
-export const guildSchema = new Schema({
+export interface IGuild {
+    id: string;
+    name: string;
+    autorole: string[];
+    votePolls: {
+        memberId: string;
+        channelId: string;
+        messageId: string;
+        createdBy: string;
+        duration: number;
+        pollDuration: number;
+        reason: string;
+        voteType: string;
+    }[];
+    logs: {
+        channel: string;
+        types: {
+            memberWarned: boolean;
+            memberJoin: boolean;
+            memberLeave: boolean;
+            memberBoost: boolean;
+            memberUnboost: boolean;
+            memberRoleAdded: boolean;
+            memberRoleRemoved: boolean;
+            memberNicknameChange: boolean;
+            messageDeleted: boolean;
+            messageEdited: boolean;
+        };
+    };
+    selfRoles: {
+        channelId: string;
+        messages: {
+            id: string;
+            buttons: {
+                id: string;
+                name: string;
+                roleId: string;
+                emoji: string;
+                style: number;
+            }[];
+        }[];
+    }[];
+}
+
+export const guildSchema = new Schema<IGuild>({
     id: {
         type: String,
         required: true,
@@ -10,7 +54,6 @@ export const guildSchema = new Schema({
         type: String,
         required: true,
     },
-    musicMessage: String,
     autorole: [],
     votePolls: [
         {
@@ -60,9 +103,7 @@ export const guildSchema = new Schema({
     ],
 });
 
-export type IGuild = InferSchemaType<typeof guildSchema>;
-
-const guildModel = model("guilds", guildSchema);
+const guildModel = model<IGuild>("guilds", guildSchema);
 
 export type GuildDocument = ReturnType<(typeof guildModel)["hydrate"]>;
 
