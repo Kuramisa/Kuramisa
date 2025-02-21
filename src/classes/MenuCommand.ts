@@ -52,7 +52,8 @@ export abstract class AbstractMenuCommand
 
         this.data = new ContextMenuCommandBuilder()
             .setName(name)
-            .setContexts(contexts);
+            .setContexts(contexts)
+            .setType(type);
 
         if (integrations) this.data.setIntegrationTypes(integrations);
 
