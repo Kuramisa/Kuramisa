@@ -26,14 +26,22 @@ export default class ValorantAgents {
             (a) => a.displayName.toLowerCase() === agent.toLowerCase()
         ) ?? this.data.find((a) => a.uuid === agent);
 
+    embeds = () =>
+        Array.from(
+            this.data.toSorted((a, b) =>
+                a.displayName.localeCompare(b.displayName)
+            ),
+            (agent) => this.embed(agent)
+        );
+
     embed = (agent: IValorantAgent) =>
         new Embed()
             .setAuthor({
                 name: agent.displayName,
                 iconURL: agent.displayIcon,
             })
-            .setTitle(`${agent.displayName} - ${agent.role.displayName}`)
-            .setDescription(`${agent.description}\n\n**Abilities:**`)
+            .setTitle(`${agent.displayName} (${agent.role.displayName})`)
+            .setDescription(`${agent.description}`)
             .addFields(
                 agent.abilities.map((ability) => ({
                     name:
@@ -48,8 +56,7 @@ export default class ValorantAgents {
                 `#${agent.backgroundGradientColors[
                     crypto.randomInt(0, agent.backgroundGradientColors.length)
                 ].slice(0, 6)}`
-            )
-            .setThumbnail(agent.displayIcon);
+            );
 
     static async init() {
         const data = await fetch(

@@ -19,8 +19,6 @@ export default class YourValorantAutocomplete extends AbstractEvent {
 
         const { name, value } = options.getFocused(true);
 
-        console.log(name, value);
-
         switch (name) {
             case "valorant_agent": {
                 let agents = valorant.agents.all.sort((a, b) =>
@@ -39,7 +37,7 @@ export default class YourValorantAutocomplete extends AbstractEvent {
                 return interaction.respond(
                     agents.map((agent) => ({
                         name: `${agent.displayName} (${agent.role.displayName})`,
-                        value: agent.uuid,
+                        value: agent.displayName.toLowerCase(),
                     }))
                 );
             }

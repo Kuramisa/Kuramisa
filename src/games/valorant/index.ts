@@ -1,11 +1,14 @@
 import logger from "Logger";
-import { ValorantAgents } from "./assets";
+import { ValorantAgents, ValorantVersion, ValorantWeapons } from "./assets";
 import ms from "ms";
 
 export default class Valorant {
     initialized = false;
 
     agents: ValorantAgents;
+
+    weapons: ValorantWeapons;
+    version?: ValorantVersion;
 
     static readonly trackerURL = (username: string) =>
         `https://tracker.gg/valorant/profile/riot/${username}`;
@@ -14,6 +17,7 @@ export default class Valorant {
 
     constructor() {
         this.agents = new ValorantAgents([]);
+        this.weapons = new ValorantWeapons([]);
     }
 
     async init() {
@@ -32,6 +36,15 @@ export default class Valorant {
             this.agents = await ValorantAgents.init();
             logger.debug("[Valorant] Agents: " + this.agents.all.length);
             logger.debug(`[Valorant] Initialized Agents`);
+
+            logger.debug("[Valorant] Initializing Weapons...");
+            this.weapons = await ValorantWeapons.init();
+            logger.debug("[Valorant] Weapons: " + this.weapons.all.length);
+            logger.debug(`[Valorant] Initialized Weapons`);
+
+            logger.debug("[Valorant] Initializing Version...");
+            this.version = await ValorantVersion.init();
+            logger.debug(`[Valorant] Initialized Version`);
 
             logger.info("[Valorant] Initialized Assets");
         } catch (err) {
