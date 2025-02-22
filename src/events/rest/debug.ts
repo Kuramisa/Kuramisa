@@ -7,7 +7,7 @@ import logger from "Logger";
     description: "REST Debug Event",
     emitter: kuramisa.rest,
 })
-export class RestDebugEvent extends AbstractEvent {
+export default class RestDebugEvent extends AbstractEvent {
     run(debug: string) {
         logger.debug(debug);
     }

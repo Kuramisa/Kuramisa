@@ -1,6 +1,9 @@
 import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import { InteractionContextType } from "discord.js";
+import {
+    ChatInputCommandInteraction,
+    InteractionContextType,
+} from "discord.js";
 
 @SlashCommand({
     name: "valorant",
@@ -23,4 +26,25 @@ import { InteractionContextType } from "discord.js";
         },
     ],
 })
-export default class ValorantCommand extends AbstractSlashCommand {}
+export default class ValorantCommand extends AbstractSlashCommand {
+    slashSkins(interaction: ChatInputCommandInteraction) {
+        const { options } = interaction;
+        const {
+            games: { valorant },
+        } = this.client;
+
+        const agentId = options.getString("valorant_agent", true);
+        const agent = valorant.agents.get(agentId);
+        if (!agent)
+            return interaction.reply({
+                content: "**Ermm... Agent not found**",
+                ephemeral: true,
+            });
+
+        const agentEmbed = valorant.agents.embed(agent);
+
+        interaction.reply({
+            embeds: [agentEmbed],
+        });
+    }
+}

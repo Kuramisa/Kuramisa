@@ -25,6 +25,7 @@ export default tseslint.config(
             "@typescript-eslint/no-explicit-any": "off",
             "sonarjs/cognitive-complexity": "off",
             "sonarjs/no-nested-conditional": "off",
+            "sonarjs/no-small-switch": "warn",
         },
     }
 );

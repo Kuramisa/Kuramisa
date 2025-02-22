@@ -38,7 +38,8 @@ export default class CommandManager {
                 commandsToDelete.delete(registeredCmd.name);
 
                 const areCommandsDiff =
-                    localCmd.data.toJSON() !== registeredCmd.toJSON();
+                    JSON.stringify(localCmd.data.toJSON()) !==
+                    JSON.stringify(registeredCmd.toJSON());
 
                 if (areCommandsDiff) {
                     logger.debug(

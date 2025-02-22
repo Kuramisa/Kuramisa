@@ -16,6 +16,7 @@ import Managers from "managers";
 import Kanvas from "kanvas";
 
 import dLogs from "discord-logs";
+import Games from "games";
 
 const { TOKEN, DATABASE } = process.env;
 
@@ -27,6 +28,7 @@ export default class Kuramisa extends Client {
     startTime = Date.now();
 
     readonly kanvas: Kanvas;
+    readonly games: Games;
     readonly managers: Managers;
     readonly stores: Stores;
     readonly systems: Systems;
@@ -55,6 +57,7 @@ export default class Kuramisa extends Client {
         });
 
         this.kanvas = new Kanvas();
+        this.games = new Games();
         this.managers = new Managers();
         this.stores = new Stores();
         this.systems = new Systems(this);
@@ -114,6 +117,8 @@ export default class Kuramisa extends Client {
 
         await this.stores.commands.load();
         await this.stores.events.load();
+
+        await this.games.valorant.init();
 
         return super.login(TOKEN);
     }

@@ -9,7 +9,7 @@ import ms from "ms";
     description: "Emits when the bot is rate limited",
     emitter: kuramisa.rest,
 })
-export class RateLimitEvent extends AbstractEvent {
+export default class RateLimitEvent extends AbstractEvent {
     run(error: RateLimitError) {
         logger.error(
             `[REST Rate Limit] ${error.route} | ${error.method} ${error.url}`

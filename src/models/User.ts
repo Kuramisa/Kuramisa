@@ -5,7 +5,7 @@ import { IGuild } from "./Guild";
 export interface IUser {
     id: string;
     username: string;
-    valorant: {
+    valorant?: {
         accounts: {
             json: AuthUserInfo;
             username: string;

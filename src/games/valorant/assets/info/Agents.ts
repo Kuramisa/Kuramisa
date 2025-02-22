@@ -24,7 +24,7 @@ export default class ValorantAgents {
     get = (agent: string) =>
         this.data.find(
             (a) => a.displayName.toLowerCase() === agent.toLowerCase()
-        ) || this.data.find((a) => a.uuid === agent);
+        ) ?? this.data.find((a) => a.uuid === agent);
 
     embed = (agent: IValorantAgent) =>
         new Embed()
@@ -33,7 +33,7 @@ export default class ValorantAgents {
                 iconURL: agent.displayIcon,
             })
             .setTitle(`${agent.displayName} - ${agent.role.displayName}`)
-            .setDescription(agent.description)
+            .setDescription(`${agent.description}\n\n**Abilities:**`)
             .addFields(
                 agent.abilities.map((ability) => ({
                     name:
