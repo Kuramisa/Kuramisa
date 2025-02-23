@@ -9,9 +9,6 @@ export default class ValorantAgents {
         this.data = data;
     }
 
-    /**
-     * All Agents
-     */
     get all() {
         return this.data;
     }

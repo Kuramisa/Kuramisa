@@ -298,7 +298,7 @@ declare global {
         assetPath: string;
     }
 
-    interface CompetitiveTierSingleton {
+    interface IValorantCompetitiveRank {
         tier: number;
         tierName: string;
         division: string;
@@ -314,18 +314,7 @@ declare global {
     interface IValorantCompetitiveTier {
         uuid: string;
         assetObjectName: string;
-        tiers: {
-            tier: number;
-            tierName: string;
-            division: string;
-            divisionName: string;
-            color: string;
-            backgroundColor: string;
-            smallIcon: string;
-            largeIcon: string;
-            rankTriangleDownIcon: string;
-            rankTriangleUpIcon: string;
-        }[];
+        tiers: IValorantCompetitiveRank[];
         assetPath: string;
     }
 

@@ -41,6 +41,34 @@ export default class YourValorantAutocomplete extends AbstractEvent {
                     }))
                 );
             }
+            case "valorant_weapon": {
+                let weapons = valorant.weapons.all.sort((a, b) =>
+                    a.displayName.localeCompare(b.displayName)
+                );
+
+                if (value.length > 0)
+                    weapons = weapons.filter((weapon) =>
+                        weapon.displayName
+                            .toLowerCase()
+                            .includes(value.toLowerCase())
+                    );
+
+                weapons = weapons.slice(0, 25);
+
+                return interaction.respond(
+                    weapons
+                        .sort(
+                            (a, b) =>
+                                a.shopData?.category.localeCompare(
+                                    b.shopData?.category ?? ""
+                                ) ?? 0
+                        )
+                        .map((weapon) => ({
+                            name: `${weapon.displayName}${weapon.shopData ? ` (${weapon.shopData.category})` : ""}`,
+                            value: weapon.displayName.toLowerCase(),
+                        }))
+                );
+            }
         }
     }
 }

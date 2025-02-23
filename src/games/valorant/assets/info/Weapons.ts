@@ -49,7 +49,7 @@ export default class ValorantWeapons {
         let description = "- ***Damage Values***\n";
 
         for (const range of weapon.weaponStats.damageRanges) {
-            description += ` - **${range.rangeStartMeters}m - ${range.rangeEndMeters}m:** ${range.headDamage} Head / ${range.bodyDamage} Body / ${range.legDamage} Legs\n`;
+            description += `  - **${range.rangeStartMeters}m - ${range.rangeEndMeters}m:** ${range.headDamage} Head / ${range.bodyDamage} Body / ${range.legDamage} Legs\n`;
         }
 
         return description;
@@ -61,7 +61,7 @@ export default class ValorantWeapons {
                 name: `${weapon.displayName} (${
                     weapon.shopData?.category ?? "Melee"
                 })`,
-                iconURL: weapon.displayIcon,
+                iconURL: weapon.killStreamIcon,
             })
             .setImage(weapon.displayIcon);
 
@@ -102,7 +102,9 @@ export default class ValorantWeapons {
     row = (weapon: IValorantWeapon) =>
         new Row().setComponents(
             new Button()
-                .setCustomId(`valorant_weapon_skins_${weapon.uuid}`)
+                .setCustomId(
+                    `valorant_weapon_skins_${weapon.displayName.toLowerCase()}`
+                )
                 .setLabel("Skins")
                 .setStyle(ButtonStyle.Success)
         );
