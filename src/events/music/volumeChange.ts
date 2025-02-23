@@ -13,7 +13,7 @@ import type { GuildTextBasedChannel } from "discord.js";
 export default class VolumeChangeEvent extends AbstractEvent {
     async run(
         queue: GuildQueue<GuildTextBasedChannel>,
-        _: number,
+        oldVolume: number,
         newVolume: number
     ) {
         const { guild } = queue;
@@ -28,7 +28,7 @@ export default class VolumeChangeEvent extends AbstractEvent {
         const embed = Embed.from(plainEmbed);
         if (!plainEmbed.description) return;
 
-        const oldVolumeText = plainEmbed.description.split("\n")[0];
+        const oldVolumeText = `${music.volumeEmoji(oldVolume)} **Volume**: ${oldVolume}%`;
         const newVolumeText = `${music.volumeEmoji(newVolume)} **Volume**: ${newVolume}%`;
 
         guild.musicMessage.edit({
