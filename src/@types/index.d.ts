@@ -1,4 +1,10 @@
-import { Message } from "discord.js";
+import { Embed } from "@builders";
+import {
+    ActionRowBuilder,
+    Collection,
+    ColorResolvable,
+    MessageActionRowComponentBuilder,
+} from "discord.js";
 
 declare global {
     // Valorant Declarations
@@ -512,27 +518,19 @@ declare global {
         uuid: string;
         level: {
             names: string[];
-            embeds: KEmbed[];
+            embeds: Embed[];
             components: ActionRowBuilder<MessageActionRowComponentBuilder>;
             videos: string[];
         };
         chroma: {
             names: string[];
-            embeds: KEmbed[];
+            embeds: Embed[];
             components: ActionRowBuilder<MessageActionRowComponentBuilder>;
             videos: string[];
         };
     }
 
     type ValorantSkinCollection = Collection<string, ValorantSkin>;
-
-    interface IValorantAccount {
-        username: string;
-        user: User;
-        auth: WebClient;
-        player: ValorantPlayerInfo;
-        trackerURL?: string;
-    }
 
     type PrivacyTypes = "public" | "friends" | "private";
 

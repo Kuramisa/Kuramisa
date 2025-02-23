@@ -2,6 +2,7 @@ import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
     ChatInputCommandInteraction,
+    ComponentType,
     InteractionContextType,
 } from "discord.js";
 import { Pagination } from "utils";
@@ -23,6 +24,16 @@ import { Pagination } from "utils";
                     .setName("valorant_agent")
                     .setDescription("Choose a VALORANT Agent")
                     .setRequired(false)
+                    .setAutocomplete(true),
+            ],
+        },
+        {
+            name: "skins",
+            description: "Get information about VALORANT skins",
+            options: [
+                new StringOption()
+                    .setName("valorant_weapon")
+                    .setDescription("Choose a VALORANT weapon")
                     .setAutocomplete(true),
             ],
         },
@@ -62,6 +73,106 @@ export default class ValorantCommand extends AbstractSlashCommand {
 
         interaction.reply({
             embeds: [agentEmbed],
+        });
+    }
+
+    async slashSkins(interaction: ChatInputCommandInteraction) {
+        const { options } = interaction;
+        const {
+            games: { valorant },
+        } = this.client;
+
+        const weaponName = options.getString("valorant_weapon", true);
+        const weapon = valorant.weapons.get(weaponName);
+
+        if (!weapon)
+            return interaction.reply({
+                content: "**Ermm... Weapon not found**",
+                ephemeral: true,
+            });
+
+        const skins = weapon.skins
+            .filter((skin) => skin.contentTierUuid)
+            .sort((a, b) => a.displayName.localeCompare(b.displayName));
+
+        await interaction.deferReply();
+
+        const infoCollection = valorant.skins.collection(skins);
+
+        let page = 0;
+        let lvlPage = 0;
+
+        const skin = infoCollection.at(page);
+        if (!skin)
+            return interaction.reply({
+                content: "**Ermm... Skin not found**",
+                ephemeral: true,
+            });
+
+        const message = await interaction.editReply({
+            embeds: [skin.level.embeds[0]],
+            components: valorant.util.determineComponents(skin, true),
+        });
+
+        const buttonNames = ["previous_skin", "next_skin", "add_to_wishlist"];
+
+        const buttonCollector = message.createMessageComponentCollector({
+            filter: (i) =>
+                i.user.id === interaction.user.id &&
+                (buttonNames.includes(i.customId) ||
+                    i.customId.includes("valorant_skin_chroma")),
+            componentType: ComponentType.Button,
+        });
+
+        const menuCollector = message.createMessageComponentCollector({
+            filter: (i) =>
+                i.user.id === interaction.user.id &&
+                i.customId === "valorant_weapon_skin_level_select",
+            componentType: ComponentType.StringSelect,
+        });
+
+        buttonCollector.on("collect", async (i) => {
+            switch (i.customId) {
+                case "previous_skin": {
+                    page = page > 0 ? --page : infoCollection.size;
+                    lvlPage = 0;
+                    break;
+                }
+                case "next_skin": {
+                    page = page + 1 < infoCollection.size ? ++page : 0;
+                    lvlPage = 0;
+                    break;
+                }
+                case "add_to_wishlist": {
+                    await i.reply({
+                        content: "**😁 Coming Soon™️!**",
+                        ephemeral: true,
+                    });
+                    return;
+                }
+            }
+
+            if (i.customId.includes("valorant_skin_chroma")) {
+                const skin = infoCollection.at(page);
+                if (!skin) return;
+                const chromaPage = parseInt(i.customId.split("_")[3]);
+                if (isNaN(chromaPage)) return;
+
+                await valorant.util.updateInfoChroma(i, skin, chromaPage, true);
+                return;
+            }
+
+            const skin = infoCollection.at(page);
+            if (!skin) return;
+
+            await valorant.util.updateInfoLevel(i, skin, lvlPage, true);
+        });
+
+        menuCollector.on("collect", async (i) => {
+            lvlPage = parseInt(i.values[0]);
+            const skin = infoCollection.at(page);
+            if (!skin) return;
+            await valorant.util.updateInfoLevel(i, skin, lvlPage, true);
         });
     }
 

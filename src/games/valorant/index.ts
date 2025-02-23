@@ -25,9 +25,12 @@ import {
 } from "./assets";
 import ms from "ms";
 import ValorantGamemodes from "./assets/info/Gamemodes";
+import ValorantUtil from "./Util";
 
 export default class Valorant {
     initialized = false;
+
+    util: ValorantUtil;
 
     // Information Assets
     agents: ValorantAgents;
@@ -63,6 +66,8 @@ export default class Valorant {
     static readonly assetsURL = "https://valorant-api.com/v1";
 
     constructor() {
+        this.util = new ValorantUtil();
+
         this.agents = new ValorantAgents([]);
         this.ceremonies = new ValorantCeremonies([]);
         this.competitiveTiers = new ValorantCompetitiveTiers([]);

@@ -4,6 +4,7 @@ import { type ContentTiers, type Weapons } from "@valapi/valorant-api.com";
 import {
     ActionRowBuilder,
     ButtonBuilder,
+    ButtonStyle,
     Collection,
     type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder,
@@ -102,8 +103,11 @@ export default class ValorantSkins {
         };
     }
 
-    collection(skins: IValorantWeaponSkin[]): ValorantSkinCollection {
-        const collection: ValorantSkinCollection = new Collection();
+    collection(skins: IValorantWeaponSkin[]) {
+        const collection: ValorantSkinCollection = new Collection<
+            string,
+            ValorantSkin
+        >();
 
         for (const skin of skins) {
             collection.set(skin.uuid, this.info(skin));
@@ -186,11 +190,13 @@ export default class ValorantSkins {
         skin: IValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">
     ) => {
-        const button = new ButtonBuilder().setCustomId(
-            `valorant_skin_chroma_${skin.chromas.findIndex(
-                (c) => c.uuid === chroma.uuid
-            )}`
-        );
+        const button = new ButtonBuilder()
+            .setCustomId(
+                `valorant_skin_chroma_${skin.chromas.findIndex(
+                    (c) => c.uuid === chroma.uuid
+                )}`
+            )
+            .setStyle(ButtonStyle.Secondary);
 
         let label = chroma.displayName.split(skin.displayName)[1];
         if (!label || label.length === 0) label = "Original";
