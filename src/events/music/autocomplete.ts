@@ -1,7 +1,9 @@
 import { AbstractEvent, Event } from "classes/Event";
 import { useMainPlayer, useQueue } from "discord-player";
 import type { Interaction } from "discord.js";
-import { startCase, truncate } from "lodash";
+
+import startCase from "lodash/startCase";
+import truncate from "lodash/truncate";
 
 @Event({
     event: "interactionCreate",

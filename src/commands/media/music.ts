@@ -6,7 +6,7 @@ import {
     InteractionContextType,
     type ChatInputCommandInteraction,
 } from "discord.js";
-import { startCase } from "lodash";
+import startCase from "lodash/startCase";
 import { durationPattern, durationToMs } from "utils";
 
 @SlashCommand({

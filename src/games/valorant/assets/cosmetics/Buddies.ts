@@ -4,7 +4,7 @@ import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "@discordjs/builders";
-import { truncate } from "lodash";
+import truncate from "lodash/truncate";
 
 export default class ValorantBuddies {
     private readonly data: IValorantBuddy[];

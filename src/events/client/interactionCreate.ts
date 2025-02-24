@@ -6,7 +6,7 @@ import {
     Collection,
     type Interaction,
 } from "discord.js";
-import { camelCase } from "lodash";
+import camelCase from "lodash/camelCase";
 import logger from "Logger";
 
 @Event({
