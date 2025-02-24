@@ -25,8 +25,6 @@ import {
     SlashCommandAttachmentOption,
     TextInputStyle,
     ButtonStyle,
-    GuildMember,
-    User,
 } from "discord.js";
 import { Stream } from "stream";
 
