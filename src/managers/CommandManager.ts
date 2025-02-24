@@ -1,6 +1,7 @@
 import kuramisa from "@kuramisa";
 import { ApplicationCommand, Collection } from "discord.js";
 import logger from "Logger";
+import ms from "ms";
 
 export default class CommandManager {
     async compareCommands() {
@@ -22,6 +23,8 @@ export default class CommandManager {
                 commandsToDelete.set(cmd.name, cmd)
             );
 
+            console.log(localCommands);
+
             for (const localCmd of localCommands) {
                 const registeredCmd = applicationCommands.find(
                     (cmd) => cmd.name === localCmd.name
@@ -31,6 +34,7 @@ export default class CommandManager {
                     logger.debug(
                         `[Command Manager] Command ${localCmd.name} will be created`
                     );
+
                     commandsToCreate.push(localCmd.data);
                     continue;
                 }
@@ -113,7 +117,7 @@ export default class CommandManager {
         }
 
         logger.info(
-            `[Command Manager] Updated commands in ${Date.now() - startTime}ms`
+            `[Command Manager] Updated commands in ${ms(Date.now() - startTime)}`
         );
     }
 }

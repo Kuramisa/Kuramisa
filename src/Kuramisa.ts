@@ -35,7 +35,7 @@ export default class Kuramisa extends Client {
 
     readonly cooldowns = new Collection<string, Collection<string, number>>();
 
-    kEmojis = new Collection<string, ApplicationEmoji>();
+    readonly kEmojis = new Collection<string, ApplicationEmoji>();
 
     constructor() {
         super({
@@ -46,6 +46,7 @@ export default class Kuramisa extends Client {
                 "GuildEmojisAndStickers",
                 "GuildMessageReactions",
                 "GuildMessagePolls",
+                "GuildPresences",
                 "GuildMessages",
                 "GuildVoiceStates",
                 "GuildIntegrations",

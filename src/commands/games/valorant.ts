@@ -66,7 +66,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!agent)
             return interaction.reply({
                 content: "**Ermm... Agent not found**",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         const agentEmbed = valorant.agents.embed(agent);
@@ -88,7 +88,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!weapon)
             return interaction.reply({
                 content: "**Ermm... Weapon not found**",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         const skins = weapon.skins
@@ -106,7 +106,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!skin)
             return interaction.reply({
                 content: "**Ermm... Skin not found**",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         const message = await interaction.editReply({
@@ -146,7 +146,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
                 case "add_to_wishlist": {
                     await i.reply({
                         content: "**😁 Coming Soon™️!**",
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
                     return;
                 }
@@ -187,7 +187,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!weapon)
             return interaction.reply({
                 content: "**Ermm... Weapon not found**",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
         const weaponEmbed = valorant.weapons.embed(weapon);
         const weaponRow = valorant.weapons.row(weapon);

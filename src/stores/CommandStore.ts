@@ -5,6 +5,7 @@ import logger from "Logger";
 import fs from "fs/promises";
 import path from "path";
 import { pathToFileURL } from "url";
+import ms from "ms";
 
 export default class CommandStore {
     readonly commands = new Collection<
@@ -122,7 +123,7 @@ export default class CommandStore {
         logger.info(
             `[Command Store] Loaded ${
                 this.commands.size
-            } commands in ${Date.now() - startTime}ms`
+            } commands in ${ms(Date.now() - startTime)}`
         );
     }
 }

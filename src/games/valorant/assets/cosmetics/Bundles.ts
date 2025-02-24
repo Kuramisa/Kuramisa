@@ -51,7 +51,7 @@ export default class ValorantBundles {
     ) {
         const {
             kanvas,
-            kEmojis,
+            kEmojis: emojis,
             games: { valorant },
         } = kuramisa;
 
@@ -59,7 +59,7 @@ export default class ValorantBundles {
 
         if (item.basePrice === 0) description = "For Free";
         else
-            description = `**${kEmojis.get("val_points") ?? ""} ${item.basePrice} VP ${
+            description = `**${emojis.get("val_points") ?? ""} ${item.basePrice} VP ${
                 item.basePrice === item.discountedPrice
                     ? ""
                     : `(${
@@ -88,9 +88,9 @@ export default class ValorantBundles {
                 break;
             }
             case "buddy": {
-                const color =
-                    (await kanvas.popularColor(item.levels[0].displayIcon)) ??
-                    "#808080";
+                const color = await kanvas.popularColor(
+                    item.levels[0].displayIcon
+                );
 
                 embed
                     .setAuthor({
@@ -104,8 +104,7 @@ export default class ValorantBundles {
                 break;
             }
             case "spray": {
-                const color =
-                    (await kanvas.popularColor(item.displayIcon)) ?? "#808080";
+                const color = await kanvas.popularColor(item.displayIcon);
 
                 embed
                     .setAuthor({
@@ -122,8 +121,7 @@ export default class ValorantBundles {
                 break;
             }
             case "player_card": {
-                const color =
-                    (await kanvas.popularColor(item.wideArt)) ?? "#808080";
+                const color = await kanvas.popularColor(item.wideArt);
 
                 embed
                     .setAuthor({
@@ -191,9 +189,7 @@ export default class ValorantBundles {
                             itemData = valorant.sprays.get(item.uuid)!;
                             break;
                         case "player_title":
-                            itemData = valorant.playerTitles.get(
-                                item.uuid
-                            )!;
+                            itemData = valorant.playerTitles.get(item.uuid)!;
                             break;
                         default:
                             throw new Error(`Unknown item type ${item.type}`);

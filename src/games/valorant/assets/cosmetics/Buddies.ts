@@ -4,9 +4,7 @@ import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "@discordjs/builders";
-import kuramisa from "@kuramisa";
 import { truncate } from "lodash";
-import { fetchStoreOffers } from "..";
 
 export default class ValorantBuddies {
     private readonly data: IValorantBuddy[];
@@ -53,9 +51,6 @@ export default class ValorantBuddies {
     levelEmbed = (buddy: IValorantBuddy, level: IValorantBuddyLevel) =>
         new Embed()
             .setAuthor({ name: buddy.displayName })
-            .setDescription(
-                `**${kuramisa.kEmojis.get("val_points")} ${buddy.cost} VP**`
-            )
             .setImage(level.displayIcon ?? buddy.displayIcon)
             .setColor("Random");
 
@@ -74,22 +69,9 @@ export default class ValorantBuddies {
             );
 
     static async init() {
-        const buddyData = await fetch(`${Valorant.assetsURL}/buddies`)
+        const data = await fetch(`${Valorant.assetsURL}/buddies`)
             .then((res) => res.json())
             .then((res: any) => res.data);
-
-        const buddyPrices = await fetchStoreOffers()
-            .then((res: any) => res.data?.offers)
-            .then((res) =>
-                res?.filter((offer: any) => offer?.type === "buddy")
-            );
-
-        const data = buddyData.map((buddy: any) => ({
-            ...buddy,
-            cost:
-                buddyPrices?.find((price: any) => price.buddy_id === buddy.uuid)
-                    ?.cost ?? 0,
-        }));
 
         return new ValorantBuddies(data);
     }

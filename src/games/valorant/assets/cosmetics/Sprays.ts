@@ -4,7 +4,6 @@ import {
 } from "discord.js";
 import Valorant from "../..";
 import { Embed, StringDropdown } from "@builders";
-import { fetchStoreOffers } from "..";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -67,20 +66,9 @@ export default class ValorantSprays {
             );
 
     static async init() {
-        const sprayData = await fetch(`${Valorant.assetsURL}/sprays`)
+        const data = await fetch(`${Valorant.assetsURL}/sprays`)
             .then((res) => res.json())
             .then((res: any) => res.data);
-
-        const sprayPrices = await fetchStoreOffers()
-            .then((res: any) => res.data?.offers)
-            .then((res) => res?.filter((offer: any) => offer.type === "spray"));
-
-        const data = sprayData.map((spray: any) => ({
-            ...spray,
-            cost:
-                sprayPrices?.find((price: any) => price.spray_id === spray.uuid)
-                    ?.cost ?? 0,
-        }));
 
         return new ValorantSprays(data);
     }

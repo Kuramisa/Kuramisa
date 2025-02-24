@@ -50,15 +50,6 @@ export {
     ValorantSprays,
 };
 
-export const fetchStoreOffers = async () =>
-    fetch("https://api.henrikdev.xyz/valorant/v2/store-offers", {
-        method: "GET",
-        headers: {
-            Authorization: process.env.HENRIKDEV_API_KEY ?? "",
-            "Content-Type": "application/json",
-        },
-    }).then((res) => res.json()) as any;
-
 export const fetchStoreFeautured = async () =>
     fetch("https://api.henrikdev.xyz/valorant/v2/store-featured", {
         method: "GET",

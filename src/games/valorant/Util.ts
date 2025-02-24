@@ -51,14 +51,6 @@ export default class ValorantUtil {
             components.push(skin.chroma.components);
         if (skin.level.embeds.length > 1)
             components.push(skin.level.components);
-        /*components.push(
-            new Row().setComponents(
-                new Button()
-                    .setCustomId("add_to_wishlist")
-                    .setLabel("Add to Wishlist")
-                    .setStyle(ButtonStyle.Success)
-            )
-        );*/
 
         return components;
     }
@@ -71,12 +63,16 @@ export default class ValorantUtil {
         skin: ValorantSkin,
         ephemeral = false
     ) {
-        const message = await interaction.reply({
-            embeds: [skin.level.embeds[0]],
-            components: this.determineComponents(skin),
-            fetchReply: true,
-            ephemeral,
-        });
+        const message = await interaction
+            .reply({
+                embeds: [skin.level.embeds[0]],
+                components: this.determineComponents(skin),
+                withResponse: true,
+                ephemeral,
+            })
+            .then((m) => m.resource?.message);
+
+        if (!message) return;
 
         const buttonCollector = message.createMessageComponentCollector({
             filter: (i) =>
@@ -99,7 +95,7 @@ export default class ValorantUtil {
             if (i.customId === "add_to_wishlist") {
                 await i.reply({
                     content: "**😁 Coming Soon™️!**",
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
                 return;
             }
@@ -153,9 +149,11 @@ export default class ValorantUtil {
                     })
                     .on("progress", async (progress) => {
                         const percent = Math.round(progress.percent ?? 0);
+                        if (isNaN(percent)) return;
                         logger.debug(
                             `Processing ${chromaName} video: ${percent}% done`
                         );
+
                         if (percent === 100) {
                             await interaction.editReply({
                                 content: `**Loading... \`${chromaName}\` - Complete**`,
@@ -163,16 +161,8 @@ export default class ValorantUtil {
                                 components: [],
                             });
 
-                            return;
+                            //return;
                         }
-
-                        // Keep this commented out for now, since it's a bit spammy to discord api
-                        await interaction.editReply({
-                            content: `**Loading... \`${chromaName}\` - ${percent}% done**`,
-                            embeds: [],
-                            components: [],
-                            files: [],
-                        });
                     })
                     .on("end", () => {
                         logger.debug(`Finished processing ${chromaName} video`);
@@ -284,15 +274,8 @@ export default class ValorantUtil {
                                 components: [],
                             });
 
-                            return;
+                            //return;
                         }
-
-                        await interaction.editReply({
-                            content: `**Loading... \`${skinName}\` - ${percent}% done**`,
-                            embeds: [],
-                            components: [],
-                            files: [],
-                        });
                     })
                     .on("end", () => {
                         logger.debug(`Finished processing ${skinName} video`);

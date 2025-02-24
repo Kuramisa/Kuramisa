@@ -1,7 +1,6 @@
 import kuramisa from "@kuramisa";
 import { ButtonStyle } from "discord.js";
 import Valorant from "../..";
-import { fetchStoreOffers } from "..";
 import { Button, Embed, Row } from "@builders";
 
 export default class ValorantWeapons {
@@ -21,26 +20,9 @@ export default class ValorantWeapons {
         ) ?? this.data.find((wp) => wp.uuid === weapon);
 
     static async init() {
-        const weaponData = await fetch(`${Valorant.assetsURL}/weapons`)
+        const data = await fetch(`${Valorant.assetsURL}/weapons`)
             .then((res) => res.json())
             .then((res: any) => res.data);
-
-        const skinPrices = await fetchStoreOffers()
-            .then((res: any) => res.data?.offers)
-            .then((res) =>
-                res?.filter((offer: any) => offer.type === "skin_level")
-            );
-
-        const data = weaponData.map((weapon: any) => ({
-            ...weapon,
-            skins: weapon.skins.map((skin: any) => ({
-                ...skin,
-                cost:
-                    skinPrices?.find(
-                        (price: any) => price.skin_id === skin.uuid
-                    )?.cost ?? 0,
-            })),
-        }));
 
         return new ValorantWeapons(data);
     }

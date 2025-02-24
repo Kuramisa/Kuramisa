@@ -48,7 +48,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
             return interaction
                 .reply({
                     content: `${emojis.get("no") ?? "🚫"} There is no music playing in this server`,
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 })
                 .then((i) => timedDelete(i));
 
@@ -62,7 +62,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 )
                     return interaction.reply({
                         content: `${emojis.get("no") ?? "🚫"} You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
 
                 return music.askForGoBackTo(interaction, queue);
@@ -74,7 +74,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 )
                     return interaction.reply({
                         content: `${emojis.get("no") ?? "🚫"} You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
 
                 return music.askForSkipTo(interaction, queue);
@@ -86,7 +86,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 )
                     return interaction.reply({
                         content: `${emojis.get("no") ?? "🚫"} You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
 
                 if (queue.repeatMode === QueueRepeatMode.TRACK) {
@@ -94,7 +94,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     return interaction
                         .reply({
                             content: `${emojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                         })
                         .then((i) => timedDelete(i));
                 }
@@ -108,21 +108,21 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     return interaction
                         .reply({
                             content: `${emojis.get("no") ?? "🚫"} There are no previous tracks in the queue`,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                         })
                         .then((i) => timedDelete(i));
 
                 return interaction
                     .reply({
                         content: `${emojis.get("player_previous") ?? "⏪"} Went back to the previous track`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
             }
             case "player_lyrics":
                 return interaction.reply({
                     content: `${emojis.get("no") ?? "🚫"} This feature is not available yet`,
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
             case "player_next": {
                 if (
@@ -131,7 +131,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 )
                     return interaction.reply({
                         content: `${emojis.get("no") ?? "🚫"} You didn't request current track playing, ask ${queue.currentTrack.requestedBy} to skip the track, as they requested it`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
 
                 if (queue.repeatMode === QueueRepeatMode.TRACK) {
@@ -139,7 +139,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     return interaction
                         .reply({
                             content: `${emojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                         })
                         .then((i) => timedDelete(i));
                 }
@@ -161,7 +161,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                             content:
                                 "There are no more tracks in the queue, the player will be stopped, are you sure? **(You have 15 seconds to respond)**",
                             withResponse: true,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                             components: [buttons],
                         })
                     ).resource?.message;
@@ -206,7 +206,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 return interaction
                     .reply({
                         content: `${emojis.get("player_skip") ?? "⏩"} Skipped the current track`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
             }
@@ -215,7 +215,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     return interaction
                         .reply({
                             content: `${emojis.get("no") ?? "🚫"} There is no track playing in this server`,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                         })
                         .then((i) => timedDelete(i));
 
@@ -227,7 +227,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                                 ? `${emojis.get("player_pause") ?? "⏸️"} Paused`
                                 : `${emojis.get("player_play") ?? "▶️"} Resumed`
                         }** the player`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
             }
@@ -236,7 +236,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 return interaction
                     .reply({
                         content: `${emojis.get("player_shuffle") ?? "🔀"} Shuffled the queue`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
             case "player_queue":
@@ -250,7 +250,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     return interaction
                         .reply({
                             content: `${emojis.get("no") ?? "🚫"} There is no track playing in this server`,
-                            ephemeral: true,
+                            flags: ["Ephemeral"],
                         })
                         .then((i) => timedDelete(i));
 
@@ -259,7 +259,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                         content:
                             queue.node.createProgressBar({ timecodes: true }) ??
                             "",
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
             }
@@ -268,7 +268,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 return interaction
                     .reply({
                         content: `${music.volumeEmoji(queue.node.volume)} Volume set to **${queue.node.volume}%**`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i, 2000));
             case "player_volume_mute":
@@ -279,7 +279,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                         content: `**${music.volumeEmoji(queue.node.volume)} ${
                             queue.node.volume === 0 ? "Muted" : "Unmuted"
                         }** the player`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i, 2000));
             case "player_volume_up":
@@ -287,7 +287,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 return interaction
                     .reply({
                         content: `${music.volumeEmoji(queue.node.volume)} Volume set to **${queue.node.volume}%**`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i, 2000));
             case "player_stop":
@@ -295,7 +295,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 return interaction
                     .reply({
                         content: `${emojis.get("player_stop") ?? "⏹️"} Stopped the player`,
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     })
                     .then((i) => timedDelete(i));
         }

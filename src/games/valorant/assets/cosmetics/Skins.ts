@@ -14,8 +14,6 @@ import Valorant from "../..";
 import { Embed } from "@builders";
 import truncate from "lodash/truncate";
 
-import { fetchStoreOffers } from "..";
-
 export default class ValorantSkins {
     private readonly data: IValorantWeaponSkin[];
 
@@ -41,22 +39,9 @@ export default class ValorantSkins {
         );
 
     static async init() {
-        const skinData = await fetch(`${Valorant.assetsURL}/weapons/skins`)
+        const data = await fetch(`${Valorant.assetsURL}/weapons/skins`)
             .then((res) => res.json())
             .then((res: any) => res.data);
-
-        const skinPrices = await fetchStoreOffers()
-            .then((res: any) => res.data?.offers)
-            .then((res) =>
-                res?.filter((offer: any) => offer.type === "skin_level")
-            );
-
-        const data = skinData.map((skin: any) => ({
-            ...skin,
-            cost:
-                skinPrices?.find((price: any) => price.skin_id === skin.uuid)
-                    ?.cost ?? 0,
-        }));
 
         return new ValorantSkins(data);
     }
@@ -127,9 +112,6 @@ export default class ValorantSkins {
                 name: level.displayName,
                 iconURL: contentTier.displayIcon,
             })
-            .setDescription(
-                `**${kuramisa.kEmojis.get("val_points") ?? ""} ${skin.cost} VP**`
-            )
             .setImage(level.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
@@ -171,9 +153,6 @@ export default class ValorantSkins {
                 name: chroma.displayName,
                 iconURL: contentTier.displayIcon,
             })
-            .setDescription(
-                `**${kuramisa.kEmojis.get("val_points") ?? ""} ${skin.cost}**`
-            )
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 

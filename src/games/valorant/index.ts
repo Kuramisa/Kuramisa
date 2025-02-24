@@ -103,7 +103,7 @@ export default class Valorant {
         logger.info("[Valorant] Initializing...");
 
         try {
-            logger.info("[Valorant] Initializing Assets...");
+            logger.info("[Valorant] Initializing Information...");
 
             logger.debug("[Valorant] Initializing Agents...");
             this.agents = await ValorantAgents.init();
@@ -198,7 +198,52 @@ export default class Valorant {
             this.version = await ValorantVersion.init();
             logger.debug(`[Valorant] Initialized Version`);
 
-            logger.info("[Valorant] Initialized Assets");
+            logger.info("[Valorant] Initialized Information");
+
+            logger.info("[Valorant] Initializing Cosmetics...");
+
+            logger.debug("[Valorant] Initializing Buddies...");
+            this.buddies = await ValorantBuddies.init();
+            logger.debug("[Valorant] Buddies: " + this.buddies.all.length);
+            logger.debug("[Valorant] Initialized Buddies");
+
+            logger.debug("[Valorant] Initializing Bundles...");
+            this.bundles = await ValorantBundles.init();
+            logger.debug("[Valorant] Bundles: " + this.bundles.all.length);
+            logger.debug("[Valorant] Initialized Bundles");
+
+            logger.debug("[Valorant] Initializing Level Borders...");
+            this.levelBorders = await ValorantLevelBorders.init();
+            logger.debug(
+                "[Valorant] Level Borders: " + this.levelBorders.all.length
+            );
+            logger.debug("[Valorant] Initialized Level Borders");
+
+            logger.debug("[Valorant] Initializing Player Cards...");
+            this.playerCards = await ValorantPlayerCards.init();
+            logger.debug(
+                "[Valorant] Player Cards: " + this.playerCards.all.length
+            );
+            logger.debug("[Valorant] Initialized Player Cards");
+
+            logger.debug("[Valorant] Initializing Player Titles...");
+            this.playerTitles = await ValorantPlayerTitles.init();
+            logger.debug(
+                "[Valorant] Player Titles: " + this.playerTitles.all.length
+            );
+            logger.debug("[Valorant] Initialized Player Titles");
+
+            logger.debug("[Valorant] Initializing Skins...");
+            this.skins = await ValorantSkins.init();
+            logger.debug("[Valorant] Skins: " + this.skins.all.length);
+            logger.debug("[Valorant] Initialized Skins");
+
+            logger.debug("[Valorant] Initializing Sprays...");
+            this.sprays = await ValorantSprays.init();
+            logger.debug("[Valorant] Sprays: " + this.sprays.all.length);
+            logger.debug("[Valorant] Initialized Sprays");
+
+            logger.info("[Valorant] Initialized Cosmetics");
         } catch (err) {
             logger.error(err);
         }

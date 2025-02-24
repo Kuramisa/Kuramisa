@@ -27,7 +27,7 @@ export default class CommandInteractionManager extends AbstractEvent {
 
             return interaction.reply({
                 content: "Waaa! I can't find this command!",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
         }
 
@@ -43,7 +43,7 @@ export default class CommandInteractionManager extends AbstractEvent {
 
                 return interaction.reply({
                     content: `You need the following permissions to run this command: **${missingPerms.join(", ")}**`,
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
             }
         }
@@ -61,7 +61,7 @@ export default class CommandInteractionManager extends AbstractEvent {
 
                 return interaction.reply({
                     content: `I need the following permissions to run this command: **${missingPerms.join(", ")}**`,
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
             }
         }
@@ -82,7 +82,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                 const timeLeft = (expirationTime - now) / 1000;
                 return interaction.reply({
                     content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`,
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
             }
         }
@@ -126,7 +126,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                     interaction.reply({
                         content:
                             "An error occurred while executing this command.",
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
             }
 
@@ -155,7 +155,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                     interaction.reply({
                         content:
                             "An error occurred while executing this command.",
-                        ephemeral: true,
+                        flags: ["Ephemeral"],
                     });
             }
 
@@ -178,7 +178,7 @@ export default class CommandInteractionManager extends AbstractEvent {
             else
                 interaction.reply({
                     content: "An error occurred while executing this command.",
-                    ephemeral: true,
+                    flags: ["Ephemeral"],
                 });
         }
     }

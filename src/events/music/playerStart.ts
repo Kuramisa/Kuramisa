@@ -26,6 +26,8 @@ export default class PlayerStartEvent extends AbstractEvent {
             return;
         }
 
+        console.log(channel);
+
         guild.musicMessage = await channel.send({
             embeds: [await music.nowPlayingEmbed(queue, track)],
             components: music.playerControls(),

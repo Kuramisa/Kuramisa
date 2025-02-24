@@ -26,13 +26,13 @@ export default class MockCommand extends AbstractMenuCommand {
         if (!message)
             return interaction.reply({
                 content: "Message not found",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         if (message.content.length < 1)
             return interaction.reply({
                 content: "Message is empty",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         if (
@@ -44,12 +44,12 @@ export default class MockCommand extends AbstractMenuCommand {
         if (message.webhookId != null)
             return interaction.reply({
                 content: "I can't mock a webhook message",
-                ephemeral: true,
+                flags: ["Ephemeral"],
             });
 
         await interaction.reply({
             content: `Mocked ${message.author}`,
-            ephemeral: true,
+            flags: ["Ephemeral"],
         });
 
         const webhook = await channel.createWebhook({
