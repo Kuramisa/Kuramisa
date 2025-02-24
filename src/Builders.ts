@@ -49,17 +49,10 @@ export class Attachment extends AttachmentBuilder {
 }
 
 export class Embed extends EmbedBuilder {
-    constructor(user?: GuildMember | User) {
+    constructor() {
         super();
         this.setColor("#f99753");
         this.setTimestamp();
-
-        if (user) {
-            this.setAuthor({
-                name: user.displayName,
-                iconURL: user.displayAvatarURL(),
-            });
-        }
     }
 }
 
