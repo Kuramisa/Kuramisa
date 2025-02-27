@@ -1,7 +1,7 @@
 import kuramisa from "@kuramisa";
 import logger from "../Logger";
 
-import { CDN, InteractionResponse, Message } from "discord.js";
+import { CDN, Guild, InteractionResponse, Message } from "discord.js";
 
 import crypto from "crypto";
 
@@ -38,6 +38,22 @@ export const extractUrls = (str: string) => RegExp(urlPattern).exec(str);
 export const secureRandom = () => {
     const buffer = crypto.randomBytes(4);
     return buffer.readUInt32BE(0) / 0xffffffff;
+};
+
+export const logsChannel = async (_guild: Guild) => {
+    const { managers } = kuramisa;
+    const guild = await managers.guilds.fetch(_guild.id);
+    if (!guild.logs.channel) return null;
+    let channel = guild.channels.cache.get(guild.logs.channel) ?? null;
+    if (!channel)
+        channel = (await guild.channels.fetch(guild.logs.channel)) ?? null;
+
+    if (!channel) return null;
+    if (!channel.isTextBased()) return null;
+    if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
+        return null;
+
+    return channel;
 };
 
 export const randElement = <T>(array: T[]): T =>

@@ -1,0 +1,54 @@
+import { Embed } from "@builders";
+import { AbstractEvent, Event } from "classes/Event";
+import { logsChannel } from "utils";
+import { AuditLogEvent, ChannelType, Message } from "discord.js";
+
+@Event({
+    event: "messageDelete",
+    description: "Logs when a message is deleted",
+})
+export default class MessageDeletedEvent extends AbstractEvent {
+    async run(message: Message) {
+        if (!message.inGuild()) return;
+        if (!message.author) return;
+        if (message.author.id === this.client.user?.id) return;
+        if (message.channel.type !== ChannelType.PrivateThread) return;
+
+        const { guild } = message;
+        const channel = await logsChannel(guild);
+        if (!channel) return;
+
+        const audit = await guild
+            .fetchAuditLogs({
+                type: AuditLogEvent.MessageDelete,
+            })
+            .then((audit) => audit.entries.first());
+
+        let title = `${message.author.globalName ?? message.author.username} deleted a message`;
+
+        if (audit && audit.createdTimestamp === Date.now()) {
+            const { executor: deletedBy } = audit;
+            if (deletedBy) {
+                title = `${title} by ${deletedBy.globalName ?? deletedBy.username}`;
+            }
+        }
+
+        const attachments = message.attachments.toJSON();
+
+        const embed = new Embed()
+            .setAuthor({
+                name: `${guild.name} Message Logs`,
+                iconURL: guild.iconURL()!,
+            })
+            .setThumbnail(message.author.avatarURL({ extension: "gif" }))
+            .setTitle(title)
+            .setDescription(
+                message.content.length > 0
+                    ? `\n\`\`\`${message.content}\`\`\``
+                    : ""
+            )
+            .setFooter({ text: `ID: ${message.id}` });
+
+        channel.send({ embeds: [embed], files: attachments });
+    }
+}
