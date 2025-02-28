@@ -74,6 +74,7 @@ export default class CommandManager {
 
         logger.info(`[Command Manager] Updating commands...`);
 
+
         await kuramisa.rest.put(
             Routes.applicationCommands(kuramisa.application.id),
             {

@@ -1,5 +1,6 @@
 import {
     ApplicationCommandOptionType,
+    ApplicationIntegrationType,
     ChatInputCommandInteraction,
     PermissionsBitField,
     SlashCommandAttachmentOption,
@@ -106,6 +107,10 @@ export abstract class AbstractSlashCommand
             .setContexts(contexts);
 
         if (integrations) this.data.setIntegrationTypes(integrations);
+        else
+            this.data.setIntegrationTypes([
+                ApplicationIntegrationType.GuildInstall,
+            ]);
 
         if (options && subcommands)
             throw new Error("Cannot have both options and subcommands");

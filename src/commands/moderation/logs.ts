@@ -18,6 +18,7 @@ import { camelCase, startCase } from "lodash";
     name: "logs",
     description: "Configure the logging system for the server",
     contexts: [InteractionContextType.Guild],
+
     subcommands: [
         {
             name: "channel",

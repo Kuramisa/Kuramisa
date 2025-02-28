@@ -1,6 +1,7 @@
 import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
+    ApplicationIntegrationType,
     bold,
     ChatInputCommandInteraction,
     ComponentType,
@@ -15,6 +16,10 @@ import { Pagination } from "utils";
         InteractionContextType.Guild,
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+    ],
+    integrations: [
+        ApplicationIntegrationType.GuildInstall,
+        ApplicationIntegrationType.UserInstall,
     ],
     subcommands: [
         {

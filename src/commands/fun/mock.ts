@@ -1,6 +1,7 @@
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
 import {
     ApplicationCommandType,
+    ApplicationIntegrationType,
     bold,
     ContextMenuCommandInteraction,
     InteractionContextType,
@@ -14,6 +15,10 @@ import { mockText } from "../../utils/index";
         InteractionContextType.Guild,
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+    ],
+    integrations: [
+        ApplicationIntegrationType.GuildInstall,
+        ApplicationIntegrationType.UserInstall,
     ],
     type: ApplicationCommandType.Message,
 })

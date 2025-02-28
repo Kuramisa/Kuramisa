@@ -1,6 +1,7 @@
 import { Attachment, StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
+    ApplicationIntegrationType,
     bold,
     ChatInputCommandInteraction,
     InteractionContextType,
@@ -14,6 +15,10 @@ import { nekos } from "utils";
         InteractionContextType.Guild,
         InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
+    ],
+    integrations: [
+        ApplicationIntegrationType.GuildInstall,
+        ApplicationIntegrationType.UserInstall,
     ],
     options: [
         new StringOption()
