@@ -98,9 +98,11 @@ export class Modal extends ModalBuilder {
 }
 
 export class TextInput extends TextInputBuilder {
-    constructor() {
+    constructor(style: "short" | "long" = "short") {
         super();
-        this.setStyle(TextInputStyle.Short);
+        this.setStyle(
+            style === "short" ? TextInputStyle.Short : TextInputStyle.Paragraph
+        );
     }
 }
 
