@@ -1,7 +1,7 @@
 import { Embed } from "@builders";
 import { AbstractEvent, Event } from "classes/Event";
 import { logsChannel } from "utils";
-import { Message } from "discord.js";
+import { Message, messageLink } from "discord.js";
 import { isEqual } from "lodash";
 
 @Event({
@@ -48,7 +48,9 @@ export default class MessageEditedEvent extends AbstractEvent {
             })
             .setTitle(`${newMessage.author.username} edited a message`)
             .setThumbnail(newMessage.author.avatarURL({ extension: "gif" }))
-            .setDescription(`${fromContent}\n${toContent}`)
+            .setDescription(
+                `${messageLink(newMessage.channelId, newMessage.id)} ${fromContent}\n${toContent}`
+            )
             .setFooter({ text: `ID: ${newMessage.id}` });
 
         channel.send({ embeds: [embed], files: attachments });

@@ -5,6 +5,7 @@
       "name": "kuramisa",
       "dependencies": {
         "@discord-player/extractor": "^7.1.0",
+        "@discordjs/formatters": "^0.6.0",
         "@napi-rs/canvas": "^0.1.67",
         "@valapi/auth": "^5.0.0-beta.3",
         "@valapi/valorant-api.com": "^5.0.0-beta.3",
@@ -43,7 +44,7 @@
         "prettier": "^3.5.2",
         "ts-node": "^10.9.2",
         "tsx": "^4.19.3",
-        "typescript-eslint": "^8.24.1",
+        "typescript-eslint": "^8.25.0",
       },
       "peerDependencies": {
         "typescript": "^5.7.3",

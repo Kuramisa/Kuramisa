@@ -1,6 +1,7 @@
 import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
+    bold,
     ChatInputCommandInteraction,
     ComponentType,
     InteractionContextType,
@@ -65,7 +66,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         const agent = valorant.agents.get(agentName);
         if (!agent)
             return interaction.reply({
-                content: "**Ermm... Agent not found**",
+                content: bold("Ermm... Agent not found"),
                 flags: ["Ephemeral"],
             });
 
@@ -87,7 +88,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
 
         if (!weapon)
             return interaction.reply({
-                content: "**Ermm... Weapon not found**",
+                content: bold("Ermm... Weapon not found**"),
                 flags: ["Ephemeral"],
             });
 
@@ -105,7 +106,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         const skin = infoCollection.at(page);
         if (!skin)
             return interaction.reply({
-                content: "**Ermm... Skin not found**",
+                content: bold("Ermm... Skin not found**"),
                 flags: ["Ephemeral"],
             });
 
@@ -145,7 +146,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
                 }
                 case "add_to_wishlist": {
                     await i.reply({
-                        content: "**😁 Coming Soon™️!**",
+                        content: bold("😁 Coming Soon™️!"),
                         flags: ["Ephemeral"],
                     });
                     return;
@@ -186,7 +187,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         const weapon = valorant.weapons.get(weaponName);
         if (!weapon)
             return interaction.reply({
-                content: "**Ermm... Weapon not found**",
+                content: bold("Ermm... Weapon not found"),
                 flags: ["Ephemeral"],
             });
         const weaponEmbed = valorant.weapons.embed(weapon);

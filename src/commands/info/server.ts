@@ -43,7 +43,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                         )}:R>
                         **Owner** - ${guild.members.cache.get(guild.ownerId)}
 
-                        **Description** - ${description ? description : "None"}
+                        **Description** - ${description ?? "None"}
 
                         **Features** - ${features
                             .map((feature) =>

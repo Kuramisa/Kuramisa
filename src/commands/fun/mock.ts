@@ -1,6 +1,7 @@
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
 import {
     ApplicationCommandType,
+    bold,
     ContextMenuCommandInteraction,
     InteractionContextType,
 } from "discord.js";
@@ -29,13 +30,13 @@ export default class MockCommand extends AbstractMenuCommand {
 
         if (!message)
             return interaction.reply({
-                content: "Message not found",
+                content: bold("Message not found"),
                 flags: ["Ephemeral"],
             });
 
         if (message.content.length < 1)
             return interaction.reply({
-                content: "Message is empty",
+                content: bold("Message is empty"),
                 flags: ["Ephemeral"],
             });
 
@@ -44,12 +45,12 @@ export default class MockCommand extends AbstractMenuCommand {
 
         if (message.webhookId != null)
             return interaction.reply({
-                content: "I can't mock a webhook message",
+                content: bold("I can't mock a webhook message"),
                 flags: ["Ephemeral"],
             });
 
         await interaction.reply({
-            content: `Mocked ${message.author}`,
+            content: bold(`Mocked ${message.author}`),
             flags: ["Ephemeral"],
         });
 

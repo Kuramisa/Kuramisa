@@ -1,6 +1,7 @@
 import { Attachment, StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
+    bold,
     ChatInputCommandInteraction,
     InteractionContextType,
 } from "discord.js";
@@ -35,15 +36,15 @@ export default class EightBallCommand extends AbstractSlashCommand {
             });
 
             return interaction.reply({
-                content: `${interaction.user}: **${question}**`,
+                content: `${interaction.user}: ${bold(question)}`,
                 files: [attachment],
-                allowedMentions: { repliedUser: false, users: [] },
+                flags: ["SuppressNotifications"],
             });
         }
 
         return interaction.reply({
-            content: `${interaction.user}: **${question}**\n${response}`,
-            allowedMentions: { repliedUser: false, users: [] },
+            content: `${interaction.user}: ${bold(question)}\n${response}`,
+            flags: ["SuppressNotifications"],
         });
     }
 }
