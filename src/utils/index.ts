@@ -43,6 +43,7 @@ export const secureRandom = () => {
 export const logsChannel = async (_guild: Guild) => {
     const { managers } = kuramisa;
     const guild = await managers.guilds.fetch(_guild.id);
+    if (!guild.logs) return null;
     if (!guild.logs.channel) return null;
     let channel = guild.channels.cache.get(guild.logs.channel) ?? null;
     if (!channel)

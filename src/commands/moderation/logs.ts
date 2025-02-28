@@ -1,6 +1,6 @@
 import {
-    KEmbed,
-    KRow,
+    Embed,
+    Row,
     ChannelOption,
     StringOption,
     StringDropdown,
@@ -10,18 +10,20 @@ import {
     ChannelType,
     ChatInputCommandInteraction,
     ComponentType,
+    InteractionContextType,
 } from "discord.js";
 import { camelCase, startCase } from "lodash";
 
 @SlashCommand({
     name: "logs",
     description: "Configure the logging system for the server",
+    contexts: [InteractionContextType.Guild],
     subcommands: [
         {
             name: "channel",
             description: "Set the logging channel",
             options: [
-                new KChannelOption()
+                new ChannelOption()
                     .setName("text_channel")
                     .setDescription("The channel to set as the logging channel")
 
@@ -32,7 +34,7 @@ import { camelCase, startCase } from "lodash";
             name: "toggles",
             description: "Toggle logging events",
             options: [
-                new KStringOption()
+                new StringOption()
                     .setName("toggle")
                     .setDescription("The event to toggle")
                     .setRequired(false)
@@ -47,7 +49,7 @@ import { camelCase, startCase } from "lodash";
 })
 export default class LogsCommand extends AbstractSlashCommand {
     async slashChannel(interaction: ChatInputCommandInteraction) {
-        if (!interaction.guildId) return;
+        if (!interaction.inCachedGuild()) return;
 
         const { database } = this.client;
         const { guildId, options } = interaction;
@@ -107,8 +109,8 @@ export default class LogsCommand extends AbstractSlashCommand {
                 };
             });
 
-        const row = new KRow().setComponents(
-            new KStringDropdown()
+        const row = new Row().setComponents(
+            new StringDropdown()
                 .setCustomId("choose_toggles")
                 .setOptions(toggles)
                 .setPlaceholder("Event - Current Status")
@@ -132,9 +134,7 @@ export default class LogsCommand extends AbstractSlashCommand {
         const chosenToggles = sInteraction.values;
         const messages = [];
         await sInteraction.deferUpdate();
-        for (let i = 0; i < chosenToggles.length; i++) {
-            const chosenToggle = chosenToggles[i];
-
+        for (const chosenToggle of chosenToggles) {
             const toggleName = startCase(chosenToggle);
 
             db.logs.types[chosenToggle as keyof typeof db.logs.types] =
@@ -151,7 +151,7 @@ export default class LogsCommand extends AbstractSlashCommand {
 
         await db.save();
 
-        const embed = new KEmbed()
+        const embed = new Embed()
             .setTitle("Toggled Logs")
             .setDescription(messages.join("\n"));
 
@@ -184,7 +184,7 @@ export default class LogsCommand extends AbstractSlashCommand {
             return `\`${formatted}\`: ${value ? "On" : "Off"}`;
         });
 
-        const embed = new KEmbed()
+        const embed = new Embed()
             .setTitle(`${guild.name} Logs Status`)
             .setDescription(
                 `\`Channel\`: ${channel ?? "Not set"}\n\n${toggles.join("\n")}`

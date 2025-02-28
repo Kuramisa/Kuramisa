@@ -10,13 +10,12 @@ import Stores from "stores";
 import crypto from "crypto";
 import Systems from "systems";
 
-import mongoose from "mongoose";
-import logger from "Logger";
 import Managers from "managers";
 import Kanvas from "kanvas";
 
 import dLogs from "discord-logs";
 import Games from "games";
+import Database from "database";
 
 const { TOKEN, DATABASE } = process.env;
 
@@ -26,6 +25,8 @@ if (!DATABASE) throw new Error("No database connection string provided");
 export default class Kuramisa extends Client {
     initialized = false;
     startTime = Date.now();
+
+    readonly database: Database;
 
     readonly kanvas: Kanvas;
     readonly games: Games;
@@ -56,6 +57,8 @@ export default class Kuramisa extends Client {
             ],
             partials: [Partials.Channel, Partials.Message, Partials.User],
         });
+
+        this.database = new Database();
 
         this.kanvas = new Kanvas();
         this.games = new Games();
@@ -103,12 +106,7 @@ export default class Kuramisa extends Client {
     }
 
     async login() {
-        await mongoose
-            .connect(DATABASE!)
-            .then(() => logger.info("[Database] Connected to the database"))
-            .catch((err) =>
-                logger.error("[Database] Error connecting to the database", err)
-            );
+        await this.database.connect();
 
         await dLogs(this, {
             debug: process.env.NODE_ENV === "development",

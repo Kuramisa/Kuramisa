@@ -9,16 +9,20 @@ import { mockText } from "../../utils/index";
 @MenuCommand({
     name: "Mock",
     description: "Mock someone's message",
-    contexts: [InteractionContextType.Guild],
+    contexts: [
+        InteractionContextType.Guild,
+        InteractionContextType.BotDM,
+        InteractionContextType.PrivateChannel,
+    ],
     type: ApplicationCommandType.Message,
 })
 export default class MockCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
-        if (!interaction.inCachedGuild()) return;
-
-        const { guild, channel, targetId, member } = interaction;
+        const { channel, targetId, user } = interaction;
 
         if (!channel) return;
+        if (!channel.isTextBased()) return;
+
         const message =
             channel.messages.cache.get(targetId) ||
             (await channel.messages.fetch(targetId).catch(() => null));
@@ -35,10 +39,7 @@ export default class MockCommand extends AbstractMenuCommand {
                 flags: ["Ephemeral"],
             });
 
-        if (
-            channel.isThread() ||
-            !guild.members.me?.permissions.has("ManageWebhooks")
-        )
+        if (channel.isThread())
             return interaction.reply({ content: mockText(message.content) });
 
         if (message.webhookId != null)
@@ -52,15 +53,23 @@ export default class MockCommand extends AbstractMenuCommand {
             flags: ["Ephemeral"],
         });
 
+        if (channel.isDMBased()) {
+            await message.reply({
+                content: `${message.author ? message.author.toString() : ""} ${mockText(message.content)}`,
+            });
+
+            return;
+        }
+
         const webhook = await channel.createWebhook({
-            name: member.displayName,
-            avatar: member.displayAvatarURL(),
+            name: user.displayName,
+            avatar: user.displayAvatarURL(),
         });
 
         await webhook.send({
-            content: `${message.member ? message.member.toString() : ""} ${mockText(message.content)}`,
-            username: member.displayName,
-            avatarURL: member.displayAvatarURL(),
+            content: `${message.author ? message.author.toString() : ""} ${mockText(message.content)}`,
+            username: user.displayName,
+            avatarURL: user.displayAvatarURL(),
             allowedMentions: { users: [] },
         });
 
