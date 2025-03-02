@@ -6,7 +6,7 @@ import {
     ContextMenuCommandInteraction,
     InteractionContextType,
 } from "discord.js";
-import { mockText } from "../../utils/index";
+import { mockText } from "utils/index";
 
 @MenuCommand({
     name: "Mock",
@@ -45,7 +45,7 @@ export default class MockCommand extends AbstractMenuCommand {
                 flags: ["Ephemeral"],
             });
 
-        if (channel.isThread())
+        if (channel.isThread() || channel.isDMBased())
             return interaction.reply({ content: mockText(message.content) });
 
         if (message.webhookId != null)
@@ -59,14 +59,6 @@ export default class MockCommand extends AbstractMenuCommand {
             flags: ["Ephemeral"],
         });
 
-        if (channel.isDMBased()) {
-            await message.reply({
-                content: `${message.author ? message.author.toString() : ""} ${mockText(message.content)}`,
-            });
-
-            return;
-        }
-
         const webhook = await channel.createWebhook({
             name: user.displayName,
             avatar: user.displayAvatarURL(),
@@ -76,7 +68,7 @@ export default class MockCommand extends AbstractMenuCommand {
             content: `${message.author ? message.author.toString() : ""} ${mockText(message.content)}`,
             username: user.displayName,
             avatarURL: user.displayAvatarURL(),
-            allowedMentions: { users: [] },
+            flags: ["SuppressNotifications"],
         });
 
         await webhook.delete();
