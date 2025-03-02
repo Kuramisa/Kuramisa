@@ -33,14 +33,12 @@ const logger = createLogger({
         customFormat
     ),
     rejectionHandlers: [
-        new transports.Console(),
         new transports.DailyRotateFile({
             filename: "logs/rejections-%DATE%.log",
             ...rotateOpts,
         }),
     ],
     exceptionHandlers: [
-        new transports.Console(),
         new transports.DailyRotateFile({
             filename: "logs/exceptions-%DATE%.log",
             ...rotateOpts,

@@ -1,5 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
 import logger from "Logger";
+import process from "process";
 
 @Event({
     event: "uncaughtException",
