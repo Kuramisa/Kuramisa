@@ -19,18 +19,50 @@ import {
                     .setDescription("The name of the channel to create"),
                 new BooleanOption()
                     .setName("custom_message")
-                    .setDescription("Whether to use a custom message")
-                    .setRequired(false),
+                    .setDescription("Whether to use a custom message"),
             ],
         },
         {
-            name: "view_setups",
+            name: "view-setups",
             description: "View self roles setups for this server",
-            options: [
-                new StringOption()
-                    .setName("sr_channel_name")
-                    .setDescription("The name of the channel to view")
-                    .setAutocomplete(true),
+        },
+    ],
+    groups: [
+        {
+            name: "message",
+            description: "Add/Remove/Edit message(s) for self roles",
+            subcommands: [
+                {
+                    name: "add",
+                    description: "Add a message for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel_name")
+                            .setDescription(
+                                "The name of the channel to add a new message in"
+                            )
+                            .setAutocomplete(true),
+                        new BooleanOption()
+                            .setName("custom_message")
+                            .setDescription("Whether to use a custom message"),
+                    ],
+                },
+                {
+                    name: "edit",
+                    description: "Edit a message for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel_name")
+                            .setDescription(
+                                "The name of the channel to edit a message in"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_message")
+                            .setDescription("The message to edit")
+                            .setAutocomplete(true),
+                    ],
+                },
             ],
         },
     ],
@@ -40,7 +72,15 @@ export default class SelfRolesCommand extends AbstractSlashCommand {
         this.client.systems.selfRoles.autoSetup(interaction);
     }
 
-    slashView(interaction: ChatInputCommandInteraction) {
+    slashViewSetups(interaction: ChatInputCommandInteraction) {
         this.client.systems.selfRoles.viewSetups(interaction);
+    }
+
+    slashMessageAdd(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.messageAdd(interaction);
+    }
+
+    slashMessageEdit(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.messageEdit(interaction);
     }
 }
