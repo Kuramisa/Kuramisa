@@ -23,10 +23,24 @@ import {
                     .setRequired(false),
             ],
         },
+        {
+            name: "view_setups",
+            description: "View self roles setups for this server",
+            options: [
+                new StringOption()
+                    .setName("sr_channel_name")
+                    .setDescription("The name of the channel to view")
+                    .setAutocomplete(true),
+            ],
+        },
     ],
 })
 export default class SelfRolesCommand extends AbstractSlashCommand {
     slashAutoSetup(interaction: ChatInputCommandInteraction) {
         this.client.systems.selfRoles.autoSetup(interaction);
+    }
+
+    slashView(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.viewSetups(interaction);
     }
 }

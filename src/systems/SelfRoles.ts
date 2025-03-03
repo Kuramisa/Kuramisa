@@ -1,12 +1,11 @@
 import { Modal, ModalRow, TextInput } from "@builders";
 import kuramisa from "@kuramisa";
-import { ChannelType, ChatInputCommandInteraction } from "discord.js";
+import { bold, ChannelType, ChatInputCommandInteraction } from "discord.js";
 
 export default class SelfRoles {
     async autoSetup(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         const { database } = kuramisa;
-
         const { options, guild } = interaction;
 
         const db = await database.guilds.fetch(guild.id);
@@ -88,5 +87,35 @@ export default class SelfRoles {
             content: `Self roles have been set up in ${channel}`,
             flags: ["Ephemeral"],
         });
+    }
+
+    async viewSetups(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
+
+        const { database } = kuramisa;
+        const { options, guild } = interaction;
+
+        const db = await database.guilds.fetch(guild.id);
+
+        const channelId = options.getString("sr_channel_name", true);
+
+        const channel =
+            guild.channels.cache.get(channelId) ??
+            (await guild.channels.fetch(channelId));
+
+        if (!channel) {
+            db.selfRoles = db.selfRoles.filter(
+                (sr) => sr.channelId !== channelId
+            );
+
+            await db.save();
+
+            return interaction.reply({
+                content: bold("This channel doesn't exist anymore"),
+                flags: ["Ephemeral"],
+            });
+        }
+
+        
     }
 }
