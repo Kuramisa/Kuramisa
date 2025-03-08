@@ -19,16 +19,28 @@ export default class SelfRoles {
         const channelName = options.getString("channel_name", true);
         const wantsCustomMessage = options.getBoolean("custom_message", true);
 
-        const channel = await guild.channels.create({
-            name: channelName,
-            type: ChannelType.GuildText,
-            permissionOverwrites: [
-                {
-                    id: guild.members.me?.id ?? kuramisa.user?.id ?? "",
-                    allow: ["ViewChannel", "SendMessages", "ManageMessages"],
-                },
-            ],
-        });
+        const channel = await guild.channels
+            .create({
+                name: channelName,
+                type: ChannelType.GuildText,
+                permissionOverwrites: [
+                    {
+                        id: guild.members.me?.id ?? kuramisa.user?.id ?? "",
+                        allow: [
+                            "ViewChannel",
+                            "SendMessages",
+                            "ManageMessages",
+                        ],
+                    },
+                ],
+            })
+            .catch(() => null);
+
+        if (!channel)
+            return interaction.reply({
+                content: bold("Failed to create channel!"),
+                flags: ["Ephemeral"],
+            });
 
         if (!wantsCustomMessage) {
             const message = await channel.send({
@@ -292,6 +304,51 @@ export default class SelfRoles {
 
         return mInteraction.reply({
             content: `Edited message ${message}`,
+            flags: ["Ephemeral"],
+        });
+    }
+
+    async messageRemove(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
+
+        const { database } = kuramisa;
+        const { options, guild } = interaction;
+
+        const db = await database.guilds.fetch(guild.id);
+
+        if (db.selfRoles.length === 0)
+            return interaction.reply({
+                content: bold("No self roles have been set up yet!"),
+                flags: ["Ephemeral"],
+            });
+
+        const channelId = options.getString("sr_channel_name", true);
+        const channel =
+            guild.channels.cache.get(channelId) ??
+            (await guild.channels.fetch(channelId));
+        if (!channel) return;
+        if (!channel.isTextBased()) return;
+
+        const dbChannel = db.selfRoles.find(
+            (selfRole) => selfRole.channelId === channel.id
+        );
+        if (!dbChannel) return;
+
+        const messageId = options.getString("sr_message", true);
+        const message =
+            channel.messages.cache.get(messageId) ??
+            (await channel.messages.fetch(messageId));
+        if (!message) return;
+
+        await message.delete();
+        dbChannel.messages = dbChannel.messages.filter(
+            (msg) => msg.id !== message.id
+        );
+        db.markModified("selfRoles");
+        await db.save();
+
+        return interaction.reply({
+            content: `Removed message ${message.id} - ${message.content} - from channel ${channel}`,
             flags: ["Ephemeral"],
         });
     }

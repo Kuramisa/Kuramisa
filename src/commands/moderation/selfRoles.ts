@@ -63,6 +63,22 @@ import {
                             .setAutocomplete(true),
                     ],
                 },
+                {
+                    name: "remove",
+                    description: "Remove a message for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel_name")
+                            .setDescription(
+                                "The name of the channel to remove a message from"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_message")
+                            .setDescription("The message to remove")
+                            .setAutocomplete(true),
+                    ],
+                },
             ],
         },
     ],
@@ -82,5 +98,9 @@ export default class SelfRolesCommand extends AbstractSlashCommand {
 
     slashMessageEdit(interaction: ChatInputCommandInteraction) {
         this.client.systems.selfRoles.messageEdit(interaction);
+    }
+
+    slashMessageRemove(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.messageRemove(interaction);
     }
 }
