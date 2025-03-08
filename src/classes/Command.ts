@@ -73,7 +73,6 @@ export abstract class AbstractCommand implements ICommand {
         this.contexts = contexts ?? [];
         this.integrations = integrations ?? [
             ApplicationIntegrationType.GuildInstall,
-            ApplicationIntegrationType.UserInstall,
         ];
     }
 }
