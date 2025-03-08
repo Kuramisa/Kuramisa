@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/pseudo-random */
+ 
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
 import {
     ApplicationCommandType,
@@ -6,7 +6,8 @@ import {
     ContextMenuCommandInteraction,
     InteractionContextType,
 } from "discord.js";
-import { convert } from "owospeak";
+
+import { owoify } from "utils";
 
 @MenuCommand({
     name: "OwOify",
@@ -35,11 +36,7 @@ export default class OwOCtxCommand extends AbstractMenuCommand {
                 ephemeral: true,
             });
 
-        const owo = convert(message.content, {
-            tilde: Math.random() < 0.5,
-            stutter: Math.random() < 0.5,
-        });
-
+        const owo = owoify(message.content);
         return interaction.reply({ content: owo });
     }
 }

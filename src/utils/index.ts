@@ -14,6 +14,7 @@ import "dayjs/plugin/duration";
 
 import { memberActions, statusColor, statusEmoji, statusText } from "./Member";
 import Pagination from "./Pagination";
+import { convert } from "owospeak";
 
 export const cdn = new CDN();
 export const nekos = new Nekos();
@@ -39,6 +40,12 @@ export const secureRandom = () => {
     const buffer = crypto.randomBytes(4);
     return buffer.readUInt32BE(0) / 0xffffffff;
 };
+
+export const owoify = (text: string) =>
+    convert(text, {
+        tilde: crypto.randomInt(1) === 0,
+        stutter: crypto.randomInt(1) === 0,
+    });
 
 export const logsChannel = async (_guild: Guild) => {
     const { managers } = kuramisa;

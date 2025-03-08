@@ -1,4 +1,4 @@
-/* eslint-disable sonarjs/pseudo-random */
+ 
 import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
@@ -6,7 +6,8 @@ import {
     ChatInputCommandInteraction,
     InteractionContextType,
 } from "discord.js";
-import { convert } from "owospeak";
+
+import { owoify } from "utils";
 
 @SlashCommand({
     name: "owo",
@@ -27,10 +28,7 @@ import { convert } from "owospeak";
 export default class OwOCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
         const text = interaction.options.getString("text", true);
-        const owo = convert(text, {
-            tilde: Math.random() < 0.5,
-            stutter: Math.random() < 0.5,
-        });
+        const owo = owoify(text);
 
         interaction.reply({ content: owo });
     }
