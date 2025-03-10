@@ -38,9 +38,9 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         if (!interaction.inCachedGuild()) return;
 
         const { guild, options } = interaction;
-        const { database } = this.client;
+        const { managers } = this.client;
 
-        const db = await database.guilds.fetch(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const role = options.getRole("role_to_add", true);
 
@@ -69,9 +69,9 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         if (!interaction.inCachedGuild()) return;
 
         const { guild, options } = interaction;
-        const { database } = this.client;
+        const { managers } = this.client;
 
-        const db = await database.guilds.fetch(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const roleStr = options.getString("role_to_remove", true);
 

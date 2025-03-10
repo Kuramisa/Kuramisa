@@ -141,7 +141,7 @@ export default class YourValorantAutocomplete extends AbstractEvent {
 
                 return interaction.respond(
                     weapons
-                        .sort(
+                        .toSorted(
                             (a, b) =>
                                 a.shopData?.category.localeCompare(
                                     b.shopData?.category ?? ""

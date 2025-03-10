@@ -102,7 +102,7 @@ import {
             ],
         },
         {
-            name: "buttons",
+            name: "button",
             description: "Add/Remove/Edit buttons for self roles",
             subcommands: [
                 {

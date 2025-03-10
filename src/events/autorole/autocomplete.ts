@@ -11,12 +11,12 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
         if (interaction.commandName !== "autorole") return;
         if (!interaction.inCachedGuild()) return;
 
-        const { options, guildId } = interaction;
+        const { managers } = this.client;
+        const { options, guild } = interaction;
 
-        const guild = await this.client.managers.guilds.get(guildId);
-        if (!guild) return;
+        const db = await managers.guilds.get(guild.id);
 
-        const { autorole } = guild;
+        const { autorole } = db;
         if (!autorole) return;
 
         const value = options.getFocused();
@@ -34,7 +34,7 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
             const role =
                 guild.roles.cache.find((r) => r.name === roleStr) ??
                 guild.roles.cache.get(roleStr) ??
-                (await guild.roles.fetch(roleStr));
+                (await guild.roles.fetch(roleStr).catch(() => null));
 
             if (!role) continue;
 

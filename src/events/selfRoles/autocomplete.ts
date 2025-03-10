@@ -13,19 +13,21 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
         if (!interaction.inCachedGuild()) return;
 
         const { managers } = this.client;
-        const { options } = interaction;
+        const { options, guild } = interaction;
 
-        const guild = await managers.guilds.get(interaction.guildId);
+        const db = await managers.guilds.get(guild.id);
         const { name, value } = options.getFocused(true);
 
         switch (name) {
             case "sr_channel_name": {
                 let channels: GuildTextBasedChannel[] = [];
 
-                for (const dbChannel of guild.selfRoles) {
+                for (const dbChannel of db.selfRoles) {
                     const channel =
                         guild.channels.cache.get(dbChannel.channelId) ??
-                        (await guild.channels.fetch(dbChannel.channelId));
+                        (await guild.channels
+                            .fetch(dbChannel.channelId)
+                            .catch(() => null));
                     if (!channel) continue;
                     if (!channel.isTextBased()) continue;
                     channels.push(channel);
@@ -46,15 +48,16 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                 );
             }
             case "sr_message": {
-                const channelId = options.getString("sr_channel_name", true);
+                const channelId = options.getString("sr_channel_name");
+                if (!channelId) return;
                 const channel =
                     guild.channels.cache.get(channelId) ??
-                    (await guild.channels.fetch(channelId));
+                    (await guild.channels.fetch(channelId).catch(() => null));
 
                 if (!channel) return;
                 if (!channel.isTextBased()) return;
 
-                const dbChannel = guild.selfRoles.find(
+                const dbChannel = db.selfRoles.find(
                     (sr) => sr.channelId === channel.id
                 );
 
@@ -64,7 +67,9 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                 for (const dbMessage of dbChannel.messages) {
                     const message =
                         channel.messages.cache.get(dbMessage.id) ??
-                        (await channel.messages.fetch(dbMessage.id));
+                        (await channel.messages
+                            .fetch(dbMessage.id)
+                            .catch(() => null));
                     if (!message) continue;
                     messages.push(message);
                 }

@@ -1,12 +1,11 @@
 import kuramisa from "@kuramisa";
 import { Collection, type Guild, type Snowflake } from "discord.js";
-import merge from "lodash/merge";
 import logger from "Logger";
-import type { IGuild } from "models/Guild";
+import type { GuildDocument } from "models/Guild";
 import guildModel from "models/Guild";
 
 export default class GuildManager {
-    readonly cache: Collection<string, Guild & IGuild>;
+    readonly cache: Collection<string, GuildDocument>;
 
     constructor() {
         this.cache = new Collection();
@@ -22,26 +21,19 @@ export default class GuildManager {
             `[Guild Manager] Guild added to the database (ID: ${guild.id} - Name: ${guild.name})`
         );
 
-        const info = merge(guild, doc.toObject());
-
-        if (!this.cache.has(guild.id)) this.cache.set(guild.id, info);
-
-        return info;
+        return doc;
     }
 
     get = (id: Snowflake) => this.cache.get(id) ?? this.fetch(id);
 
     async fetch(id: Snowflake) {
-        let guild = kuramisa.guilds.cache.get(id);
-        if (!guild) guild = await kuramisa.guilds.fetch(id);
+        const guild =
+            kuramisa.guilds.cache.get(id) ?? (await kuramisa.guilds.fetch(id));
+        const doc =
+            (await guildModel.findOne({ id })) ?? (await this.create(guild));
 
-        const doc = await guildModel.findOne({ id });
-        if (!doc) return this.create(guild);
+        this.cache.set(id, doc);
 
-        const info = merge(guild, doc.toObject());
-
-        this.cache.set(id, info);
-
-        return info;
+        return doc;
     }
 }

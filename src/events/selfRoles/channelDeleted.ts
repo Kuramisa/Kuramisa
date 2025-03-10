@@ -11,10 +11,10 @@ export default class SelfRolesChannelDeleted extends AbstractEvent {
         if (channel.isDMBased()) return;
         if (channel.type !== ChannelType.GuildText) return;
 
-        const { database } = this.client;
+        const { managers } = this.client;
         const { guild } = channel;
 
-        const db = await database.guilds.fetch(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         db.selfRoles = db.selfRoles.filter(
             (selfRole) => selfRole.channelId !== channel.id

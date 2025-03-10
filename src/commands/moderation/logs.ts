@@ -52,10 +52,10 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashChannel(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { database } = this.client;
+        const { managers } = this.client;
         const { guildId, options } = interaction;
 
-        const db = await database.guilds.fetch(guildId);
+        const db = await managers.guilds.get(guildId);
 
         const channel = options.getChannel("text_channel", true);
 
@@ -71,10 +71,10 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashToggles(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId) return;
 
-        const { database } = this.client;
+        const { managers } = this.client;
         const { guildId, options } = interaction;
 
-        const db = await database.guilds.fetch(guildId);
+        const db = await managers.guilds.get(guildId);
         const toggle = options.getString("toggle");
 
         if (toggle) {
@@ -166,10 +166,10 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashStatus(interaction: ChatInputCommandInteraction) {
         if (!interaction.guild) return;
 
-        const { database } = this.client;
+        const { managers } = this.client;
         const { guild } = interaction;
 
-        const db = await database.guilds.fetch(guild.id);
+        const db = await managers.guilds.get(guild.id);
         if (!db.logs.channel)
             return interaction.reply({
                 content: "Logs channel is not set!",

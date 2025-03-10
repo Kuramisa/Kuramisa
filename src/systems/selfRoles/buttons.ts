@@ -7,10 +7,10 @@ export default class SelfRolesButtons {
     async buttonAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { database } = kuramisa;
+        const { managers } = kuramisa;
         const { options, guild } = interaction;
 
-        const db = await database.guilds.fetch(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({

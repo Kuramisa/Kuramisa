@@ -1,6 +1,5 @@
 import { AuthUserInfo } from "@valapi/auth";
 import { model, Schema } from "mongoose";
-import { IGuild } from "./Guild";
 
 export interface IUser {
     id: string;
@@ -57,7 +56,7 @@ export const userSchema = new Schema({
     },
 });
 
-const userModel = model<IGuild>("users", userSchema);
+const userModel = model<IUser>("users", userSchema);
 
 export type UserDocument = ReturnType<(typeof userModel)["hydrate"]>;
 

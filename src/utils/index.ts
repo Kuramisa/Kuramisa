@@ -47,14 +47,14 @@ export const owoify = (text: string) =>
         stutter: crypto.randomInt(1) === 0,
     });
 
-export const logsChannel = async (_guild: Guild) => {
+export const logsChannel = async (guild: Guild) => {
     const { managers } = kuramisa;
-    const guild = await managers.guilds.fetch(_guild.id);
-    if (!guild.logs) return null;
-    if (!guild.logs.channel) return null;
-    let channel = guild.channels.cache.get(guild.logs.channel) ?? null;
-    if (!channel)
-        channel = (await guild.channels.fetch(guild.logs.channel)) ?? null;
+    const db = await managers.guilds.get(guild.id);
+    if (!db.logs) return null;
+    if (!db.logs.channel) return null;
+    const channel =
+        guild.channels.cache.get(db.logs.channel) ??
+        (await guild.channels.fetch(db.logs.channel).catch(() => null));
 
     if (!channel) return null;
     if (!channel.isTextBased()) return null;
