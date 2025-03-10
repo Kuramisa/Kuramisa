@@ -9,6 +9,8 @@ import {
     name: "autorole",
     description: "Set the autorole for the server",
     contexts: [InteractionContextType.Guild],
+    userPermissions: ["ManageRoles"],
+    botPermissions: ["ManageRoles"],
     subcommands: [
         {
             name: "add",

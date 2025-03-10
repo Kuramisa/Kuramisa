@@ -9,6 +9,20 @@ import {
     name: "self-roles",
     description: "Configure self roles for this server",
     contexts: [InteractionContextType.Guild],
+    userPermissions: [
+        "ManageChannels",
+        "ManageRoles",
+        "ManageMessages",
+        "SendMessages",
+        "ReadMessageHistory",
+    ],
+    botPermissions: [
+        "ManageChannels",
+        "ManageRoles",
+        "ManageMessages",
+        "SendMessages",
+        "ReadMessageHistory",
+    ],
     subcommands: [
         {
             name: "auto-setup",
