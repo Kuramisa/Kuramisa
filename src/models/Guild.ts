@@ -37,7 +37,7 @@ export interface IGuild {
                 id: string;
                 name: string;
                 roleId: string;
-                emoji: string;
+                emoji?: string | null;
                 style: number;
             }[];
         }[];

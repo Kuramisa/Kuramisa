@@ -1,6 +1,12 @@
-import { BooleanOption, StringOption } from "@builders";
+import {
+    BooleanOption,
+    NumberOption,
+    RoleOption,
+    StringOption,
+} from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
+    ButtonStyle,
     ChatInputCommandInteraction,
     InteractionContextType,
 } from "discord.js";
@@ -95,6 +101,61 @@ import {
                 },
             ],
         },
+        {
+            name: "buttons",
+            description: "Add/Remove/Edit buttons for self roles",
+            subcommands: [
+                {
+                    name: "add",
+                    description: "Add a button for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel_name")
+                            .setDescription(
+                                "The name of the channel to add a new button in"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_message")
+                            .setDescription("The message to add a button to")
+                            .setAutocomplete(true),
+                        new RoleOption()
+                            .setName("sr_button_role")
+                            .setDescription(
+                                "The role to give when the button is clicked"
+                            ),
+                        new StringOption()
+                            .setName("sr_button_name")
+                            .setDescription("The name of the button"),
+                        new NumberOption()
+                            .setName("sr_button_style")
+                            .setDescription("The style of the button")
+                            .setChoices(
+                                {
+                                    name: "Blurple",
+                                    value: ButtonStyle.Primary,
+                                },
+                                {
+                                    name: "Grey",
+                                    value: ButtonStyle.Secondary,
+                                },
+                                {
+                                    name: "Green",
+                                    value: ButtonStyle.Success,
+                                },
+                                {
+                                    name: "Red",
+                                    value: ButtonStyle.Danger,
+                                }
+                            ),
+                        new StringOption()
+                            .setName("sr_button_emoji")
+                            .setDescription("The emoji of the button")
+                            .setRequired(false),
+                    ],
+                },
+            ],
+        },
     ],
 })
 export default class SelfRolesCommand extends AbstractSlashCommand {
@@ -107,14 +168,18 @@ export default class SelfRolesCommand extends AbstractSlashCommand {
     }
 
     slashMessageAdd(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messageAdd(interaction);
+        this.client.systems.selfRoles.messages.messageAdd(interaction);
     }
 
     slashMessageEdit(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messageEdit(interaction);
+        this.client.systems.selfRoles.messages.messageEdit(interaction);
     }
 
     slashMessageRemove(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messageRemove(interaction);
+        this.client.systems.selfRoles.messages.messageRemove(interaction);
+    }
+
+    slashButtonAdd(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.buttons.buttonAdd(interaction);
     }
 }

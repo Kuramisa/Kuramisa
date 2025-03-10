@@ -1,6 +1,6 @@
 import type Kuramisa from "Kuramisa";
 import Music from "./Music";
-import SelfRoles from "./SelfRoles";
+import SelfRoles from "./selfRoles";
 
 export default class Systems {
     readonly kuramisa: Kuramisa;
