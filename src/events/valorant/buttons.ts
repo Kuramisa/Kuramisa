@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { ComponentType, Interaction } from "discord.js";
+import { bold, ComponentType, Interaction } from "discord.js";
 
 @Event({
     event: "interactionCreate",
@@ -29,14 +29,14 @@ export default class ValorantButtons extends AbstractEvent {
 
         if (!weapon)
             return interaction.reply({
-                content: "**😞 Weapon not found!**",
+                content: bold("Weapon not found"),
                 flags: ["Ephemeral"],
             });
 
         if (customId.includes("skins")) {
             const skins = weapon.skins
                 .filter((skin) => skin.contentTierUuid)
-                .sort((a, b) => a.displayName.localeCompare(b.displayName));
+                .toSorted((a, b) => a.displayName.localeCompare(b.displayName));
 
             await interaction.deferReply();
 

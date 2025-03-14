@@ -4,6 +4,7 @@ import {
 } from "discord.js";
 import Valorant from "../..";
 import { Embed, StringDropdown } from "@builders";
+import logger from "Logger";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -68,7 +69,11 @@ export default class ValorantSprays {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/sprays`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantSprays(data);
     }

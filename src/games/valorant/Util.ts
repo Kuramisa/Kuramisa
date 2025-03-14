@@ -1,11 +1,10 @@
-import { Button, Row } from "@builders";
+import { Attachment, Button, Row } from "@builders";
 
 import ffmpeg from "fluent-ffmpeg";
 
 import {
     ActionRowBuilder,
     MessageActionRowComponentBuilder,
-    AttachmentBuilder,
     ButtonInteraction,
     ChatInputCommandInteraction,
     ComponentType,
@@ -41,10 +40,11 @@ export default class ValorantUtil {
             components.push(navRow);
         }
 
-        skin.chroma.components.components.map((component: any, i: number) =>
-            i === chromaPage
-                ? component.setDisabled(true)
-                : component.setDisabled(false)
+        skin.chroma.components.components.forEach(
+            (component: any, i: number) =>
+                i === chromaPage
+                    ? component.setDisabled(true)
+                    : component.setDisabled(false)
         );
 
         if (skin.chroma.embeds.length > 1)
@@ -151,28 +151,25 @@ export default class ValorantUtil {
                         const percent = Math.round(progress.percent ?? 0);
                         if (isNaN(percent)) return;
                         logger.debug(
-                            `Processing ${chromaName} video: ${percent}% done`
+                            `[Valorant Skin Video] Processing ${chromaName} video: ${percent}% done`
                         );
-
-                        if (percent === 100) {
-                            await interaction.editReply({
-                                content: `**Loading... \`${chromaName}\` - Complete**`,
-                                embeds: [],
-                                components: [],
-                            });
-
-                            //return;
-                        }
                     })
-                    .on("end", () => {
-                        logger.debug(`Finished processing ${chromaName} video`);
+                    .on("end", async () => {
+                        logger.debug(
+                            `[Valorant Skin Video] Finished processing ${chromaName} video`
+                        );
+                        await interaction.editReply({
+                            content: `**Loading \`${chromaName}\` - Complete**`,
+                            embeds: [],
+                            components: [],
+                        });
                     })
                     .outputOptions("-movflags frag_keyframe+empty_moov")
                     .pipe();
 
-                const chromaAttachment = new AttachmentBuilder(
-                    chromaStream
-                ).setName(`${chromaName.replaceAll(" ", "_")}.mp4`);
+                const chromaAttachment = new Attachment(chromaStream).setName(
+                    `${chromaName.replaceAll(" ", "_")}.mp4`
+                );
 
                 await interaction.editReply({
                     content: null,
@@ -264,28 +261,25 @@ export default class ValorantUtil {
                     .on("progress", async (progress) => {
                         const percent = Math.round(progress.percent ?? 0);
                         logger.debug(
-                            `Processing ${skinName} video: ${percent}% done`
+                            `[Valorant Skin Video] Processing ${skinName} video: ${percent}% done`
                         );
-                        // Keep this commented out for now, since it's a bit spammy to discord api
-                        if (percent === 100) {
-                            await interaction.editReply({
-                                content: `**Loading... \`${skinName}\` - Complete**`,
-                                embeds: [],
-                                components: [],
-                            });
-
-                            //return;
-                        }
                     })
-                    .on("end", () => {
-                        logger.debug(`Finished processing ${skinName} video`);
+                    .on("end", async () => {
+                        logger.debug(
+                            `[Valorant Skin Video] Finished processing ${skinName} video`
+                        );
+                        await interaction.editReply({
+                            content: `**Loading \`${skinName}\` - Complete**`,
+                            embeds: [],
+                            components: [],
+                        });
                     })
                     .outputOptions("-movflags frag_keyframe+empty_moov")
                     .pipe();
 
-                const skinAttachment = new AttachmentBuilder(
-                    skinStream
-                ).setName(`${skinName.replaceAll(" ", "_")}.mp4`);
+                const skinAttachment = new Attachment(skinStream).setName(
+                    `${skinName.replaceAll(" ", "_")}.mp4`
+                );
 
                 await interaction.editReply({
                     content: null,
@@ -311,7 +305,7 @@ export default class ValorantUtil {
 
             await interaction
                 .update({
-                    content: `**Link to the preview** -> ${skinVideo}`,
+                    content: `**Link to the preview** *(since the video file size was too large to display)* -> ${skinVideo}`,
                     embeds: [skinEmbed],
                     components: this.determineComponents(skin, withNavigation),
                     files: [],

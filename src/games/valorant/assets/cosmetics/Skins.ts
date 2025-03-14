@@ -13,6 +13,7 @@ import {
 import Valorant from "../..";
 import { Embed } from "@builders";
 import truncate from "lodash/truncate";
+import logger from "Logger";
 
 export default class ValorantSkins {
     private readonly data: IValorantWeaponSkin[];
@@ -41,7 +42,11 @@ export default class ValorantSkins {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/weapons/skins`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantSkins(data);
     }

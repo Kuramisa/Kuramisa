@@ -2,6 +2,7 @@ import kuramisa from "@kuramisa";
 import Valorant from "../..";
 import { Embed } from "@builders";
 import { fetchStoreFeautured } from "..";
+import logger from "Logger";
 
 export default class ValorantBundles {
     private readonly data: IValorantBundle[];
@@ -150,7 +151,11 @@ export default class ValorantBundles {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/bundles`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantBundles(data);
     }
