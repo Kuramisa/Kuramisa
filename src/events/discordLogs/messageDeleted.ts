@@ -26,7 +26,7 @@ export default class MessageDeletedEvent extends AbstractEvent {
         if (audit) {
             const { target, executor: deletedBy } = audit;
             if (deletedBy) {
-                title += ` by ${deletedBy.globalName ?? deletedBy.username} deleted a message`;
+                title += ` by ${deletedBy.globalName ?? deletedBy.username}`;
             }
             if (target) {
                 title += ` that was sent by ${target.globalName ?? target.username}`;
