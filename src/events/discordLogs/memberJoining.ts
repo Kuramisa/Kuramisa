@@ -30,14 +30,14 @@ export default class MemberJoinEvent extends AbstractEvent {
             })
             .setFooter({ text: `ID: ${member.id}` });
 
-        if (member.joinedTimestamp)
-            embed.addFields({
-                name: "Joined Server",
-                value: `<t:${Math.floor(
-                    (member.joinedTimestamp as number) / 1000
-                )}:R>`,
-                inline: true,
-            });
+            if (member.joinedTimestamp)
+                embed.addFields({
+                    name: "Joined Server",
+                    value: `<t:${Math.floor(
+                        (member.joinedTimestamp) / 1000
+                    )}:R>`,
+                    inline: true,
+                });
 
         channel.send({ embeds: [embed] });
     }

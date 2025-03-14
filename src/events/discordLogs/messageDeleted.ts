@@ -1,7 +1,7 @@
 import { Embed } from "@builders";
 import { AbstractEvent, Event } from "classes/Event";
 import { logsChannel } from "utils";
-import { AuditLogEvent, ChannelType, Message } from "discord.js";
+import { AuditLogEvent, Message } from "discord.js";
 
 @Event({
     event: "messageDelete",
@@ -10,9 +10,6 @@ import { AuditLogEvent, ChannelType, Message } from "discord.js";
 export default class MessageDeletedEvent extends AbstractEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
-        if (!message.author) return;
-        if (message.author.id === this.client.user?.id) return;
-        if (message.channel.type !== ChannelType.PrivateThread) return;
 
         const { guild } = message;
         const channel = await logsChannel(guild);
@@ -24,12 +21,15 @@ export default class MessageDeletedEvent extends AbstractEvent {
             })
             .then((audit) => audit.entries.first());
 
-        let title = `${message.author.globalName ?? message.author.username} deleted a message`;
+        let title = "Message was deleted";
 
-        if (audit && audit.createdTimestamp === Date.now()) {
-            const { executor: deletedBy } = audit;
+        if (audit) {
+            const { target, executor: deletedBy } = audit;
             if (deletedBy) {
-                title = `${title} by ${deletedBy.globalName ?? deletedBy.username}`;
+                title += ` by ${deletedBy.globalName ?? deletedBy.username} deleted a message`;
+            }
+            if (target) {
+                title += ` that was sent by ${target.globalName ?? target.username}`;
             }
         }
 
@@ -40,7 +40,6 @@ export default class MessageDeletedEvent extends AbstractEvent {
                 name: `${guild.name} Message Logs`,
                 iconURL: guild.iconURL()!,
             })
-            .setThumbnail(message.author.avatarURL({ extension: "gif" }))
             .setTitle(title)
             .setDescription(
                 message.content.length > 0

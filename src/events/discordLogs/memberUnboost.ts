@@ -20,7 +20,7 @@ export default class MemberUnboostEvent extends AbstractEvent {
                 iconURL: guild.iconURL() ?? undefined,
             })
             .setTitle(
-                `${member.user.username} Removed the boost from the server`
+                `${member.user.username} removed the boost from the server`
             )
             .setThumbnail(member.displayAvatarURL());
 

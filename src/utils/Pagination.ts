@@ -50,7 +50,10 @@ export default class Pagination {
             return embed;
         });
 
-        if (!interaction.deferred) await interaction.deferReply({ ephemeral });
+        if (!interaction.deferred)
+            await interaction.deferReply({
+                flags: ephemeral ? ["Ephemeral"] : [],
+            });
 
         const message = await interaction.editReply({
             embeds: [embeds[page]],
@@ -140,7 +143,9 @@ export default class Pagination {
             });
         } else {
             if (!interaction.replied && !interaction.deferred)
-                await interaction.deferReply({ ephemeral });
+                await interaction.deferReply({
+                    flags: ephemeral ? ["Ephemeral"] : [],
+                });
 
             if (interaction.ephemeral) ephemeral = true;
 
@@ -233,7 +238,9 @@ export default class Pagination {
             });
         } else {
             if (!interaction.replied && !interaction.deferred)
-                await interaction.deferReply({ ephemeral });
+                await interaction.deferReply({
+                    flags: ephemeral ? ["Ephemeral"] : [],
+                });
 
             if (interaction.ephemeral) ephemeral = true;
 

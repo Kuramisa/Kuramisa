@@ -49,7 +49,7 @@ export default class MessageEditedEvent extends AbstractEvent {
             .setTitle(`${newMessage.author.username} edited a message`)
             .setThumbnail(newMessage.author.avatarURL({ extension: "gif" }))
             .setDescription(
-                `${messageLink(newMessage.channelId, newMessage.id)} ${fromContent}\n${toContent}`
+                `**Channel**: ${messageLink(newMessage.channelId, newMessage.id)}\n\n${fromContent}\n${toContent}`
             )
             .setFooter({ text: `ID: ${newMessage.id}` });
 

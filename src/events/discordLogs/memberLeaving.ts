@@ -21,23 +21,21 @@ export default class MemberLeaveEvent extends AbstractEvent {
             })
             .setTitle(`${member.user.username} Left`)
             .setThumbnail(member.displayAvatarURL())
-            .addFields(
-                {
-                    name: "Joined Server",
-                    value: `<t:${Math.floor(
-                        (member.joinedTimestamp as number) / 1000
-                    )}:R>`,
-                    inline: true,
-                },
-                {
-                    name: "Joined Discord",
-                    value: `<t:${Math.floor(
-                        (member.user.createdTimestamp as number) / 1000
-                    )}:R>`,
-                    inline: true,
-                }
-            )
+            .addFields({
+                name: "Joined Discord",
+                value: `<t:${Math.floor(
+                    member.user.createdTimestamp / 1000
+                )}:R>`,
+                inline: true,
+            })
             .setFooter({ text: `ID: ${member.id}` });
+
+        if (member.joinedTimestamp)
+            embed.addFields({
+                name: "Joined Server",
+                value: `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`,
+                inline: true,
+            });
 
         channel.send({ embeds: [embed] });
     }

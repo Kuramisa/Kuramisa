@@ -68,7 +68,7 @@ export default class ValorantUtil {
                 embeds: [skin.level.embeds[0]],
                 components: this.determineComponents(skin),
                 withResponse: true,
-                ephemeral,
+                flags: ephemeral ? ["Ephemeral"] : [],
             })
             .then((m) => m.resource?.message);
 

@@ -22,8 +22,8 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
             .setTitle(`${member.user.username} Changed Nickname`)
             .setThumbnail(member.displayAvatarURL())
             .setDescription(
-                `\`Old\`: ${oldNickname ? oldNickname : "None"}\n\`New\`: ${
-                    newNickname ? newNickname : "None"
+                `\`Old\`: ${oldNickname ?? "None"}\n\`New\`: ${
+                    newNickname ?? "None"
                 }`
             );
 

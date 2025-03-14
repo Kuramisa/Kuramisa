@@ -20,7 +20,7 @@ export default class MemberBoostEvent extends AbstractEvent {
                 name: `${guild.name} Member Logs`,
                 iconURL: guild.iconURL() ?? "",
             })
-            .setTitle(`${member.user.username} Boosted the server`)
+            .setTitle(`${member.user.username} boosted the server`)
             .setThumbnail(member.displayAvatarURL());
 
         channel.send({ embeds: [embed] });
