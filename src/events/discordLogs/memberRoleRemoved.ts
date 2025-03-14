@@ -22,7 +22,7 @@ export default class MemberRoleRemovedEvent extends AbstractEvent {
 
         let title = `${member.user.globalName ?? member.user.username} had a role removed`;
 
-        if (audit && audit.createdTimestamp === Date.now()) {
+        if (audit && audit.changes[0].key === "$remove") {
             const { executor: removedBy } = audit;
             if (removedBy) {
                 title = `${title} by ${removedBy.globalName ?? removedBy.username}`;
