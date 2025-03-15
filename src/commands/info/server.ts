@@ -4,6 +4,8 @@ import {
     ChannelType,
     ChatInputCommandInteraction,
     InteractionContextType,
+    time,
+    TimestampStyles,
 } from "discord.js";
 import capitalize from "lodash/capitalize";
 
@@ -38,10 +40,8 @@ export default class ServerCommand extends AbstractSlashCommand {
                 {
                     name: "General",
                     value: `**Name** - ${guild.name}
-                        **Created** - <t:${Math.floor(
-                            createdTimestamp / 1000
-                        )}:R>
-                        **Owner** - ${guild.members.cache.get(guild.ownerId)}
+                        **Created** - ${time(Math.floor(createdTimestamp / 1000), TimestampStyles.RelativeTime)}
+                        **Owner** - ${guild.members.cache.get(guild.ownerId) ?? (await guild.fetchOwner()) ?? "Unknown"}
 
                         **Description** - ${description ?? "None"}
 

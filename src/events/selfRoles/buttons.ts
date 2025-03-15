@@ -58,14 +58,14 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         if (member.roles.cache.has(dbButton.roleId)) {
             await member.roles.remove(dbButton.roleId);
             return interaction.reply({
-                content: bold(`Removed role ${roleMention(dbButton.roleId)}`),
+                content: `**Removed role** ${roleMention(dbButton.roleId)}`,
                 flags: ["Ephemeral"],
             });
         }
 
         await member.roles.add(dbButton.roleId);
         return interaction.reply({
-            content: bold(`Added role ${roleMention(dbButton.roleId)}`),
+            content: `**Added role** ${roleMention(dbButton.roleId)}`,
             flags: ["Ephemeral"],
         });
     }

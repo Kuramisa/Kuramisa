@@ -45,7 +45,7 @@ export default class MockCommand extends AbstractMenuCommand {
             return interaction.reply({ content: mockText(message.content) });
 
         await interaction.reply({
-            content: bold(`Mocked ${message.author}`),
+            content: `**Mocked ${message.author}**`,
             flags: ["Ephemeral"],
         });
 

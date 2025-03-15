@@ -21,6 +21,7 @@ export default class SelfRoles {
 
     async autoSetup(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
+
         const { managers } = kuramisa;
         const { options, guild } = interaction;
 
@@ -71,7 +72,7 @@ export default class SelfRoles {
             await db.save();
 
             return interaction.reply({
-                content: `Self roles have been set up in ${channel}`,
+                content: `**Self roles have been set up in ${channel} - ${message}**`,
                 flags: ["Ephemeral"],
             });
         }
@@ -112,7 +113,7 @@ export default class SelfRoles {
         await db.save();
 
         return mInteraction.reply({
-            content: `Self roles have been set up in ${channel}`,
+            content: `**Self roles have been set up in ${channel}**`,
             flags: ["Ephemeral"],
         });
     }

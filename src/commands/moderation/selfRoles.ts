@@ -57,7 +57,7 @@ import {
                     description: "Add a message for self roles",
                     options: [
                         new StringOption()
-                            .setName("sr_channel_name")
+                            .setName("sr_channel")
                             .setDescription(
                                 "The name of the channel to add a new message in"
                             )
@@ -72,7 +72,7 @@ import {
                     description: "Edit a message for self roles",
                     options: [
                         new StringOption()
-                            .setName("sr_channel_name")
+                            .setName("sr_channel")
                             .setDescription(
                                 "The name of the channel to edit a message in"
                             )
@@ -88,7 +88,7 @@ import {
                     description: "Remove a message for self roles",
                     options: [
                         new StringOption()
-                            .setName("sr_channel_name")
+                            .setName("sr_channel")
                             .setDescription(
                                 "The name of the channel to remove a message from"
                             )
@@ -110,7 +110,7 @@ import {
                     description: "Add a button for self roles",
                     options: [
                         new StringOption()
-                            .setName("sr_channel_name")
+                            .setName("sr_channel")
                             .setDescription(
                                 "The name of the channel to add a new button in"
                             )
@@ -154,6 +154,84 @@ import {
                             .setRequired(false),
                     ],
                 },
+                {
+                    name: "edit",
+                    description: "Edit a button for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel")
+                            .setDescription(
+                                "The name of the channel to edit a button in"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_message")
+                            .setDescription("The message to edit a button in")
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_button")
+                            .setDescription("The button to edit")
+                            .setAutocomplete(true),
+                        new RoleOption()
+                            .setName("sr_button_role")
+                            .setDescription(
+                                "The role to give when the button is clicked"
+                            )
+                            .setRequired(false),
+                        new StringOption()
+                            .setName("sr_button_name")
+                            .setDescription("The name of the button")
+                            .setRequired(false),
+                        new NumberOption()
+                            .setName("sr_button_style")
+                            .setDescription("The style of the button")
+                            .setChoices(
+                                {
+                                    name: "Blurple",
+                                    value: ButtonStyle.Primary,
+                                },
+                                {
+                                    name: "Grey",
+                                    value: ButtonStyle.Secondary,
+                                },
+                                {
+                                    name: "Green",
+                                    value: ButtonStyle.Success,
+                                },
+                                {
+                                    name: "Red",
+                                    value: ButtonStyle.Danger,
+                                }
+                            )
+                            .setRequired(false),
+                        new StringOption()
+                            .setName("sr_button_emoji")
+                            .setDescription("The emoji of the button")
+                            .setRequired(false),
+                    ],
+                },
+                {
+                    name: "remove",
+                    description: "Remove a button for self roles",
+                    options: [
+                        new StringOption()
+                            .setName("sr_channel")
+                            .setDescription(
+                                "The name of the channel to remove a button from"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_message")
+                            .setDescription(
+                                "The message to remove a button from"
+                            )
+                            .setAutocomplete(true),
+                        new StringOption()
+                            .setName("sr_button")
+                            .setDescription("The button to remove")
+                            .setAutocomplete(true),
+                    ],
+                },
             ],
         },
     ],
@@ -181,5 +259,13 @@ export default class SelfRolesCommand extends AbstractSlashCommand {
 
     slashButtonAdd(interaction: ChatInputCommandInteraction) {
         this.client.systems.selfRoles.buttons.buttonAdd(interaction);
+    }
+
+    slashButtonEdit(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.buttons.buttonEdit(interaction);
+    }
+
+    slashButtonRemove(interaction: ChatInputCommandInteraction) {
+        this.client.systems.selfRoles.buttons.buttonRemove(interaction);
     }
 }

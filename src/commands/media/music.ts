@@ -218,14 +218,14 @@ export default class MusicCommand extends AbstractSlashCommand {
             });
 
             return interaction.editReply({
-                content: `Now playing: [${search.playlist.title}](${search.playlist.url})`,
+                content: `**Now playing:** [${search.playlist.title}](${search.playlist.url})`,
             });
         }
 
         if (queue && !queue.isEmpty()) {
             queue.addTrack(search.tracks[0]);
             return interaction.editReply({
-                content: `Added to the queue: [${search.tracks[0].title}](${search.tracks[0].url})`,
+                content: `**Added to the queue:** [${search.tracks[0].title}](${search.tracks[0].url})`,
             });
         }
 
@@ -237,7 +237,7 @@ export default class MusicCommand extends AbstractSlashCommand {
         });
 
         return interaction.editReply({
-            content: `Now playing: [${search.tracks[0].title}](${search.tracks[0].url})`,
+            content: `**Now playing:** [${search.tracks[0].title}](${search.tracks[0].url})`,
         });
     }
 

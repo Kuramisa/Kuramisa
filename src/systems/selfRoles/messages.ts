@@ -17,7 +17,7 @@ export default class SelfRolesMessages {
                 flags: ["Ephemeral"],
             });
 
-        const channelId = options.getString("sr_channel_name", true);
+        const channelId = options.getString("sr_channel", true);
         const channel =
             guild.channels.cache.get(channelId) ??
             (await guild.channels.fetch(channelId).catch(() => null));
@@ -61,7 +61,7 @@ export default class SelfRolesMessages {
             await db.save();
 
             return interaction.reply({
-                content: `Added a message to channel ${channel} - ${message}`,
+                content: `**Added a message to channel ${channel} - ${message}**`,
                 flags: ["Ephemeral"],
             });
         }
@@ -98,7 +98,7 @@ export default class SelfRolesMessages {
         await db.save();
 
         return mInteraction.reply({
-            content: `Added a message to channel ${channel} - ${message}`,
+            content: `**Added a message to channel ${channel} - ${message}**`,
             flags: ["Ephemeral"],
         });
     }
@@ -117,7 +117,7 @@ export default class SelfRolesMessages {
                 flags: ["Ephemeral"],
             });
 
-        const channelId = options.getString("sr_channel_name", true);
+        const channelId = options.getString("sr_channel", true);
         const channel =
             guild.channels.cache.get(channelId) ??
             (await guild.channels.fetch(channelId).catch(() => null));
@@ -177,7 +177,7 @@ export default class SelfRolesMessages {
         });
 
         return mInteraction.reply({
-            content: `Edited message ${message} - ${channel}`,
+            content: `**Edited message ${message} - ${channel}**`,
             flags: ["Ephemeral"],
         });
     }
@@ -196,7 +196,7 @@ export default class SelfRolesMessages {
                 flags: ["Ephemeral"],
             });
 
-        const channelId = options.getString("sr_channel_name", true);
+        const channelId = options.getString("sr_channel", true);
         const channel =
             guild.channels.cache.get(channelId) ??
             (await guild.channels.fetch(channelId).catch(() => null));
@@ -240,7 +240,7 @@ export default class SelfRolesMessages {
         await db.save();
 
         return interaction.reply({
-            content: `Removed message\nID:${message.id}\nDescription: ${message.content}\nFrom: ${channel}`,
+            content: `**Removed a message**\n\n\`ID\` - ${message.id}\n\`Description\` - ${message.content}\n\`From\` - ${channel}`,
             flags: ["Ephemeral"],
         });
     }
