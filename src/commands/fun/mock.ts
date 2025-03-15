@@ -24,18 +24,12 @@ import { mockText } from "utils/index";
 })
 export default class MockCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
-        const { channel, targetId, user } = interaction;
+        if (!interaction.isMessageContextMenuCommand()) return;
+        const { targetMessage: message, user } = interaction;
 
-        if (!channel) return;
-        if (!channel.isTextBased()) return;
-
-        const message =
-            channel.messages.cache.get(targetId) ||
-            (await channel.messages.fetch(targetId).catch(() => null));
-
-        if (!message)
+        if (message.webhookId != null)
             return interaction.reply({
-                content: bold("Message not found"),
+                content: bold("I can't mock a webhook message"),
                 flags: ["Ephemeral"],
             });
 
@@ -45,14 +39,10 @@ export default class MockCommand extends AbstractMenuCommand {
                 flags: ["Ephemeral"],
             });
 
+        const { channel } = message;
+
         if (channel.isThread() || channel.isDMBased())
             return interaction.reply({ content: mockText(message.content) });
-
-        if (message.webhookId != null)
-            return interaction.reply({
-                content: bold("I can't mock a webhook message"),
-                flags: ["Ephemeral"],
-            });
 
         await interaction.reply({
             content: bold(`Mocked ${message.author}`),

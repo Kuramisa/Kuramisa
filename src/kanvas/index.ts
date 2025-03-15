@@ -1,9 +1,10 @@
 import axios from "axios";
+import { HexColorString } from "discord.js";
 import getColors from "get-image-colors";
 import { randEl } from "utils";
 
 export default class Kanvas {
-    async popularColors(url?: string | null) {
+    async popularColors(url?: string | null): Promise<HexColorString[]> {
         if (!url) return ["#FFF"];
         const buffer = await axios
             .get(url, {
@@ -14,9 +15,15 @@ export default class Kanvas {
 
         if (!buffer) return ["#FFF"];
 
-        return (await getColors(buffer, "image/png")).map((color: any) =>
-            color.hex()
-        );
+        const colors = await getColors(buffer)
+            .then((colors) =>
+                colors.map((color) => color.hex() as HexColorString)
+            )
+            .catch(() => null);
+
+        if (!colors) return ["#FFF"];
+
+        return colors;
     }
 
     async popularColor(url?: string | null) {
@@ -28,7 +35,7 @@ export default class Kanvas {
 
     invertColor(hex?: string) {
         if (!hex) return "#FFF";
-        hex = hex.replace("#", "");
+        if (hex.startsWith("#")) hex = hex.replace("#", "");
 
         // match hex color
         if (hex.length === 3)
@@ -40,13 +47,14 @@ export default class Kanvas {
         const g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16);
         const b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
 
-        // return new hex
-        const pad = (txt: string, length?: number) => {
-            length = length ?? 2;
-            const arr = [length].join("0");
-            return (arr + txt).slice(-length);
-        };
+        const { pad } = this;
 
         return `#${pad(r)}${pad(g)}${pad(b)}`;
+    }
+
+    pad(txt: string, length?: number) {
+        length = length ?? 2;
+        const arr = [length].join("0");
+        return (arr + txt).slice(-length);
     }
 }

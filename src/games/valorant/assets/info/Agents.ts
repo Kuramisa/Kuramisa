@@ -13,11 +13,6 @@ export default class ValorantAgents {
         return this.data;
     }
 
-    /**
-     *
-     * @param agent Agent UUID or Name
-     * @returns IValorantAgent | undefined
-     */
     get = (agent: string) =>
         this.data.find(
             (a) => a.displayName.toLowerCase() === agent.toLowerCase()

@@ -20,28 +20,9 @@ export const memberActions = (executor: GuildMember, target: GuildMember) => {
                 .setStyle(ButtonStyle.Danger)
         );
 
-    if (executor.permissions.has("ModerateMembers"))
-        midRow.addComponents(
-            new Button()
-                .setCustomId("warn_member")
-                .setLabel("Warn Member")
-                .setStyle(ButtonStyle.Danger)
-        );
-
-    const bottomRow = new Row();
-
-    if (executor.permissions.has("ViewAuditLog"))
-        bottomRow.addComponents(
-            new Button()
-                .setCustomId("show_warns")
-                .setLabel("Show Warns")
-                .setStyle(ButtonStyle.Primary)
-        );
-
     const rowsToShow = [];
 
     if (midRow.components.length > 0) rowsToShow.push(midRow);
-    if (bottomRow.components.length > 0) rowsToShow.push(bottomRow);
 
     return rowsToShow;
 };

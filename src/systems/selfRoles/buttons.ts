@@ -25,10 +25,18 @@ export default class SelfRolesButtons {
         const channelId = options.getString("sr_channel_name", true);
         const channel =
             guild.channels.cache.get(channelId) ??
-            (await guild.channels.fetch(channelId));
+            (await guild.channels.fetch(channelId).catch(() => null));
 
-        if (!channel) return;
-        if (!channel.isTextBased()) return;
+        if (!channel)
+            return interaction.editReply({
+                content: bold("This channel does not exist"),
+            });
+        if (!channel.isTextBased())
+            return interaction.editReply({
+                content: bold(
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                ),
+            });
 
         const dbChannel = db.selfRoles.find(
             (sr) => sr.channelId === channel.id
@@ -41,8 +49,11 @@ export default class SelfRolesButtons {
         const messageId = options.getString("sr_message", true);
         const message =
             channel.messages.cache.get(messageId) ??
-            (await channel.messages.fetch(messageId));
-        if (!message) return;
+            (await channel.messages.fetch(messageId).catch(() => null));
+        if (!message)
+            return interaction.editReply({
+                content: bold("This message does not exist"),
+            });
 
         let buttonCount = 0;
         for (const component of message.components) {
@@ -56,10 +67,9 @@ export default class SelfRolesButtons {
         }
 
         if (buttonCount === 25)
-            return interaction.reply({
+            return interaction.editReply({
                 content:
                     "You have reached the maximum amount of buttons for this message (25)",
-                flags: ["Ephemeral"],
             });
 
         const role = options.getRole("sr_button_role", true);
@@ -74,7 +84,10 @@ export default class SelfRolesButtons {
 
         const dbMessage = dbChannel.messages.find((sr) => sr.id === message.id);
 
-        if (!dbMessage) return;
+        if (!dbMessage)
+            return interaction.editReply({
+                content: bold("This message does not exist in the database"),
+            });
 
         const button = new Button()
             .setCustomId(buttonId)

@@ -191,6 +191,6 @@ export default class LogsCommand extends AbstractSlashCommand {
                 `\`Channel\`: ${channel ?? "Not set"}\n\n${toggles.join("\n")}`
             );
 
-        await interaction.reply({ embeds: [embed], ephemeral: true });
+        await interaction.reply({ embeds: [embed], flags: ["Ephemeral"] });
     }
 }

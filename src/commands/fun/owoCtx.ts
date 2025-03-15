@@ -1,8 +1,8 @@
- 
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
 import {
     ApplicationCommandType,
     ApplicationIntegrationType,
+    bold,
     ContextMenuCommandInteraction,
     InteractionContextType,
 } from "discord.js";
@@ -25,15 +25,13 @@ import { owoify } from "utils";
 })
 export default class OwOCtxCommand extends AbstractMenuCommand {
     async run(interaction: ContextMenuCommandInteraction) {
-        const { channel, targetId } = interaction;
-
-        if (!channel) return;
-        const message = await channel.messages.fetch(targetId);
+        if (!interaction.isMessageContextMenuCommand()) return;
+        const { targetMessage: message } = interaction;
 
         if (message.content.length < 1)
             return interaction.reply({
-                content: "Could not find text in the message",
-                ephemeral: true,
+                content: bold("Could not find text in the message"),
+                flags: ["Ephemeral"],
             });
 
         const owo = owoify(message.content);

@@ -138,7 +138,7 @@ export default class SelfRoles {
         for (const roles of selfRoles) {
             const channel =
                 guild.channels.cache.get(roles.channelId) ??
-                (await guild.channels.fetch(roles.channelId));
+                (await guild.channels.fetch(roles.channelId).catch(() => null));
 
             if (!channel) continue;
             if (!channel.isTextBased()) return;
@@ -147,7 +147,9 @@ export default class SelfRoles {
             for (const message of roles.messages) {
                 const msg =
                     channel.messages.cache.get(message.id) ??
-                    (await channel.messages.fetch(message.id));
+                    (await channel.messages
+                        .fetch(message.id)
+                        .catch(() => null));
 
                 if (!msg) continue;
 

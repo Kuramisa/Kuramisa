@@ -167,7 +167,7 @@ export default class MusicCommand extends AbstractSlashCommand {
 
         const query = options.getString("track_or_playlist_name_or_url", true);
 
-        await interaction.deferReply({ ephemeral: true });
+        await interaction.deferReply({ flags: ["Ephemeral"] });
 
         const player = useMainPlayer();
         const search = await player.search(query, {

@@ -20,21 +20,35 @@ export default class SelfRolesMessages {
         const channelId = options.getString("sr_channel_name", true);
         const channel =
             guild.channels.cache.get(channelId) ??
-            (await guild.channels.fetch(channelId));
+            (await guild.channels.fetch(channelId).catch(() => null));
 
-        if (!channel) return;
-        if (!channel.isTextBased()) return;
+        if (!channel)
+            return interaction.reply({
+                content: bold("This channel does not exist"),
+                flags: ["Ephemeral"],
+            });
+        if (!channel.isTextBased())
+            return interaction.reply({
+                content: bold(
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                ),
+                flags: ["Ephemeral"],
+            });
 
         const dbChannel = db.selfRoles.find(
             (selfRole) => selfRole.channelId === channel.id
         );
-        if (!dbChannel) return;
+        if (!dbChannel)
+            return interaction.reply({
+                content: bold("This channel is not a self role channel"),
+                flags: ["Ephemeral"],
+            });
 
         const wantsCustomMessage = options.getBoolean("custom_message", true);
 
         if (!wantsCustomMessage) {
             const message = await channel.send({
-                content: "Click one of the buttons below to get a role!",
+                content: bold("Click one of the buttons below to get a role!"),
                 components: [],
             });
 
@@ -106,20 +120,38 @@ export default class SelfRolesMessages {
         const channelId = options.getString("sr_channel_name", true);
         const channel =
             guild.channels.cache.get(channelId) ??
-            (await guild.channels.fetch(channelId));
-        if (!channel) return;
-        if (!channel.isTextBased()) return;
+            (await guild.channels.fetch(channelId).catch(() => null));
+        if (!channel)
+            return interaction.reply({
+                content: bold("This channel does not exist"),
+                flags: ["Ephemeral"],
+            });
+        if (!channel.isTextBased())
+            return interaction.reply({
+                content: bold(
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                ),
+                flags: ["Ephemeral"],
+            });
 
         const dbChannel = db.selfRoles.find(
             (selfRole) => selfRole.channelId === channel.id
         );
-        if (!dbChannel) return;
+        if (!dbChannel)
+            return interaction.reply({
+                content: bold("This channel is not a self role channel"),
+                flags: ["Ephemeral"],
+            });
 
         const messageId = options.getString("sr_message", true);
         const message =
             channel.messages.cache.get(messageId) ??
-            (await channel.messages.fetch(messageId));
-        if (!message) return;
+            (await channel.messages.fetch(messageId).catch(() => null));
+        if (!message)
+            return interaction.reply({
+                content: bold("This message does not exist"),
+                flags: ["Ephemeral"],
+            });
 
         const modal = new Modal()
             .setCustomId("sr_custom_message_setup")
@@ -145,7 +177,7 @@ export default class SelfRolesMessages {
         });
 
         return mInteraction.reply({
-            content: `Edited message ${message}`,
+            content: `Edited message ${message} - ${channel}`,
             flags: ["Ephemeral"],
         });
     }
@@ -167,20 +199,38 @@ export default class SelfRolesMessages {
         const channelId = options.getString("sr_channel_name", true);
         const channel =
             guild.channels.cache.get(channelId) ??
-            (await guild.channels.fetch(channelId));
-        if (!channel) return;
-        if (!channel.isTextBased()) return;
+            (await guild.channels.fetch(channelId).catch(() => null));
+        if (!channel)
+            return interaction.reply({
+                content: bold("This channel does not exist"),
+                flags: ["Ephemeral"],
+            });
+        if (!channel.isTextBased())
+            return interaction.reply({
+                content: bold(
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                ),
+                flags: ["Ephemeral"],
+            });
 
         const dbChannel = db.selfRoles.find(
             (selfRole) => selfRole.channelId === channel.id
         );
-        if (!dbChannel) return;
+        if (!dbChannel)
+            return interaction.reply({
+                content: bold("This channel is not a self role channel"),
+                flags: ["Ephemeral"],
+            });
 
         const messageId = options.getString("sr_message", true);
         const message =
             channel.messages.cache.get(messageId) ??
-            (await channel.messages.fetch(messageId));
-        if (!message) return;
+            (await channel.messages.fetch(messageId).catch(() => null));
+        if (!message)
+            return interaction.reply({
+                content: bold("This message does not exist"),
+                flags: ["Ephemeral"],
+            });
 
         await message.delete();
         dbChannel.messages = dbChannel.messages.filter(
