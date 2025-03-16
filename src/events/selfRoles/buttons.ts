@@ -42,7 +42,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         );
         if (!dbMessage)
             return interaction.reply({
-                content: bold("This button is not in a self role message"),
+                content: bold("This message is not in a self role message"),
                 flags: ["Ephemeral"],
             });
 

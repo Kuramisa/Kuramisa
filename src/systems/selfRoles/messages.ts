@@ -1,6 +1,6 @@
 import { Modal, ModalRow, TextInput } from "@builders";
 import kuramisa from "@kuramisa";
-import { ChatInputCommandInteraction, bold } from "discord.js";
+import { ChatInputCommandInteraction, bold, messageLink } from "discord.js";
 
 export default class SelfRolesMessages {
     async messageAdd(interaction: ChatInputCommandInteraction) {
@@ -61,7 +61,7 @@ export default class SelfRolesMessages {
             await db.save();
 
             return interaction.reply({
-                content: `**Added a message to channel ${channel} - ${message}**`,
+                content: `**Added a message to channel ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
                 flags: ["Ephemeral"],
             });
         }
@@ -98,7 +98,7 @@ export default class SelfRolesMessages {
         await db.save();
 
         return mInteraction.reply({
-            content: `**Added a message to channel ${channel} - ${message}**`,
+            content: `**Added a message to channel ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
             flags: ["Ephemeral"],
         });
     }

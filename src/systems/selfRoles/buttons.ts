@@ -1,6 +1,11 @@
 import { Button, Row } from "@builders";
 import kuramisa from "@kuramisa";
-import { bold, ChatInputCommandInteraction, ComponentType } from "discord.js";
+import {
+    bold,
+    ChatInputCommandInteraction,
+    ComponentType,
+    messageLink,
+} from "discord.js";
 import logger from "Logger";
 
 export default class SelfRolesButtons {
@@ -81,6 +86,11 @@ export default class SelfRolesButtons {
             .join("_")
             .concat("_sr");
 
+        if (role.id === guild.roles.everyone.id)
+            return interaction.editReply({
+                content: bold("You cannot add a button to the everyone role!"),
+            });
+
         const dbMessage = dbChannel.messages.find((sr) => sr.id === message.id);
 
         if (!dbMessage)
@@ -117,7 +127,7 @@ export default class SelfRolesButtons {
                 await db.save();
 
                 return interaction.editReply({
-                    content: `Added button ${buttonName} to ${message}`,
+                    content: `Added a button **${buttonName}** to ${messageLink(channel.id, message.id, guild.id)}`,
                 });
             }
 
@@ -146,7 +156,11 @@ export default class SelfRolesButtons {
             await db.save();
 
             return interaction.editReply({
-                content: `Added button **${buttonName}** to ${message}`,
+                content: `Added a button **${buttonName}** to ${messageLink(
+                    channel.id,
+                    message.id,
+                    guild.id
+                )}`,
             });
         } catch (err: any) {
             logger.error(err.message, { err });
@@ -248,7 +262,12 @@ export default class SelfRolesButtons {
                 flags: ["Ephemeral"],
             });
 
-        const button = new Button();
+        const button = new Button()
+            .setCustomId(dbButton.id)
+            .setLabel(dbButton.name)
+            .setStyle(dbButton.style);
+
+        if (dbButton.emoji) button.setEmoji(dbButton.emoji);
 
         if (newButtonRole) dbButton.roleId = newButtonRole.id;
         if (newButtonName) {
@@ -259,36 +278,49 @@ export default class SelfRolesButtons {
                 .join("_")
                 .concat("_sr");
 
+            dbButton.id = id;
+
             button.setCustomId(id);
             button.setLabel(newButtonName);
         }
+
         if (newButtonStyle) {
             dbButton.style = newButtonStyle;
             button.setStyle(newButtonStyle);
         }
+
         if (newButtonEmoji) {
             dbButton.emoji = newButtonEmoji;
             button.setEmoji(newButtonEmoji);
         }
 
-        message.components = message.components.map((row: any) => {
-            const newRow = row.components.map((component: any) => {
+        const rows: Row[] = [];
+
+        for (const row of message.components) {
+            if (row.components.length === 0) continue;
+            const newRow = new Row();
+            for (const component of row.components) {
                 if (component.type === ComponentType.Button) {
                     if (component.customId === dbButton.id) {
-                        return button;
+                        newRow.addComponents(button as any);
+                        continue;
                     }
                 }
-                return component;
-            });
+                newRow.addComponents(component as any);
+            }
+            if (newRow.components.length === 0) continue;
+            rows.push(newRow);
+        }
 
-            return newRow;
+        await message.edit({
+            components: rows,
         });
 
         db.markModified("selfRoles");
         await db.save();
 
         return interaction.reply({
-            content: `Edited button **${buttonName}** on ${message}`,
+            content: `Edited a button **${dbButton.name}** on ${messageLink(channel.id, message.id, guild.id)}`,
             flags: ["Ephemeral"],
         });
     }
@@ -369,19 +401,25 @@ export default class SelfRolesButtons {
             (sr) => sr.name !== dbButton.name
         );
 
-        message.components = message.components.filter((row) => {
-            const newRow = row.components.filter((component) => {
-                if (component.type === ComponentType.Button) {
-                    return component.customId !== dbButton.id;
-                }
-                return true;
-            });
+        const rows: Row[] = [];
 
-            return newRow.length > 0;
-        });
+        for (const row of message.components) {
+            if (row.components.length === 0) continue;
+            const newRow = new Row();
+            for (const component of row.components) {
+                if (component.type === ComponentType.Button) {
+                    if (component.customId === dbButton.id) {
+                        continue;
+                    }
+                }
+                newRow.addComponents(component as any);
+            }
+            if (newRow.components.length === 0) continue;
+            rows.push(newRow);
+        }
 
         await message.edit({
-            components: message.components,
+            components: rows,
         });
 
         db.markModified("selfRoles");
@@ -389,7 +427,7 @@ export default class SelfRolesButtons {
         await db.save();
 
         return interaction.reply({
-            content: `Removed button **${buttonName}** from ${message}`,
+            content: `Removed a button **${dbButton.name}** from ${messageLink(channel.id, message.id, guild.id)}`,
             flags: ["Ephemeral"],
         });
     }

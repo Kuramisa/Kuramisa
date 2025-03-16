@@ -22,8 +22,6 @@ export default class MemberRoleAddEvent extends AbstractEvent {
 
         let title = `${member.user.globalName ?? member.user.username} had a role added`;
 
-        console.log(audit?.changes[0]);
-
         if (audit && audit.changes[0].key === "$add") {
             const { executor: addedBy } = audit;
             if (addedBy) {

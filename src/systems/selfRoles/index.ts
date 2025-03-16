@@ -72,7 +72,7 @@ export default class SelfRoles {
             await db.save();
 
             return interaction.reply({
-                content: `**Self roles have been set up in ${channel} - ${message}**`,
+                content: `**Self roles have been set up in ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
                 flags: ["Ephemeral"],
             });
         }
@@ -113,7 +113,7 @@ export default class SelfRoles {
         await db.save();
 
         return mInteraction.reply({
-            content: `**Self roles have been set up in ${channel}**`,
+            content: `**Self roles have been set up in ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
             flags: ["Ephemeral"],
         });
     }
