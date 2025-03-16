@@ -1,3 +1,4 @@
+import logger from "Logger";
 import Valorant from "../..";
 
 export default class ValorantEvents {
@@ -19,7 +20,11 @@ export default class ValorantEvents {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/events`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantEvents(data);
     }

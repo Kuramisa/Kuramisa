@@ -1,5 +1,6 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
+import logger from "Logger";
 
 export default class ValorantThemes {
     private readonly data: IValorantTheme[];
@@ -20,7 +21,11 @@ export default class ValorantThemes {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/themes`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantThemes(data);
     }

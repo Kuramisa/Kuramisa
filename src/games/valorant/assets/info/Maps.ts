@@ -1,5 +1,6 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
+import logger from "Logger";
 
 export default class ValorantMaps {
     private readonly data: IValorantMap[];
@@ -20,7 +21,11 @@ export default class ValorantMaps {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/maps`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantMaps(data);
     }

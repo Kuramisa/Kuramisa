@@ -1,4 +1,5 @@
 import Valorant from "games/valorant";
+import logger from "Logger";
 
 export default class ValorantVersion {
     private readonly data: IValorantVersion;
@@ -27,7 +28,7 @@ export default class ValorantVersion {
         return this.data.engineVersion;
     }
 
-    get riotClient() {
+    get riotVersion() {
         return this.data.riotClientVersion;
     }
 
@@ -42,7 +43,20 @@ export default class ValorantVersion {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/version`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return {
+                    manifestId: "",
+                    branch: "",
+                    version: "",
+                    buildVersion: "",
+                    engineVersion: "",
+                    riotClientVersion: "",
+                    riotClientBuild: "",
+                    buildDate: "",
+                };
+            });
 
         return new ValorantVersion(data);
     }

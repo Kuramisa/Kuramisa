@@ -2,6 +2,7 @@ import kuramisa from "@kuramisa";
 import { ButtonStyle } from "discord.js";
 import Valorant from "../..";
 import { Button, Embed, Row } from "@builders";
+import logger from "Logger";
 
 export default class ValorantWeapons {
     private readonly data: IValorantWeapon[];
@@ -22,7 +23,11 @@ export default class ValorantWeapons {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/weapons`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantWeapons(data);
     }

@@ -1,3 +1,4 @@
+import logger from "Logger";
 import Valorant from "../..";
 
 export default class ValorantCompetitiveSeasons {
@@ -22,7 +23,11 @@ export default class ValorantCompetitiveSeasons {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/seasons/competitive`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantCompetitiveSeasons(data);
     }

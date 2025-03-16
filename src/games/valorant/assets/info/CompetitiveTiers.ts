@@ -1,5 +1,6 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
+import logger from "Logger";
 
 export default class ValorantCompetitiveTiers {
     private readonly data: IValorantCompetitiveTier[];
@@ -29,7 +30,11 @@ export default class ValorantCompetitiveTiers {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/competitivetiers`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantCompetitiveTiers(data);
     }

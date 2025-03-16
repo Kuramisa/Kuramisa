@@ -1,3 +1,4 @@
+import logger from "Logger";
 import Valorant from "../..";
 
 export default class ValorantMissions {
@@ -19,7 +20,11 @@ export default class ValorantMissions {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/missions`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantMissions(data);
     }

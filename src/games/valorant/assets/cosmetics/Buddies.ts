@@ -5,6 +5,7 @@ import {
     type MessageActionRowComponentBuilder,
 } from "@discordjs/builders";
 import truncate from "lodash/truncate";
+import logger from "Logger";
 
 export default class ValorantBuddies {
     private readonly data: IValorantBuddy[];
@@ -71,7 +72,11 @@ export default class ValorantBuddies {
     static async init() {
         const data = await fetch(`${Valorant.assetsURL}/buddies`)
             .then((res) => res.json())
-            .then((res: any) => res.data);
+            .then((res: any) => res.data)
+            .catch((err) => {
+                logger.error(err);
+                return [];
+            });
 
         return new ValorantBuddies(data);
     }
