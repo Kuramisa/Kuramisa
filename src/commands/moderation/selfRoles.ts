@@ -1,6 +1,6 @@
 import {
     BooleanOption,
-    NumberOption,
+    IntegerOption,
     RoleOption,
     StringOption,
 } from "@builders";
@@ -127,7 +127,7 @@ import {
                         new StringOption()
                             .setName("sr_button_name")
                             .setDescription("The name of the button"),
-                        new NumberOption()
+                        new IntegerOption()
                             .setName("sr_button_style")
                             .setDescription("The style of the button")
                             .setChoices(
@@ -182,7 +182,7 @@ import {
                             .setName("sr_button_name")
                             .setDescription("The name of the button")
                             .setRequired(false),
-                        new NumberOption()
+                        new IntegerOption()
                             .setName("sr_button_style")
                             .setDescription("The style of the button")
                             .setChoices(

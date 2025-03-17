@@ -4,6 +4,7 @@ import {
     Client,
     Collection,
     Partials,
+    User,
     type PresenceData,
 } from "discord.js";
 import Stores from "stores";
@@ -37,6 +38,8 @@ export default class Kuramisa extends Client {
     readonly cooldowns = new Collection<string, Collection<string, number>>();
 
     readonly kEmojis = new Collection<string, ApplicationEmoji>();
+
+    readonly owners: User[] = [];
 
     constructor() {
         super({

@@ -6,8 +6,8 @@ import {
 } from "discord.js";
 
 @SlashCommand({
-    name: "autorole",
-    description: "Set the autorole for the server",
+    name: "auto-role",
+    description: "Set the Auto role for the server",
     contexts: [InteractionContextType.Guild],
     userPermissions: ["ManageRoles"],
     botPermissions: ["ManageRoles"],

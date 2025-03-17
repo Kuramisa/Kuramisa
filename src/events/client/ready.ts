@@ -27,6 +27,14 @@ export default class ReadyEvent extends AbstractEvent {
             client.kEmojis.set(emoji.name, emoji);
         }
 
+        const ashUser =
+            client.users.cache.get("390399421780590603") ??
+            (await client.users.fetch("390399421780590603"));
+        const stealthUser =
+            client.users.cache.get("401269337924829186") ??
+            (await client.users.fetch("401269337924829186"));
+        client.owners.push(ashUser, stealthUser);
+
         client.initialized = true;
 
         logger.info(`[Client] Started in ${ms(Date.now() - client.startTime)}`);

@@ -78,7 +78,7 @@ export default class SelfRolesButtons {
 
         const role = options.getRole("sr_button_role", true);
         const buttonName = options.getString("sr_button_name", true);
-        const buttonStyle = options.getNumber("sr_button_style", true);
+        const buttonStyle = options.getInteger("sr_button_style", true);
         const buttonEmoji = options.getString("sr_button_emoji");
         const buttonId = buttonName
             .toLowerCase()

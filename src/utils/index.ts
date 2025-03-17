@@ -1,7 +1,14 @@
 import kuramisa from "@kuramisa";
 import logger from "../Logger";
 
-import { CDN, Guild, InteractionResponse, Message } from "discord.js";
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    CDN,
+    Guild,
+    InteractionResponse,
+    Message,
+} from "discord.js";
 
 import crypto from "crypto";
 
@@ -46,6 +53,59 @@ export const owoify = (text: string) =>
         tilde: crypto.randomInt(1) === 0,
         stutter: crypto.randomInt(1) === 0,
     });
+
+export const commandType = (
+    type?:
+        | ApplicationCommandType.ChatInput
+        | ApplicationCommandType.User
+        | ApplicationCommandType.Message
+) => {
+    switch (type) {
+        case 1:
+            return "Slash Command";
+        case 2:
+            return "User Context Menu";
+        case 3:
+            return "Message Context Menu";
+        default:
+            return "Slash Command";
+    }
+};
+
+export const optionType = (
+    type?:
+        | ApplicationCommandOptionType.Attachment
+        | ApplicationCommandOptionType.Boolean
+        | ApplicationCommandOptionType.Channel
+        | ApplicationCommandOptionType.Integer
+        | ApplicationCommandOptionType.Mentionable
+        | ApplicationCommandOptionType.Number
+        | ApplicationCommandOptionType.Role
+        | ApplicationCommandOptionType.String
+        | ApplicationCommandOptionType.User
+) => {
+    switch (type) {
+        case 11:
+            return "Attachment";
+        case 5:
+            return "Boolean (true = yes/false = no)";
+        case 7:
+            return "Channel";
+        case 4:
+            return "Number (non-decimals)";
+        case 9:
+            return "Mentionable (user/role/channel)";
+        case 10:
+            return "Number (including decimals)";
+        case 8:
+            return "Role";
+        case 6:
+            return "User";
+        case 3:
+        default:
+            return "Text";
+    }
+};
 
 export const logsChannel = async (guild: Guild) => {
     const { managers } = kuramisa;
