@@ -27,6 +27,9 @@ export default tseslint.config(
             "sonarjs/no-nested-conditional": "off",
             "sonarjs/no-small-switch": "warn",
             "sonarjs/no-nested-template-literals": "off",
+            "sonarjs/no-unused-vars": "warn",
+            "sonarjs/no-dead-store": "warn",
+            "sonarjs/unused-import": "warn",
         },
     }
 );
