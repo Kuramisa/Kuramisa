@@ -9,6 +9,7 @@
         "@napi-rs/canvas": "^0.1.68",
         "@valapi/auth": "^5.0.0-beta.3",
         "@valapi/valorant-api.com": "^5.0.0-beta.3",
+        "@valapi/web-client": "^5.0.0-beta.3",
         "axios": "^1.8.2",
         "bufferutil": "^4.0.9",
         "cron": "^3.5.0",
@@ -312,6 +313,8 @@
     "@valapi/lib": ["@valapi/lib@5.0.0-beta.3", "", { "dependencies": { "tslib": "^2.6.3" } }, "sha512-RmTwOiBK+e3YSIov4XuQmkhv1J3wtqDdoO9rjFrh3dKg5wVKkCIIRFtyHl2B9EZ2dE37WY8X2Ag3e/5K4bvrXA=="],
 
     "@valapi/valorant-api.com": ["@valapi/valorant-api.com@5.0.0-beta.3", "", { "dependencies": { "@valapi/lib": "5.0.0-beta.3", "axios": "^1.7.3" } }, "sha512-QgimmtgsLWWOw5Om5DZ4UGynguiUstwEvK1CCoeZPECEh/co0t107+BjDwjPM+DWs+SgTwDszXp1OyNPfhKggQ=="],
+
+    "@valapi/web-client": ["@valapi/web-client@5.0.0-beta.3", "", { "dependencies": { "@valapi/auth": "5.0.0-beta.3", "@valapi/lib": "5.0.0-beta.3" } }, "sha512-ePjl9PssoKwn4oifcWMqJHx3uLXzRWv2qfSbntfY/ho1KsPy8JoLybPyM4DPy/fvnm4OY17b2nqOTtflg1DvIQ=="],
 
     "@vladfrangu/async_event_emitter": ["@vladfrangu/async_event_emitter@2.4.6", "", {}, "sha512-RaI5qZo6D2CVS6sTHFKg1v5Ohq/+Bo2LZ5gzUEwZ/WkHhwtGTCB/sVLw8ijOkAUxasZ+WshN/Rzj4ywsABJ5ZA=="],
 

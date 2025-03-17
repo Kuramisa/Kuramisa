@@ -10,6 +10,7 @@ import { AuditLogEvent, Message } from "discord.js";
 export default class MessageDeletedEvent extends AbstractEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
+        if (message.author.bot) return;
 
         const { guild } = message;
         const channel = await logsChannel(guild);

@@ -1,12 +1,21 @@
 import { Embed } from "@builders";
+import WebClient, { UserInfoResponse } from "@valapi/web-client";
 import {
     ActionRowBuilder,
     Collection,
     ColorResolvable,
+    GuildTextBasedChannel,
     MessageActionRowComponentBuilder,
+    User,
+    VoiceChannel,
 } from "discord.js";
 
 declare global {
+    interface QueueMetadata {
+        textChannel: GuildTextBasedChannel;
+        voiceChannel: VoiceChannel;
+    }
+
     // Valorant Declarations
 
     type IValorantFeaturedBundle = {
@@ -591,6 +600,14 @@ declare global {
         affinity: {
             pp: string;
         };
+    }
+
+    interface IValorantAccount {
+        username: string;
+        user: User;
+        auth: WebClient;
+        player: UserInfoResponse;
+        trackerURL: string;
     }
 
     // End of Valorant Declarations

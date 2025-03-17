@@ -23,6 +23,18 @@ import { Pagination } from "utils";
     ],
     subcommands: [
         {
+            name: "login",
+            description: "Login to your VALORANT account",
+            options: [
+                new StringOption()
+                    .setName("valorant_username")
+                    .setDescription("Your VALORANT username"),
+                new StringOption()
+                    .setName("valorant_password")
+                    .setDescription("Your VALORANT password"),
+            ],
+        },
+        {
             name: "agents",
             description: "Get information about VALORANT agents",
             options: [
@@ -56,6 +68,10 @@ import { Pagination } from "utils";
     ],
 })
 export default class ValorantCommand extends AbstractSlashCommand {
+    slashLogin(interaction: ChatInputCommandInteraction) {
+        return this.client.games.valorant.auth.login(interaction);
+    }
+
     slashAgents(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
         const {

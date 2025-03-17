@@ -31,6 +31,7 @@
         "@napi-rs/canvas": "^0.1.68",
         "@valapi/auth": "^5.0.0-beta.3",
         "@valapi/valorant-api.com": "^5.0.0-beta.3",
+        "@valapi/web-client": "^5.0.0-beta.3",
         "axios": "^1.8.2",
         "bufferutil": "^4.0.9",
         "cron": "^3.5.0",

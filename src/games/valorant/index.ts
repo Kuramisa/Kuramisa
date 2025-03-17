@@ -26,6 +26,8 @@ import {
 import ms from "ms";
 import ValorantGamemodes from "./assets/info/Gamemodes";
 import ValorantUtil from "./Util";
+import ValorantAuth from "./Auth";
+import { Collection } from "discord.js";
 
 export default class Valorant {
     initialized = false;
@@ -60,6 +62,13 @@ export default class Valorant {
 
     version?: ValorantVersion;
 
+    // Authentication
+    readonly auth: ValorantAuth;
+    readonly accounts = new Collection<
+        string,
+        Collection<string, IValorantAccount>
+    >();
+
     static readonly trackerURL = (username: string) =>
         `https://tracker.gg/valorant/profile/riot/${username}`;
 
@@ -91,6 +100,8 @@ export default class Valorant {
         this.playerTitles = new ValorantPlayerTitles([]);
         this.skins = new ValorantSkins([]);
         this.sprays = new ValorantSprays([]);
+
+        this.auth = new ValorantAuth(this);
     }
 
     async init() {

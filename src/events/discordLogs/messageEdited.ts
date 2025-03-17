@@ -19,6 +19,7 @@ export default class MessageEditedEvent extends AbstractEvent {
         )
             return;
         if (newMessage.author.id === this.client.user?.id) return;
+        if (newMessage.author.bot) return;
 
         const { guild } = newMessage;
 
