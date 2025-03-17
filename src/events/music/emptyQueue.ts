@@ -1,7 +1,7 @@
 import { AbstractEvent, Event } from "classes/Event";
 import kuramisa from "@kuramisa";
 import { GuildQueue } from "discord-player";
-import type { GuildTextBasedChannel } from "discord.js";
+import logger from "Logger";
 
 @Event({
     event: "emptyQueue",
@@ -9,21 +9,23 @@ import type { GuildTextBasedChannel } from "discord.js";
     emitter: kuramisa.systems.music.events,
 })
 export default class EmptyQueueEvent extends AbstractEvent {
-    async run(queue: GuildQueue<GuildTextBasedChannel>) {
+    async run(queue: GuildQueue<QueueMetadata>) {
         const { guild } = queue;
 
-        const channel = queue.metadata;
+        const { textChannel } = queue.metadata;
 
         if (guild.musicMessage) {
-            await guild.musicMessage.edit({
-                content: "> 😊 The queue is empty",
-                embeds: [],
-                components: [],
-            });
+            await guild.musicMessage
+                .edit({
+                    content: "> 😊 The queue is empty",
+                    embeds: [],
+                    components: [],
+                })
+                .catch((err) => logger.error(err));
             return;
         }
 
-        guild.musicMessage = await channel.send({
+        guild.musicMessage = await textChannel.send({
             content: "> 😊 The queue is empty",
         });
     }

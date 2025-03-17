@@ -1,12 +1,7 @@
 import { Row, Button } from "@builders";
 import { AbstractEvent, Event } from "classes/Event";
 import { QueueRepeatMode, useQueue } from "discord-player";
-import {
-    ButtonStyle,
-    ComponentType,
-    GuildTextBasedChannel,
-    Interaction,
-} from "discord.js";
+import { ButtonStyle, ComponentType, Interaction } from "discord.js";
 import { timedDelete } from "utils";
 
 @Event({
@@ -36,14 +31,16 @@ export default class PlayerControlsButtons extends AbstractEvent {
         )
             return;
 
-        if (!interaction.guildId) return;
+        if (!interaction.inCachedGuild()) return;
 
         const {
             kEmojis: emojis,
             systems: { music },
         } = this.client;
 
-        const queue = useQueue<GuildTextBasedChannel>(interaction.guildId);
+        const { guild } = interaction;
+
+        const queue = useQueue<QueueMetadata>(guild);
         if (!queue)
             return interaction
                 .reply({
@@ -291,6 +288,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     })
                     .then((i) => timedDelete(i, 2000));
             case "player_stop":
+                queue.clear();
                 queue.node.stop();
                 return interaction
                     .reply({

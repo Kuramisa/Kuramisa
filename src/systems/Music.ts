@@ -19,7 +19,6 @@ import {
     InteractionResponse,
     type ButtonInteraction,
     type ChatInputCommandInteraction,
-    type GuildTextBasedChannel,
     type GuildVoiceChannelResolvable,
     type Message,
     type MessageActionRowComponentBuilder,
@@ -332,10 +331,7 @@ export default class Music extends Player {
         ];
     }
 
-    async nowPlayingEmbed(
-        queue: GuildQueue<GuildTextBasedChannel>,
-        track?: Track
-    ) {
+    async nowPlayingEmbed(queue: GuildQueue<QueueMetadata>, track?: Track) {
         const embed = new Embed()
             .setAuthor({
                 name: "Now Playing",
@@ -379,7 +375,7 @@ export default class Music extends Player {
 
     async showQueue(
         interaction: ChatInputCommandInteraction | ButtonInteraction,
-        queue: GuildQueue<GuildTextBasedChannel>
+        queue: GuildQueue<QueueMetadata>
     ) {
         const { kEmojis: emojis } = this.kuramisa;
 
@@ -455,7 +451,7 @@ export default class Music extends Player {
 
     async askForLoopMode(
         interaction: ButtonInteraction,
-        queue: GuildQueue<GuildTextBasedChannel>
+        queue: GuildQueue<QueueMetadata>
     ) {
         const row = new Row().setComponents(
             new Button()
@@ -538,7 +534,7 @@ export default class Music extends Player {
 
     async askForSkipTo(
         interaction: ButtonInteraction,
-        queue: GuildQueue<GuildTextBasedChannel>
+        queue: GuildQueue<QueueMetadata>
     ) {
         const { kEmojis: emojis } = this.kuramisa;
 
@@ -638,7 +634,7 @@ export default class Music extends Player {
 
     async askForGoBackTo(
         interaction: ButtonInteraction,
-        queue: GuildQueue<GuildTextBasedChannel>
+        queue: GuildQueue<QueueMetadata>
     ) {
         const { kEmojis: emojis } = this.kuramisa;
 

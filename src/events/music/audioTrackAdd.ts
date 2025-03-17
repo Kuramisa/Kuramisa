@@ -2,7 +2,6 @@ import { Embed } from "@builders";
 import kuramisa from "@kuramisa";
 import { AbstractEvent, Event } from "classes/Event";
 import { type GuildQueue, type Track, QueueRepeatMode } from "discord-player";
-import type { GuildTextBasedChannel } from "discord.js";
 
 @Event({
     event: "audioTrackAdd",
@@ -10,7 +9,7 @@ import type { GuildTextBasedChannel } from "discord.js";
     emitter: kuramisa.systems.music.events,
 })
 export default class AudioTrackAddEvent extends AbstractEvent {
-    async run(queue: GuildQueue<GuildTextBasedChannel>, track: Track) {
+    async run(queue: GuildQueue<QueueMetadata>, track: Track) {
         if (queue.currentTrack === null) return;
         const { guild } = queue;
 
@@ -18,7 +17,7 @@ export default class AudioTrackAddEvent extends AbstractEvent {
             systems: { music },
         } = this.client;
 
-        const channel = queue.metadata;
+        const { textChannel } = queue.metadata;
 
         const embed = new Embed()
             .setAuthor({ name: "Added to queue" })
@@ -59,7 +58,7 @@ export default class AudioTrackAddEvent extends AbstractEvent {
             return;
         }
 
-        guild.musicMessage = await channel
+        guild.musicMessage = await textChannel
             .send({
                 embeds: [embed],
                 components: music.playerControls(),

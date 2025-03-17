@@ -1,7 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
 import kuramisa from "@kuramisa";
 import { GuildQueue, Track } from "discord-player";
-import type { GuildTextBasedChannel } from "discord.js";
 
 @Event({
     event: "playerStart",
@@ -10,8 +9,11 @@ import type { GuildTextBasedChannel } from "discord.js";
     emitter: kuramisa.systems.music.events,
 })
 export default class PlayerStartEvent extends AbstractEvent {
-    async run(queue: GuildQueue<GuildTextBasedChannel>, track: Track) {
-        const { guild, metadata: channel } = queue;
+    async run(queue: GuildQueue<QueueMetadata>, track: Track) {
+        const {
+            guild,
+            metadata: { textChannel },
+        } = queue;
 
         const {
             systems: { music },
@@ -26,7 +28,7 @@ export default class PlayerStartEvent extends AbstractEvent {
             return;
         }
 
-        guild.musicMessage = await channel.send({
+        guild.musicMessage = await textChannel.send({
             embeds: [await music.nowPlayingEmbed(queue, track)],
             components: music.playerControls(),
         });

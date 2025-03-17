@@ -3,7 +3,6 @@ import kuramisa from "@kuramisa";
 
 import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 import { Embed } from "@builders";
-import type { GuildTextBasedChannel } from "discord.js";
 
 @Event({
     event: "audioTrackRemove",
@@ -11,14 +10,14 @@ import type { GuildTextBasedChannel } from "discord.js";
     emitter: kuramisa.systems.music.events,
 })
 export default class AudioTrackRemoveEvent extends AbstractEvent {
-    async run(queue: GuildQueue<GuildTextBasedChannel>, track: Track) {
+    async run(queue: GuildQueue<QueueMetadata>, track: Track) {
         const { guild } = queue;
 
         const {
             systems: { music },
         } = this.client;
 
-        const channel = queue.metadata;
+        const { textChannel } = queue.metadata;
 
         const embed = new Embed()
             .setAuthor({ name: "Removed from queue" })
@@ -59,7 +58,7 @@ export default class AudioTrackRemoveEvent extends AbstractEvent {
             return;
         }
 
-        guild.musicMessage = await channel
+        guild.musicMessage = await textChannel
             .send({
                 embeds: [embed],
                 components: music.playerControls(),

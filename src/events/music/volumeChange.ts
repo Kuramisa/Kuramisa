@@ -1,7 +1,7 @@
 import kuramisa from "@kuramisa";
 import { AbstractEvent, Event } from "classes/Event";
 import { GuildQueue } from "discord-player";
-import { EmbedBuilder, type GuildTextBasedChannel } from "discord.js";
+import { EmbedBuilder } from "discord.js";
 
 @Event({
     event: "volumeChange",
@@ -11,7 +11,7 @@ import { EmbedBuilder, type GuildTextBasedChannel } from "discord.js";
 })
 export default class VolumeChangeEvent extends AbstractEvent {
     async run(
-        queue: GuildQueue<GuildTextBasedChannel>,
+        queue: GuildQueue<QueueMetadata>,
         oldVolume: number,
         newVolume: number
     ) {

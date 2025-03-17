@@ -7,12 +7,13 @@ import { Message } from "discord.js";
 })
 export default class MusicMessageDeletedEvent extends AbstractEvent {
     async run(message: Message) {
-        if (!message.guild) return;
+        if (!message.inGuild()) return;
 
         const { guild } = message;
 
         if (guild.musicMessage && message.id === guild.musicMessage.id) {
             guild.musicMessage = null;
+            console.log(guild.musicMessage);
         }
     }
 }

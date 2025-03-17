@@ -1,5 +1,4 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { useQueue } from "discord-player";
 import { GuildMember } from "discord.js";
 
 @Event({
@@ -10,8 +9,11 @@ export default class VoiceChannelLeaveEvent extends AbstractEvent {
     async run(member: GuildMember) {
         if (!member.user.bot) return;
         const { guild } = member;
+        const {
+            systems: { music },
+        } = this.client;
 
-        const queue = useQueue(guild);
+        const queue = music.queues.get<QueueMetadata>(guild);
 
         if (!queue) return;
         if (member.id !== guild.members.me?.id) return;

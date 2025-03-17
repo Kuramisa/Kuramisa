@@ -1,7 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
 import kuramisa from "@kuramisa";
 import { GuildQueue } from "discord-player";
-import type { GuildTextBasedChannel } from "discord.js";
 
 @Event({
     event: "playerPause",
@@ -9,7 +8,7 @@ import type { GuildTextBasedChannel } from "discord.js";
     emitter: kuramisa.systems.music.events,
 })
 export default class PlayerPauseEvent extends AbstractEvent {
-    async run(queue: GuildQueue<GuildTextBasedChannel>) {
+    async run(queue: GuildQueue<QueueMetadata>) {
         const { guild } = queue;
 
         const {
