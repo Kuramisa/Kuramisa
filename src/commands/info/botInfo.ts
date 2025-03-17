@@ -29,9 +29,7 @@ export default class BotInfoCommand extends AbstractSlashCommand {
                 ephemeral: true,
             });
         const { client } = this;
-        const { database, stores } = client;
-
-        const clientUser = await client.user.fetch();
+        const { database, stores, user: clientUser } = client;
         const application = await client.application.fetch();
 
         const databaseStatus = [
@@ -90,10 +88,9 @@ export default class BotInfoCommand extends AbstractSlashCommand {
                 }
             );
 
-        if (application.description)
-            return interaction.reply({
-                embeds: [embed],
-                flags: ["Ephemeral"],
-            });
+        return interaction.reply({
+            embeds: [embed],
+            flags: ["Ephemeral"],
+        });
     }
 }
