@@ -10,6 +10,7 @@ import { AuditLogEvent, Message } from "discord.js";
 export default class MessageDeletedEvent extends AbstractEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
+        if (!message.author) return;
         if (message.author.bot) return;
 
         const { guild } = message;
@@ -25,14 +26,11 @@ export default class MessageDeletedEvent extends AbstractEvent {
         let title = "Message was deleted";
 
         if (audit) {
-            const { target, executor: deletedBy } = audit;
-            if (deletedBy) {
-                title += ` by ${deletedBy.displayName}`;
-            }
-            if (target) {
-                title += ` that was sent by ${target.displayName}`;
-            }
+            const { executor: deletedBy } = audit;
+            if (deletedBy) title += ` by ${deletedBy.displayName}`;
         }
+
+        title += ` that was sent by ${message.author.displayName}`;
 
         const attachments = message.attachments.toJSON();
 
