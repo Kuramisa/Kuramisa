@@ -47,6 +47,7 @@ export default class MessageDeletedEvent extends AbstractEvent {
                     ? `\n\`\`\`${message.content}\`\`\``
                     : ""
             )
+            .setThumbnail(message.author.displayAvatarURL())
             .setFooter({ text: `ID: ${message.id}` });
 
         channel.send({ embeds: [embed], files: attachments });

@@ -27,8 +27,7 @@ export default class MessageEditedEvent extends AbstractEvent {
         if (!channel) return;
 
         const { content: oldContent } = oldMessage;
-
-        const { attachments: newAttachments, content: newContent } = newMessage;
+        const { content: newContent } = newMessage;
 
         const fromContent =
             oldContent && oldContent.length > 0
@@ -40,20 +39,18 @@ export default class MessageEditedEvent extends AbstractEvent {
                 ? `***To***\n\`\`\`${newContent}\`\`\``
                 : "";
 
-        const attachments = newAttachments.toJSON();
-
         const embed = new Embed()
             .setAuthor({
                 name: `${guild.name} Message Logs`,
                 iconURL: guild.iconURL() ?? undefined,
             })
             .setTitle(`${newMessage.author.displayName} edited a message`)
-            .setThumbnail(newMessage.author.avatarURL({ extension: "gif" }))
+            .setThumbnail(newMessage.author.displayAvatarURL())
             .setDescription(
                 `**Channel**: ${messageLink(newMessage.channelId, newMessage.id)}\n\n${fromContent}\n${toContent}`
             )
             .setFooter({ text: `ID: ${newMessage.id}` });
 
-        channel.send({ embeds: [embed], files: attachments });
+        channel.send({ embeds: [embed] });
     }
 }
