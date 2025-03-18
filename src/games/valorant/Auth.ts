@@ -57,13 +57,12 @@ export default class ValorantAuth {
         const auth = new Auth();
         const hCaptcha = await auth.captcha();
         const captchaResponse = await kuramisa.systems.captcha.hcaptcha({
-            pageurl: "https://auth.riotgames.com",
+            pageurl: "https://authenticate.riotgames.com/api/v1/login",
             sitekey: hCaptcha.sitekey,
             data: hCaptcha.rqdata,
-            userAgent: "Mozilla/5.0",
+            userAgent:
+                "RiotClient/91.0.2.1870.3774 rso-auth (Windows;10;;Professional, x64)",
         });
-
-        console.log(captchaResponse.data);
 
         const failedLogin = await auth
             .login({
