@@ -100,7 +100,7 @@ export default class Music extends Player {
         if (!track)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **No track found**`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const results = await this.lyrics.search({
@@ -111,7 +111,7 @@ export default class Music extends Player {
         if (!results.length)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **No lyrics found**`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         await interaction.deferReply();
@@ -200,7 +200,7 @@ export default class Music extends Player {
                 navIR = await i.reply({
                     embeds: [embeds[page]],
                     components: [navButtons],
-                    flags: ["Ephemeral"],
+                    flags: "Ephemeral",
                 });
             }
         });
@@ -384,7 +384,7 @@ export default class Music extends Player {
         if (tracksChunk.length === 0)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} The queue is empty`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const embeds: Embed[] = [];
@@ -427,7 +427,7 @@ export default class Music extends Player {
         const iResponse = await interaction.reply({
             embeds: [embeds[page]],
             components: [navButtons],
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
 
         const navCollector = iResponse.createMessageComponentCollector({
@@ -481,7 +481,7 @@ export default class Music extends Player {
             await interaction.reply({
                 content: "**Select loop mode**",
                 components: [row],
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
                 withResponse: true,
             })
         ).resource?.message;
@@ -543,7 +543,7 @@ export default class Music extends Player {
         if (tracksChunk.length === 0)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} The queue is empty`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
@@ -584,7 +584,7 @@ export default class Music extends Player {
         const iResponse = await interaction.reply({
             content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
             components: [menus[page], navButtons],
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
 
         const navCollector = iResponse.createMessageComponentCollector({
@@ -619,7 +619,7 @@ export default class Music extends Player {
                 return interaction
                     .reply({
                         content: `${emojis.get("no") ?? "🚫"} Track not found`,
-                        flags: ["Ephemeral"],
+                        flags: "Ephemeral",
                     })
                     .then((i) => timedDelete(i, 4000));
 
@@ -643,7 +643,7 @@ export default class Music extends Player {
         if (tracksChunk.length === 0)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} Nothing to go back to`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
@@ -684,7 +684,7 @@ export default class Music extends Player {
         const iResponse = await interaction.reply({
             content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
             components: [menus[page], navButtons],
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
 
         const navCollector = iResponse.createMessageComponentCollector({
@@ -719,7 +719,7 @@ export default class Music extends Player {
                 return interaction
                     .reply({
                         content: `${emojis.get("no") ?? "🚫"} Track not found`,
-                        flags: ["Ephemeral"],
+                        flags: "Ephemeral",
                     })
                     .then((i) => timedDelete(i, 4000));
 

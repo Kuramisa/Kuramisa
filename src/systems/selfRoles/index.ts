@@ -50,7 +50,7 @@ export default class SelfRoles {
         if (!channel)
             return interaction.reply({
                 content: bold("Failed to create channel!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         if (!wantsCustomMessage) {
@@ -73,7 +73,7 @@ export default class SelfRoles {
 
             return interaction.reply({
                 content: `**Self roles have been set up in ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         }
 
@@ -114,7 +114,7 @@ export default class SelfRoles {
 
         return mInteraction.reply({
             content: `**Self roles have been set up in ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -131,7 +131,7 @@ export default class SelfRoles {
         if (selfRoles.length === 0)
             return interaction.reply({
                 content: bold("No self roles have been set up yet!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const setups = [];
@@ -170,7 +170,7 @@ export default class SelfRoles {
 
         return interaction.reply({
             content: `${bold("Self roles setups")}\n\n${setups.join("\n")}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

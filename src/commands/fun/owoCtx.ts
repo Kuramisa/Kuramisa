@@ -31,7 +31,7 @@ export default class OwOCtxCommand extends AbstractMenuCommand {
         if (message.content.length < 1)
             return interaction.reply({
                 content: bold("Could not find text in the message"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const owo = owoify(message.content);

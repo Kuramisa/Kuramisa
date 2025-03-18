@@ -47,13 +47,13 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         if (role.id === guild.roles.everyone.id)
             return interaction.reply({
                 content: "You cannot add the everyone role as an autorole",
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         if (db.autorole.includes(role.id))
             return interaction.reply({
                 content: `${role} is already an autorole`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         db.autorole.push(role.id);
@@ -61,7 +61,7 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
 
         interaction.reply({
             content: `${role} has been added as an autorole`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -83,13 +83,13 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         if (!role)
             return interaction.reply({
                 content: `${role} is not a valid role`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         if (!db.autorole.includes(role.id))
             return interaction.reply({
                 content: `${role} is not an autorole`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         db.autorole = db.autorole.filter((r) => r !== role.id);
@@ -97,7 +97,7 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
 
         interaction.reply({
             content: `${role} has been removed as an autorole`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

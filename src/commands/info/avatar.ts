@@ -108,7 +108,7 @@ export default class AvatarCommand extends AbstractSlashCommand {
         if (!avatar)
             return interaction.reply({
                 content: bold("This user has no avatar"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const embed = new Embed()

@@ -19,7 +19,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         if (!interaction.guild.members.me?.permissions.has("ManageRoles"))
             return interaction.reply({
                 content: bold("I don't have the permission to manage roles"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const { managers } = kuramisa;
@@ -34,7 +34,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This button is not in a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbMessage = dbChannel.messages.find(
@@ -43,7 +43,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         if (!dbMessage)
             return interaction.reply({
                 content: bold("This message is not in a self role message"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbButton = dbMessage.buttons.find(
@@ -52,21 +52,21 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
         if (!dbButton)
             return interaction.reply({
                 content: bold("This button is not in a self role button"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         if (member.roles.cache.has(dbButton.roleId)) {
             await member.roles.remove(dbButton.roleId);
             return interaction.reply({
                 content: `**Removed role** ${roleMention(dbButton.roleId)}`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         }
 
         await member.roles.add(dbButton.roleId);
         return interaction.reply({
             content: `**Added role** ${roleMention(dbButton.roleId)}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

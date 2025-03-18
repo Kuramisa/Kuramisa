@@ -27,7 +27,10 @@ import ms from "ms";
 import ValorantGamemodes from "./assets/info/Gamemodes";
 import ValorantUtil from "./Util";
 import ValorantAuth from "./Auth";
-import { Collection } from "discord.js";
+import { Collection, Snowflake } from "discord.js";
+import kuramisa from "@kuramisa";
+import WebClient from "@valapi/web-client";
+import Auth from "@valapi/auth";
 
 export default class Valorant {
     initialized = false;
@@ -69,8 +72,8 @@ export default class Valorant {
         Collection<string, IValorantAccount>
     >();
 
-    static readonly trackerURL = (username: string) =>
-        `https://tracker.gg/valorant/profile/riot/${username}`;
+    static readonly trackerURL = (gameName: string, tagLine: string) =>
+        `https://tracker.gg/valorant/profile/riot/${gameName}%23${tagLine}`;
 
     static readonly assetsURL = "https://valorant-api.com/v1";
 
@@ -262,5 +265,126 @@ export default class Valorant {
         this.initialized = true;
 
         logger.info(`[Valorant] Initialized in ${ms(Date.now() - startTime)}`);
+    }
+
+    async loadAccounts(userId: Snowflake) {
+        const { managers } = kuramisa;
+
+        const dbUser = await managers.users.get(userId);
+        const user =
+            kuramisa.users.cache.get(userId) ??
+            (await kuramisa.users.fetch(userId).catch(() => null));
+
+        if (!user) {
+            logger.debug(`[Valorant] User not found for ${userId}`);
+            return;
+        }
+
+        const { valorant } = dbUser;
+
+        let accounts = this.accounts.get(userId);
+        if (!accounts) {
+            this.accounts.set(userId, new Collection());
+            accounts = this.accounts.get(userId);
+        }
+
+        if (!valorant || valorant.accounts.length === 0) {
+            logger.debug(`[Valorant] No accounts found for ${dbUser.username}`);
+            return;
+        }
+
+        if (!accounts) {
+            logger.debug(
+                `[Valorant] ${user.username} failed to create accounts collection`
+            );
+            return;
+        }
+
+        let deletedCount = 0;
+        let allAccounts = 0;
+
+        for (const account of valorant.accounts) {
+            if (accounts.has(account.username)) continue;
+            allAccounts++;
+
+            const auth = new Auth({ user: account.json });
+
+            if (!auth.isAuthenticated) {
+                const reauthResult = await auth
+                    .reauthorize()
+                    .then(() => {
+                        logger.debug(
+                            `[Valorant] Reauthorized ${account.username} - ${user.username}`
+                        );
+
+                        return true;
+                    })
+                    .catch((err) => {
+                        logger.error(
+                            `[Valorant] Failed to reauthorize ${account.username} - ${user.username} - Removing account`
+                        );
+                        logger.error(err);
+
+                        return false;
+                    });
+
+                if (!reauthResult) {
+                    accounts.delete(account.username);
+                    valorant.accounts = valorant.accounts.filter(
+                        (acc) => acc.username !== account.username
+                    );
+                    await dbUser.save();
+                    deletedCount++;
+                    continue;
+                }
+            }
+
+            const webClient = new WebClient({
+                user: auth.toJSON(),
+                region: await auth.regionTokenization(),
+            });
+
+            const playerInfo = (
+                await webClient.getUserInfo().catch((err) => {
+                    logger.error(
+                        `[Valorant] Failed to get user info for ${account.username} - ${user.username}`
+                    );
+                    logger.error(err);
+                    return null;
+                })
+            )?.data;
+
+            if (!playerInfo) {
+                accounts.delete(account.username);
+                valorant.accounts = valorant.accounts.filter(
+                    (acc) => acc.username !== account.username
+                );
+                await dbUser.save();
+                deletedCount++;
+                continue;
+            }
+
+            accounts.set(account.username, {
+                username: account.username,
+                user,
+                auth,
+                web: webClient,
+                player: playerInfo,
+                trackerURL: Valorant.trackerURL(
+                    playerInfo.acct.game_name,
+                    playerInfo.acct.tag_line
+                ),
+            });
+
+            logger.debug(
+                `[Valorant] Loaded ${account.username} - ${user.username}`
+            );
+        }
+
+        logger.info(
+            `[Valorant] Loaded ${allAccounts} accounts for ${user.username} - Deleted ${deletedCount}`
+        );
+
+        return allAccounts === deletedCount;
     }
 }

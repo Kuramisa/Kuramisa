@@ -20,11 +20,11 @@ export default class SelfRolesButtons {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("You do not have self roles setup"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         await interaction.deferReply({
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
 
         const channelId = options.getString("sr_channel", true);
@@ -195,7 +195,7 @@ export default class SelfRolesButtons {
         )
             return interaction.reply({
                 content: bold("You must provide at least one option to edit"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const db = await managers.guilds.get(guild.id);
@@ -203,7 +203,7 @@ export default class SelfRolesButtons {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("No self roles have been set up yet!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channelId = options.getString("sr_channel", true);
@@ -213,14 +213,14 @@ export default class SelfRolesButtons {
         if (!channel)
             return interaction.reply({
                 content: bold("This channel does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
                     "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
                 ),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
@@ -229,7 +229,7 @@ export default class SelfRolesButtons {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This channel is not a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const messageId = options.getString("sr_message", true);
@@ -239,14 +239,14 @@ export default class SelfRolesButtons {
         if (!message)
             return interaction.reply({
                 content: bold("This message does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbMessage = dbChannel.messages.find((sr) => sr.id === message.id);
         if (!dbMessage)
             return interaction.reply({
                 content: bold("This message does not exist in the database"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const buttonName = options.getString("sr_button", true);
@@ -259,7 +259,7 @@ export default class SelfRolesButtons {
         if (!dbButton)
             return interaction.reply({
                 content: bold("This button does not exist in the database"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const button = new Button()
@@ -321,7 +321,7 @@ export default class SelfRolesButtons {
 
         return interaction.reply({
             content: `Edited a button **${dbButton.name}** on ${messageLink(channel.id, message.id, guild.id)}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -336,7 +336,7 @@ export default class SelfRolesButtons {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("You do not have self roles setup"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channelId = options.getString("sr_channel", true);
@@ -346,14 +346,14 @@ export default class SelfRolesButtons {
         if (!channel)
             return interaction.reply({
                 content: bold("This channel does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
                     "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
                 ),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
@@ -362,7 +362,7 @@ export default class SelfRolesButtons {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This channel is not a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const messageId = options.getString("sr_message", true);
@@ -372,14 +372,14 @@ export default class SelfRolesButtons {
         if (!message)
             return interaction.reply({
                 content: bold("This message does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbMessage = dbChannel.messages.find((sr) => sr.id === message.id);
         if (!dbMessage)
             return interaction.reply({
                 content: bold("This message does not exist in the database"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const buttonName = options.getString("sr_button", true);
@@ -391,7 +391,7 @@ export default class SelfRolesButtons {
         if (!dbButton)
             return interaction.reply({
                 content: bold("This button does not exist in the database"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         dbMessage.buttons = dbMessage.buttons.filter(
@@ -428,7 +428,7 @@ export default class SelfRolesButtons {
 
         return interaction.reply({
             content: `Removed a button **${dbButton.name}** from ${messageLink(channel.id, message.id, guild.id)}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

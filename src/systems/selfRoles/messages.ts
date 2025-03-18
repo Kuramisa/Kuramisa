@@ -14,7 +14,7 @@ export default class SelfRolesMessages {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("No self roles have been set up yet!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channelId = options.getString("sr_channel", true);
@@ -25,14 +25,14 @@ export default class SelfRolesMessages {
         if (!channel)
             return interaction.reply({
                 content: bold("This channel does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
                     "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
                 ),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
@@ -41,7 +41,7 @@ export default class SelfRolesMessages {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This channel is not a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const wantsCustomMessage = options.getBoolean("custom_message", true);
@@ -62,7 +62,7 @@ export default class SelfRolesMessages {
 
             return interaction.reply({
                 content: `**Added a message to channel ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         }
 
@@ -99,7 +99,7 @@ export default class SelfRolesMessages {
 
         return mInteraction.reply({
             content: `**Added a message to channel ${channel} - ${messageLink(channel.id, message.id, guild.id)}**`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -114,7 +114,7 @@ export default class SelfRolesMessages {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("No self roles have been set up yet!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channelId = options.getString("sr_channel", true);
@@ -124,14 +124,14 @@ export default class SelfRolesMessages {
         if (!channel)
             return interaction.reply({
                 content: bold("This channel does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
                     "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
                 ),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
@@ -140,7 +140,7 @@ export default class SelfRolesMessages {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This channel is not a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const messageId = options.getString("sr_message", true);
@@ -150,7 +150,7 @@ export default class SelfRolesMessages {
         if (!message)
             return interaction.reply({
                 content: bold("This message does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const modal = new Modal()
@@ -178,7 +178,7 @@ export default class SelfRolesMessages {
 
         return mInteraction.reply({
             content: `**Edited message ${message} - ${channel}**`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -193,7 +193,7 @@ export default class SelfRolesMessages {
         if (db.selfRoles.length === 0)
             return interaction.reply({
                 content: bold("No self roles have been set up yet!"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channelId = options.getString("sr_channel", true);
@@ -203,14 +203,14 @@ export default class SelfRolesMessages {
         if (!channel)
             return interaction.reply({
                 content: bold("This channel does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
                     "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
                 ),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
@@ -219,7 +219,7 @@ export default class SelfRolesMessages {
         if (!dbChannel)
             return interaction.reply({
                 content: bold("This channel is not a self role channel"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const messageId = options.getString("sr_message", true);
@@ -229,7 +229,7 @@ export default class SelfRolesMessages {
         if (!message)
             return interaction.reply({
                 content: bold("This message does not exist"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         await message.delete();
@@ -241,7 +241,7 @@ export default class SelfRolesMessages {
 
         return interaction.reply({
             content: `**Removed a message**\n\n\`ID\` - ${message.id}\n\`Description\` - ${message.content}\n\`From\` - ${channel}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

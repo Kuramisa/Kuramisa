@@ -17,7 +17,7 @@ export default class ValorantButtons extends AbstractEvent {
         if (!valorant.initialized)
             return interaction.reply({
                 content: "**😞 Valorant is not initialized yet!**",
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const { customId } = interaction;
@@ -30,7 +30,7 @@ export default class ValorantButtons extends AbstractEvent {
         if (!weapon)
             return interaction.reply({
                 content: bold("Weapon not found"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         if (customId.includes("skins")) {
@@ -89,7 +89,7 @@ export default class ValorantButtons extends AbstractEvent {
                     case "add_to_wishlist": {
                         await i.reply({
                             content: "**😁 Coming Soon™️!**",
-                            flags: ["Ephemeral"],
+                            flags: "Ephemeral",
                         });
                         return;
                     }

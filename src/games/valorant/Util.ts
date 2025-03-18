@@ -95,7 +95,7 @@ export default class ValorantUtil {
             if (i.customId === "add_to_wishlist") {
                 await i.reply({
                     content: "**😁 Coming Soon™️!**",
-                    flags: ["Ephemeral"],
+                    flags: "Ephemeral",
                 });
                 return;
             }

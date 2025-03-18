@@ -68,7 +68,13 @@ import { Pagination } from "utils";
     ],
 })
 export default class ValorantCommand extends AbstractSlashCommand {
-    slashLogin(interaction: ChatInputCommandInteraction) {
+    async slashLogin(interaction: ChatInputCommandInteraction) {
+        const { user } = interaction;
+        const { valorant } = this.client.games;
+
+        if (!valorant.accounts.get(user.id))
+            await valorant.loadAccounts(user.id);
+
         return this.client.games.valorant.auth.login(interaction);
     }
 
@@ -88,7 +94,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!agent)
             return interaction.reply({
                 content: bold("Ermm... Agent not found"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const agentEmbed = valorant.agents.embed(agent);
@@ -110,7 +116,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!weapon)
             return interaction.reply({
                 content: bold("Ermm... Weapon not found**"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const skins = weapon.skins
@@ -128,7 +134,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!skin)
             return interaction.reply({
                 content: bold("Ermm... Skin not found**"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const message = await interaction.editReply({
@@ -168,7 +174,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
                 case "add_to_wishlist": {
                     await i.reply({
                         content: bold("😁 Coming Soon™️!"),
-                        flags: ["Ephemeral"],
+                        flags: "Ephemeral",
                     });
                     return;
                 }
@@ -209,7 +215,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         if (!weapon)
             return interaction.reply({
                 content: bold("Ermm... Weapon not found"),
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         const weaponEmbed = valorant.weapons.embed(weapon);
         const weaponRow = valorant.weapons.row(weapon);

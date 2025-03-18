@@ -1,4 +1,5 @@
 import { Embed } from "@builders";
+import Auth from "@valapi/auth";
 import WebClient, { UserInfoResponse } from "@valapi/web-client";
 import {
     ActionRowBuilder,
@@ -605,7 +606,8 @@ declare global {
     interface IValorantAccount {
         username: string;
         user: User;
-        auth: WebClient;
+        auth: Auth;
+        web: WebClient;
         player: UserInfoResponse;
         trackerURL: string;
     }

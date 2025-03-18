@@ -90,7 +90,7 @@ export default class BotInfoCommand extends AbstractSlashCommand {
 
         return interaction.reply({
             embeds: [embed],
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 }

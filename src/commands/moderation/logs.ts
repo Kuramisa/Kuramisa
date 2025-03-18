@@ -64,7 +64,7 @@ export default class LogsCommand extends AbstractSlashCommand {
 
         interaction.reply({
             content: `Logging channel has been set to ${channel}`,
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
     }
 
@@ -91,7 +91,7 @@ export default class LogsCommand extends AbstractSlashCommand {
 
             return interaction.reply({
                 content: `\`${toggleName}\` - **${newValue}**`,
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
         }
 
@@ -122,7 +122,7 @@ export default class LogsCommand extends AbstractSlashCommand {
         const message = await interaction.reply({
             content: "⬇ Choose Toggles From Below ⬇",
             components: [row],
-            flags: ["Ephemeral"],
+            flags: "Ephemeral",
         });
 
         const sInteraction = await message.awaitMessageComponent({
@@ -173,7 +173,7 @@ export default class LogsCommand extends AbstractSlashCommand {
         if (!db.logs.channel)
             return interaction.reply({
                 content: "Logs channel is not set!",
-                flags: ["Ephemeral"],
+                flags: "Ephemeral",
             });
 
         const channel = guild.channels.cache.get(db.logs.channel);
