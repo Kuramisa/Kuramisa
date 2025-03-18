@@ -3,7 +3,6 @@ import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
     ChannelType,
     ChatInputCommandInteraction,
-    InteractionContextType,
     time,
     TimestampStyles,
 } from "discord.js";
@@ -12,7 +11,6 @@ import capitalize from "lodash/capitalize";
 @SlashCommand({
     name: "server",
     description: "Server information",
-    contexts: [InteractionContextType.Guild],
 })
 export default class ServerCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {

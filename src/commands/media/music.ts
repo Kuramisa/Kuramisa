@@ -1,18 +1,13 @@
 import { Embed, IntegerOption, StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import { QueueRepeatMode } from "discord-player";
-import {
-    InteractionContextType,
-    type ChatInputCommandInteraction,
-    ChannelType,
-} from "discord.js";
+import { type ChatInputCommandInteraction, ChannelType } from "discord.js";
 import startCase from "lodash/startCase";
 import { durationPattern, durationToMs } from "utils";
 
 @SlashCommand({
     name: "music",
     description: "Music commands",
-    contexts: [InteractionContextType.Guild],
     subcommands: [
         {
             name: "play",

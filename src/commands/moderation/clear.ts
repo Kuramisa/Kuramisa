@@ -1,14 +1,10 @@
 import { IntegerOption, UserOption, Embed } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ChatInputCommandInteraction,
-    InteractionContextType,
-} from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "clear",
     description: "Clear messages in a channel",
-    contexts: [InteractionContextType.Guild],
     botPermissions: ["ManageMessages"],
     userPermissions: ["ManageMessages"],
     options: [

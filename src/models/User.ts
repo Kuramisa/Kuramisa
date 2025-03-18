@@ -21,6 +21,7 @@ export interface IUser {
             accessory: boolean;
         };
     };
+    playlists: Playlist[];
 }
 
 export const userSchema = new Schema({
@@ -54,6 +55,26 @@ export const userSchema = new Schema({
             accessory: Boolean,
         },
     },
+    playlists: [
+        {
+            id: String,
+            name: String,
+            thumbnail: String,
+            tracks: [
+                {
+                    id: String,
+                    title: String,
+                    description: String,
+                    author: String,
+                    url: String,
+                    thumbnail: String,
+                    duration: Number,
+                    durationMS: Number,
+                    views: Number,
+                },
+            ],
+        },
+    ],
 });
 
 const userModel = model<IUser>("users", userSchema);

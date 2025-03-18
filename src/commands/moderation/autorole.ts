@@ -1,14 +1,10 @@
 import { RoleOption, StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ChatInputCommandInteraction,
-    InteractionContextType,
-} from "discord.js";
+import { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "auto-role",
     description: "Set the Auto role for the server",
-    contexts: [InteractionContextType.Guild],
     userPermissions: ["ManageRoles"],
     botPermissions: ["ManageRoles"],
     subcommands: [

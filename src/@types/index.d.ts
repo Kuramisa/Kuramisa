@@ -17,6 +17,26 @@ declare global {
         voiceChannel: VoiceChannel;
     }
 
+    interface PlaylistTrack {
+        id: string;
+        title: string;
+        description: string;
+        author: string;
+        url: string;
+        thumbnail: string;
+        duration: string;
+        durationMS: number;
+        views: number;
+    }
+
+    interface Playlist {
+        id: string;
+        name: string;
+        description?: string;
+        cover?: string;
+        tracks: PlaylistTrack[];
+    }
+
     // Valorant Declarations
 
     type IValorantFeaturedBundle = {

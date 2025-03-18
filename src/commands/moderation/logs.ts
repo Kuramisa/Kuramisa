@@ -10,16 +10,14 @@ import {
     ChannelType,
     ChatInputCommandInteraction,
     ComponentType,
-    InteractionContextType,
 } from "discord.js";
 import { camelCase, startCase } from "lodash";
 
 @SlashCommand({
     name: "logs",
     description: "Configure the logging system for the server",
-    contexts: [InteractionContextType.Guild],
-    userPermissions: ["ManageGuild"],
-    botPermissions: ["ReadMessageHistory", "SendMessages"],
+    userPermissions: ["ViewAuditLog"],
+    botPermissions: ["ReadMessageHistory", "SendMessages", "ViewAuditLog"],
     subcommands: [
         {
             name: "channel",

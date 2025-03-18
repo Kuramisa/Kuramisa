@@ -23,7 +23,6 @@ export interface ICommand {
 export interface ICommandOptions {
     name: string;
     description: string;
-    contexts: InteractionContextType[];
 
     detailedDescription?: string;
     cooldown?: number;
@@ -31,6 +30,7 @@ export interface ICommandOptions {
     botPermissions?: PermissionResolvable[];
     userPermissions?: PermissionResolvable[];
 
+    contexts?: InteractionContextType[];
     integrations?: ApplicationIntegrationType[];
 }
 
@@ -60,8 +60,6 @@ export abstract class AbstractCommand implements ICommand {
         integrations,
     }: ICommandOptions) {
         if (!name) throw new Error("No name provided");
-        if (!contexts || contexts.length === 0)
-            throw new Error("No contexts provided");
         this.name = name;
         this.description = description;
         this.detailedDescription = detailedDescription ?? undefined;

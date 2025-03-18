@@ -1,6 +1,7 @@
 import {
     ApplicationIntegrationType,
     ContextMenuCommandBuilder,
+    InteractionContextType,
     PermissionsBitField,
     type ContextMenuCommandInteraction,
     type ContextMenuCommandType,
@@ -51,17 +52,16 @@ export abstract class AbstractMenuCommand
 
         this.type = type;
 
-        this.data = new ContextMenuCommandBuilder()
-            .setName(name)
-            .setContexts(contexts)
-            .setType(type);
+        this.data = new ContextMenuCommandBuilder().setName(name).setType(type);
 
         if (integrations) this.data.setIntegrationTypes(integrations);
         else
-            this.data.setIntegrationTypes([
-                ApplicationIntegrationType.GuildInstall,
-                ApplicationIntegrationType.UserInstall,
-            ]);
+            this.data.setIntegrationTypes(
+                ApplicationIntegrationType.GuildInstall
+            );
+
+        if (contexts) this.data.setContexts(contexts);
+        else this.data.setContexts(InteractionContextType.Guild);
 
         if (userPermissions)
             this.data.setDefaultMemberPermissions(

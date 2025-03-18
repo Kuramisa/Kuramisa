@@ -5,16 +5,11 @@ import {
     StringOption,
 } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ButtonStyle,
-    ChatInputCommandInteraction,
-    InteractionContextType,
-} from "discord.js";
+import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "self-roles",
     description: "Configure self roles for this server",
-    contexts: [InteractionContextType.Guild],
     userPermissions: [
         "ManageChannels",
         "ManageRoles",

@@ -23,7 +23,7 @@
         "typescript-eslint": "^8.26.1"
     },
     "peerDependencies": {
-        "typescript": "^5.7.3"
+        "typescript": "^5.8.2"
     },
     "dependencies": {
         "@2captcha/captcha-solver": "^1.3.0",
@@ -33,9 +33,9 @@
         "@valapi/auth": "^5.0.0-beta.3",
         "@valapi/valorant-api.com": "^5.0.0-beta.3",
         "@valapi/web-client": "^5.0.0-beta.3",
-        "axios": "^1.8.2",
+        "axios": "^1.8.3",
         "bufferutil": "^4.0.9",
-        "cron": "^3.5.0",
+        "cron": "^4.1.0",
         "dayjs": "^1.11.13",
         "discord-logs": "^2.2.1",
         "discord-player": "^7.1.0",
@@ -51,8 +51,10 @@
         "mongoose": "^8.12.1",
         "ms": "^2.1.3",
         "nekos.life": "^3.0.0",
+        "node-cloudflare-r2": "^0.4.2",
         "owospeak": "^1.0.4",
         "winston": "^3.17.0",
-        "winston-daily-rotate-file": "^5.0.0"
+        "winston-daily-rotate-file": "^5.0.0",
+        "zlib-sync": "^0.1.9"
     }
 }
