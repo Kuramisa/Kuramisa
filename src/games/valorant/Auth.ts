@@ -50,7 +50,7 @@ export default class ValorantAuth {
                 flags: "Ephemeral",
             });
 
-        await interaction.deferReply({ flags: ["Ephemeral"] });
+        await interaction.deferReply({ flags: "Ephemeral" });
 
         const password = options.getString("valorant_password", true);
 

@@ -52,7 +52,7 @@ export default class Pagination {
 
         if (!interaction.deferred)
             await interaction.deferReply({
-                flags: ephemeral ? ["Ephemeral"] : [],
+                flags: ephemeral ? "Ephemeral" : [],
             });
 
         const message = await interaction.editReply({
@@ -144,7 +144,7 @@ export default class Pagination {
         } else {
             if (!interaction.replied && !interaction.deferred)
                 await interaction.deferReply({
-                    flags: ephemeral ? ["Ephemeral"] : [],
+                    flags: ephemeral ? "Ephemeral" : [],
                 });
 
             if (interaction.ephemeral) ephemeral = true;
@@ -239,7 +239,7 @@ export default class Pagination {
         } else {
             if (!interaction.replied && !interaction.deferred)
                 await interaction.deferReply({
-                    flags: ephemeral ? ["Ephemeral"] : [],
+                    flags: ephemeral ? "Ephemeral" : [],
                 });
 
             if (interaction.ephemeral) ephemeral = true;

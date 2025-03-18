@@ -115,6 +115,6 @@ export default class AvatarCommand extends AbstractSlashCommand {
             .setTitle(`${user.displayName}'s avatar`)
             .setImage(avatar);
 
-        return interaction.reply({ embeds: [embed], flags: ["Ephemeral"] });
+        return interaction.reply({ embeds: [embed], flags: "Ephemeral" });
     }
 }

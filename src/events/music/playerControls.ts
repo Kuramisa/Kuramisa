@@ -54,14 +54,23 @@ export default class PlayerControlsButtons extends AbstractEvent {
             metadata: { voiceChannel },
         } = queue;
 
-        const { user } = interaction;
+        const { member } = interaction;
+
+        if (
+            !member.voice.channelId ||
+            member.voice.channelId !== voiceChannel.id
+        )
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} You need to be in the same voice channel as the bot to use the player controls`,
+                flags: "Ephemeral",
+            });
 
         switch (interaction.customId) {
             case "player_goback_to": {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy &&
-                    queue.currentTrack.requestedBy.id !== user.id &&
+                    queue.currentTrack.requestedBy.id !== member.id &&
                     voiceChannel.members.get(queue.currentTrack.requestedBy.id)
                 )
                     return interaction.reply({
@@ -75,7 +84,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy &&
-                    queue.currentTrack.requestedBy.id !== user.id &&
+                    queue.currentTrack.requestedBy.id !== member.id &&
                     voiceChannel.members.get(queue.currentTrack.requestedBy.id)
                 )
                     return interaction.reply({
@@ -89,7 +98,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy &&
-                    queue.currentTrack.requestedBy.id !== user.id &&
+                    queue.currentTrack.requestedBy.id !== member.id &&
                     voiceChannel.members.get(queue.currentTrack.requestedBy.id)
                 )
                     return interaction.reply({
@@ -136,7 +145,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 if (
                     queue.currentTrack &&
                     queue.currentTrack.requestedBy &&
-                    queue.currentTrack.requestedBy.id !== user.id &&
+                    queue.currentTrack.requestedBy.id !== member.id &&
                     voiceChannel.members.get(queue.currentTrack.requestedBy.id)
                 )
                     return interaction.reply({
@@ -181,7 +190,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     const bInteraction = await nextInteraction
                         .awaitMessageComponent({
                             componentType: ComponentType.Button,
-                            filter: (i) => i.user.id === user.id,
+                            filter: (i) => i.user.id === member.id,
                             time: 15000,
                         })
                         .catch(() => null);
