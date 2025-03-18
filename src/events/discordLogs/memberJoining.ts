@@ -19,7 +19,7 @@ export default class MemberJoinEvent extends AbstractEvent {
                 name: `${guild.name} Member Logs`,
                 iconURL: guild.iconURL() ?? "",
             })
-            .setTitle(`${member.user.username} Joined`)
+            .setTitle(`${member.user.displayName} Joined`)
             .setThumbnail(member.displayAvatarURL())
             .addFields({
                 name: "Joined Discord",

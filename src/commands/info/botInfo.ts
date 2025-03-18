@@ -40,7 +40,7 @@ export default class BotInfoCommand extends AbstractSlashCommand {
         ][database.connection.connection.readyState];
 
         const embed = new Embed()
-            .setTitle(`${client.user.username} Info`)
+            .setTitle(`${client.user.displayName} Info`)
             .setDescription(application.description)
             .setThumbnail(clientUser.displayAvatarURL())
             .addFields(

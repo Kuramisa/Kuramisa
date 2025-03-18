@@ -289,13 +289,15 @@ export default class Valorant {
         }
 
         if (!valorant || valorant.accounts.length === 0) {
-            logger.debug(`[Valorant] No accounts found for ${dbUser.username}`);
+            logger.debug(
+                `[Valorant] No accounts found for ${user.displayName}`
+            );
             return;
         }
 
         if (!accounts) {
             logger.debug(
-                `[Valorant] ${user.username} failed to create accounts collection`
+                `[Valorant] ${user.displayName} failed to create accounts collection`
             );
             return;
         }
@@ -314,14 +316,14 @@ export default class Valorant {
                     .reauthorize()
                     .then(() => {
                         logger.debug(
-                            `[Valorant] Reauthorized ${account.username} - ${user.username}`
+                            `[Valorant] Reauthorized ${account.username} - ${user.displayName}`
                         );
 
                         return true;
                     })
                     .catch((err) => {
                         logger.error(
-                            `[Valorant] Failed to reauthorize ${account.username} - ${user.username} - Removing account`
+                            `[Valorant] Failed to reauthorize ${account.username} - ${user.displayName} - Removing account`
                         );
                         logger.error(err);
 
@@ -347,7 +349,7 @@ export default class Valorant {
             const playerInfo = (
                 await webClient.getUserInfo().catch((err) => {
                     logger.error(
-                        `[Valorant] Failed to get user info for ${account.username} - ${user.username}`
+                        `[Valorant] Failed to get user info for ${account.username} - ${user.displayName}`
                     );
                     logger.error(err);
                     return null;
@@ -377,12 +379,12 @@ export default class Valorant {
             });
 
             logger.debug(
-                `[Valorant] Loaded ${account.username} - ${user.username}`
+                `[Valorant] Loaded ${account.username} - ${user.displayName}`
             );
         }
 
         logger.info(
-            `[Valorant] Loaded ${allAccounts} accounts for ${user.username} - Deleted ${deletedCount}`
+            `[Valorant] Loaded ${allAccounts} accounts for ${user.displayName} - Deleted ${deletedCount}`
         );
 
         return allAccounts === deletedCount;

@@ -38,7 +38,7 @@ export default class CommandInteractionManager extends AbstractEvent {
 
             if (missingPerms.length) {
                 logger.debug(
-                    `[Command Interaction Manager] User ${user.globalName ?? user.username} missing permissions to run command ${command.name}.`
+                    `[Command Interaction Manager] User ${user.displayAvatarURL} missing permissions to run command ${command.name}.`
                 );
 
                 return interaction.reply({

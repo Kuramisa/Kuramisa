@@ -19,7 +19,7 @@ export default class MemberLeaveEvent extends AbstractEvent {
                 name: `${guild.name} Member Logs`,
                 iconURL: guild.iconURL() ?? "",
             })
-            .setTitle(`${member.user.username} Left`)
+            .setTitle(`${member.user.displayName} Left`)
             .setThumbnail(member.displayAvatarURL())
             .addFields({
                 name: "Joined Discord",

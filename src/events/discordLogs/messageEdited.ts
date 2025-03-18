@@ -47,7 +47,7 @@ export default class MessageEditedEvent extends AbstractEvent {
                 name: `${guild.name} Message Logs`,
                 iconURL: guild.iconURL() ?? undefined,
             })
-            .setTitle(`${newMessage.author.username} edited a message`)
+            .setTitle(`${newMessage.author.displayName} edited a message`)
             .setThumbnail(newMessage.author.avatarURL({ extension: "gif" }))
             .setDescription(
                 `**Channel**: ${messageLink(newMessage.channelId, newMessage.id)}\n\n${fromContent}\n${toContent}`

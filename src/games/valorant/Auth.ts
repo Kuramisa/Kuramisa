@@ -19,7 +19,7 @@ export default class ValorantAuth {
 
         if (!accounts) {
             logger.debug(
-                `${user.username} Problem with Valorant to not being initialized`
+                `${user.displayName} Problem with Valorant to not being initialized`
             );
 
             return interaction.reply({
@@ -74,7 +74,7 @@ export default class ValorantAuth {
             .then(() => true)
             .catch((err) => {
                 logger.error(
-                    `Failed to login to Valorant with ${username} - ${user.username}`
+                    `Failed to login to Valorant with ${username} - ${user.displayName}`
                 );
                 logger.error(err);
 

@@ -20,27 +20,25 @@ export default class ServerCommand extends AbstractSlashCommand {
 
         const { guild } = interaction;
 
-        const {
-            createdTimestamp,
-            description,
-            features,
-            channels,
-            emojis,
-            stickers,
-        } = guild;
+        const { createdAt, description, features, channels, emojis, stickers } =
+            guild;
 
         const members = await guild.members.fetch();
 
-        const icon = guild.iconURL({ extension: "gif" }) ?? "";
+        const icon = guild.iconURL({ size: 1024 }) ?? "";
+        const banner = guild.bannerURL({ size: 1024 }) ?? "";
+
+        console.log(icon, banner);
 
         const embed = new Embed()
             .setAuthor({ name: guild.name, iconURL: icon })
             .setThumbnail(icon)
+            .setImage(banner)
             .addFields([
                 {
                     name: "General",
                     value: `**Name** - ${guild.name}
-                        **Created** - ${time(Math.floor(createdTimestamp / 1000), TimestampStyles.RelativeTime)}
+                        **Created** - ${time(createdAt, TimestampStyles.RelativeTime)}
                         **Owner** - ${guild.members.cache.get(guild.ownerId) ?? (await guild.fetchOwner()) ?? "Unknown"}
 
                         **Description** - ${description ?? "None"}

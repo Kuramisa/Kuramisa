@@ -95,13 +95,13 @@ export default class AvatarCommand extends AbstractSlashCommand {
 
         const user = options.getUser("user") ?? interaction.user;
 
-        const format: ImageExtension =
+        const extension: ImageExtension =
             (options.getString("format") as ImageExtension) ?? "png";
         const size: ImageSize =
             (options.getInteger("size") as ImageSize) ?? 128;
 
         const avatar = user.avatarURL({
-            extension: format,
+            extension,
             size,
         });
 
@@ -112,7 +112,7 @@ export default class AvatarCommand extends AbstractSlashCommand {
             });
 
         const embed = new Embed()
-            .setTitle(`${user.username}'s avatar`)
+            .setTitle(`${user.displayName}'s avatar`)
             .setImage(avatar);
 
         return interaction.reply({ embeds: [embed], flags: ["Ephemeral"] });

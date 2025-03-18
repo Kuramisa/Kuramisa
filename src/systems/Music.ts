@@ -352,7 +352,7 @@ export default class Music extends Player {
 
                 .setThumbnail(track.thumbnail)
                 .setFooter({
-                    text: `Requested by ${track.requestedBy?.globalName ?? track.requestedBy?.username}`,
+                    text: `Requested by ${track.requestedBy?.displayName}`,
                     iconURL: track.requestedBy?.displayAvatarURL(),
                 })
                 .setURL(track.url);
@@ -364,7 +364,7 @@ export default class Music extends Player {
 
                 .setThumbnail(track.thumbnail)
                 .setFooter({
-                    text: `Requested by ${track.requestedBy?.globalName ?? track.requestedBy?.username}`,
+                    text: `Requested by ${track.requestedBy?.displayName}`,
                     iconURL: track.requestedBy?.displayAvatarURL(),
                 })
                 .setURL(track.url);

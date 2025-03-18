@@ -20,12 +20,12 @@ export default class MemberRoleAddEvent extends AbstractEvent {
             })
             .then((audit) => audit.entries.first());
 
-        let title = `${member.user.globalName ?? member.user.username} had a role added`;
+        let title = `${member.user.displayName} had a role added`;
 
         if (audit && audit.changes[0].key === "$add") {
             const { executor: addedBy } = audit;
             if (addedBy) {
-                title = `${title} by ${addedBy.globalName ?? addedBy.username}`;
+                title = `${title} by ${addedBy.displayName}`;
             }
         }
 

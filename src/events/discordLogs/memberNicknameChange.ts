@@ -19,7 +19,7 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
                 name: `${guild.name} Member Logs`,
                 iconURL: guild.iconURL() ?? "",
             })
-            .setTitle(`${member.user.username} Changed Nickname`)
+            .setTitle(`${member.user.displayName} Changed Nickname`)
             .setThumbnail(member.displayAvatarURL())
             .setDescription(
                 `\`Old\`: ${oldNickname ?? "None"}\n\`New\`: ${
