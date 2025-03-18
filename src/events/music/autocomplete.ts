@@ -82,7 +82,7 @@ export default class MusicAutocomplete extends AbstractEvent {
 
                 return interaction.respond(
                     tracks.map((track) => ({
-                        name: `${startCase(track.source)} - ${truncate(track.title, { length: 10 })} (${track.author})`,
+                        name: `${startCase(track.source)} - ${truncate(track.title, { length: 50 })} (${track.author})`,
                         value: track.id,
                     }))
                 );
