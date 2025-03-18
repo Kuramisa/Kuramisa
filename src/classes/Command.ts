@@ -1,7 +1,7 @@
 import kuramisa from "@kuramisa";
 import {
     ApplicationIntegrationType,
-    type InteractionContextType,
+    InteractionContextType,
     type PermissionResolvable,
 } from "discord.js";
 
@@ -70,7 +70,7 @@ export abstract class AbstractCommand implements ICommand {
         this.botPermissions = botPermissions ?? [];
         this.userPermissions = userPermissions ?? [];
 
-        this.contexts = contexts ?? [];
+        this.contexts = contexts ?? [InteractionContextType.Guild];
         this.integrations = integrations ?? [
             ApplicationIntegrationType.GuildInstall,
         ];

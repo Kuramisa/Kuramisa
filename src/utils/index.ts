@@ -219,7 +219,8 @@ export const mentionCommand = (
     group?: string,
     subName?: string
 ) => {
-    const commandId = kuramisa.application?.commands.cache.find(
+    if (!kuramisa.isReady()) return "";
+    const commandId = kuramisa.application.commands.cache.find(
         (c) => c.name === command
     )?.id;
     if (!commandId) {

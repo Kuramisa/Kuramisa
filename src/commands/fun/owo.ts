@@ -1,4 +1,3 @@
- 
 import { StringOption } from "@builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import {
@@ -14,7 +13,6 @@ import { owoify } from "utils";
     description: "OwOify a text",
     contexts: [
         InteractionContextType.Guild,
-        InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
     ],
     integrations: [

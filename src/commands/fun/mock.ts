@@ -13,7 +13,6 @@ import { mockText } from "utils/index";
     description: "Mock someone's message",
     contexts: [
         InteractionContextType.Guild,
-        InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
     ],
     integrations: [

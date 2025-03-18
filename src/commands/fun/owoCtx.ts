@@ -13,7 +13,6 @@ import { owoify } from "utils";
     name: "OwOify",
     description: "OwOify a message",
     contexts: [
-        InteractionContextType.BotDM,
         InteractionContextType.PrivateChannel,
         InteractionContextType.Guild,
     ],
