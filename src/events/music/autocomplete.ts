@@ -13,7 +13,7 @@ export default class MusicAutocomplete extends AbstractEvent {
     async run(interaction: Interaction) {
         if (!interaction.isAutocomplete() || !interaction.inCachedGuild())
             return;
-        if (interaction.commandName !== "music") return;
+        if (!["playlist", "music"].includes(interaction.commandName)) return;
 
         const { options } = interaction;
 
@@ -22,13 +22,7 @@ export default class MusicAutocomplete extends AbstractEvent {
 
         switch (focused.name) {
             case "track_or_playlist_name_or_url": {
-                if (focused.value.length < 1)
-                    return interaction.respond([
-                        {
-                            name: "Random Song",
-                            value: "https://open.spotify.com/track/439TlnnznSiBbQbgXiBqAd?si=934b3ee65db448e6",
-                        },
-                    ]);
+                if (focused.value.length < 3) return;
 
                 const search = await player.search(focused.value, {
                     requestedBy: interaction.user,
@@ -41,7 +35,7 @@ export default class MusicAutocomplete extends AbstractEvent {
 
                     return interaction.respond([
                         {
-                            name: `${startCase(playlist.source)} ${startCase(playlist.type)} - ${truncate(playlist.title, { length: 20 })} (${playlist.author.name}) [${playlist.tracks.length} Tracks]`,
+                            name: `${truncate(playlist.title, { length: 60 })} (${playlist.author.name}) [${playlist.tracks.length} Tracks]`,
                             value: playlist.url,
                         },
                     ]);

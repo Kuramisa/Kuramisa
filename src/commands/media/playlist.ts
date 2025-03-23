@@ -17,7 +17,7 @@ import {
     SnowflakeUtil,
 } from "discord.js";
 import { capitalize } from "lodash";
-import { imageToBuffer } from "utils";
+import { imageToBuffer, mentionCommand } from "utils";
 
 // TODO: Finish working on the playlist system
 @SlashCommand({
@@ -80,6 +80,20 @@ import { imageToBuffer } from "utils";
                     .setName("new_playlist_name")
                     .setDescription("The new name of the playlist")
                     .setRequired(false),
+            ],
+        },
+        {
+            name: "add-song",
+            description: "Add a song to a playlist",
+            options: [
+                new StringOption()
+                    .setName("playlist_name")
+                    .setDescription("The name of the playlist")
+                    .setAutocomplete(true),
+                new StringOption()
+                    .setName("track_or_playlist_name_or_url")
+                    .setDescription("The URL of the track to add")
+                    .setAutocomplete(true),
             ],
         },
         {
@@ -340,6 +354,71 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                           }),
                       ]
                     : [],
+        });
+    }
+
+    async slashAddSong(interaction: ChatInputCommandInteraction) {
+        const { options, user } = interaction;
+        const {
+            managers,
+            systems: { music },
+        } = this.client;
+
+        const db = await managers.users.get(user.id);
+
+        const playlistIdOrName = options.getString("playlist_name", true);
+
+        const playlist = db.playlists.find(
+            (p) =>
+                p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
+                p.id === playlistIdOrName
+        );
+
+        if (!playlist)
+            return interaction.reply({
+                content: bold("Playlist not found"),
+                flags: "Ephemeral",
+            });
+
+        const trackOrPlaylist = options.getString(
+            "track_or_playlist_name_or_url",
+            true
+        );
+
+        const result = await music.search(trackOrPlaylist);
+
+        if (result.isEmpty())
+            return interaction.reply({
+                content: bold("No tracks found"),
+                flags: "Ephemeral",
+            });
+
+        if (result.playlist)
+            return interaction.reply({
+                content: `**Please provide a track, to add songs from a playlist use ${mentionCommand("playlist", undefined, "import-combine")}**`,
+                flags: "Ephemeral",
+            });
+
+        const track = result.tracks[0];
+
+        playlist.tracks.push({
+            id: track.id,
+            title: track.title,
+            description: track.description,
+            author: track.author,
+            url: track.url,
+            thumbnail: track.thumbnail,
+            duration: track.duration,
+            durationMS: track.durationMS,
+            views: track.views,
+        });
+
+        db.markModified("playlists");
+        await db.save();
+
+        interaction.reply({
+            content: `Track ${bold(track.title)} has been added to ${bold(playlist.name)}!`,
+            flags: "Ephemeral",
         });
     }
 
