@@ -29,11 +29,14 @@ declare global {
         views: number;
     }
 
-    interface Playlist {
+    interface UserPlaylist {
         id: string;
         name: string;
         description?: string;
-        cover?: string;
+        cover?: {
+            key?: string;
+            url: string;
+        };
         tracks: PlaylistTrack[];
     }
 
