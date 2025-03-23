@@ -103,6 +103,7 @@ export class TextInput extends TextInputBuilder {
         this.setStyle(
             style === "short" ? TextInputStyle.Short : TextInputStyle.Paragraph
         );
+        this.setRequired(true);
     }
 }
 
