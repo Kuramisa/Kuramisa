@@ -22,7 +22,6 @@ import {
     type ICommand,
     type ICommandOptions,
 } from "./Command";
-import kuramisa from "@kuramisa";
 
 export interface ISlashCommandWithOptions {
     name: string;
@@ -141,17 +140,6 @@ export abstract class AbstractSlashCommand
         if (groups) {
             this.groups = groups;
             this.initGroups();
-        }
-
-        // Localizations
-        for (const [localeKey, locale] of kuramisa.stores.locales.data) {
-            const localeData = locale.get(name);
-            if (!localeData) continue;
-            this.data.setNameLocalization(localeKey, localeData.name);
-            this.data.setDescriptionLocalization(
-                localeKey,
-                localeData.description
-            );
         }
     }
 

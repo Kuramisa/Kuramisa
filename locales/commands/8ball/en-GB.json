@@ -1,10 +1,10 @@
 {
     "name": "8ball",
     "description": "Ask the magic 8ball a question!",
-    "options": [
-        {
+    "options": {
+        "question": {
             "name": "question",
-            "description": "The question to ask the 8ball"
+            "description": "The question you want to ask the 8ball"
         }
-    ]
+    }
 }

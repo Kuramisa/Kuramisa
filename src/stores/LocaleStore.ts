@@ -6,25 +6,29 @@ import path from "path";
 import { pathToFileURL } from "url";
 
 export default class LocaleStore {
-    readonly data = new Collection<Locale, Collection<string, any>>();
+    readonly commands = new Collection<string, Collection<Locale, any>>();
 
     async load() {
+        await this.loadCommands();
+    }
+
+    async loadCommands() {
         const startTime = Date.now();
         logger.info(`[Locale Store] Loading languages...`);
 
-        const filesOrDirs = (await fs.readdir(
-            path.join(__dirname, "../../locales")
-        )) as Locale[];
+        const filesOrDirs = await fs.readdir(
+            path.join(__dirname, "../../locales/commands")
+        );
 
         for (const fileOrDir of filesOrDirs) {
             const deepLocaleDir = path.resolve(
                 __dirname,
-                "../../locales",
+                "../../locales/commands",
                 fileOrDir
             );
 
-            if (!this.data.has(fileOrDir))
-                this.data.set(fileOrDir, new Collection());
+            if (!this.commands.has(fileOrDir))
+                this.commands.set(fileOrDir, new Collection());
 
             const isDir = (await fs.stat(deepLocaleDir)).isDirectory();
 
@@ -37,9 +41,9 @@ export default class LocaleStore {
                             .href
                     );
 
-                    this.data
+                    this.commands
                         .get(fileOrDir)
-                        ?.set(deepFile.split(".")[0], locale);
+                        ?.set(deepFile.split(".")[0] as Locale, locale);
 
                     logger.debug(
                         `[Locale Store] Loaded ${deepFile.split(".")[0]} on ${fileOrDir}`
