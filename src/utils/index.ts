@@ -220,19 +220,20 @@ export const mentionCommand = (
     subName?: string
 ) => {
     if (!kuramisa.isReady()) return "";
-    const commandId = kuramisa.application.commands.cache.find(
+    const appCommand = kuramisa.application.commands.cache.find(
         (c) => c.name === command
-    )?.id;
-    if (!commandId) {
+    );
+    if (!appCommand) return "";
+    if (!appCommand.id) {
         logger.error(`Couldn't mention ${command}, since it doesn't exist`);
         return "";
     }
 
     let commandLiteral = command;
-    if (group) commandLiteral += `/${group}`;
-    if (subName) commandLiteral += `/${subName}`;
+    if (group) commandLiteral += ` ${group}`;
+    if (subName) commandLiteral += ` ${subName}`;
 
-    return `</${commandLiteral}:${commandId}>`;
+    return `</${commandLiteral}:${appCommand.id}>`;
 };
 
 export const imageToBuffer = async (url: string) =>

@@ -35,6 +35,8 @@ export default class ReadyEvent extends AbstractEvent {
             (await client.users.fetch("401269337924829186"));
         client.owners.push(ashUser, stealthUser);
 
+        await client.application.commands.fetch();
+
         client.initialized = true;
 
         logger.info(`[Client] Started in ${ms(Date.now() - client.startTime)}`);
