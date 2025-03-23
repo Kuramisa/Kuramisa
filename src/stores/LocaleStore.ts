@@ -1,6 +1,5 @@
 import { Collection, Locale } from "discord.js";
 import fs from "fs/promises";
-import { kebabCase } from "lodash";
 import logger from "Logger";
 import ms from "ms";
 import path from "path";
