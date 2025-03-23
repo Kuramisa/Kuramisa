@@ -1,5 +1,6 @@
 import logger from "Logger";
 import Valorant from "../..";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantContentTiers {
     private readonly data: IValorantContentTier[];
@@ -28,9 +29,8 @@ export default class ValorantContentTiers {
         ) ?? this.data.find((t) => t.uuid === tier);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/contenttiers`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/contenttiers`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

@@ -1,5 +1,6 @@
 import Valorant from "games/valorant";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantVersion {
     private readonly data: IValorantVersion;
@@ -41,9 +42,8 @@ export default class ValorantVersion {
     }
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/version`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/version`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return {

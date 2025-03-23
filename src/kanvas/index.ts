@@ -1,19 +1,17 @@
-import axios from "axios";
+import { pickRandom } from "@sapphire/utilities";
+
 import { HexColorString } from "discord.js";
+import { fetch, FetchResultTypes } from "@sapphire/fetch";
 import getColors from "get-image-colors";
-import { randEl } from "utils";
 
 export default class Kanvas {
     async popularColors(url?: string | null): Promise<HexColorString[]> {
-        if (!url) return ["#FFF"];
-        const buffer = await axios
-            .get(url, {
-                responseType: "arraybuffer",
-            })
-            .then((res) => res.data)
-            .catch(() => null);
+        if (!url) return ["#FFFFFF"];
+        const buffer = await fetch(url, FetchResultTypes.Buffer).catch(
+            () => null
+        );
 
-        if (!buffer) return ["#FFF"];
+        if (!buffer) return ["#FFFFFF"];
 
         const colors = await getColors(buffer)
             .then((colors) =>
@@ -21,26 +19,26 @@ export default class Kanvas {
             )
             .catch(() => null);
 
-        if (!colors) return ["#FFF"];
+        if (!colors) return ["#FFFFFF"];
 
         return colors;
     }
 
     async popularColor(url?: string | null) {
-        if (!url) return "#FFF";
+        if (!url) return "#FFFFFF";
         const colors = await this.popularColors(url);
-        if (!colors) return "#FFF";
-        return randEl(colors);
+        if (!colors) return "#FFFFFF";
+        return pickRandom(colors);
     }
 
     invertColor(hex?: string) {
-        if (!hex) return "#FFF";
+        if (!hex) return "#FFFFFF";
         if (hex.startsWith("#")) hex = hex.replace("#", "");
 
         // match hex color
         if (hex.length === 3)
             hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        if (hex.length !== 6) return "#FFF";
+        if (hex.length !== 6) return "#FFFFFF";
 
         // invert colors
         const r = (255 - parseInt(hex.slice(0, 2), 16)).toString(16);

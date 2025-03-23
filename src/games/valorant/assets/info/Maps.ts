@@ -1,6 +1,7 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantMaps {
     private readonly data: IValorantMap[];
@@ -19,9 +20,8 @@ export default class ValorantMaps {
         ) ?? this.data.find((m) => m.uuid === map);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/maps`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/maps`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

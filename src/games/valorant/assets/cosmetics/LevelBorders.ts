@@ -1,5 +1,6 @@
 import logger from "Logger";
 import Valorant from "../..";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantLevelBorders {
     private readonly data: IValorantLevelBorder[];
@@ -18,9 +19,8 @@ export default class ValorantLevelBorders {
             : this.data.find((border) => border.startingLevel === level);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/levelborders`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/levelborders`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

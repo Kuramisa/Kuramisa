@@ -1,5 +1,6 @@
 import logger from "Logger";
 import Valorant from "../..";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantCeremonies {
     private readonly data: IValorantCeremony[];
@@ -18,9 +19,8 @@ export default class ValorantCeremonies {
         ) ?? this.data.find((c) => c.uuid === ceremony);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/ceremonies`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/ceremonies`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

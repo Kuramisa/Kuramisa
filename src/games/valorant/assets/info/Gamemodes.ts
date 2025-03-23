@@ -1,6 +1,7 @@
 import logger from "Logger";
 import Valorant from "../..";
 import { Embed } from "@builders";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantGamemodes {
     private readonly data: IValorantGamemode[];
@@ -18,9 +19,8 @@ export default class ValorantGamemodes {
         this.data.find((g) => g.uuid === gamemode);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/gamemodes`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/gamemodes`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

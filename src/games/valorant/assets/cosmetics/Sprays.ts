@@ -5,6 +5,7 @@ import {
 import Valorant from "../..";
 import { Embed, StringDropdown } from "@builders";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantSprays {
     private readonly data: IValorantSpray[];
@@ -67,9 +68,8 @@ export default class ValorantSprays {
             );
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/sprays`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/sprays`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

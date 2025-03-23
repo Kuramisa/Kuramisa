@@ -3,6 +3,7 @@ import Valorant from "../..";
 import { Embed } from "@builders";
 import { fetchStoreFeautured } from "..";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantBundles {
     private readonly data: IValorantBundle[];
@@ -149,9 +150,8 @@ export default class ValorantBundles {
     }
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/bundles`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/bundles`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

@@ -1,6 +1,7 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantCompetitiveTiers {
     private readonly data: IValorantCompetitiveTier[];
@@ -28,9 +29,8 @@ export default class ValorantCompetitiveTiers {
             .setColor(tier.color);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/competitivetiers`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/competitivetiers`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

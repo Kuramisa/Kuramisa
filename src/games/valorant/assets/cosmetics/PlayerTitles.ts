@@ -1,6 +1,7 @@
 import { Embed } from "@builders";
 import Valorant from "../..";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantPlayerTitles {
     private readonly data: IValorantPlayerTitle[];
@@ -27,9 +28,8 @@ export default class ValorantPlayerTitles {
             .setTitle(playerTitle.titleText);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/playertitles`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/playertitles`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

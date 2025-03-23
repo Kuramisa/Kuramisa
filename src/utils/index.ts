@@ -12,7 +12,6 @@ import {
 
 import crypto from "crypto";
 
-import axios from "axios";
 import dayjs from "dayjs";
 
 import Nekos from "nekos.life";
@@ -124,14 +123,6 @@ export const logsChannel = async (guild: Guild) => {
     return channel;
 };
 
-export const randElement = <T>(array: T[]): T =>
-    array[secureRandom() * array.length];
-
-export const randEl = randElement;
-
-export const imgToBuffer = async (url: string) =>
-    (await axios.get(url, { responseType: "arraybuffer" })).data;
-
 export const timedDelete = async (
     message: InteractionResponse | Message,
     time = 5000
@@ -223,8 +214,7 @@ export const mentionCommand = (
     const appCommand = kuramisa.application.commands.cache.find(
         (c) => c.name === command
     );
-    if (!appCommand) return "";
-    if (!appCommand.id) {
+    if (!appCommand) {
         logger.error(`Couldn't mention ${command}, since it doesn't exist`);
         return "";
     }
@@ -235,12 +225,5 @@ export const mentionCommand = (
 
     return `</${commandLiteral}:${appCommand.id}>`;
 };
-
-export const imageToBuffer = async (url: string) =>
-    (
-        await axios.get(url, {
-            responseType: "arraybuffer",
-        })
-    ).data;
 
 export { memberActions, statusColor, statusEmoji, statusText, Pagination };

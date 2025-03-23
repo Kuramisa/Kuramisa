@@ -17,7 +17,8 @@ import {
     SnowflakeUtil,
 } from "discord.js";
 import { capitalize } from "lodash";
-import { imageToBuffer, mentionCommand } from "utils";
+import { mentionCommand } from "utils";
+import { fetch, FetchResultTypes } from "@sapphire/fetch";
 
 // TODO: Finish working on the playlist system
 @SlashCommand({
@@ -196,7 +197,10 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                     flags: "Ephemeral",
                 });
 
-            const buffer = await imageToBuffer(playlistCover.url);
+            const buffer = await fetch(
+                playlistCover.url,
+                FetchResultTypes.Buffer
+            );
             const mimeType = playlistCover.contentType;
 
             const objectKey = `playlist/${user.id}/${playlist.id}.${mimeType.split("/")[1]}`;
@@ -327,7 +331,10 @@ export default class PlaylistCommand extends AbstractSlashCommand {
             if (playlist.cover?.key)
                 await bucket.deleteObject(playlist.cover.key);
 
-            const buffer = await imageToBuffer(newPlaylistCover.url);
+            const buffer = await fetch(
+                newPlaylistCover.url,
+                FetchResultTypes.Buffer
+            );
             const mimeType = newPlaylistCover.contentType;
 
             const objectKey = `playlist/${user.id}/${playlist.id}.${mimeType.split("/")[1]}`;

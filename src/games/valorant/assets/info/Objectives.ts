@@ -1,5 +1,6 @@
 import logger from "Logger";
 import Valorant from "../..";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantObjectives {
     private readonly data: IValorantObjective[];
@@ -18,9 +19,8 @@ export default class ValorantObjectives {
         ) ?? this.data.find((o) => o.uuid === objective);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/objectives`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/objectives`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

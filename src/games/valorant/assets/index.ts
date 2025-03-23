@@ -1,3 +1,5 @@
+import { fetch, FetchMethods } from "@sapphire/fetch";
+
 import ValorantAgents from "./info/Agents";
 import ValorantVersion from "./info/Version";
 import ValorantWeapons from "./info/Weapons";
@@ -50,13 +52,11 @@ export {
     ValorantSprays,
 };
 
-export const fetchStoreFeautured = async () =>
-    fetch("https://api.henrikdev.xyz/valorant/v2/store-featured", {
-        method: "GET",
+export const fetchStoreFeautured = () =>
+    fetch<any>("https://api.henrikdev.xyz/valorant/v2/store-featured", {
+        method: FetchMethods.Get,
         headers: {
             Authorization: process.env.HENRIKDEV_API_KEY ?? "",
             "Content-Type": "application/json",
         },
-    })
-        .then((res) => res.json())
-        .then((res: any) => res.data) as any;
+    }).then((res) => res.data);

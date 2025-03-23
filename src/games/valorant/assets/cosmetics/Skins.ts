@@ -14,6 +14,7 @@ import Valorant from "../..";
 import { Embed } from "@builders";
 import truncate from "lodash/truncate";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantSkins {
     private readonly data: IValorantWeaponSkin[];
@@ -40,9 +41,8 @@ export default class ValorantSkins {
         );
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/weapons/skins`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/weapons/skins`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

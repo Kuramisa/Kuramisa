@@ -1,5 +1,6 @@
 import logger from "Logger";
 import Valorant from "../..";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantCompetitiveSeasons {
     private readonly data: IValorantCompetitiveSeason[];
@@ -21,9 +22,10 @@ export default class ValorantCompetitiveSeasons {
         this.data.find((s) => s.uuid === season);
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/seasons/competitive`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(
+            `${Valorant.assetsURL}/seasons/competitive`
+        )
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

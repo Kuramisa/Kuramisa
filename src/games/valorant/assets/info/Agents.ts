@@ -2,6 +2,7 @@ import { Embed } from "@builders";
 import crypto from "crypto";
 import Valorant from "games/valorant";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantAgents {
     private readonly data: IValorantAgent[];
@@ -52,10 +53,9 @@ export default class ValorantAgents {
             );
 
     static async init() {
-        const data = await fetch(
+        const data = await fetch<any>(
             `${Valorant.assetsURL}/agents?isPlayableCharacter=true`
         )
-            .then((res) => res.json())
             .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);

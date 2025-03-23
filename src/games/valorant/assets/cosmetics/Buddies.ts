@@ -6,6 +6,7 @@ import {
 } from "@discordjs/builders";
 import truncate from "lodash/truncate";
 import logger from "Logger";
+import { fetch } from "@sapphire/fetch";
 
 export default class ValorantBuddies {
     private readonly data: IValorantBuddy[];
@@ -70,9 +71,8 @@ export default class ValorantBuddies {
             );
 
     static async init() {
-        const data = await fetch(`${Valorant.assetsURL}/buddies`)
-            .then((res) => res.json())
-            .then((res: any) => res.data)
+        const data = await fetch<any>(`${Valorant.assetsURL}/buddies`)
+            .then((res) => res.data)
             .catch((err) => {
                 logger.error(err);
                 return [];

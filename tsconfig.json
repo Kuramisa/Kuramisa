@@ -10,6 +10,8 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
         "paths": {
             "@kuramisa": ["index.ts"],
             "@builders": ["Builders.ts"]
