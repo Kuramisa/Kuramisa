@@ -233,6 +233,7 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
             constructor() {
                 super(options);
                 target.prototype.run = target.prototype.run.bind(this);
+
                 if (options.subcommands) {
                     for (const subcommand of options.subcommands) {
                         this[`slash${subcommand.name}`] = this.run.bind(this);
