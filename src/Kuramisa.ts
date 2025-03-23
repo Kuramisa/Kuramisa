@@ -59,6 +59,7 @@ export default class Kuramisa extends Client {
                 "DirectMessages",
             ],
             partials: [Partials.Channel, Partials.Message, Partials.User],
+            shards: "auto",
         });
 
         this.database = new Database();
