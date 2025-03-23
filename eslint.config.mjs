@@ -30,6 +30,7 @@ export default tseslint.config(
             "sonarjs/no-unused-vars": "warn",
             "sonarjs/no-dead-store": "warn",
             "sonarjs/unused-import": "warn",
+            "sonarjs/todo-tag": "warn",
         },
     }
 );
