@@ -110,6 +110,7 @@ export default class Kuramisa extends Client {
     }
 
     async login() {
+        await this.stores.locales.load();
         await this.database.connect();
 
         await dLogs(this, {

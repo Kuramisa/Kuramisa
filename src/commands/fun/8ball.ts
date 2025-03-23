@@ -37,7 +37,7 @@ export default class EightBallCommand extends AbstractSlashCommand {
 
         if (url) {
             const attachment = new Attachment(url, {
-                name: `8ball-answer-${question.trim()}.png`,
+                name: `8ball-answer.png`,
             });
 
             return interaction.reply({
