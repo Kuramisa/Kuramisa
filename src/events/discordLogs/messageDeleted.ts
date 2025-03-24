@@ -43,7 +43,7 @@ export default class MessageDeletedEvent extends AbstractEvent {
             .setDescription(
                 message.content.length > 0
                     ? `\n\`\`\`${message.content}\`\`\``
-                    : ""
+                    : null
             )
             .setThumbnail(message.author.displayAvatarURL())
             .setFooter({ text: `ID: ${message.id}` });
