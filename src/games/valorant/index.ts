@@ -28,7 +28,7 @@ import ValorantGamemodes from "./assets/info/Gamemodes";
 import ValorantUtil from "./Util";
 import ValorantAuth from "./Auth";
 import { Collection, Snowflake } from "discord.js";
-import kuramisa from "@kuramisa";
+
 import WebClient from "@valapi/web-client";
 import Auth from "@valapi/auth";
 

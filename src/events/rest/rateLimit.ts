@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import { AbstractEvent, Event } from "classes/Event";
 import { RateLimitError } from "discord.js";
 import logger from "Logger";

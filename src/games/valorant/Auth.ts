@@ -1,6 +1,6 @@
 import { bold, ChatInputCommandInteraction } from "discord.js";
 import Valorant from ".";
-import kuramisa from "@kuramisa";
+
 import logger from "Logger";
 import Auth from "@valapi/auth";
 

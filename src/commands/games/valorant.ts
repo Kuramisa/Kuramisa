@@ -69,20 +69,22 @@ import { Pagination } from "utils";
 })
 export default class ValorantCommand extends AbstractSlashCommand {
     async slashLogin(interaction: ChatInputCommandInteraction) {
-        const { user } = interaction;
-        const { valorant } = this.client.games;
+        const { client, user } = interaction;
+        const {
+            games: { valorant },
+        } = client;
 
         if (!valorant.accounts.get(user.id))
             await valorant.loadAccounts(user.id);
 
-        return this.client.games.valorant.auth.login(interaction);
+        return valorant.auth.login(interaction);
     }
 
     slashAgents(interaction: ChatInputCommandInteraction) {
-        const { options } = interaction;
+        const { client, options } = interaction;
         const {
             games: { valorant },
-        } = this.client;
+        } = client;
 
         const agentName = options.getString("valorant_agent");
         if (!agentName) {
@@ -105,10 +107,8 @@ export default class ValorantCommand extends AbstractSlashCommand {
     }
 
     async slashSkins(interaction: ChatInputCommandInteraction) {
-        const { options } = interaction;
-        const {
-            games: { valorant },
-        } = this.client;
+        const { client, options } = interaction;
+        const { games } = client;
 
         const weaponName = options.getString("valorant_weapon", true);
         const weapon = valorant.weapons.get(weaponName);

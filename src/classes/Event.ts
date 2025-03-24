@@ -1,21 +1,19 @@
 import { Events } from "discord.js";
-import KuramisaClass from "../Kuramisa";
-import EventEmitter from "events";
-import kuramisa from "../index";
+import Kuramisa from "../Kuramisa";
 
 export interface IEvent {
+    readonly client: Kuramisa;
     readonly event: Events | string;
     readonly description: string;
-    readonly emitter?: KuramisaClass | EventEmitter;
     readonly once?: boolean;
 
     run(...args: any[] | undefined[]): any;
 }
 
 export interface IEventOptions {
+    client: Kuramisa;
     event: Events | string;
     description: string;
-    emitter?: KuramisaClass | EventEmitter;
     once?: boolean;
 }
 
@@ -35,39 +33,18 @@ export function Event(options: IEventOptions) {
 }
 
 export abstract class AbstractEvent implements IEvent {
-    readonly client = kuramisa;
+    readonly client: Kuramisa;
     readonly event: Events | string;
     readonly description: string;
-    readonly emitter: KuramisaClass | EventEmitter;
     readonly once?: boolean;
 
-    /**
-     * @param {IEventOptions} options
-     * @param {Events | string} options.event
-     * @param {string} options.description
-     * @param {KuramisaClass | EventEmitter} [options.emitter]
-     * @param {boolean} [options.once]
-     * @constructor
-     * @abstract
-     * @class
-     * @public
-     * @this {AbstractEvent}
-     * @memberof AbstractEvent
-     * @returns {AbstractEvent}
-     * @description The AbstractEvent class is the base class for all events.
-     */
-
-    constructor({
-        event,
-        description,
-        emitter = kuramisa,
-        once,
-    }: IEventOptions) {
+    constructor({ client, event, description, once }: IEventOptions) {
+        if (!client) throw new Error("No client provided");
         if (!event) throw new Error("No event provided");
         if (!description) throw new Error("No description provided");
+        this.client = client;
         this.event = event;
         this.description = description;
-        this.emitter = emitter;
         this.once = once;
 
         this.init();
@@ -75,15 +52,12 @@ export abstract class AbstractEvent implements IEvent {
 
     init() {
         if (this.once) {
-            (this.emitter as EventEmitter).once(
-                this.event,
-                this.run.bind(this)
-            );
+            this.client.once(this.event, this.run.bind(this));
 
             return;
         }
 
-        (this.emitter as EventEmitter).on(this.event, this.run.bind(this));
+        this.client.on(this.event, this.run.bind(this));
     }
 
     abstract run(...args: any[] | undefined[]): any;

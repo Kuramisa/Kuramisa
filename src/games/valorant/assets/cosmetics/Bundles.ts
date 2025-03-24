@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import Valorant from "../..";
 import { Embed } from "@builders";
 import { fetchStoreFeautured } from "..";

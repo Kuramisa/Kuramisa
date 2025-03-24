@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import { AbstractEvent, Event } from "classes/Event";
 import { bold, Interaction, roleMention } from "discord.js";
 

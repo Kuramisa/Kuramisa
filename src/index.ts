@@ -4,4 +4,4 @@ const kuramisa = new Kuramisa();
 
 kuramisa.login();
 
-export default kuramisa;
+export const useClient = () => kuramisa;

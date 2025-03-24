@@ -1,14 +1,16 @@
-import kuramisa from "@kuramisa";
 import { Collection, type Snowflake, type User } from "discord.js";
+import type Kuramisa from "Kuramisa";
 
 import logger from "Logger";
 import type { UserDocument } from "models/User";
 import userModel from "models/User";
 
 export default class UserManager {
+    private readonly client: Kuramisa;
     readonly cache: Collection<string, UserDocument>;
 
-    constructor() {
+    constructor(client: Kuramisa) {
+        this.client = client;
         this.cache = new Collection();
     }
 
@@ -29,7 +31,8 @@ export default class UserManager {
 
     async fetch(id: Snowflake) {
         const user =
-            kuramisa.users.cache.get(id) ?? (await kuramisa.users.fetch(id));
+            this.client.users.cache.get(id) ??
+            (await this.client.users.fetch(id));
         const doc =
             (await userModel.findOne({
                 id,

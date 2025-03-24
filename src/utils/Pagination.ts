@@ -1,5 +1,5 @@
 import { Button, Row, Embed } from "@builders";
-import kuramisa from "@kuramisa";
+
 import {
     type ButtonInteraction,
     type ChatInputCommandInteraction,
@@ -7,6 +7,7 @@ import {
     Message,
     type InteractionCollector,
 } from "discord.js";
+import Kuramisa from "Kuramisa";
 
 type Interactions = ButtonInteraction | ChatInputCommandInteraction;
 
@@ -18,7 +19,7 @@ export default class Pagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { kEmojis: emojis } = kuramisa;
+        const { kEmojis: emojis } = Kuramisa;
 
         let page = 0;
 
@@ -113,7 +114,7 @@ export default class Pagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { kEmojis: emojis } = kuramisa;
+        const { kEmojis: emojis } = Kuramisa;
 
         let page = 0;
 
@@ -208,7 +209,7 @@ export default class Pagination {
         ephemeral = false,
         timeout = 0
     ) {
-        const { kEmojis: emojis } = kuramisa;
+        const { kEmojis: emojis } = Kuramisa;
 
         let page = 0;
 
@@ -271,7 +272,7 @@ export default class Pagination {
                 }
 
                 await i.deferUpdate();
-                await i.editReply({
+                await i.update({
                     embeds: [embeds[page]],
                     components: embeds.length > 1 ? [row] : [],
                 });

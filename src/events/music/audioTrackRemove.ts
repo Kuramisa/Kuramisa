@@ -1,5 +1,4 @@
 import { AbstractEvent, Event } from "classes/Event";
-import kuramisa from "@kuramisa";
 
 import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
 import { Embed } from "@builders";

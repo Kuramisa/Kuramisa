@@ -1,5 +1,5 @@
 import { Button, Row } from "@builders";
-import kuramisa from "@kuramisa";
+
 import {
     bold,
     ChatInputCommandInteraction,

@@ -12,7 +12,6 @@ import {
     ButtonStyle,
 } from "discord.js";
 import logger from "Logger";
-import kuramisa from "@kuramisa";
 
 export default class ValorantUtil {
     determineComponents(

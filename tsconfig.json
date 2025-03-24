@@ -14,7 +14,16 @@
         "experimentalDecorators": true,
         "paths": {
             "@kuramisa": ["index.ts"],
-            "@builders": ["Builders.ts"]
+            "@builders": ["Builders.ts"],
+            "@classes": ["./classes/*"],
+            "@database": ["./database/*"],
+            "@models": ["./models/*"],
+            "@managers": ["./managers/*"],
+            "@kanvas": ["./kanvas/*"],
+            "@games": ["./games/*"],
+            "@stores": ["./stores/*"],
+            "@utils": ["./utils/*"],
+            "@systems": ["./systems/*"]
         }
     },
     "include": ["src/**/*.ts"],

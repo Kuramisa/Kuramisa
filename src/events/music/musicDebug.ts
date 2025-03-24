@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import kuramisa from "@kuramisa";
+
 import logger from "Logger";
 
 @Event({

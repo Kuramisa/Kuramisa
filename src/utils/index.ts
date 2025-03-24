@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import logger from "../Logger";
 
 import {
@@ -29,12 +28,6 @@ export const urlPattern =
     /^(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+~#?&/=]*)/;
 
 export const durationPattern = /^[0-5]?\d(:[0-5]\d){1,2}$/;
-
-export const clearCommaneds = () => {
-    kuramisa.application?.commands.set([]);
-
-    logger.warn("Cleared all commands");
-};
 
 export const validateHex = (hex: string) =>
     /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(hex);

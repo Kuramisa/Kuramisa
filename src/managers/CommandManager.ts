@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import { ApplicationCommand, Collection, Routes } from "discord.js";
 import logger from "Logger";
 import ms from "ms";
@@ -73,7 +72,6 @@ export default class CommandManager {
         const commands = Array.from(kuramisa.stores.commands.commands.values());
 
         logger.info(`[Command Manager] Updating commands...`);
-
 
         await kuramisa.rest.put(
             Routes.applicationCommands(kuramisa.application.id),

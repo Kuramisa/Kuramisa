@@ -1,4 +1,3 @@
-import kuramisa from "@kuramisa";
 import { ButtonStyle } from "discord.js";
 import Valorant from "../..";
 import { Button, Embed, Row } from "@builders";

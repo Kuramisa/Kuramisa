@@ -1,5 +1,5 @@
 import { Modal, ModalRow, TextInput } from "@builders";
-import kuramisa from "@kuramisa";
+
 import { ChatInputCommandInteraction, bold, messageLink } from "discord.js";
 
 export default class SelfRolesMessages {

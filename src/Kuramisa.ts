@@ -7,16 +7,17 @@ import {
     User,
     type PresenceData,
 } from "discord.js";
-import Stores from "stores";
-import crypto from "crypto";
-import Systems from "systems";
+import Stores from "./stores";
 
-import Managers from "managers";
-import Kanvas from "kanvas";
+import Systems from "./systems";
+
+import Managers from "./managers";
+import Kanvas from "./kanvas";
 
 import dLogs from "discord-logs";
-import Games from "games";
-import Database from "database";
+import Games from "./games";
+import Database from "./database";
+import { pickRandom } from "@sapphire/utilities";
 
 const { TOKEN, DATABASE } = process.env;
 
@@ -37,7 +38,7 @@ export default class Kuramisa extends Client {
 
     readonly cooldowns = new Collection<string, Collection<string, number>>();
 
-    readonly kEmojis = new Collection<string, ApplicationEmoji>();
+    static readonly kEmojis = new Collection<string, ApplicationEmoji>();
 
     readonly owners: User[] = [];
 
@@ -71,8 +72,8 @@ export default class Kuramisa extends Client {
         this.systems = new Systems(this);
     }
 
-    getActivities(): PresenceData {
-        const activities: PresenceData[] = [
+    getActivities(): PresenceData[] {
+        return [
             {
                 status: "online",
                 activities: [
@@ -104,9 +105,10 @@ export default class Kuramisa extends Client {
                 ],
             },
         ];
+    }
 
-        const randomIndex = crypto.randomInt(0, activities.length);
-        return activities[randomIndex];
+    getActivity(): PresenceData {
+        return pickRandom(this.getActivities());
     }
 
     async login() {

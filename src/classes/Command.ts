@@ -1,9 +1,6 @@
-import kuramisa from "@kuramisa";
 import {
     ApplicationIntegrationType,
-    Collection,
     InteractionContextType,
-    Locale,
     type PermissionResolvable,
 } from "discord.js";
 
@@ -37,9 +34,7 @@ export interface ICommandOptions {
 }
 
 export abstract class AbstractCommand implements ICommand {
-    readonly client = kuramisa;
     readonly logger = logger;
-    readonly locales: Collection<Locale, any>;
 
     readonly name: string;
     readonly description: string = "No description provided.";
@@ -75,9 +70,5 @@ export abstract class AbstractCommand implements ICommand {
         this.integrations = integrations ?? [
             ApplicationIntegrationType.GuildInstall,
         ];
-
-        this.locales =
-            this.client.stores.locales.commands.get(this.name) ??
-            new Collection();
     }
 }

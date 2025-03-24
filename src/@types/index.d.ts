@@ -1,4 +1,10 @@
 import { Embed } from "@builders";
+import Database from "../database";
+import Games from "../games";
+import Kanvas from "../kanvas";
+import Managers from "../managers";
+import Stores from "../stores";
+import Systems from "../systems";
 import Auth from "@valapi/auth";
 import WebClient, { UserInfoResponse } from "@valapi/web-client";
 import {
@@ -639,6 +645,27 @@ declare global {
 }
 
 declare module "discord.js" {
+    export interface Client {
+        initialized: boolean;
+        startTime: number;
+
+        readonly database: Database;
+
+        readonly kanvas: Kanvas;
+        readonly games: Games;
+        readonly managers: Managers;
+        readonly stores: Stores;
+        readonly systems: Systems;
+
+        readonly cooldowns: Collection<string, Collection<string, number>>;
+
+        readonly kEmojis: Collection<string, ApplicationEmoji>;
+
+        readonly owners: User[];
+
+        getActivities(): PresenceData[];
+        getActivity(): PresenceData;
+    }
     export interface Guild {
         musicMessage?: Message | null;
     }

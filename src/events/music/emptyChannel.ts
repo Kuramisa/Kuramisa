@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import kuramisa from "@kuramisa";
+
 import { GuildQueue } from "discord-player";
 
 @Event({
