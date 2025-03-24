@@ -156,14 +156,19 @@ export default class MusicCommand extends AbstractSlashCommand {
         const { member, guild } = interaction;
         const { kEmojis: emojis } = this.client;
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
             return interaction.reply({
-                content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
                 flags: "Ephemeral",
             });
+
+        if (guild.members.me && guild.members.me.voice.channelId) {
+            if (member.voice.channel.id !== guild.members.me.voice.channelId)
+                return interaction.reply({
+                    content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
+                    flags: "Ephemeral",
+                });
+        }
 
         if (member.voice.channel.type !== ChannelType.GuildVoice)
             return interaction.reply({
@@ -275,10 +280,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -314,10 +322,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -353,10 +364,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -418,10 +432,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -470,10 +487,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -513,10 +533,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -552,10 +575,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -609,10 +635,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
@@ -652,10 +681,13 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        if (
-            !member.voice.channel ||
-            member.voice.channelId !== guild.members.me?.voice.channelId
-        )
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
             return interaction.reply({
                 content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
                 flags: "Ephemeral",
