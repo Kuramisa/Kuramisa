@@ -84,8 +84,8 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
             ],
         },
         {
-            name: "add-song",
-            description: "Add a song to a playlist",
+            name: "add-track",
+            description: "Add a track to a playlist",
             options: [
                 new StringOption()
                     .setName("playlist_name")
