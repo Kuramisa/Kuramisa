@@ -1,13 +1,11 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantEvent } from "typings/Valorant";
+import type { APIValorantEvent } from "typings/APIValorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
 
 export default class ValorantEvents {
-    private readonly data: ValorantEvent[];
+    private readonly data: APIValorantEvent[];
 
-    constructor(data: ValorantEvent[]) {
+    constructor(data: APIValorantEvent[]) {
         this.data = data;
     }
 
@@ -21,13 +19,6 @@ export default class ValorantEvents {
         ) ?? this.data.find((e) => e.uuid === event);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/events`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantEvents(data);
+        return new ValorantEvents(await fetch("events"));
     }
 }

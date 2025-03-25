@@ -80,7 +80,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
         return valorant.auth.login(interaction);
     }
 
-    slashAgents(interaction: ChatInputCommandInteraction) {
+    async slashAgents(interaction: ChatInputCommandInteraction) {
         const { client, options } = interaction;
         const {
             games: { valorant },
@@ -101,7 +101,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
 
         const agentEmbed = valorant.agents.embed(agent);
 
-        interaction.reply({
+        await interaction.reply({
             embeds: [agentEmbed],
         });
     }

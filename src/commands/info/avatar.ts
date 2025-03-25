@@ -97,10 +97,8 @@ export default class AvatarCommand extends AbstractSlashCommand {
 
         const user = options.getUser("user") ?? interaction.user;
 
-        const extension: ImageExtension =
-            (options.getString("format") as ImageExtension) ?? "png";
-        const size: ImageSize =
-            (options.getInteger("size") as ImageSize) ?? 128;
+        const extension = options.getString("format", true) as ImageExtension;
+        const size = options.getInteger("size", true) as ImageSize;
 
         const avatar = user.avatarURL({
             extension,

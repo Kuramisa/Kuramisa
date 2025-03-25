@@ -11,7 +11,6 @@ import isEqual from "lodash/isEqual";
 export default class MessageEditedEvent extends AbstractEvent {
     async run(oldMessage: Message, newMessage: Message) {
         if (!newMessage.inGuild()) return;
-        if (!newMessage.author) return;
         if (!oldMessage.content && !newMessage.content) return;
         if (
             oldMessage.content === newMessage.content &&
@@ -51,6 +50,6 @@ export default class MessageEditedEvent extends AbstractEvent {
             )
             .setFooter({ text: `ID: ${newMessage.id}` });
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantContentTier } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantContentTier } from "typings/APIValorant";
 
 export default class ValorantContentTiers {
-    private readonly data: ValorantContentTier[];
+    private readonly data: APIValorantContentTier[];
 
-    constructor(data: ValorantContentTier[]) {
+    constructor(data: APIValorantContentTier[]) {
         this.data = data;
     }
 
@@ -21,7 +18,7 @@ export default class ValorantContentTiers {
                 obj[tier.displayName] = tier;
                 return obj;
             },
-            {} as Record<string, ValorantContentTier>,
+            {} as Record<string, APIValorantContentTier>,
         );
     }
 
@@ -31,13 +28,6 @@ export default class ValorantContentTiers {
         ) ?? this.data.find((t) => t.uuid === tier);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/contenttiers`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantContentTiers(data);
+        return new ValorantContentTiers(await fetch("contenttiers"));
     }
 }

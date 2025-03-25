@@ -42,7 +42,6 @@ export default class GuildManager {
 
     async logsChannel(guild: Guild) {
         const db = await this.get(guild.id);
-        if (!db.logs) return null;
         if (!db.logs.channel) return null;
         const channel =
             guild.channels.cache.get(db.logs.channel) ??

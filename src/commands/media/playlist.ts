@@ -216,7 +216,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.playlists.push(playlist);
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Playlist ${bold(playlist.name)} has been created!${playlist.description ? `\n**Description**: ${playlist.description}` : ""}`,
             flags: "Ephemeral",
             files:
@@ -255,7 +255,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Playlist ${bold(playlist.name)} has been deleted!`,
             flags: "Ephemeral",
         });
@@ -349,7 +349,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Playlist ${bold(playlist.name)} has been updated!${playlist.description ? `\n**Description**: ${playlist.description}` : ""}`,
             flags: "Ephemeral",
             files:
@@ -367,7 +367,6 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         const { client, options, user } = interaction;
         const {
             managers,
-            mentionCommand,
             systems: { music },
         } = client;
 
@@ -402,7 +401,12 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         if (result.playlist)
             return interaction.reply({
-                content: `**Please provide a track, to add songs from a playlist use ${mentionCommand("playlist", undefined, "import-combine")}**`,
+                content: `**Please provide a track, to add songs from a playlist use ${client.mentionCommand(
+                    "playlist",
+                    {
+                        subcommand: "import-combine",
+                    },
+                )}**`,
                 flags: "Ephemeral",
             });
 
@@ -423,7 +427,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Track ${bold(track.title)} has been added to ${bold(playlist.name)}!`,
             flags: "Ephemeral",
         });
@@ -492,7 +496,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `${capitalize(playlist.type)} ${bold(newPlaylist.name)} has been imported from ${capitalize(playlist.source)}!${playlist.description && playlist.description !== playlist.title ? `\n**Description**: ${newPlaylist.description}` : ""}`,
             flags: "Ephemeral",
             files:
@@ -560,7 +564,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Playlist ${bold(playlist.name)} has been combined with ${capitalize(resultPlaylist.type)} ${bold(resultPlaylist.title)}!`,
             flags: "Ephemeral",
             files:
@@ -683,7 +687,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        mInteraction.editReply({
+        await mInteraction.editReply({
             content: `**${playlistCount}** playlists have been imported!\n\n${searchedPlaylists
                 .map(
                     (p) =>
@@ -793,7 +797,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         db.markModified("playlists");
         await db.save();
 
-        mInteraction.editReply({
+        await mInteraction.editReply({
             content: `**${playlistCount}** playlists have been combined with ${bold(playlist.name)}!`,
             files:
                 playlist.cover && playlist.cover.url

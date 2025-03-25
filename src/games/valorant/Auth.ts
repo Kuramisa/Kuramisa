@@ -77,13 +77,6 @@ export default class ValorantAuth {
                 );
                 logger.error(err);
 
-                if (err.data.data.error.includes("captcha"))
-                    interaction.editReply({
-                        content: bold(
-                            "Failed to login, because of captcha (this happens sometimes). Please try again",
-                        ),
-                    });
-
                 return false;
             });
 

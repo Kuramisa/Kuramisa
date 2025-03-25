@@ -38,6 +38,6 @@ export default class MemberRoleRemovedEvent extends AbstractEvent {
             .setThumbnail(member.displayAvatarURL())
             .setDescription(`${role} was removed`);
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

@@ -1,6 +1,9 @@
 import { Button, Row } from "Builders";
-import type { ChatInputCommandInteraction } from "discord.js";
-import { ComponentType, bold, messageLink } from "discord.js";
+import type {
+    ChatInputCommandInteraction,
+    MessageActionRowComponentBuilder,
+} from "discord.js";
+import { ComponentType, DiscordAPIError, bold, messageLink } from "discord.js";
 import logger from "Logger";
 
 export default class SelfRolesButtons {
@@ -99,14 +102,16 @@ export default class SelfRolesButtons {
 
         if (buttonEmoji) button.setEmoji(buttonEmoji);
 
+        const updatedRows = [];
+
         try {
             const latestRow = message.components.at(-1);
             if (!latestRow) {
                 const row = new Row().addComponents(button);
-                message.components.push(row as any);
+                updatedRows.push(row);
 
                 await message.edit({
-                    components: message.components,
+                    components: updatedRows,
                 });
 
                 dbMessage.buttons.push({
@@ -127,15 +132,17 @@ export default class SelfRolesButtons {
 
             if (latestRow.components.length === 5) {
                 const newRow = new Row().addComponents(button);
-                message.components.push(newRow as any);
+                updatedRows.push(newRow);
             }
 
             if (latestRow.components.length < 5) {
-                latestRow.components.push(button as any);
+                const row =
+                    Row.from<MessageActionRowComponentBuilder>(latestRow);
+                row.addComponents(button);
             }
 
             await message.edit({
-                components: message.components,
+                components: updatedRows,
             });
 
             dbMessage.buttons.push({
@@ -156,13 +163,15 @@ export default class SelfRolesButtons {
                     guild.id,
                 )}`,
             });
-        } catch (err: any) {
-            logger.error(err.message, { err });
+        } catch (err: unknown) {
+            if (err instanceof DiscordAPIError) {
+                logger.error(err.message, { err });
 
-            if (err.message.includes("duplicated"))
-                return interaction.editReply({
-                    content: bold("This button already exists!"),
-                });
+                if (err.message.includes("duplicated"))
+                    return interaction.editReply({
+                        content: bold("This button already exists!"),
+                    });
+            }
 
             return interaction.editReply({
                 content: bold("Something went wrong! Please try again."),
@@ -291,15 +300,14 @@ export default class SelfRolesButtons {
 
         for (const row of message.components) {
             if (row.components.length === 0) continue;
-            const newRow = new Row();
+            const newRow = Row.from<MessageActionRowComponentBuilder>(row);
             for (const component of row.components) {
-                if (component.type === ComponentType.Button) {
-                    if (component.customId === dbButton.id) {
-                        newRow.addComponents(button as any);
-                        continue;
-                    }
-                }
-                newRow.addComponents(component as any);
+                if (component.type !== ComponentType.Button) continue;
+                const newButton = Button.from(
+                    component.customId === dbButton.id ? button : component,
+                );
+
+                newRow.addComponents(newButton);
             }
             if (newRow.components.length === 0) continue;
             rows.push(newRow);
@@ -397,14 +405,14 @@ export default class SelfRolesButtons {
 
         for (const row of message.components) {
             if (row.components.length === 0) continue;
-            const newRow = new Row();
+            const newRow = Row.from<MessageActionRowComponentBuilder>(row);
             for (const component of row.components) {
-                if (component.type === ComponentType.Button) {
-                    if (component.customId === dbButton.id) {
-                        continue;
-                    }
-                }
-                newRow.addComponents(component as any);
+                if (component.type !== ComponentType.Button) continue;
+                if (component.customId === dbButton.id) continue;
+
+                const newButton = Button.from(component);
+
+                newRow.addComponents(newButton);
             }
             if (newRow.components.length === 0) continue;
             rows.push(newRow);

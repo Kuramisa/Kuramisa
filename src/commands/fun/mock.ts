@@ -54,7 +54,7 @@ export default class MockCommand extends AbstractMenuCommand {
         });
 
         await webhook.send({
-            content: `${message.author ?? ""} ${mockText(message.content)}`,
+            content: `${message.author} ${mockText(message.content)}`,
             username: user.displayName,
             avatarURL: user.displayAvatarURL(),
             flags: ["SuppressNotifications"],

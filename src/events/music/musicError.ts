@@ -7,7 +7,7 @@ import logger from "Logger";
     emitter: "music-player",
 })
 export default class MusicErrorEvent extends AbstractEvent {
-    async run(error: string) {
+    run(error: string) {
         logger.error(`[Music] ${error}`);
     }
 }

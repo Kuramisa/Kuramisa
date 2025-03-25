@@ -8,12 +8,13 @@ import type {
 import {
     ButtonStyle,
     ComponentType,
+    DiscordAPIError,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
 import type Kuramisa from "Kuramisa";
 import logger from "Logger";
-import type { ValorantSkin } from "typings/Valorant";
+import type { ValorantSkinInfo } from "typings/Valorant";
 
 export default class ValorantUtil {
     private readonly client: Kuramisa;
@@ -23,7 +24,7 @@ export default class ValorantUtil {
     }
 
     determineComponents(
-        skin: ValorantSkin,
+        skin: ValorantSkinInfo,
         withNavigation = false,
         chromaPage = 0,
     ) {
@@ -48,7 +49,7 @@ export default class ValorantUtil {
         }
 
         skin.chroma.components.components.forEach(
-            (component: any, i: number) =>
+            (component: MessageActionRowComponentBuilder, i: number) =>
                 i === chromaPage
                     ? component.setDisabled(true)
                     : component.setDisabled(false),
@@ -67,7 +68,7 @@ export default class ValorantUtil {
             | ChatInputCommandInteraction
             | StringSelectMenuInteraction
             | ButtonInteraction,
-        skin: ValorantSkin,
+        skin: ValorantSkinInfo,
         ephemeral = false,
     ) {
         const message = await interaction
@@ -126,7 +127,7 @@ export default class ValorantUtil {
 
     async updateInfoChroma(
         interaction: ButtonInteraction,
-        skin: ValorantSkin,
+        skin: ValorantSkinInfo,
         chromaPage: number,
         withNavigation = false,
     ) {
@@ -154,7 +155,7 @@ export default class ValorantUtil {
                         logger.error(stdout);
                         logger.error(stderr);
                     })
-                    .on("progress", async (progress) => {
+                    .on("progress", (progress) => {
                         const percent = Math.round(progress.percent ?? 0);
                         if (isNaN(percent)) return;
                         logger.debug(
@@ -203,10 +204,12 @@ export default class ValorantUtil {
                 ),
                 files: [],
             });
-        } catch (error: any) {
-            if (error.code !== 40005) {
-                logger.error(error.message, { error });
-                return;
+        } catch (error: unknown) {
+            if (error instanceof DiscordAPIError) {
+                if (error.code !== 40005) {
+                    logger.error(error.message, { error });
+                    return;
+                }
             }
 
             await interaction
@@ -220,8 +223,8 @@ export default class ValorantUtil {
                     ),
                     files: [],
                 })
-                .catch(() => {
-                    interaction.editReply({
+                .catch(async () => {
+                    await interaction.editReply({
                         content: `**Link to the preview** *(since the video file size was too large to display)* -> ${chromaVideo}`,
                         embeds: [chromaEmbed],
                         components: this.determineComponents(
@@ -237,7 +240,7 @@ export default class ValorantUtil {
 
     async updateInfoLevel(
         interaction: ButtonInteraction | StringSelectMenuInteraction,
-        skin: ValorantSkin,
+        skin: ValorantSkinInfo,
         levelPage: number,
         withNavigation = false,
     ) {
@@ -265,7 +268,7 @@ export default class ValorantUtil {
                         logger.error(stdout);
                         logger.error(stderr);
                     })
-                    .on("progress", async (progress) => {
+                    .on("progress", (progress) => {
                         const percent = Math.round(progress.percent ?? 0);
                         logger.debug(
                             `[Valorant Skin Video] Processing ${skinName} video: ${percent}% done`,
@@ -304,10 +307,12 @@ export default class ValorantUtil {
                 components: this.determineComponents(skin, withNavigation),
                 files: [],
             });
-        } catch (error: any) {
-            if (error.code !== 40005) {
-                logger.error(error.message, { error });
-                return;
+        } catch (error: unknown) {
+            if (error instanceof DiscordAPIError) {
+                if (error.code !== 40005) {
+                    logger.error(error.message, { error });
+                    return;
+                }
             }
 
             await interaction
@@ -317,8 +322,8 @@ export default class ValorantUtil {
                     components: this.determineComponents(skin, withNavigation),
                     files: [],
                 })
-                .catch(() => {
-                    interaction.editReply({
+                .catch(async () => {
+                    await interaction.editReply({
                         content: `**Link to the preview** *(since the video file size was too large to display)* -> ${skinVideo}`,
                         embeds: [skinEmbed],
                         components: this.determineComponents(

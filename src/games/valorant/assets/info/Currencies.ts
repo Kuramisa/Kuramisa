@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantCurrency } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantCurrency } from "typings/APIValorant";
 
 export default class ValorantCurrencies {
-    private readonly data: ValorantCurrency[];
+    private readonly data: APIValorantCurrency[];
 
-    constructor(data: ValorantCurrency[]) {
+    constructor(data: APIValorantCurrency[]) {
         this.data = data;
     }
 
@@ -21,13 +18,6 @@ export default class ValorantCurrencies {
         ) ?? this.data.find((c) => c.uuid === currency);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/currencies`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantCurrencies(data);
+        return new ValorantCurrencies(await fetch("currencies"));
     }
 }

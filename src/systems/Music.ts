@@ -1,20 +1,25 @@
 import { DefaultExtractors } from "@discord-player/extractor";
+import { sleep } from "@sapphire/utilities";
 import { Button, Embed, Row, StringDropdown } from "Builders";
 import type { GuildQueue, Playlist, Track } from "discord-player";
 import {
     Player,
+    QueueRepeatMode,
     type PlayerNodeInitializationResult,
     type PlayerNodeInitializerOptions,
-    QueueRepeatMode,
     type TrackLike,
 } from "discord-player";
+
 import { YoutubeiExtractor } from "discord-player-youtubei";
-import type { ActionRowBuilder, InteractionResponse } from "discord.js";
+import type {
+    ActionRowBuilder,
+    ButtonInteraction,
+    InteractionResponse,
+} from "discord.js";
 import {
-    type ButtonInteraction,
     ButtonStyle,
-    type ChatInputCommandInteraction,
     ComponentType,
+    type ChatInputCommandInteraction,
     type GuildVoiceChannelResolvable,
     type Message,
     type MessageActionRowComponentBuilder,
@@ -83,7 +88,7 @@ export default class Music extends Player {
     ) {
         const { kEmojis: emojis } = this.client;
 
-        let track: Track<unknown> | null = null;
+        let track: Track | null = null;
 
         if (typeof _track === "string")
             track = await this.search(_track).then((x) => x.tracks[0]);
@@ -124,7 +129,7 @@ export default class Music extends Player {
                 }),
         );
 
-        Pagination.embeds(interaction, embeds);
+        await Pagination.embeds(interaction, embeds);
     }
 
     async showPlaylistTracks(message: Message, playlist: Playlist) {
@@ -145,7 +150,6 @@ export default class Music extends Player {
 
         const collector = message.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 0,
             filter: (i) => i.customId === "list_tracks",
         });
 
@@ -204,7 +208,6 @@ export default class Music extends Player {
             filter: (navI) =>
                 navI.customId === "previous_page" ||
                 navI.customId === "next_page",
-            time: 0,
         });
 
         navCollector.on("collect", async (i) => {
@@ -222,13 +225,13 @@ export default class Music extends Player {
     volumeEmoji(volume: number) {
         const { kEmojis: emojis } = this.client;
 
-        let speakerEmoji = emojis.get("player_muted") ?? "🔇";
+        let speakerEmoji = emojis.get("player_muted")?.toString() ?? "🔇";
         if (volume <= 100 && volume >= 80)
-            speakerEmoji = emojis.get("player_high_volume") ?? "🔊";
+            speakerEmoji = emojis.get("player_high_volume")?.toString() ?? "🔊";
         else if (volume <= 80 && volume >= 25)
-            speakerEmoji = emojis.get("player_mid_volume") ?? "🔉";
+            speakerEmoji = emojis.get("player_mid_volume")?.toString() ?? "🔉";
         else if (volume <= 25 && volume > 0)
-            speakerEmoji = emojis.get("player_low_volume") ?? "🔈";
+            speakerEmoji = emojis.get("player_low_volume")?.toString() ?? "🔈";
 
         return speakerEmoji;
     }
@@ -238,13 +241,13 @@ export default class Music extends Player {
 
         switch (loopMode) {
             case QueueRepeatMode.TRACK:
-                return emojis.get("player_repeat_one") ?? "🔂";
+                return emojis.get("player_repeat_one")?.toString() ?? "🔂";
             case QueueRepeatMode.QUEUE:
-                return emojis.get("player_repeat") ?? "🔁";
+                return emojis.get("player_repeat")?.toString() ?? "🔁";
             case QueueRepeatMode.OFF:
-                return emojis.get("no") ?? "🚫";
+                return emojis.get("no")?.toString() ?? "🚫";
             default:
-                return emojis.get("player_repeat") ?? "🔁";
+                return emojis.get("player_repeat")?.toString() ?? "🔁";
         }
     }
 
@@ -325,7 +328,18 @@ export default class Music extends Player {
         ];
     }
 
-    async nowPlayingEmbed(queue: GuildQueue<QueueMetadata>, track?: Track) {
+    nowPlayingEmbed(queue: GuildQueue<QueueMetadata>, track: Track): Embed;
+    nowPlayingEmbed(
+        queue: GuildQueue<QueueMetadata> & { currentTrack: Track },
+    ): Embed;
+    nowPlayingEmbed(
+        queue: GuildQueue<QueueMetadata>,
+        track?: Track,
+    ): Embed | null;
+    nowPlayingEmbed(
+        queue: GuildQueue<QueueMetadata>,
+        track?: Track,
+    ): Embed | null {
         const embed = new Embed()
             .setAuthor({
                 name: "Now Playing",
@@ -362,7 +376,7 @@ export default class Music extends Player {
                     iconURL: track.requestedBy?.displayAvatarURL(),
                 })
                 .setURL(track.url);
-        }
+        } else return null;
 
         return embed;
     }
@@ -393,15 +407,32 @@ export default class Music extends Player {
 
             const description = [];
 
+            if (i === 0 && queue.history.tracks.size > 0) {
+                const { history } = queue;
+                description.push("**Recent Tracks** (Last 10)\n");
+                history.tracks
+                    .toArray()
+                    .slice(0, 10)
+                    .toReversed()
+                    .forEach((track, index) => {
+                        description.push(
+                            `${index + 1 === history.tracks.size ? "**Recently Played: **" : ""}[${track.title}](${track.url}) - ${track.author} [${track.duration}]\n`,
+                        );
+                    });
+                description.push("\n");
+            }
+
+            description.push("**Upcoming Tracks**\n");
+
             for (const track of tracks) {
                 description.push(
-                    `**${trackNumber}.** [${track.title}](${track.url}) - ${track.author} [${track.duration}]`,
+                    `**${trackNumber === 1 ? "Next up: " : `${trackNumber}.`}** [${track.title}](${track.url}) - ${track.author} [${track.duration}]\n`,
                 );
 
                 trackNumber++;
             }
 
-            embed.setDescription(description.join("\n"));
+            embed.setDescription(description.join(""));
 
             embeds.push(embed);
         }
@@ -418,15 +449,18 @@ export default class Music extends Player {
 
         let page = 0;
 
-        const iResponse = await interaction.reply({
-            embeds: [embeds[page]],
-            components: [navButtons],
-            flags: "Ephemeral",
-        });
+        const iResponse = await interaction
+            .reply({
+                embeds: [embeds[page]],
+                components: [navButtons],
+                flags: "Ephemeral",
+                withResponse: true,
+            })
+            .then((i) => i.resource?.message);
+        if (!iResponse) return;
 
         const navCollector = iResponse.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 0,
             filter: (i) =>
                 i.customId === "previous_page" || i.customId === "next_page",
         });
@@ -451,40 +485,32 @@ export default class Music extends Player {
             new Button()
                 .setCustomId("loop_track")
                 .setLabel("Track")
-                .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.TRACK)?.toString() ?? "🎵",
-                ),
+                .setEmoji(this.loopEmoji(QueueRepeatMode.TRACK)),
 
             new Button()
                 .setCustomId("loop_queue")
                 .setLabel("Queue")
-                .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.QUEUE)?.toString() ?? "🎶",
-                ),
+                .setEmoji(this.loopEmoji(QueueRepeatMode.QUEUE)),
 
             new Button()
                 .setCustomId("loop_none")
                 .setLabel("Off")
-                .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.OFF)?.toString() ?? "🚫",
-                )
+                .setEmoji(this.loopEmoji(QueueRepeatMode.OFF))
                 .setStyle(ButtonStyle.Danger),
         );
 
-        const iResponse = (
-            await interaction.reply({
+        const iResponse = await interaction
+            .reply({
                 content: "**Select loop mode**",
                 components: [row],
                 flags: "Ephemeral",
                 withResponse: true,
             })
-        ).resource?.message;
-
+            .then((i) => i.resource?.message);
         if (!iResponse) return;
 
         const bInteraction = await iResponse.awaitMessageComponent({
             componentType: ComponentType.Button,
-            time: 0,
             filter: (i) =>
                 i.customId === "loop_queue" ||
                 i.customId === "loop_track" ||
@@ -513,17 +539,17 @@ export default class Music extends Player {
                 content: `${this.loopEmoji(queue.repeatMode)} Loop mode set to **${loopMode}**`,
                 components: [],
             })
-            .then((i) => timedDelete(i, 4000));
+            .then((i) => timedDelete(i, 5000));
 
-        const { guild } = queue;
+        const { message } = queue.metadata;
+        const nowPlaying = this.nowPlayingEmbed(queue);
 
-        if (guild.musicMessage) {
-            await guild.musicMessage.edit({
+        if (message)
+            await message.edit({
                 content: "",
-                embeds: [await this.nowPlayingEmbed(queue)],
+                embeds: nowPlaying ? [nowPlaying] : [],
                 components: this.playerControls(queue.node.isPaused()),
             });
-        }
     }
 
     async askForSkipTo(
@@ -575,15 +601,18 @@ export default class Music extends Player {
 
         let page = 0;
 
-        const iResponse = await interaction.reply({
-            content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
-            components: [menus[page], navButtons],
-            flags: "Ephemeral",
-        });
+        const iResponse = await interaction
+            .reply({
+                content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
+                components: [menus[page], navButtons],
+                flags: "Ephemeral",
+                withResponse: true,
+            })
+            .then((i) => i.resource?.message);
+        if (!iResponse) return;
 
         const navCollector = iResponse.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 0,
             filter: (i) =>
                 i.customId === "previous_page" || i.customId === "next_page",
         });
@@ -601,7 +630,6 @@ export default class Music extends Player {
 
         const trackCollector = iResponse.createMessageComponentCollector({
             componentType: ComponentType.StringSelect,
-            time: 0,
             filter: (i) => i.customId.startsWith("skip_to_"),
         });
 
@@ -622,7 +650,7 @@ export default class Music extends Player {
                 components: [],
             });
 
-            queue.node.jump(track);
+            queue.node.skipTo(track);
         });
     }
 
@@ -675,15 +703,18 @@ export default class Music extends Player {
 
         let page = 0;
 
-        const iResponse = await interaction.reply({
-            content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
-            components: [menus[page], navButtons],
-            flags: "Ephemeral",
-        });
+        const iResponse = await interaction
+            .reply({
+                content: `**Select a track to skip to (${page + 1}/${tracksChunk.length})**`,
+                components: [menus[page], navButtons],
+                flags: "Ephemeral",
+                withResponse: true,
+            })
+            .then((i) => i.resource?.message);
+        if (!iResponse) return;
 
         const navCollector = iResponse.createMessageComponentCollector({
             componentType: ComponentType.Button,
-            time: 0,
             filter: (i) =>
                 i.customId === "previous_page" || i.customId === "next_page",
         });
@@ -701,7 +732,6 @@ export default class Music extends Player {
 
         const trackCollector = iResponse.createMessageComponentCollector({
             componentType: ComponentType.StringSelect,
-            time: 0,
             filter: (i) => i.customId.startsWith("go_back_to"),
         });
 
@@ -724,5 +754,56 @@ export default class Music extends Player {
 
             queue.node.jump(track);
         });
+    }
+
+    async updateMessage(
+        queue: GuildQueue<QueueMetadata>,
+        updatePayload: {
+            content?: string;
+            embeds?: Embed[];
+            components?: Row[];
+        },
+        editPayload?: {
+            content?: string;
+            embeds?: Embed[];
+            components?: Row[];
+        },
+        waitBeforeEdit = 5000,
+    ) {
+        const { message, textChannel } = queue.metadata;
+
+        if (!message) {
+            queue.metadata.message = await textChannel
+                .send(updatePayload)
+                .then(async (m) => {
+                    if (!editPayload) return m;
+                    await sleep(waitBeforeEdit);
+                    await m.edit(editPayload);
+                    return m;
+                });
+
+            return;
+        }
+
+        try {
+            queue.metadata.message = await message
+                .edit(updatePayload)
+                .then(async (m) => {
+                    if (!editPayload) return m;
+                    await sleep(waitBeforeEdit);
+                    await m.edit(editPayload);
+                    return m;
+                });
+        } catch (error) {
+            queue.metadata.message = await textChannel
+                .send(updatePayload)
+                .then(async (m) => {
+                    if (!editPayload) return m;
+                    await sleep(waitBeforeEdit);
+                    await m.edit(editPayload);
+                    return m;
+                });
+            logger.error(error);
+        }
     }
 }

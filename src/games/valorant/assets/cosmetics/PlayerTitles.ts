@@ -1,14 +1,11 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
-import type { ValorantPlayerTitle } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantPlayerTitle } from "typings/APIValorant";
 
 export default class ValorantPlayerTitles {
-    private readonly data: ValorantPlayerTitle[];
+    private readonly data: APIValorantPlayerTitle[];
 
-    constructor(data: ValorantPlayerTitle[]) {
+    constructor(data: APIValorantPlayerTitle[]) {
         this.data = data;
     }
 
@@ -22,7 +19,7 @@ export default class ValorantPlayerTitles {
                 playerTitle.displayName.toLowerCase() === title.toLowerCase(),
         ) ?? this.data.find((playerTitle) => playerTitle.uuid === title);
 
-    embed = (playerTitle: ValorantPlayerTitle) =>
+    embed = (playerTitle: APIValorantPlayerTitle) =>
         new Embed()
             .setAuthor({
                 name: playerTitle.displayName,
@@ -30,13 +27,6 @@ export default class ValorantPlayerTitles {
             .setTitle(playerTitle.titleText);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/playertitles`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantPlayerTitles(data);
+        return new ValorantPlayerTitles(await fetch("playertitles"));
     }
 }

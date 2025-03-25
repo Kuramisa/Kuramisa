@@ -1,17 +1,14 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
+import { fetch } from "games/valorant/API";
 import type {
-    ValorantCompetitiveRank,
-    ValorantCompetitiveTier,
-} from "typings/Valorant";
-
-import Valorant from "../..";
+    APIValorantCompetitiveRank,
+    APIValorantCompetitiveTier,
+} from "typings/APIValorant";
 
 export default class ValorantCompetitiveTiers {
-    private readonly data: ValorantCompetitiveTier[];
+    private readonly data: APIValorantCompetitiveTier[];
 
-    constructor(data: ValorantCompetitiveTier[]) {
+    constructor(data: APIValorantCompetitiveTier[]) {
         this.data = data;
     }
 
@@ -23,7 +20,7 @@ export default class ValorantCompetitiveTiers {
         this.data.find((t) => t.tiers.find((t) => t.tierName === tier)) ??
         this.data.find((t) => t.uuid === tier);
 
-    embed = (tier: ValorantCompetitiveRank) =>
+    embed = (tier: APIValorantCompetitiveRank) =>
         new Embed()
             .setAuthor({
                 name: tier.tierName,
@@ -31,16 +28,9 @@ export default class ValorantCompetitiveTiers {
             })
             .setTitle(`${tier.tierName} (${tier.divisionName})`)
             .setThumbnail(tier.largeIcon)
-            .setColor(tier.color);
+            .setColor(`#${tier.color}`);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/competitivetiers`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantCompetitiveTiers(data);
+        return new ValorantCompetitiveTiers(await fetch("competitivetiers"));
     }
 }

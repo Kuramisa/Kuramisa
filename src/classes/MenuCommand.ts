@@ -70,10 +70,11 @@ export abstract class AbstractMenuCommand
             );
     }
 
-    abstract run(interaction: ContextMenuCommandInteraction): any;
+    abstract run(interaction: ContextMenuCommandInteraction): unknown;
 }
 
 export function MenuCommand(options: IMenuCommandOptions) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractMenuCommand) {
         return class extends target {
             constructor() {
@@ -85,5 +86,5 @@ export function MenuCommand(options: IMenuCommandOptions) {
                 return target.prototype.run(interaction);
             }
         };
-    };
+    } as any;
 }

@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantCeremony } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantCeremony } from "typings/APIValorant";
 
 export default class ValorantCeremonies {
-    private readonly data: ValorantCeremony[];
+    private readonly data: APIValorantCeremony[];
 
-    constructor(data: ValorantCeremony[]) {
+    constructor(data: APIValorantCeremony[]) {
         this.data = data;
     }
 
@@ -21,13 +18,6 @@ export default class ValorantCeremonies {
         ) ?? this.data.find((c) => c.uuid === ceremony);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/ceremonies`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantCeremonies(data);
+        return new ValorantCeremonies(await fetch("ceremonies"));
     }
 }

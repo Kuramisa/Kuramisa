@@ -15,17 +15,17 @@ export default class Database {
             .connect(DATABASE ?? "")
             .then(() => logger.info("[Database] Connected to database"))
             .catch((error) =>
-                logger.error("[Database] Error connecting to database", {
-                    error,
-                }),
+                logger.error(
+                    `[Database] Error connecting to database: ${error}`,
+                ),
             );
     disconnect = () =>
         this.connection
             .disconnect()
             .then(() => logger.info("[Database] Disconnected from database"))
             .catch((error) =>
-                logger.error("[Database] Error disconnecting from database", {
-                    error,
-                }),
+                logger.error(
+                    `[Database] Error disconnecting from database ${error}`,
+                ),
             );
 }

@@ -38,6 +38,6 @@ export default class MemberRoleAddEvent extends AbstractEvent {
             .setThumbnail(member.displayAvatarURL())
             .setDescription(`${role} was added`);
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

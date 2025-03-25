@@ -7,7 +7,11 @@ import type { GuildMember } from "discord.js";
     description: "Logs when member changes nickname",
 })
 export default class MemberNicknameChangeEvent extends AbstractEvent {
-    async run(member: GuildMember, oldNickname: string, newNickname: string) {
+    async run(
+        member: GuildMember,
+        oldNickname: string | null,
+        newNickname: string | null,
+    ) {
         const { guild } = member;
 
         const channel = await this.client.managers.guilds.logsChannel(guild);
@@ -26,6 +30,6 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
                 }`,
             );
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

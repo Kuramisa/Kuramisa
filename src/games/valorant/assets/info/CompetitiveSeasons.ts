@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantCompetitiveSeason } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantCompetitiveSeason } from "typings/APIValorant";
 
 export default class ValorantCompetitiveSeasons {
-    private readonly data: ValorantCompetitiveSeason[];
+    private readonly data: APIValorantCompetitiveSeason[];
 
-    constructor(data: ValorantCompetitiveSeason[]) {
+    constructor(data: APIValorantCompetitiveSeason[]) {
         this.data = data;
     }
 
@@ -24,15 +21,8 @@ export default class ValorantCompetitiveSeasons {
         this.data.find((s) => s.uuid === season);
 
     static async init() {
-        const data = await fetch<any>(
-            `${Valorant.assetsURL}/seasons/competitive`,
-        )
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantCompetitiveSeasons(data);
+        return new ValorantCompetitiveSeasons(
+            await fetch("seasons/competitive"),
+        );
     }
 }

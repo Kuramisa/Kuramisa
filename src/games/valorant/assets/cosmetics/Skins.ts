@@ -1,5 +1,3 @@
-import { fetch } from "@sapphire/fetch";
-import { type ContentTiers, type Weapons } from "@valapi/valorant-api.com";
 import { Embed } from "Builders";
 import {
     ActionRowBuilder,
@@ -10,22 +8,21 @@ import {
     StringSelectMenuBuilder,
 } from "discord.js";
 import truncate from "lodash/truncate";
-import logger from "Logger";
 import type {
-    ValorantContentTier,
-    ValorantSkin,
-    ValorantSkinCollection,
-    ValorantWeaponSkin,
-    ValorantWeaponSkinLevel,
-} from "typings/Valorant";
+    APIValorantContentTier,
+    APIValorantSkin,
+    APIValorantSkinChroma,
+    APIValorantSkinLevel,
+} from "typings/APIValorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { ValorantSkinInfo } from "typings/Valorant";
 import type Kuramisa from "../../../../Kuramisa";
 
 export default class ValorantSkins {
-    private readonly data: ValorantWeaponSkin[];
+    private readonly data: APIValorantSkin[];
 
-    constructor(data: ValorantWeaponSkin[]) {
+    constructor(data: APIValorantSkin[]) {
         this.data = data;
     }
 
@@ -47,17 +44,10 @@ export default class ValorantSkins {
         );
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/weapons/skins`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantSkins(data);
+        return new ValorantSkins(await fetch("weapons/skins"));
     }
 
-    info(client: Kuramisa, skin: ValorantWeaponSkin): ValorantSkin {
+    info(client: Kuramisa, skin: APIValorantSkin): ValorantSkinInfo {
         const contentTier = client.games.valorant.contentTiers.get(
             skin.contentTierUuid,
         );
@@ -99,11 +89,8 @@ export default class ValorantSkins {
         };
     }
 
-    collection(client: Kuramisa, skins: ValorantWeaponSkin[]) {
-        const collection: ValorantSkinCollection = new Collection<
-            string,
-            ValorantSkin
-        >();
+    collection(client: Kuramisa, skins: APIValorantSkin[]) {
+        const collection = new Collection<string, ValorantSkinInfo>();
 
         for (const skin of skins) {
             collection.set(skin.uuid, this.info(client, skin));
@@ -114,28 +101,28 @@ export default class ValorantSkins {
 
     // Level Methods [START]
     levelEmbed = (
-        skin: ValorantWeaponSkin,
-        level: ValorantWeaponSkinLevel,
-        contentTier: ValorantContentTier,
+        skin: APIValorantSkin,
+        level?: APIValorantSkinLevel,
+        contentTier?: APIValorantContentTier,
     ) =>
         new Embed()
             .setAuthor({
-                name: level.displayName,
-                iconURL: contentTier.displayIcon,
+                name: level?.displayName ?? skin.displayName,
+                iconURL: contentTier?.displayIcon,
             })
-            .setImage(level.displayIcon ?? skin.displayIcon)
-            .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
+            .setImage(level?.displayIcon ?? skin.displayIcon)
+            .setColor(`#${contentTier?.highlightColor.slice(0, 6)}`);
 
-    levelEmbeds = (client: Kuramisa, skin: ValorantWeaponSkin) =>
+    levelEmbeds = (client: Kuramisa, skin: APIValorantSkin) =>
         skin.levels.map((level) =>
             this.levelEmbed(
                 skin,
                 level,
-                client.games.valorant.contentTiers.get(skin.contentTierUuid)!,
+                client.games.valorant.contentTiers.get(skin.contentTierUuid),
             ),
         );
 
-    levelSelectMenu = (skin: ValorantWeaponSkin) =>
+    levelSelectMenu = (skin: APIValorantSkin) =>
         new StringSelectMenuBuilder()
             .setCustomId("valorant_weapon_skin_level_select")
             .setPlaceholder("Select a Skin Level")
@@ -148,16 +135,16 @@ export default class ValorantSkins {
                 })),
             );
 
-    levelVideos = (skin: ValorantWeaponSkin) =>
+    levelVideos = (skin: APIValorantSkin) =>
         skin.levels.map((level) => level.streamedVideo);
 
     // Level Methods [END]
 
     // Chroma Methods [START]
     chromaEmbed = (
-        skin: ValorantWeaponSkin,
-        chroma: Weapons.WeaponSkinChromas<"en-US">,
-        contentTier: ContentTiers.ContentTiers<"en-US">,
+        skin: APIValorantSkin,
+        chroma: APIValorantSkinChroma,
+        contentTier: APIValorantContentTier,
     ) =>
         new Embed()
             .setAuthor({
@@ -167,7 +154,7 @@ export default class ValorantSkins {
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
-    chromaEmbeds = (client: Kuramisa, skin: ValorantWeaponSkin) =>
+    chromaEmbeds = (client: Kuramisa, skin: APIValorantSkin) =>
         skin.chromas.map((chroma) =>
             this.chromaEmbed(
                 skin,
@@ -176,10 +163,7 @@ export default class ValorantSkins {
             ),
         );
 
-    chromaButton = (
-        skin: ValorantWeaponSkin,
-        chroma: Weapons.WeaponSkinChromas<"en-US">,
-    ) => {
+    chromaButton = (skin: APIValorantSkin, chroma: APIValorantSkinChroma) => {
         const button = new ButtonBuilder()
             .setCustomId(
                 `valorant_skin_chroma_${skin.chromas.findIndex(
@@ -194,12 +178,11 @@ export default class ValorantSkins {
         return button.setLabel(label);
     };
 
-    chromaButtons = (skin: ValorantWeaponSkin) =>
+    chromaButtons = (skin: APIValorantSkin) =>
         skin.chromas.map((chroma) => this.chromaButton(skin, chroma));
 
-    chromaVideo = (chroma: Weapons.WeaponSkinChromas<"en-US">) =>
-        chroma.streamedVideo;
-    chromaVideos = (skin: ValorantWeaponSkin) =>
+    chromaVideo = (chroma: APIValorantSkinChroma) => chroma.streamedVideo;
+    chromaVideos = (skin: APIValorantSkin) =>
         skin.chromas.map((chroma) => this.chromaVideo(chroma));
 
     // Chroma Methods [END]

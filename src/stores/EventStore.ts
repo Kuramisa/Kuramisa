@@ -30,9 +30,9 @@ export default class EventStore {
             if (isDirectory) {
                 const deepFiles = await fs.readdir(deepEventDir);
                 for (const deepFile of deepFiles) {
-                    const event = await import(
+                    const event = (await import(
                         pathToFileURL(path.resolve(deepEventDir, deepFile)).href
-                    );
+                    )) as { default: new (client: Kuramisa) => AbstractEvent };
 
                     const eventInstance = new event.default(this.client);
                     if (!this.events.has(eventInstance.event))
@@ -49,8 +49,10 @@ export default class EventStore {
             const isFile = (await fs.stat(eventPath)).isFile();
             if (!isFile) continue;
 
-            const event = await import(pathToFileURL(eventPath).href);
-            const eventInstance = new event.default();
+            const event = (await import(pathToFileURL(eventPath).href)) as {
+                default: new (client: Kuramisa) => AbstractEvent;
+            };
+            const eventInstance = new event.default(this.client);
 
             if (!this.events.has(eventInstance.event))
                 this.events.set(eventInstance.event, []);

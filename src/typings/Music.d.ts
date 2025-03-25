@@ -1,10 +1,10 @@
-import type { GuildTextBasedChannel, VoiceChannel } from "discord.js";
+import type { GuildTextBasedChannel, Message, VoiceChannel } from "discord.js";
 
 export interface QueueMetadata {
+    message?: Message | null;
     textChannel: GuildTextBasedChannel;
     voiceChannel: VoiceChannel;
 }
-
 export interface PlaylistTrack {
     id: string;
     title: string;

@@ -1,18 +1,18 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed, StringDropdown } from "Builders";
 import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
-import logger from "Logger";
-import type { ValorantSpray, ValorantSprayLevel } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type {
+    APIValorantSpray,
+    APIValorantSprayLevel,
+} from "typings/APIValorant";
 
 export default class ValorantSprays {
-    private readonly data: ValorantSpray[];
+    private readonly data: APIValorantSpray[];
 
-    constructor(data: ValorantSpray[]) {
+    constructor(data: APIValorantSpray[]) {
         this.data = data;
     }
 
@@ -25,7 +25,7 @@ export default class ValorantSprays {
             (s) => s.displayName.toLowerCase() === spray.toLowerCase(),
         ) ?? this.data.find((s) => s.uuid === spray);
 
-    info(spray: ValorantSpray) {
+    info(spray: APIValorantSpray) {
         // Level Information
         const levelNames = spray.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(spray);
@@ -45,20 +45,20 @@ export default class ValorantSprays {
         };
     }
 
-    levelEmbed = (spray: ValorantSpray, level: ValorantSprayLevel) =>
+    levelEmbed = (spray: APIValorantSpray, level: APIValorantSprayLevel) =>
         new Embed()
             .setAuthor({
                 name: spray.displayName,
                 iconURL: spray.displayIcon,
             })
-            .setTitle(level.displayName ?? spray.displayIcon)
+            .setTitle(level.displayName)
             .setThumbnail(spray.animationGif ?? spray.fullTransparentIcon)
             .setColor("Random");
 
-    levelEmbeds = (spray: ValorantSpray) =>
+    levelEmbeds = (spray: APIValorantSpray) =>
         spray.levels.map((level) => this.levelEmbed(spray, level));
 
-    levelSelectMenu = (spray: ValorantSpray) =>
+    levelSelectMenu = (spray: APIValorantSpray) =>
         new StringDropdown()
             .setCustomId("valorant_spray_level_select")
             .setPlaceholder("Select a Spray Level")
@@ -70,13 +70,6 @@ export default class ValorantSprays {
             );
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/sprays`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantSprays(data);
+        return new ValorantSprays(await fetch("sprays"));
     }
 }

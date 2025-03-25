@@ -4,11 +4,11 @@ import type { GuildQueue } from "discord-player";
 import type { QueueMetadata } from "typings/Music";
 
 @Event({
-    event: "emptyChannel",
-    description: "Empty channel event",
+    event: "connectionDestroyed",
+    description: "When a connection is destroyed",
     emitter: "music-queue",
 })
-export default class EmptyChannelEvent extends AbstractEvent {
+export default class ConnectionDestroyedEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {
         const { message } = queue.metadata;
 

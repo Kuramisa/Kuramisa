@@ -10,6 +10,7 @@ import {
     type User,
 } from "discord.js";
 
+import logger from "Logger";
 import Database from "./database";
 import Games from "./games";
 import Kanvas from "./kanvas";
@@ -126,26 +127,26 @@ export default class Kuramisa extends Client {
         return super.login(TOKEN);
     }
 
-    mentionCommand = (
+    mentionCommand(
         command: string,
-        subName?: string,
-        group?: string,
-    ): string => {
+        extra: {
+            subcommand: string;
+            group: string;
+        },
+    ): string {
         if (!this.isReady()) return "";
         const appCommand = this.application.commands.cache.find(
             (c) => c.name === command,
         );
         if (!appCommand) {
-            console.error(
-                `Couldn't mention ${command}, since it doesn't exist`,
-            );
+            logger.error(`Couldn't mention ${command}, since it doesn't exist`);
             return "";
         }
 
         let commandLiteral = command;
-        if (group) commandLiteral += ` ${group}`;
-        if (subName) commandLiteral += ` ${subName}`;
+        if (extra.group) commandLiteral += ` ${extra.group}`;
+        if (extra.subcommand) commandLiteral += ` ${extra.subcommand}`;
 
         return `</${commandLiteral}:${appCommand.id}>`;
-    };
+    }
 }

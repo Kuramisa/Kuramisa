@@ -57,7 +57,7 @@ export default class LogsCommand extends AbstractSlashCommand {
         db.logs.channel = channel.id;
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `Logging channel has been set to ${channel}`,
             flags: "Ephemeral",
         });

@@ -10,7 +10,6 @@ import { AuditLogEvent } from "discord.js";
 export default class MessageDeletedEvent extends AbstractEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
-        if (!message.author) return;
         if (message.author.bot) return;
 
         const { guild } = message;
@@ -48,6 +47,6 @@ export default class MessageDeletedEvent extends AbstractEvent {
             .setThumbnail(message.author.displayAvatarURL())
             .setFooter({ text: `ID: ${message.id}` });
 
-        channel.send({ embeds: [embed], files: attachments });
+        await channel.send({ embeds: [embed], files: attachments });
     }
 }

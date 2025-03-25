@@ -7,7 +7,7 @@ import logger from "Logger";
     emitter: "music-player",
 })
 export default class MusicDebugEvent extends AbstractEvent {
-    async run(debug: string) {
+    run(debug: string) {
         logger.debug(`[Music] ${debug}`);
     }
 }

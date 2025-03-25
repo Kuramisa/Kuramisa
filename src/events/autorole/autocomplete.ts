@@ -17,7 +17,6 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
         const db = await managers.guilds.get(guild.id);
 
         const { autorole } = db;
-        if (!autorole) return;
 
         const value = options.getFocused();
 

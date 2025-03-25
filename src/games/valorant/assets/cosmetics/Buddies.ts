@@ -2,18 +2,19 @@ import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "@discordjs/builders";
-import { fetch } from "@sapphire/fetch";
-import { Embed, StringDropdown } from "Builders";
-import truncate from "lodash/truncate";
-import logger from "Logger";
-import type { ValorantBuddy, ValorantBuddyLevel } from "typings/Valorant";
 
-import Valorant from "../..";
+import { Embed, StringDropdown } from "Builders";
+import { fetch } from "games/valorant/API";
+import truncate from "lodash/truncate";
+import type {
+    APIValorantBuddy,
+    APIValorantBuddyLevel,
+} from "typings/APIValorant";
 
 export default class ValorantBuddies {
-    private readonly data: ValorantBuddy[];
+    private readonly data: APIValorantBuddy[];
 
-    constructor(data: ValorantBuddy[]) {
+    constructor(data: APIValorantBuddy[]) {
         this.data = data;
     }
 
@@ -32,7 +33,7 @@ export default class ValorantBuddies {
             ),
         );
 
-    info(buddy: ValorantBuddy) {
+    info(buddy: APIValorantBuddy) {
         // Level Information
         const levelNames = buddy.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(buddy);
@@ -52,16 +53,16 @@ export default class ValorantBuddies {
         };
     }
 
-    levelEmbed = (buddy: ValorantBuddy, level: ValorantBuddyLevel) =>
+    levelEmbed = (buddy: APIValorantBuddy, level?: APIValorantBuddyLevel) =>
         new Embed()
             .setAuthor({ name: buddy.displayName })
-            .setImage(level.displayIcon ?? buddy.displayIcon)
+            .setImage(level?.displayIcon ?? buddy.displayIcon)
             .setColor("Random");
 
-    levelEmbeds = (buddy: ValorantBuddy) =>
+    levelEmbeds = (buddy: APIValorantBuddy) =>
         buddy.levels.map((level) => this.levelEmbed(buddy, level));
 
-    levelSelectMenu = (buddy: ValorantBuddy) =>
+    levelSelectMenu = (buddy: APIValorantBuddy) =>
         new StringDropdown()
             .setCustomId("valorant_buddy_level_select")
             .setPlaceholder("Select a Buddy Level")
@@ -73,13 +74,6 @@ export default class ValorantBuddies {
             );
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/buddies`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantBuddies(data);
+        return new ValorantBuddies(await fetch("buddies"));
     }
 }

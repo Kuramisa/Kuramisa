@@ -1,25 +1,21 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
 import type Kuramisa from "Kuramisa";
-import logger from "Logger";
 import type {
-    ValorantBuddy,
-    ValorantBundle,
-    ValorantBundleItem,
-    ValorantFeaturedBundle,
-    ValorantPlayerCard,
-    ValorantPlayerTitle,
-    ValorantSpray,
-    ValorantWeaponSkin,
-} from "typings/Valorant";
+    APIValorantBuddy,
+    APIValorantBundle,
+    APIValorantPlayerCard,
+    APIValorantPlayerTitle,
+    APIValorantSkin,
+    APIValorantSpray,
+} from "typings/APIValorant";
 
-import { fetchStoreFeautured } from "..";
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { ValorantBundleItem } from "typings/Valorant";
 
 export default class ValorantBundles {
-    private readonly data: ValorantBundle[];
+    private readonly data: APIValorantBundle[];
 
-    constructor(data: ValorantBundle[]) {
+    constructor(data: APIValorantBundle[]) {
         this.data = data;
     }
 
@@ -31,7 +27,7 @@ export default class ValorantBundles {
         this.data.find((b) => b.uuid === bundle) ??
         this.data.find((b) => b.displayName === bundle);
 
-    embed(bundle: ValorantBundle, time?: number) {
+    embed(bundle: APIValorantBundle, time?: number) {
         let description = "";
 
         if (time) description += `**Resets in <t:${time}:R>**`;
@@ -56,11 +52,11 @@ export default class ValorantBundles {
         client: Kuramisa,
         item: ValorantBundleItem &
             (
-                | (ValorantWeaponSkin & { type: "skin_level" })
-                | (ValorantBuddy & { type: "buddy" })
-                | (ValorantPlayerCard & { type: "player_card" })
-                | (ValorantSpray & { type: "spray" })
-                | (ValorantPlayerTitle & { type: "player_title" })
+                | (APIValorantSkin & { type: "skin_level" })
+                | (APIValorantBuddy & { type: "buddy" })
+                | (APIValorantPlayerCard & { type: "player_card" })
+                | (APIValorantSpray & { type: "spray" })
+                | (APIValorantPlayerTitle & { type: "player_title" })
             ),
     ) {
         const {
@@ -71,15 +67,15 @@ export default class ValorantBundles {
 
         let description: string;
 
-        if (item.basePrice === 0) description = "For Free";
+        if (item.BasePrice === 0) description = "For Free";
         else
-            description = `**${emojis.get("val_points") ?? ""} ${item.basePrice} VP ${
-                item.basePrice === item.discountedPrice
+            description = `**${emojis.get("val_points") ?? ""} ${item.BasePrice} VP ${
+                item.BasePrice === item.DiscountedPrice
                     ? ""
                     : `(${
-                          item.discountedPrice === 0
+                          item.DiscountedPrice === 0
                               ? "*Free*"
-                              : item.discountedPrice
+                              : item.DiscountedPrice
                       }  with the bundle)`
             }**`;
 
@@ -162,72 +158,6 @@ export default class ValorantBundles {
     }
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/bundles`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantBundles(data);
-    }
-
-    async fetchFeatured(client: Kuramisa) {
-        const data = await fetchStoreFeautured();
-
-        return data.map((bundle: any) => {
-            const bundleData = this.get(bundle.bundle_uuid);
-            if (!bundleData)
-                throw new Error(`Bundle ${bundle.bundle_uuid} not found`);
-
-            return {
-                ...bundleData,
-                price: bundle.bundle_price,
-                wholeSaleOnly: bundle.whole_sale_only,
-                items: bundle.items.map((item: any) => {
-                    const { valorant } = client.games;
-                    let itemData:
-                        | ValorantWeaponSkin
-                        | ValorantBuddy
-                        | ValorantPlayerCard
-                        | ValorantSpray
-                        | ValorantPlayerTitle;
-                    switch (item.type) {
-                        case "skin_level":
-                            itemData = valorant.skins.get(item.uuid)!;
-                            break;
-                        case "buddy":
-                            itemData = valorant.buddies.get(item.uuid)!;
-                            break;
-                        case "player_card":
-                            itemData = valorant.playerCards.get(item.uuid)!;
-                            break;
-                        case "spray":
-                            itemData = valorant.sprays.get(item.uuid)!;
-                            break;
-                        case "player_title":
-                            itemData = valorant.playerTitles.get(item.uuid)!;
-                            break;
-                        default:
-                            throw new Error(`Unknown item type ${item.type}`);
-                    }
-
-                    return {
-                        ...itemData,
-                        uuid: item.uuid,
-                        displayName: item.name,
-                        displayIcon: item.image,
-                        type: item.type,
-                        amount: item.amount,
-                        discountPercent: item.discount_percent,
-                        basePrice: item.base_price,
-                        discountedPrice: item.discounted_price,
-                        promoItem: item.promo_item,
-                    };
-                }),
-                secondsRemaining: bundle.seconds_remaining,
-                expiresAt: bundle.expires_at,
-            } as ValorantFeaturedBundle;
-        }) as ValorantFeaturedBundle[];
+        return new ValorantBundles(await fetch("bundles"));
     }
 }

@@ -36,6 +36,6 @@ export default class MemberLeaveEvent extends AbstractEvent {
                 inline: true,
             });
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

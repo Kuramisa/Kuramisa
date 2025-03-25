@@ -31,11 +31,10 @@ declare module "discord.js" {
 
         mentionCommand(
             command: string,
-            subName?: string,
-            group?: string,
+            extra?: {
+                subcommand?: string;
+                group?: string;
+            },
         ): string;
-    }
-    export interface Guild {
-        musicMessage?: Message | null;
     }
 }

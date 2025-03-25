@@ -22,8 +22,6 @@ export default class ServerCommand extends AbstractSlashCommand {
         const icon = guild.iconURL({ size: 1024 }) ?? "";
         const banner = guild.bannerURL({ size: 1024 }) ?? "";
 
-        console.log(icon, banner);
-
         const embed = new Embed()
             .setAuthor({ name: guild.name, iconURL: icon })
             .setThumbnail(icon)
@@ -33,7 +31,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                     name: "General",
                     value: `**Name** - ${guild.name}
                         **Created** - ${time(createdAt, TimestampStyles.RelativeTime)}
-                        **Owner** - ${guild.members.cache.get(guild.ownerId) ?? (await guild.fetchOwner()) ?? "Unknown"}
+                        **Owner** - ${guild.members.cache.get(guild.ownerId) ?? (await guild.fetchOwner().catch(() => null)) ?? "Unknown"}
 
                         **Description** - ${description ?? "None"}
 
@@ -113,6 +111,6 @@ export default class ServerCommand extends AbstractSlashCommand {
                 },
             ]);
 
-        interaction.reply({ embeds: [embed] });
+        await interaction.reply({ embeds: [embed] });
     }
 }

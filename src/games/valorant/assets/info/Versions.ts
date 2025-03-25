@@ -1,12 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import Valorant from "games/valorant";
-import logger from "Logger";
-import type { ValorantVersion } from "typings/Valorant";
+import { fetch } from "games/valorant/API";
+import type { APIValorantVersion } from "typings/APIValorant";
 
 export default class ValorantVersions {
-    private readonly data: ValorantVersion;
+    private readonly data: APIValorantVersion;
 
-    constructor(data: ValorantVersion) {
+    constructor(data: APIValorantVersion) {
         this.data = data;
     }
 
@@ -39,26 +37,14 @@ export default class ValorantVersions {
     }
 
     get buildDate() {
-        return this.data.buildDate;
+        return new Date(this.data.buildDate);
+    }
+
+    get buildDateTimestamp() {
+        return new Date(this.data.buildDate).getTime();
     }
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/version`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return {
-                    manifestId: "",
-                    branch: "",
-                    version: "",
-                    buildVersion: "",
-                    engineVersion: "",
-                    riotClientVersion: "",
-                    riotClientBuild: "",
-                    buildDate: "",
-                };
-            });
-
-        return new ValorantVersions(data);
+        return new ValorantVersions(await fetch("version"));
     }
 }

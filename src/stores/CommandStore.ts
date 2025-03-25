@@ -45,10 +45,10 @@ export default class CommandStore {
                 const deepFiles = await fs.readdir(deepCommandDir);
 
                 for (const deepFile of deepFiles) {
-                    const command = await import(
+                    const command = (await import(
                         pathToFileURL(path.resolve(deepCommandDir, deepFile))
                             .href
-                    );
+                    )) as { default: new () => AbstractSlashCommand };
                     const commandInstance = new command.default();
 
                     if (!this.commands.has(commandInstance.name))
@@ -92,7 +92,11 @@ export default class CommandStore {
             const isFile = (await fs.stat(deepCommandDir)).isFile();
             if (!isFile) continue;
 
-            const command = await import(pathToFileURL(deepCommandDir).href);
+            const command = (await import(
+                pathToFileURL(deepCommandDir).href
+            )) as {
+                default: new () => AbstractSlashCommand;
+            };
             const commandInstance = new command.default();
 
             if (!this.categories.has("Uncategorized")) {

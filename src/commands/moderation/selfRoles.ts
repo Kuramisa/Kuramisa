@@ -233,37 +233,47 @@ import { ButtonStyle } from "discord.js";
     ],
 })
 export default class SelfRolesCommand extends AbstractSlashCommand {
-    slashAutoSetup(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.autoSetup(interaction);
+    async slashAutoSetup(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.autoSetup(interaction);
     }
 
-    slashViewSetups(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.viewSetups(interaction);
+    async slashViewSetups(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.viewSetups(interaction);
     }
 
-    slashMessageAdd(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.messages.messageAdd(interaction);
-    }
-
-    slashMessageEdit(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.messages.messageEdit(interaction);
-    }
-
-    slashMessageRemove(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.messages.messageRemove(
+    async slashMessageAdd(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.messages.messageAdd(
             interaction,
         );
     }
 
-    slashButtonAdd(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.buttons.buttonAdd(interaction);
+    async slashMessageEdit(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.messages.messageEdit(
+            interaction,
+        );
     }
 
-    slashButtonEdit(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.buttons.buttonEdit(interaction);
+    async slashMessageRemove(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.messages.messageRemove(
+            interaction,
+        );
     }
 
-    slashButtonRemove(interaction: ChatInputCommandInteraction) {
-        interaction.client.systems.selfRoles.buttons.buttonRemove(interaction);
+    async slashButtonAdd(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.buttons.buttonAdd(
+            interaction,
+        );
+    }
+
+    async slashButtonEdit(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.buttons.buttonEdit(
+            interaction,
+        );
+    }
+
+    async slashButtonRemove(interaction: ChatInputCommandInteraction) {
+        await interaction.client.systems.selfRoles.buttons.buttonRemove(
+            interaction,
+        );
     }
 }

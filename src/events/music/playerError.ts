@@ -1,5 +1,7 @@
 import { AbstractEvent, Event } from "classes/Event";
+import type { GuildQueue } from "discord-player";
 import logger from "Logger";
+import type { QueueMetadata } from "typings/Music";
 
 @Event({
     event: "playerError",
@@ -7,7 +9,11 @@ import logger from "Logger";
     emitter: "music-queue",
 })
 export default class MusicPlayerErrorEvent extends AbstractEvent {
-    async run(_: any, error: string) {
-        logger.error(`[Music Player] ${error}`);
+    run(queue: GuildQueue<QueueMetadata>, error: string) {
+        const { guild } = queue;
+
+        logger.error(
+            `[Music Player] Guild: ${guild.name} (${guild.id}) -  ${error}`,
+        );
     }
 }

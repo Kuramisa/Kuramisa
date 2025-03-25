@@ -1,14 +1,12 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
-import type { ValorantMap } from "typings/Valorant";
+import type { APIValorantMap } from "typings/APIValorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
 
 export default class ValorantMaps {
-    private readonly data: ValorantMap[];
+    private readonly data: APIValorantMap[];
 
-    constructor(data: ValorantMap[]) {
+    constructor(data: APIValorantMap[]) {
         this.data = data;
     }
 
@@ -22,17 +20,10 @@ export default class ValorantMaps {
         ) ?? this.data.find((m) => m.uuid === map);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/maps`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantMaps(data);
+        return new ValorantMaps(await fetch("maps"));
     }
 
-    embed = (map: ValorantMap) =>
+    embed = (map: APIValorantMap) =>
         new Embed()
             .setAuthor({
                 name: map.displayName,

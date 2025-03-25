@@ -21,6 +21,6 @@ export default class MemberUnboostEvent extends AbstractEvent {
             .setTitle(`${member.displayName} removed the boost from the server`)
             .setThumbnail(member.displayAvatarURL());
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

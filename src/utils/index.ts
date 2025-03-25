@@ -1,13 +1,19 @@
 import crypto from "crypto";
 
 import dayjs from "dayjs";
-import type { ApplicationCommandType, InteractionResponse } from "discord.js";
-import { CDN, Message, type ApplicationCommandOptionType } from "discord.js";
+import {
+    ApplicationCommandOptionType,
+    ApplicationCommandType,
+    CDN,
+    Message,
+    type InteractionResponse,
+} from "discord.js";
 
 import "dayjs/plugin/duration";
 import Nekos from "nekos.life";
 import { convert } from "owospeak";
 
+import { sleep } from "@sapphire/utilities";
 import { memberActions, statusColor, statusEmoji, statusText } from "./Member";
 import Pagination from "./Pagination";
 
@@ -43,11 +49,11 @@ export const commandType = (
         | ApplicationCommandType.Message,
 ) => {
     switch (type) {
-        case 1:
+        case ApplicationCommandType.ChatInput:
             return "Slash Command";
-        case 2:
+        case ApplicationCommandType.User:
             return "User Context Menu";
-        case 3:
+        case ApplicationCommandType.Message:
             return "Message Context Menu";
         default:
             return "Slash Command";
@@ -67,23 +73,23 @@ export const optionType = (
         | ApplicationCommandOptionType.User,
 ) => {
     switch (type) {
-        case 11:
+        case ApplicationCommandOptionType.Attachment:
             return "Attachment";
-        case 5:
+        case ApplicationCommandOptionType.Boolean:
             return "Boolean (true = yes/false = no)";
-        case 7:
+        case ApplicationCommandOptionType.Channel:
             return "Channel";
-        case 4:
+        case ApplicationCommandOptionType.Integer:
             return "Number (non-decimals)";
-        case 9:
+        case ApplicationCommandOptionType.Mentionable:
             return "Mentionable (user/role/channel)";
-        case 10:
+        case ApplicationCommandOptionType.Number:
             return "Number (including decimals)";
-        case 8:
+        case ApplicationCommandOptionType.Role:
             return "Role";
-        case 6:
+        case ApplicationCommandOptionType.User:
             return "User";
-        case 3:
+        case ApplicationCommandOptionType.String:
         default:
             return "Text";
     }
@@ -94,7 +100,8 @@ export const timedDelete = async (
     time = 5000,
 ) => {
     if (message instanceof Message && !message.deletable) return;
-    setTimeout(() => message.delete(), time);
+    await sleep(time);
+    message.delete().catch(() => null);
 };
 
 export const conj = (array: string[], conj = "and") => {

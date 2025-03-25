@@ -1,15 +1,13 @@
 import crypto from "crypto";
 
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import Valorant from "games/valorant";
-import logger from "Logger";
-import type { ValorantAgent } from "typings/Valorant";
+import { fetch } from "games/valorant/API";
+import type { APIValorantAgent } from "typings/APIValorant";
 
 export default class ValorantAgents {
-    private readonly data: ValorantAgent[];
+    private readonly data: APIValorantAgent[];
 
-    constructor(data: ValorantAgent[]) {
+    constructor(data: APIValorantAgent[]) {
         this.data = data;
     }
 
@@ -30,7 +28,7 @@ export default class ValorantAgents {
             (agent) => this.embed(agent),
         );
 
-    embed = (agent: ValorantAgent) =>
+    embed = (agent: APIValorantAgent) =>
         new Embed()
             .setAuthor({
                 name: agent.displayName,
@@ -55,15 +53,6 @@ export default class ValorantAgents {
             );
 
     static async init() {
-        const data = await fetch<any>(
-            `${Valorant.assetsURL}/agents?isPlayableCharacter=true`,
-        )
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantAgents(data);
+        return new ValorantAgents(await fetch("agents"));
     }
 }

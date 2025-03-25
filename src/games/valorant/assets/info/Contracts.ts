@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantContract } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantContract } from "typings/APIValorant";
 
 export default class ValorantContracts {
-    private readonly data: ValorantContract[];
+    private readonly data: APIValorantContract[];
 
-    constructor(data: ValorantContract[]) {
+    constructor(data: APIValorantContract[]) {
         this.data = data;
     }
 
@@ -21,13 +18,6 @@ export default class ValorantContracts {
         ) ?? this.data.find((c) => c.uuid === contract);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/contracts`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantContracts(data);
+        return new ValorantContracts(await fetch("contracts"));
     }
 }

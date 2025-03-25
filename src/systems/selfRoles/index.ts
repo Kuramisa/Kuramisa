@@ -30,7 +30,7 @@ export default class SelfRoles {
                 type: ChannelType.GuildText,
                 permissionOverwrites: [
                     {
-                        id: client.user.id ?? "",
+                        id: client.user.id,
                         allow: [
                             "ViewChannel",
                             "SendMessages",

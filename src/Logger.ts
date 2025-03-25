@@ -11,7 +11,7 @@ const tsFormat = () =>
 
 const customFormat = printf(({ level, message, timestamp, stack }) =>
     stack
-        ? `[${timestamp}] ${capitalize(level)}: ${message}\n${stack}`
+        ? `[${timestamp}] ${capitalize(level)}: ${message}\n${(stack as string).toString()}`
         : `[${timestamp}] ${capitalize(level)}: ${message}`,
 );
 

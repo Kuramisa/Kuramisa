@@ -1,16 +1,14 @@
-import { fetch } from "@sapphire/fetch";
 import { Button, Embed, Row } from "Builders";
 import { ButtonStyle } from "discord.js";
 import type Kuramisa from "Kuramisa";
-import logger from "Logger";
-import type { ValorantWeapon } from "typings/Valorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantWeapon } from "typings/APIValorant";
 
 export default class ValorantWeapons {
-    private readonly data: ValorantWeapon[];
+    private readonly data: APIValorantWeapon[];
 
-    constructor(data: ValorantWeapon[]) {
+    constructor(data: APIValorantWeapon[]) {
         this.data = data;
     }
 
@@ -24,17 +22,10 @@ export default class ValorantWeapons {
         ) ?? this.data.find((wp) => wp.uuid === weapon);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/weapons`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantWeapons(data);
+        return new ValorantWeapons(await fetch("weapons"));
     }
 
-    generateDamagesDescription(weapon: ValorantWeapon) {
+    generateDamagesDescription(weapon: APIValorantWeapon) {
         let description = "- ***Damage Values***\n";
 
         for (const range of weapon.weaponStats.damageRanges) {
@@ -44,7 +35,7 @@ export default class ValorantWeapons {
         return description;
     }
 
-    embed(client: Kuramisa, weapon: ValorantWeapon) {
+    embed(client: Kuramisa, weapon: APIValorantWeapon) {
         const embed = new Embed()
             .setAuthor({
                 name: `${weapon.displayName} (${
@@ -88,7 +79,7 @@ export default class ValorantWeapons {
         return embed;
     }
 
-    row = (weapon: ValorantWeapon) =>
+    row = (weapon: APIValorantWeapon) =>
         new Row().setComponents(
             new Button()
                 .setCustomId(

@@ -1,14 +1,11 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
-import type { ValorantPlayerCard } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantPlayerCard } from "typings/APIValorant";
 
 export default class ValorantPlayerCards {
-    private readonly data: ValorantPlayerCard[];
+    private readonly data: APIValorantPlayerCard[];
 
-    constructor(data: ValorantPlayerCard[]) {
+    constructor(data: APIValorantPlayerCard[]) {
         this.data = data;
     }
 
@@ -20,7 +17,7 @@ export default class ValorantPlayerCards {
         this.data.find((c) => c.uuid === card) ??
         this.data.find((c) => c.displayName === card);
 
-    embed = (playerCard: ValorantPlayerCard) =>
+    embed = (playerCard: APIValorantPlayerCard) =>
         new Embed()
             .setAuthor({
                 name: playerCard.displayName,
@@ -31,13 +28,6 @@ export default class ValorantPlayerCards {
             .setColor("Orange");
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/playercards`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantPlayerCards(data);
+        return new ValorantPlayerCards(await fetch("playercards"));
     }
 }

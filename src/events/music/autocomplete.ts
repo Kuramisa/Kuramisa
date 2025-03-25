@@ -16,14 +16,14 @@ export default class MusicAutocomplete extends AbstractEvent {
 
         const { options } = interaction;
 
-        const focused = options.getFocused(true);
+        const { name, value } = options.getFocused(true);
         const player = useMainPlayer();
 
-        switch (focused.name) {
+        switch (name) {
             case "track_or_playlist_name_or_url": {
-                if (focused.value.length < 3) return;
+                if (value.length < 3) return;
 
-                const search = await player.search(focused.value, {
+                const search = await player.search(value, {
                     requestedBy: interaction.user,
                 });
 
@@ -42,11 +42,9 @@ export default class MusicAutocomplete extends AbstractEvent {
 
                 let { tracks } = search;
 
-                if (focused.value.length > 0)
+                if (value.length > 0)
                     tracks = tracks.filter((t) =>
-                        t.title
-                            .toLowerCase()
-                            .includes(focused.value.toLowerCase()),
+                        t.title.toLowerCase().includes(value.toLowerCase()),
                     );
 
                 tracks = tracks.slice(0, 25);
@@ -64,21 +62,50 @@ export default class MusicAutocomplete extends AbstractEvent {
 
                 let tracks = queue.tracks.toArray();
                 if (tracks.length < 1) return;
-                if (focused.value.length > 0)
+                if (value.length > 0)
                     tracks = tracks.filter((t) =>
-                        t.title
-                            .toLowerCase()
-                            .includes(focused.value.toLowerCase()),
+                        t.title.toLowerCase().includes(value.toLowerCase()),
                     );
 
                 tracks = tracks.slice(0, 25);
 
                 return interaction.respond(
                     tracks.map((track) => ({
-                        name: `${startCase(track.source)} - ${truncate(track.title, { length: 50 })} (${track.author})`,
+                        name: `${startCase(track.source as string)} - ${truncate(track.title, { length: 50 })} (${track.author})`,
                         value: track.id,
                     })),
                 );
+            }
+            case "player_filters": {
+                const queue = useQueue(interaction.guildId);
+                if (!queue) return;
+
+                const {
+                    filters: { ffmpeg: filters },
+                } = queue;
+
+                const activeFilters = filters.getFiltersEnabled();
+                const disabledFilters = filters.getFiltersDisabled();
+
+                let filterList = [
+                    ...activeFilters.map((f) => ({
+                        name: `${startCase(f)} (On)`,
+                        value: f,
+                    })),
+                    ...disabledFilters.map((f) => ({
+                        name: `${startCase(f)} (Off)`,
+                        value: f,
+                    })),
+                ];
+
+                if (value.length > 0)
+                    filterList = filterList.filter((f) =>
+                        f.name.toLowerCase().includes(value.toLowerCase()),
+                    );
+
+                filterList = filterList.slice(0, 25);
+
+                return interaction.respond(filterList);
             }
         }
     }

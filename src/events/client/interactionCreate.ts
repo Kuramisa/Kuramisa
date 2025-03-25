@@ -3,6 +3,7 @@ import type { AbstractMenuCommand } from "classes/MenuCommand";
 import type { AbstractSlashCommand } from "classes/SlashCommand";
 import {
     ApplicationCommandType,
+    ChatInputCommandInteraction,
     Collection,
     type Interaction,
 } from "discord.js";
@@ -38,7 +39,7 @@ export default class CommandInteractionManager extends AbstractEvent {
 
             if (missingPerms.length) {
                 logger.debug(
-                    `[Command Interaction Manager] User ${user.displayAvatarURL} missing permissions to run command ${command.name}.`,
+                    `[Command Interaction Manager] User ${user.displayName} missing permissions to run command ${command.name}.`,
                 );
 
                 return interaction.reply({
@@ -109,21 +110,30 @@ export default class CommandInteractionManager extends AbstractEvent {
                 : camelCase(`slash ${subcommand}`);
 
             try {
-                await command[funcName as any](interaction);
+                const commandFunc = command[
+                    funcName as keyof typeof commandFunc
+                ] as (
+                    interaction: ChatInputCommandInteraction,
+                ) => Promise<unknown>;
+
+                if (typeof commandFunc === "function") {
+                    await commandFunc(interaction);
+                } else
+                    throw new Error(`Command function ${funcName} not found.`);
             } catch (error) {
                 logger.error(
                     `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
                 );
 
                 if (interaction.deferred || interaction.replied)
-                    interaction.editReply({
+                    await interaction.editReply({
                         content:
                             "An error occurred while executing this command.",
                         embeds: [],
                         components: [],
                     });
                 else
-                    interaction.reply({
+                    await interaction.reply({
                         content:
                             "An error occurred while executing this command.",
                         flags: "Ephemeral",
@@ -138,21 +148,30 @@ export default class CommandInteractionManager extends AbstractEvent {
             const funcName = camelCase(`slash ${subcommand}`);
 
             try {
-                await command[funcName as any](interaction);
+                const commandFunc = command[
+                    funcName as keyof typeof commandFunc
+                ] as (
+                    interaction: ChatInputCommandInteraction,
+                ) => Promise<unknown>;
+
+                if (typeof commandFunc === "function") {
+                    await commandFunc(interaction);
+                } else
+                    throw new Error(`Command function ${funcName} not found.`);
             } catch (error) {
                 logger.error(
                     `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
                 );
 
                 if (interaction.deferred || interaction.replied)
-                    interaction.editReply({
+                    await interaction.editReply({
                         content:
                             "An error occurred while executing this command.",
                         embeds: [],
                         components: [],
                     });
                 else
-                    interaction.reply({
+                    await interaction.reply({
                         content:
                             "An error occurred while executing this command.",
                         flags: "Ephemeral",
@@ -170,13 +189,13 @@ export default class CommandInteractionManager extends AbstractEvent {
             );
 
             if (interaction.deferred || interaction.replied)
-                interaction.editReply({
+                await interaction.editReply({
                     content: "An error occurred while executing this command.",
                     embeds: [],
                     components: [],
                 });
             else
-                interaction.reply({
+                await interaction.reply({
                     content: "An error occurred while executing this command.",
                     flags: "Ephemeral",
                 });

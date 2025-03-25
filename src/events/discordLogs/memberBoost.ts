@@ -21,6 +21,6 @@ export default class MemberBoostEvent extends AbstractEvent {
             .setTitle(`${member.user.displayName} boosted the server`)
             .setThumbnail(member.displayAvatarURL());
 
-        channel.send({ embeds: [embed] });
+        await channel.send({ embeds: [embed] });
     }
 }

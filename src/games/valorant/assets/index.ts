@@ -1,5 +1,3 @@
-import { FetchMethods, fetch } from "@sapphire/fetch";
-
 import ValorantBuddies from "./cosmetics/Buddies";
 import ValorantBundles from "./cosmetics/Bundles";
 import ValorantLevelBorders from "./cosmetics/LevelBorders";
@@ -52,12 +50,3 @@ export {
     ValorantSkins,
     ValorantSprays,
 };
-
-export const fetchStoreFeautured = () =>
-    fetch<any>("https://api.henrikdev.xyz/valorant/v2/store-featured", {
-        method: FetchMethods.Get,
-        headers: {
-            Authorization: process.env.HENRIKDEV_API_KEY ?? "",
-            "Content-Type": "application/json",
-        },
-    }).then((res) => res.data);

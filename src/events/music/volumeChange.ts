@@ -15,19 +15,19 @@ export default class VolumeChangeEvent extends AbstractEvent {
         oldVolume: number,
         newVolume: number,
     ) {
-        const { guild } = queue;
+        const { message } = queue.metadata;
 
         const {
             systems: { music },
         } = this.client;
 
-        if (!guild.musicMessage) return;
+        if (!message) return;
 
-        const plainEmbed = guild.musicMessage.embeds[0];
+        const plainEmbed = message.embeds[0];
         const embed = EmbedBuilder.from(plainEmbed);
         if (!plainEmbed.description) return;
 
-        guild.musicMessage.edit({
+        await message.edit({
             content: "",
             embeds: [
                 embed.setDescription(
@@ -37,7 +37,7 @@ export default class VolumeChangeEvent extends AbstractEvent {
                     ),
                 ),
             ],
-            components: music.playerControls(),
+            components: music.playerControls(queue.node.isPaused()),
         });
     }
 }

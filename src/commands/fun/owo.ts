@@ -24,6 +24,6 @@ export default class OwOCommand extends AbstractSlashCommand {
         const text = interaction.options.getString("text", true);
         const owo = owoify(text);
 
-        interaction.reply({ content: owo });
+        await interaction.reply({ content: owo });
     }
 }

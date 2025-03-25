@@ -54,7 +54,7 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         db.autorole.push(role.id);
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `${role} has been added as an autorole`,
             flags: "Ephemeral",
         });
@@ -89,7 +89,7 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
         db.autorole = db.autorole.filter((r) => r !== role.id);
         await db.save();
 
-        interaction.reply({
+        await interaction.reply({
             content: `${role} has been removed as an autorole`,
             flags: "Ephemeral",
         });

@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantLevelBorder } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantLevelBorder } from "typings/APIValorant";
 
 export default class ValorantLevelBorders {
-    private readonly data: ValorantLevelBorder[];
+    private readonly data: APIValorantLevelBorder[];
 
-    constructor(data: ValorantLevelBorder[]) {
+    constructor(data: APIValorantLevelBorder[]) {
         this.data = data;
     }
 
@@ -21,13 +18,6 @@ export default class ValorantLevelBorders {
             : this.data.find((border) => border.startingLevel === level);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/levelborders`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantLevelBorders(data);
+        return new ValorantLevelBorders(await fetch("levelborders"));
     }
 }

@@ -11,19 +11,17 @@ import type { QueueMetadata } from "typings/Music";
 export default class AudioTrackAddEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {
         if (queue.currentTrack === null) return;
-        const { guild } = queue;
 
         const {
+            kEmojis: emojis,
             systems: { music },
         } = this.client;
-
-        const { textChannel } = queue.metadata;
 
         const embed = new Embed()
             .setAuthor({ name: "Added to queue" })
             .setTitle(`${track.title} - ${track.author}`)
             .setDescription(
-                `${music.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n${music.loopEmoji(queue.repeatMode)} **Loop Mode:** ${
+                `${emojis.get("time") ?? "⏰"} **Duration**: ${track.duration}\n\n${music.volumeEmoji(queue.node.volume)} **Volume** ${queue.node.volume}%\n${music.loopEmoji(queue.repeatMode)} **Loop Mode:** ${
                     queue.repeatMode === QueueRepeatMode.TRACK
                         ? "Track"
                         : queue.repeatMode === QueueRepeatMode.QUEUE
@@ -38,45 +36,20 @@ export default class AudioTrackAddEvent extends AbstractEvent {
             })
             .setURL(track.url);
 
-        if (guild.musicMessage) {
-            const oldEmbed = guild.musicMessage.embeds[0];
+        const nowPlaying = music.nowPlayingEmbed(queue);
 
-            await guild.musicMessage
-                .edit({
-                    content: "",
-                    embeds: [embed],
-                    components: music.playerControls(),
-                })
-                .then((m) => {
-                    setTimeout(() => {
-                        m.edit({
-                            content: "",
-                            embeds: [oldEmbed],
-                        });
-                    }, 5000);
-                });
-            return;
-        }
-
-        guild.musicMessage = await textChannel
-            .send({
+        await music.updateMessage(
+            queue,
+            {
                 embeds: [embed],
-                components: music.playerControls(),
-            })
-            .then((m) => {
-                setTimeout(async () => {
-                    if (!queue.currentTrack) return null;
-                    m.edit({
-                        content: "",
-                        embeds: [
-                            await music.nowPlayingEmbed(
-                                queue,
-                                queue.currentTrack,
-                            ),
-                        ],
-                    });
-                }, 5000);
-                return m;
-            });
+                components: [],
+                content: "",
+            },
+            {
+                embeds: nowPlaying ? [nowPlaying] : [],
+                components: music.playerControls(queue.node.isPaused()),
+                content: "",
+            },
+        );
     }
 }

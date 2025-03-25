@@ -4,6 +4,7 @@ import { QueueRepeatMode, useQueue } from "discord-player";
 import type { Interaction } from "discord.js";
 import { ButtonStyle, ComponentType } from "discord.js";
 import type { QueueMetadata } from "typings/Music";
+
 import { timedDelete } from "utils";
 
 @Event({
@@ -51,10 +52,8 @@ export default class PlayerControlsButtons extends AbstractEvent {
                 })
                 .then((i) => timedDelete(i));
 
-        const {
-            history,
-            metadata: { voiceChannel },
-        } = queue;
+        const { history } = queue;
+        const { voiceChannel } = queue.metadata;
 
         const { member } = interaction;
 
@@ -109,7 +108,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     });
 
                 if (queue.repeatMode === QueueRepeatMode.TRACK) {
-                    queue.node.seek(0);
+                    await queue.node.seek(0);
                     return interaction
                         .reply({
                             content: `${emojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
@@ -156,7 +155,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     });
 
                 if (queue.repeatMode === QueueRepeatMode.TRACK) {
-                    queue.node.seek(0);
+                    await queue.node.seek(0);
                     return interaction
                         .reply({
                             content: `${emojis.get("player_previous") ?? "⏪"} Went back to the beginning of the track, since the track is in repeat mode`,
@@ -261,10 +260,10 @@ export default class PlayerControlsButtons extends AbstractEvent {
                     })
                     .then((i) => timedDelete(i));
             case "player_queue":
-                music.showQueue(interaction, queue);
+                await music.showQueue(interaction, queue);
                 break;
             case "player_loop":
-                music.askForLoopMode(interaction, queue);
+                await music.askForLoopMode(interaction, queue);
                 break;
             case "player_progress": {
                 if (!queue.currentTrack)

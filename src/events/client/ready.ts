@@ -14,7 +14,7 @@ export default class ReadyEvent extends AbstractEvent {
         if (!this.client.isReady()) return;
         const { client } = this;
 
-        client.managers.commands.updateCommands();
+        await client.managers.commands.updateCommands();
 
         client.user.setPresence(client.getActivity());
 
@@ -41,6 +41,6 @@ export default class ReadyEvent extends AbstractEvent {
         client.initialized = true;
 
         logger.info(`[Client] Started in ${ms(Date.now() - client.startTime)}`);
-        logger.info(`[Client] Ready as ${client.user?.tag}`);
+        logger.info(`[Client] Ready as ${client.user.tag}`);
     }
 }

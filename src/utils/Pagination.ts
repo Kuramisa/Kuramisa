@@ -87,7 +87,7 @@ export default class Pagination {
 
                 collector.resetTimer();
             })
-            .on("end", (_, reason) => {
+            .on("end", async (_, reason) => {
                 if (
                     reason !== "messageDelete" &&
                     !ephemeral &&
@@ -98,7 +98,7 @@ export default class Pagination {
                         buttons[1].setDisabled(true),
                     );
 
-                    message.edit({
+                    await message.edit({
                         embeds: [embeds[page]],
                         components: embeds.length < 2 ? [] : [disabledRow],
                     });

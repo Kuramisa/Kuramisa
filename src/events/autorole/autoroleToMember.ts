@@ -8,11 +8,8 @@ import type { GuildMember } from "discord.js";
 export default class AutoroleToMemberEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const guild = await this.client.managers.guilds.get(member.guild.id);
-        if (!guild) return;
-
         const { autorole } = guild;
 
-        if (!autorole) return;
         if (autorole.length < 1) return;
 
         await member.roles.add(autorole, "Added by autorole");

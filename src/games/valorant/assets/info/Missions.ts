@@ -1,13 +1,11 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantMission } from "typings/Valorant";
+import type { APIValorantMission } from "typings/APIValorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
 
 export default class ValorantMissions {
-    private readonly data: ValorantMission[];
+    private readonly data: APIValorantMission[];
 
-    constructor(data: ValorantMission[]) {
+    constructor(data: APIValorantMission[]) {
         this.data = data;
     }
 
@@ -21,13 +19,6 @@ export default class ValorantMissions {
         ) ?? this.data.find((m) => m.uuid === mission);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/missions`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantMissions(data);
+        return new ValorantMissions(await fetch("missions"));
     }
 }

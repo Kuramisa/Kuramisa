@@ -9,15 +9,11 @@ import type { QueueMetadata } from "typings/Music";
 })
 export default class PlayerResumeEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {
-        const { guild } = queue;
-
         const {
             systems: { music },
         } = this.client;
 
-        if (!guild.musicMessage) return;
-
-        guild.musicMessage.edit({
+        await music.updateMessage(queue, {
             content: "",
             components: music.playerControls(),
         });

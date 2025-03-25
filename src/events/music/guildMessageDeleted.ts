@@ -1,19 +1,25 @@
 import { AbstractEvent, Event } from "classes/Event";
+import { useQueue } from "discord-player";
 import type { Message } from "discord.js";
+import type { QueueMetadata } from "typings/Music";
 
 @Event({
     event: "messageDelete",
     description: "Event that triggers when a music message is deleted",
 })
 export default class MusicMessageDeletedEvent extends AbstractEvent {
-    async run(message: Message) {
+    run(message: Message) {
+        if (!this.client.isReady()) return;
         if (!message.inGuild()) return;
 
-        const { guild } = message;
+        const queue = useQueue<QueueMetadata>(message.guild);
+        if (!queue) return;
 
-        if (guild.musicMessage && message.id === guild.musicMessage.id) {
-            guild.musicMessage = null;
-            console.log(guild.musicMessage);
+        const { message: msg } = queue.metadata;
+
+        if (msg && message.author.id === this.client.user.id) {
+            queue.metadata.message = null;
+            queue.delete();
         }
     }
 }

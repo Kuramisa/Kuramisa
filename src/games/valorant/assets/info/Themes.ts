@@ -1,14 +1,12 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
-import type { ValorantTheme } from "typings/Valorant";
 
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantTheme } from "typings/APIValorant";
 
 export default class ValorantThemes {
-    private readonly data: ValorantTheme[];
+    private readonly data: APIValorantTheme[];
 
-    constructor(data: ValorantTheme[]) {
+    constructor(data: APIValorantTheme[]) {
         this.data = data;
     }
 
@@ -22,17 +20,10 @@ export default class ValorantThemes {
         ) ?? this.data.find((t) => t.uuid === theme);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/themes`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantThemes(data);
+        return new ValorantThemes(await fetch("themes"));
     }
 
-    embed = (theme: ValorantTheme) =>
+    embed = (theme: APIValorantTheme) =>
         new Embed()
             .setAuthor({
                 name: theme.displayName,

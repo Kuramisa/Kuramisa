@@ -26,7 +26,6 @@ export default class Kanvas {
     async popularColor(url?: string | null) {
         if (!url) return "#FFFFFF";
         const colors = await this.popularColors(url);
-        if (!colors) return "#FFFFFF";
         return pickRandom(colors);
     }
 
@@ -44,9 +43,7 @@ export default class Kanvas {
         const g = (255 - parseInt(hex.slice(2, 4), 16)).toString(16);
         const b = (255 - parseInt(hex.slice(4, 6), 16)).toString(16);
 
-        const { pad } = this;
-
-        return `#${pad(r)}${pad(g)}${pad(b)}`;
+        return `#${this.pad(r)}${this.pad(g)}${this.pad(b)}`;
     }
 
     pad(txt: string, length?: number) {

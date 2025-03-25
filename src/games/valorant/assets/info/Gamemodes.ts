@@ -1,14 +1,11 @@
-import { fetch } from "@sapphire/fetch";
 import { Embed } from "Builders";
-import logger from "Logger";
-import type { ValorantGamemode } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantGamemode } from "typings/APIValorant";
 
 export default class ValorantGamemodes {
-    private readonly data: ValorantGamemode[];
+    private readonly data: APIValorantGamemode[];
 
-    constructor(data: ValorantGamemode[]) {
+    constructor(data: APIValorantGamemode[]) {
         this.data = data;
     }
 
@@ -21,17 +18,10 @@ export default class ValorantGamemodes {
         this.data.find((g) => g.uuid === gamemode);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/gamemodes`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantGamemodes(data);
+        return new ValorantGamemodes(await fetch("gamemodes"));
     }
 
-    embed = (gamemode: ValorantGamemode) =>
+    embed = (gamemode: APIValorantGamemode) =>
         new Embed()
             .setAuthor({
                 name: gamemode.displayName,

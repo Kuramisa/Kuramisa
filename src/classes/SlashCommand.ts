@@ -180,11 +180,13 @@ export abstract class AbstractSlashCommand
         }
     }
 
-    run(_interaction: ChatInputCommandInteraction): any {
+    run(_interaction: ChatInputCommandInteraction): unknown {
         throw new Error("Method not implemented.");
     }
 
-    [key: `slash${string}`]: (interaction: ChatInputCommandInteraction) => any;
+    [key: `slash${string}`]: (
+        interaction: ChatInputCommandInteraction,
+    ) => unknown;
 
     private addOption(
         builder: SlashCommandBuilder | SlashCommandSubcommandBuilder,
@@ -225,6 +227,7 @@ export abstract class AbstractSlashCommand
 }
 
 export function SlashCommand(options: ISlashCommandOptionsAll) {
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractSlashCommand) {
         return class extends target {
             constructor() {
@@ -278,7 +281,7 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
 
             [key: `slash${string}`]: (
                 interaction: ChatInputCommandInteraction,
-            ) => any;
+            ) => unknown;
         };
     } as any;
 }

@@ -1,13 +1,10 @@
-import { fetch } from "@sapphire/fetch";
-import logger from "Logger";
-import type { ValorantObjective } from "typings/Valorant";
-
-import Valorant from "../..";
+import { fetch } from "games/valorant/API";
+import type { APIValorantObjective } from "typings/APIValorant";
 
 export default class ValorantObjectives {
-    private readonly data: ValorantObjective[];
+    private readonly data: APIValorantObjective[];
 
-    constructor(data: ValorantObjective[]) {
+    constructor(data: APIValorantObjective[]) {
         this.data = data;
     }
 
@@ -21,13 +18,6 @@ export default class ValorantObjectives {
         ) ?? this.data.find((o) => o.uuid === objective);
 
     static async init() {
-        const data = await fetch<any>(`${Valorant.assetsURL}/objectives`)
-            .then((res) => res.data)
-            .catch((err) => {
-                logger.error(err);
-                return [];
-            });
-
-        return new ValorantObjectives(data);
+        return new ValorantObjectives(await fetch("objectives"));
     }
 }

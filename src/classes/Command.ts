@@ -11,8 +11,8 @@ export interface ICommand {
     readonly detailedDescription?: string;
     readonly cooldown: number;
 
-    readonly botPermissions: PermissionResolvable[];
-    readonly userPermissions: PermissionResolvable[];
+    readonly botPermissions?: PermissionResolvable[];
+    readonly userPermissions?: PermissionResolvable[];
 
     readonly contexts: InteractionContextType[];
     readonly integrations: ApplicationIntegrationType[];
@@ -40,8 +40,8 @@ export abstract class AbstractCommand implements ICommand {
     readonly cooldown: number;
     readonly detailedDescription?: string;
 
-    readonly botPermissions: PermissionResolvable[];
-    readonly userPermissions: PermissionResolvable[];
+    readonly botPermissions?: PermissionResolvable[];
+    readonly userPermissions?: PermissionResolvable[];
 
     readonly contexts: InteractionContextType[];
     readonly integrations: ApplicationIntegrationType[];

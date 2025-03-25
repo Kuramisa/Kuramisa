@@ -5,10 +5,16 @@ import type { Embed } from "Builders";
 import type {
     ActionRowBuilder,
     Collection,
-    ColorResolvable,
     MessageActionRowComponentBuilder,
     User,
 } from "discord.js";
+import type {
+    APIValorantBuddy,
+    APIValorantPlayerCard,
+    APIValorantPlayerTitle,
+    APIValorantSkin,
+    APIValorantSpray,
+} from "./APIValorant";
 
 export interface ValorantFeaturedBundle extends ValorantBundle {
     uuid: string;
@@ -17,504 +23,17 @@ export interface ValorantFeaturedBundle extends ValorantBundle {
     displayName: string;
     items: ValorantBundleItem &
         (
-            | (ValorantWeaponSkin & { type: "skin_level" })
-            | (ValorantBuddy & { type: "buddy" })
-            | (ValorantSpray & { type: "spray" })
-            | (ValorantPlayerCard & { type: "player_card" })
-            | (ValorantPlayerTitle & { type: "player_title" })
+            | (APIValorantSkin & { type: "skin_level" })
+            | (APIValorantBuddy & { type: "buddy" })
+            | (APIValorantSpray & { type: "spray" })
+            | (APIValorantPlayerCard & { type: "player_card" })
+            | (APIValorantPlayerTitle & { type: "player_title" })
         )[];
     secondsRemaining: number;
     expiresAt: string | Date;
 }
 
-export interface ValorantAgent {
-    uuid: string;
-    displayName: string;
-    description: string;
-    developerName: string;
-    characterTags: string;
-    displayIcon: string;
-    displayIconSmall: string;
-    bustPortrait: string;
-    fullPortrait: string;
-    fullPortraitV2: string;
-    killfeedPortrait: string;
-    background: string;
-    backgroundGradientColors: string[];
-    assetPath: string;
-    isFullPortraitRightFacing: boolean;
-    isPlayableCharacter: boolean;
-    isAvailableForTest: boolean;
-    isBaseContent: boolean;
-    role: {
-        uuid: string;
-        displayName: string;
-        description: string;
-        displayIcon: string;
-        assetPath: string;
-    };
-    recruitmentData: {
-        counterId: string;
-        milestoneId: string;
-        milestoneThreshold: number;
-        useLevelVpCostOverride: boolean;
-        levelVpCostOverride: number;
-        startDate: string | Date;
-        endDate: string | Date;
-    };
-    abilities: {
-        slot: string;
-        displayName: string;
-        description: string;
-        displayIcon: string;
-    }[];
-    voiceLines: {
-        minDuration: number;
-        maxDuration: number;
-        mediaList: {
-            id: number;
-            wwise: string;
-            wave: string;
-        }[];
-    };
-}
-
-interface ValorantBuddyLevel {
-    uuid: string;
-    charmLevel: number;
-    hideIfNotOwned: boolean;
-    displayName: string;
-    displayIcon: string;
-    assetPath: string;
-}
-
-interface ValorantBuddy {
-    uuid: string;
-    displayName: string;
-    isHiddenIfNotOwned: boolean;
-    themeUuid: string;
-    displayIcon: string;
-    assetPath: string;
-    levels: ValorantBuddyLevel[];
-    cost: number;
-}
-
-interface ValorantBundle {
-    uuid: string;
-    displayName: string;
-    displayNameSubText: string;
-    description: string;
-    extraDescription: string;
-    promoDescription: string;
-    useAdditionalContext: boolean;
-    displayIcon: string;
-    displayIcon2: string;
-    verticalPromoImage: string;
-    assetPath: string;
-}
-
-interface ValorantBundleItem {
-    uuid: string;
-    displayName: string;
-    displayIcon: string;
-    type: string;
-    amount: number;
-    discountPercent: number;
-    basePrice: number;
-    discountedPrice: number;
-    promoItem: boolean;
-}
-
-interface ValorantLevelBorder {
-    uuid: string;
-    startingLevel: number;
-    levelNumberAppearance: string;
-    smallPlayerCardAppearance: string;
-    assetPath: string;
-}
-
-interface ValorantPlayerCard {
-    uuid: string;
-    displayName: string;
-    isHiddenIfNotOwned: boolean;
-    themeUuid: string;
-    displayIcon: string;
-    smallArt: string;
-    wideArt: string;
-    largeArt: string;
-    assetPath: string;
-    cost: number;
-}
-
-interface ValorantPlayerTitle {
-    uuid: string;
-    displayName: string;
-    titleText: string;
-    isHiddenIfNotOwned: boolean;
-    assetPath: string;
-    cost: number;
-}
-
-interface ValorantWeaponSkinChroma {
-    uuid: string;
-    displayName: string;
-    displayIcon: string;
-    fullRender: string;
-    swatch: string;
-    streamedVideo: string;
-    assetPath: string;
-}
-
-interface ValorantWeaponSkinLevel {
-    uuid: string;
-    displayName: string;
-    levelItem: string;
-    displayIcon: string;
-    streamedVideo: string;
-    assetPath: string;
-}
-
-interface ValorantWeaponSkin {
-    uuid: string;
-    displayName: string;
-    themeUuid: string;
-    contentTierUuid: string;
-    displayIcon: string;
-    wallpaper: string;
-    assetPath: string;
-    cost: number;
-    chromas: ValorantWeaponSkinChroma[];
-    levels: ValorantWeaponSkinLevel[];
-}
-
-interface ValorantWeapon {
-    uuid: string;
-    displayName: string;
-    category: string;
-    defaultSkinUuid: string;
-    displayIcon: string;
-    killStreamIcon: string;
-    assetPath: string;
-    weaponStats: {
-        fireRate: number;
-        magazineSize: number;
-        runSpeedMultiplier: number;
-        equipTimeSeconds: number;
-        reloadTimeSeconds: number;
-        firstBulletAccuracy: number;
-        shotgunPelletCount: number;
-        wallPenetration: string;
-        feature: string;
-        fireMode: string;
-        altFireType: string;
-        adsStats: {
-            zoomMultiplier: number;
-            fireRate: number;
-            runSpeedMultiplier: number;
-            burstCount: number;
-            firstBulletAccuracy: number;
-        };
-        altShotgunStats: {
-            shotgunPelletCount: number;
-            burstRate: number;
-        };
-        airBurstStats: {
-            shotgunPelletCount: number;
-            burstDistance: number;
-        };
-        damageRanges: {
-            rangeStartMeters: number;
-            rangeEndMeters: number;
-            headDamage: number;
-            bodyDamage: number;
-            legDamage: number;
-        }[];
-    };
-    shopData: {
-        cost: number;
-        category: string;
-        categoryText: string;
-        gridPosition: {
-            row: number;
-            column: number;
-        };
-        canBeTrashed: boolean;
-        image: string;
-        newImage: string;
-        newImage2: string;
-        assetPath: string;
-    };
-    skins: ValorantWeaponSkin[];
-}
-
-interface ValorantSprayLevel {
-    uuid: string;
-    sprayLevel: number;
-    displayName: string;
-    displayIcon: string;
-    assetPath: string;
-}
-
-interface ValorantSpray {
-    uuid: string;
-    displayName: string;
-    category: string;
-    themeUuid: string;
-    isNullSpray: boolean;
-    hideIfNotOwned: boolean;
-    displayIcon: string;
-    fullIcon: string;
-    fullTransparentIcon: string;
-    animationPng: string;
-    animationGif: string;
-    assetPath: string;
-    cost: number;
-    levels: ValorantSprayLevel[];
-}
-
-interface ValorantCeremony {
-    uuid: string;
-    displayName: string;
-    assetPath: string;
-}
-
-interface ValorantSeason {
-    uuid: string;
-    displayName: string;
-    type: string;
-    startTime: string | Date;
-    endTime: string | Date;
-    parentUuid: string;
-    assetPath: string;
-}
-
-interface ValorantCompetitiveSeason {
-    uuid: string;
-    startTime: string | Date;
-    endTime: string | Date;
-    seasonUuid: string;
-    competitiveTiersUuid: string;
-    borders: {
-        uuid: string;
-        level: number;
-        winsRequired: number;
-        displayIcon: string;
-        smallIcon: string;
-        assetPath: string;
-    }[];
-    assetPath: string;
-}
-
-interface ValorantCompetitiveRank {
-    tier: number;
-    tierName: string;
-    division: string;
-    divisionName: string;
-    color: ColorResolvable;
-    backgroundColor: ColorResolvable;
-    smallIcon: string;
-    largeIcon: string;
-    rankTriangleDownIcon: string;
-    rankTriangleUpIcon: string;
-}
-
-interface ValorantCompetitiveTier {
-    uuid: string;
-    assetObjectName: string;
-    tiers: ValorantCompetitiveRank[];
-    assetPath: string;
-}
-
-interface ValorantContentTier {
-    uuid: string;
-    displayName: string;
-    devName: string;
-    rank: number;
-    juiceValue: number;
-    juiceCost: number;
-    highlightColor: string;
-    displayIcon: string;
-    assetPath: string;
-}
-
-interface ValorantContract {
-    uuid: string;
-    displayName: string;
-    displayIcon: string;
-    shipIt: boolean;
-    freeRewardScheduleUuid: string;
-    content: {
-        relationType: string;
-        relationUuid: string;
-        chapters: {
-            isEpilogue: boolean;
-            levels: {
-                reward: {
-                    type: string;
-                    uuid: string;
-                    amount: number;
-                    isHighlighted: boolean;
-                };
-                xp: number;
-                vpCost: number;
-                isPurchasableWithVP: boolean;
-            }[];
-            freeRewards: {
-                type: string;
-                uuid: string;
-                amount: number;
-                isHighlighted: boolean;
-            }[];
-        }[];
-        premiumRewardScheduleUuid: string;
-        premiumVPCost: number;
-    };
-    assetPath: string;
-}
-
-interface ValorantCurrency {
-    uuid: string;
-    displayName: string;
-    displayNameSingular: string;
-    displayIcon: string;
-    largeIcon: string;
-    assetPath: string;
-}
-
-interface ValorantEvent {
-    uuid: string;
-    displayName: string;
-    shortDisplayName: string;
-    startTime: string | Date;
-    endTime: string | Date;
-    assetPath: string;
-}
-
-interface ValorantGamemode {
-    uuid: string;
-    displayName: string;
-    duration: string;
-    economyType: string;
-    allowsMatchTimeouts: boolean;
-    isTeamVoiceAllowed: boolean;
-    isMinimapHidden: boolean;
-    orbCount: number;
-    /**
-     * `-1` means no data was available
-     */
-    roundsPerHalf: number;
-    teamRoles: string[];
-    gameFeatureOverrides: {
-        featureName: string;
-        state: boolean;
-    }[];
-    gameRuleBoolOverrides: {
-        ruleName: string;
-        state: boolean;
-    }[];
-    displayIcon: string;
-    assetPath: string;
-}
-
-interface ValorantGamemodeEquippable {
-    uuid: string;
-    displayName: string;
-    category: string;
-    displayIcon: string;
-    killStreamIcon: string;
-    assetPath: string;
-}
-
-interface ValorantGear {
-    uuid: string;
-    displayName: string;
-    description: string;
-    displayIcon: string;
-    assetPath: string;
-    shopData: {
-        cost: number;
-        category: string;
-        categoryText: string;
-        gridPosition: {
-            row: number;
-            column: number;
-        };
-        canBeTrashed: boolean;
-        image: string;
-        newImage: string;
-        newImage2: string;
-        assetPath: string;
-    };
-}
-
-interface ValorantMap {
-    uuid: string;
-    displayName: string;
-    narrativeDescription: string;
-    tacticalDescription: string;
-    coordinates: string;
-    displayIcon: string;
-    listViewIcon: string;
-    splash: string;
-    assetPath: string;
-    mapUrl: string;
-    xMultiplier: number;
-    yMultiplier: number;
-    xScalarToAdd: number;
-    yScalarToAdd: number;
-    callouts: {
-        regionName: string;
-        superRegionName: string;
-        location: {
-            x: number;
-            y: number;
-        };
-    }[];
-}
-
-interface ValorantMission {
-    uuid: string;
-    displayName: string;
-    title: string;
-    type: string;
-    xpGrant: number;
-    progressToComplete: number;
-    activationDate: string | Date;
-    expirationDate: string | Date;
-    tags: string[];
-    objectives: {
-        objectiveUuid: string;
-        value: number;
-    }[];
-    assetPath: string;
-}
-
-interface ValorantTheme {
-    uuid: string;
-    displayName: string;
-    displayIcon: string;
-    storeFeaturedImage: string;
-    assetPath: string;
-}
-
-interface ValorantObjective {
-    uuid: string;
-    directive: string;
-    assetPath: string;
-}
-
-interface ValorantVersion {
-    manifestId: string;
-    branch: string;
-    version: string;
-    buildVersion: string;
-    engineVersion: string;
-    riotClientVersion: string;
-    riotClientBuild: string;
-    buildDate: string | Date;
-}
-
-interface ValorantSkin {
+export interface ValorantSkinInfo {
     name: string;
     uuid: string;
     level: {
@@ -531,11 +50,11 @@ interface ValorantSkin {
     };
 }
 
-type ValorantSkinCollection = Collection<string, ValorantSkin>;
+export type ValorantSkinCollection = Collection<string, ValorantSkinInfo>;
 
-type PrivacyTypes = "public" | "friends" | "private";
+export type PrivacyTypes = "public" | "friends" | "private";
 
-interface ValorantBundleItem {
+export interface ValorantBundleItem {
     Item: {
         ItemTypeID: string;
         ItemID: string;
@@ -548,7 +67,7 @@ interface ValorantBundleItem {
     IsPromoItem: boolean;
 }
 
-interface ValorantAccessoryItem {
+export interface ValorantAccessoryItem {
     Offer: {
         OfferID: string;
         isDirectPurchase: boolean;
@@ -563,7 +82,7 @@ interface ValorantAccessoryItem {
     ContractID: string;
 }
 
-interface ValorantPlayerInfo {
+export interface ValorantPlayerInfo {
     country: string;
     sub: string;
     email_verified: boolean;
@@ -594,7 +113,7 @@ interface ValorantPlayerInfo {
     };
 }
 
-interface ValorantAccount {
+export interface ValorantAccount {
     username: string;
     user: User;
     auth: Auth;

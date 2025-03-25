@@ -1,10 +1,21 @@
-import { Embed, IntegerOption, StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import { QueueRepeatMode } from "discord-player";
+import { chunk } from "@sapphire/utilities";
 import {
-    ChannelType,
-    type ChatInputCommandInteraction,
+    Button,
+    Embed,
+    IntegerOption,
+    Row,
+    StringDropdown,
+    StringOption,
+} from "Builders";
+import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import { QueueRepeatMode, type QueueFilters } from "discord-player";
+import {
+    ActionRowBuilder,
     bold,
+    ChannelType,
+    ComponentType,
+    type ChatInputCommandInteraction,
+    type MessageActionRowComponentBuilder,
 } from "discord.js";
 import startCase from "lodash/startCase";
 import type { QueueMetadata } from "typings/Music";
@@ -149,11 +160,29 @@ import { durationPattern, durationToMs } from "utils";
                 },
             ],
         },
+        {
+            name: "filters",
+            description: "Toggle the filters",
+            subcommands: [
+                {
+                    name: "toggle",
+                    description: "Toggle a filter",
+                    options: [
+                        new StringOption()
+                            .setName("player_filters")
+                            .setDescription("The filters to toggle")
+                            .setAutocomplete(true)
+                            .setRequired(false),
+                    ],
+                },
+            ],
+        },
     ],
 })
 export default class MusicCommand extends AbstractSlashCommand {
     async slashPlay(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
+        if (!interaction.channel) return;
         const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
@@ -205,20 +234,20 @@ export default class MusicCommand extends AbstractSlashCommand {
         const queue = music.queues.get<QueueMetadata>(guild);
 
         if (search.hasPlaylist() && search.playlist) {
+            const { playlist } = search;
+
+            const embed = new Embed()
+                .setAuthor({
+                    name: "Added a playlist to the queue",
+                })
+                .setDescription(
+                    `**${startCase(playlist.source)} ${startCase(playlist.type)} - ${playlist.title} (${playlist.author.name}) [${playlist.tracks.length} Tracks]**`,
+                )
+                .setThumbnail(playlist.thumbnail)
+                .setURL(playlist.url);
+
             if (queue && !queue.isEmpty()) {
-                const { playlist } = search;
-
                 queue.addTrack(playlist.tracks);
-
-                const embed = new Embed()
-                    .setAuthor({
-                        name: "Added a playlist to the queue",
-                    })
-                    .setDescription(
-                        `**${startCase(playlist.source)} ${startCase(playlist.type)} - ${playlist.title} (${playlist.author.name}) [${playlist.tracks.length} Tracks]**`,
-                    )
-                    .setThumbnail(playlist.thumbnail)
-                    .setURL(playlist.url);
 
                 return music.showPlaylistTracks(
                     await interaction.editReply({
@@ -228,7 +257,7 @@ export default class MusicCommand extends AbstractSlashCommand {
                 );
             }
 
-            await music.play(member.voice.channel, search.playlist, {
+            await music.play<QueueMetadata>(member.voice.channel, playlist, {
                 nodeOptions: {
                     metadata: {
                         textChannel: interaction.channel,
@@ -238,9 +267,12 @@ export default class MusicCommand extends AbstractSlashCommand {
                 requestedBy: interaction.user,
             });
 
-            return interaction.editReply({
-                content: `**Now playing:** [${search.playlist.title}](${search.playlist.url})`,
-            });
+            return music.showPlaylistTracks(
+                await interaction.editReply({
+                    embeds: [embed],
+                }),
+                playlist,
+            );
         }
 
         if (queue && !queue.isEmpty()) {
@@ -260,7 +292,7 @@ export default class MusicCommand extends AbstractSlashCommand {
             requestedBy: interaction.user,
         });
 
-        return interaction.editReply({
+        await interaction.editReply({
             content: `**Now playing:** [${search.tracks[0].title}](${search.tracks[0].url})`,
         });
     }
@@ -612,7 +644,7 @@ export default class MusicCommand extends AbstractSlashCommand {
                 flags: "Ephemeral",
             });
 
-        queue.node.seek(seekTime);
+        await queue.node.seek(seekTime);
 
         return interaction.reply({
             content: `${emojis.get("yes") ?? "✅"} **Seeked to ${seekTimeStr}**`,
@@ -657,6 +689,145 @@ export default class MusicCommand extends AbstractSlashCommand {
         return interaction.reply({
             content: `${emojis.get("yes") ?? "✅"} **Volume set to ${volume}%**`,
             flags: "Ephemeral",
+        });
+    }
+
+    async slashFiltersToggle(interaction: ChatInputCommandInteraction) {
+        if (!interaction.inCachedGuild()) return;
+        const { client, member, guild } = interaction;
+        const {
+            kEmojis: emojis,
+            systems: { music },
+        } = client;
+
+        const queue = music.queues.get<QueueMetadata>(guild);
+
+        if (!queue)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **Music is not playing**`,
+                flags: "Ephemeral",
+            });
+
+        if (!member.voice.channel)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in a voice channel to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        if (member.voice.channel.id !== guild.members.me?.voice.channelId)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **You have to be in the same voice channel as me to use this command**`,
+                flags: "Ephemeral",
+            });
+
+        const { options } = interaction;
+
+        const filter = options.getString("player_filters") as
+            | keyof QueueFilters
+            | null;
+
+        if (filter) {
+            await queue.filters.ffmpeg.toggle(filter);
+
+            return interaction.reply({
+                content: `${emojis.get("yes") ?? "✅"} **Toggled ${filter} filter ${
+                    queue.filters.ffmpeg.isEnabled(filter) ? "on" : "off"
+                }**`,
+                flags: "Ephemeral",
+            });
+        }
+
+        const {
+            filters: { ffmpeg },
+        } = queue;
+
+        const filters = [
+            ...ffmpeg.getFiltersDisabled(),
+            ...ffmpeg.getFiltersEnabled(),
+        ];
+
+        if (filters.length === 0)
+            return interaction.reply({
+                content: `${emojis.get("no") ?? "🚫"} **No filters available**`,
+                flags: "Ephemeral",
+            });
+
+        const filtersChunk = chunk(filters, 25);
+
+        const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
+
+        for (let i = 0; i < filtersChunk.length; i++) {
+            const filters = filtersChunk[i];
+            const menu = new StringDropdown().setCustomId(`filters_${i}`);
+
+            const opts = [];
+
+            for (const filter of filters) {
+                opts.push({
+                    label: `${startCase(filter)} (${ffmpeg.isEnabled(filter) ? "On" : "Off"})`,
+                    value: filter,
+                });
+            }
+
+            menu.setOptions(opts);
+            menus.push(new Row().setComponents(menu));
+        }
+
+        const navButtons = new Row().setComponents(
+            new Button()
+                .setCustomId("previous_page")
+                .setEmoji(emojis.get("left_arrow")?.toString() ?? "⬅️"),
+
+            new Button()
+                .setCustomId("next_page")
+                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️"),
+        );
+
+        let page = 0;
+
+        const iResponse = await interaction
+            .reply({
+                content: `**Select filters to toggle (${page + 1}/${filtersChunk.length})**`,
+                components: [menus[page], navButtons],
+                flags: "Ephemeral",
+                withResponse: true,
+            })
+            .then((i) => i.resource?.message);
+        if (!iResponse) return;
+
+        const navCollector = iResponse.createMessageComponentCollector({
+            componentType: ComponentType.Button,
+            filter: (i) =>
+                i.customId === "previous_page" || i.customId === "next_page",
+        });
+
+        navCollector.on("collect", async (i) => {
+            if (i.customId === "previous_page")
+                page = page === 0 ? menus.length - 1 : page - 1;
+            else if (i.customId === "next_page")
+                page = page === menus.length - 1 ? 0 : page + 1;
+
+            await i.update({
+                components: [menus[page], navButtons],
+            });
+        });
+
+        const filterCollector = iResponse.createMessageComponentCollector({
+            componentType: ComponentType.StringSelect,
+            filter: (i) => i.customId.startsWith("filters_"),
+        });
+
+        filterCollector.on("collect", async (i) => {
+            const filter = i.values[0] as keyof QueueFilters;
+
+            await queue.filters.ffmpeg.toggle(filter);
+
+            await i.update({
+                content: `${emojis.get("yes") ?? "✅"} **Toggled ${filter} filter ${
+                    queue.filters.ffmpeg.isEnabled(filter) ? "on" : "off"
+                }**`,
+                components: [menus[page], navButtons],
+            });
         });
     }
 
@@ -706,10 +877,9 @@ export default class MusicCommand extends AbstractSlashCommand {
         const query = options.getString("track_or_playlist_name_or_url", true);
 
         const result = await music.search(query);
-
-        if (!result)
+        if (result.isEmpty())
             return interaction.reply({
-                content: "No results found.",
+                content: bold("No results found"),
                 flags: "Ephemeral",
             });
 
