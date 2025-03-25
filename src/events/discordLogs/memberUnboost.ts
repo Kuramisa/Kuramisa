@@ -1,17 +1,16 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { logsChannel } from "utils";
-import { GuildMember } from "discord.js";
+import type { GuildMember } from "discord.js";
 
 @Event({
-    event: "guildMemeberUnboost",
+    event: "guildMemberUnboost",
     description: "Member unboosted a guild",
 })
 export default class MemberUnboostEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()
@@ -19,9 +18,7 @@ export default class MemberUnboostEvent extends AbstractEvent {
                 name: `${guild.name} Member Logs`,
                 iconURL: guild.iconURL() ?? undefined,
             })
-            .setTitle(
-                `${member.displayName} removed the boost from the server`
-            )
+            .setTitle(`${member.displayName} removed the boost from the server`)
             .setThumbnail(member.displayAvatarURL());
 
         channel.send({ embeds: [embed] });

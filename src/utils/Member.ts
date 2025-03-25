@@ -1,5 +1,5 @@
-import { Row, Button } from "@builders";
-import { ButtonStyle, GuildMember, type PresenceStatus } from "discord.js";
+import { Button, Row } from "Builders";
+import { ButtonStyle, type GuildMember, type PresenceStatus } from "discord.js";
 
 export const memberActions = (executor: GuildMember, target: GuildMember) => {
     const midRow = new Row();
@@ -9,7 +9,7 @@ export const memberActions = (executor: GuildMember, target: GuildMember) => {
             new Button()
                 .setCustomId("kick_member")
                 .setLabel("Kick Member")
-                .setStyle(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Danger),
         );
 
     if (executor.permissions.has("BanMembers") && target.bannable)
@@ -17,7 +17,7 @@ export const memberActions = (executor: GuildMember, target: GuildMember) => {
             new Button()
                 .setCustomId("ban_member")
                 .setLabel("Ban Member")
-                .setStyle(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Danger),
         );
 
     const rowsToShow = [];

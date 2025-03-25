@@ -1,25 +1,23 @@
-import { Button, Row, Embed } from "@builders";
-
+import { Button, Embed, Row } from "Builders";
 import {
     type ButtonInteraction,
     type ChatInputCommandInteraction,
     ComponentType,
-    Message,
     type InteractionCollector,
+    Message,
 } from "discord.js";
-import Kuramisa from "Kuramisa";
 
 type Interactions = ButtonInteraction | ChatInputCommandInteraction;
 
 export default class Pagination {
     static async embedContents(
-        interaction: ButtonInteraction | ChatInputCommandInteraction,
+        interaction: Interactions,
         contents: string[] | string[][],
         title?: string,
         ephemeral = false,
-        timeout = 0
+        timeout = 0,
     ) {
-        const { kEmojis: emojis } = Kuramisa;
+        const { kEmojis: emojis } = interaction.client;
 
         let page = 0;
 
@@ -97,7 +95,7 @@ export default class Pagination {
                 ) {
                     const disabledRow = new Row().addComponents(
                         buttons[0].setDisabled(true),
-                        buttons[1].setDisabled(true)
+                        buttons[1].setDisabled(true),
                     );
 
                     message.edit({
@@ -112,9 +110,9 @@ export default class Pagination {
         interaction: Interactions | Message,
         texts: string[],
         ephemeral = false,
-        timeout = 0
+        timeout = 0,
     ) {
-        const { kEmojis: emojis } = Kuramisa;
+        const { kEmojis: emojis } = interaction.client;
 
         let page = 0;
 
@@ -190,7 +188,7 @@ export default class Pagination {
                     texts.length < 2
                 ) {
                     const disableRow = new Row().addComponents(
-                        buttons.map((b) => b.setDisabled(true))
+                        buttons.map((b) => b.setDisabled(true)),
                     );
 
                     if (interaction instanceof Message)
@@ -207,9 +205,9 @@ export default class Pagination {
         interaction: Interactions | Message,
         embeds: Embed[],
         ephemeral = false,
-        timeout = 0
+        timeout = 0,
     ) {
-        const { kEmojis: emojis } = Kuramisa;
+        const { kEmojis: emojis } = interaction.client;
 
         let page = 0;
 
@@ -286,7 +284,7 @@ export default class Pagination {
                     embeds.length < 2
                 ) {
                     const disableRow = new Row().addComponents(
-                        buttons.map((b) => b.setDisabled(true))
+                        buttons.map((b) => b.setDisabled(true)),
                     );
 
                     if (interaction instanceof Message)

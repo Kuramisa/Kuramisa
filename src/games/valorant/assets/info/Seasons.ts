@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantSeason } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantSeasons {
-    private readonly data: IValorantSeason[];
+    private readonly data: ValorantSeason[];
 
-    constructor(data: IValorantSeason[]) {
+    constructor(data: ValorantSeason[]) {
         this.data = data;
     }
 

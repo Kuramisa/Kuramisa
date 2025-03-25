@@ -1,12 +1,14 @@
-import { Embed } from "@builders";
-import Valorant from "../..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type { ValorantPlayerTitle } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantPlayerTitles {
-    private readonly data: IValorantPlayerTitle[];
+    private readonly data: ValorantPlayerTitle[];
 
-    constructor(data: IValorantPlayerTitle[]) {
+    constructor(data: ValorantPlayerTitle[]) {
         this.data = data;
     }
 
@@ -17,10 +19,10 @@ export default class ValorantPlayerTitles {
     get = (title: string) =>
         this.data.find(
             (playerTitle) =>
-                playerTitle.displayName.toLowerCase() === title.toLowerCase()
+                playerTitle.displayName.toLowerCase() === title.toLowerCase(),
         ) ?? this.data.find((playerTitle) => playerTitle.uuid === title);
 
-    embed = (playerTitle: IValorantPlayerTitle) =>
+    embed = (playerTitle: ValorantPlayerTitle) =>
         new Embed()
             .setAuthor({
                 name: playerTitle.displayName,

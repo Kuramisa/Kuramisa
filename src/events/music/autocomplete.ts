@@ -1,7 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
 import { useMainPlayer, useQueue } from "discord-player";
 import type { Interaction } from "discord.js";
-
 import startCase from "lodash/startCase";
 import truncate from "lodash/truncate";
 
@@ -47,7 +46,7 @@ export default class MusicAutocomplete extends AbstractEvent {
                     tracks = tracks.filter((t) =>
                         t.title
                             .toLowerCase()
-                            .includes(focused.value.toLowerCase())
+                            .includes(focused.value.toLowerCase()),
                     );
 
                 tracks = tracks.slice(0, 25);
@@ -56,7 +55,7 @@ export default class MusicAutocomplete extends AbstractEvent {
                     tracks.map((track) => ({
                         name: `${truncate(track.title, { length: 60 })} (${track.author})`,
                         value: track.url,
-                    }))
+                    })),
                 );
             }
             case "track_in_queue": {
@@ -69,7 +68,7 @@ export default class MusicAutocomplete extends AbstractEvent {
                     tracks = tracks.filter((t) =>
                         t.title
                             .toLowerCase()
-                            .includes(focused.value.toLowerCase())
+                            .includes(focused.value.toLowerCase()),
                     );
 
                 tracks = tracks.slice(0, 25);
@@ -78,7 +77,7 @@ export default class MusicAutocomplete extends AbstractEvent {
                     tracks.map((track) => ({
                         name: `${startCase(track.source)} - ${truncate(track.title, { length: 50 })} (${track.author})`,
                         value: track.id,
-                    }))
+                    })),
                 );
             }
         }

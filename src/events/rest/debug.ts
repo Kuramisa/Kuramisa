@@ -4,7 +4,7 @@ import logger from "Logger";
 @Event({
     event: "restDebug",
     description: "REST Debug Event",
-    emitter: kuramisa.rest,
+    emitter: "rest",
 })
 export default class RestDebugEvent extends AbstractEvent {
     run(debug: string) {

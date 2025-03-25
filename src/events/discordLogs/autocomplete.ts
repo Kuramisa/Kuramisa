@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
 import camelCase from "lodash/camelCase";
 import startCase from "lodash/startCase";
 
@@ -24,7 +24,7 @@ export default class LogsAutocomplete extends AbstractEvent {
 
             if (focused.length > 0)
                 toggles = toggles.filter((t) =>
-                    t.toLowerCase().includes(focused.toLowerCase())
+                    t.toLowerCase().includes(focused.toLowerCase()),
                 );
 
             toggles = toggles.slice(0, 25);
@@ -33,7 +33,7 @@ export default class LogsAutocomplete extends AbstractEvent {
                 toggles.map((toggle) => ({
                     name: toggle,
                     value: camelCase(toggle),
-                }))
+                })),
             );
         }
     }

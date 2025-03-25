@@ -20,7 +20,7 @@ export default class GuildManager {
         });
 
         logger.info(
-            `[Guild Manager] Guild added to the database (ID: ${guild.id} - Name: ${guild.name})`
+            `[Guild Manager] Guild added to the database (ID: ${guild.id} - Name: ${guild.name})`,
         );
 
         return doc;
@@ -38,5 +38,21 @@ export default class GuildManager {
         this.cache.set(id, doc);
 
         return doc;
+    }
+
+    async logsChannel(guild: Guild) {
+        const db = await this.get(guild.id);
+        if (!db.logs) return null;
+        if (!db.logs.channel) return null;
+        const channel =
+            guild.channels.cache.get(db.logs.channel) ??
+            (await guild.channels.fetch(db.logs.channel).catch(() => null));
+
+        if (!channel) return null;
+        if (!channel.isTextBased()) return null;
+        if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
+            return null;
+
+        return channel;
     }
 }

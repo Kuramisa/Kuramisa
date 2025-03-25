@@ -1,5 +1,6 @@
-import { AuthUserInfo } from "@valapi/auth";
-import { model, Schema } from "mongoose";
+import type { AuthUserInfo } from "@valapi/auth";
+import { Schema, model } from "mongoose";
+import type { Playlist } from "typings/Music";
 
 export interface IUser {
     id: string;
@@ -21,7 +22,7 @@ export interface IUser {
             accessory: boolean;
         };
     };
-    playlists: UserPlaylist[];
+    playlists: Playlist[];
 }
 
 export const userSchema = new Schema({

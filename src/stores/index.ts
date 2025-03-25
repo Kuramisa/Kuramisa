@@ -1,15 +1,14 @@
+import type Kuramisa from "Kuramisa";
+
 import CommandStore from "./CommandStore";
 import EventStore from "./EventStore";
-import LocaleStore from "./LocaleStore";
 
 export default class Stores {
     readonly commands: CommandStore;
     readonly events: EventStore;
-    readonly locales: LocaleStore;
 
-    constructor() {
+    constructor(client: Kuramisa) {
         this.commands = new CommandStore();
-        this.events = new EventStore();
-        this.locales = new LocaleStore();
+        this.events = new EventStore(client);
     }
 }

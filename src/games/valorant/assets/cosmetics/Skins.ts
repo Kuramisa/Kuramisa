@@ -1,4 +1,6 @@
+import { fetch } from "@sapphire/fetch";
 import { type ContentTiers, type Weapons } from "@valapi/valorant-api.com";
+import { Embed } from "Builders";
 import {
     ActionRowBuilder,
     ButtonBuilder,
@@ -7,17 +9,23 @@ import {
     type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder,
 } from "discord.js";
-
-import Valorant from "../..";
-import { Embed } from "@builders";
 import truncate from "lodash/truncate";
 import logger from "Logger";
-import { fetch } from "@sapphire/fetch";
+import type {
+    ValorantContentTier,
+    ValorantSkin,
+    ValorantSkinCollection,
+    ValorantWeaponSkin,
+    ValorantWeaponSkinLevel,
+} from "typings/Valorant";
+
+import Valorant from "../..";
+import type Kuramisa from "../../../../Kuramisa";
 
 export default class ValorantSkins {
-    private readonly data: IValorantWeaponSkin[];
+    private readonly data: ValorantWeaponSkin[];
 
-    constructor(data: IValorantWeaponSkin[]) {
+    constructor(data: ValorantWeaponSkin[]) {
         this.data = data;
     }
 
@@ -27,15 +35,15 @@ export default class ValorantSkins {
 
     get = (skin: string) =>
         this.data.find(
-            (s) => s.displayName.toLowerCase() === skin.toLowerCase()
+            (s) => s.displayName.toLowerCase() === skin.toLowerCase(),
         ) ??
         this.data.find((s) => s.uuid === skin) ??
         this.data.find(
             (s) =>
                 s.levels.find(
                     (level) =>
-                        level.displayName.toLowerCase() === skin.toLowerCase()
-                ) ?? s.levels.find((level) => level.uuid === skin)
+                        level.displayName.toLowerCase() === skin.toLowerCase(),
+                ) ?? s.levels.find((level) => level.uuid === skin),
         );
 
     static async init() {
@@ -49,27 +57,27 @@ export default class ValorantSkins {
         return new ValorantSkins(data);
     }
 
-    info(skin: IValorantWeaponSkin): ValorantSkin {
-        const contentTier = kuramisa.games.valorant.contentTiers.get(
-            skin.contentTierUuid
+    info(client: Kuramisa, skin: ValorantWeaponSkin): ValorantSkin {
+        const contentTier = client.games.valorant.contentTiers.get(
+            skin.contentTierUuid,
         );
         if (!contentTier) throw new Error("Content Tier not found");
 
         // Level Information
         const levelNames = skin.levels.map((level) => level.displayName);
-        const levelEmbeds = this.levelEmbeds(skin);
+        const levelEmbeds = this.levelEmbeds(client, skin);
         const levelComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
-                this.levelSelectMenu(skin)
+                this.levelSelectMenu(skin),
             );
         const levelVideos = this.levelVideos(skin);
 
         // Chroma Information
         const chromaNames = skin.chromas.map((chroma) => chroma.displayName);
-        const chromaEmbeds = this.chromaEmbeds(skin);
+        const chromaEmbeds = this.chromaEmbeds(client, skin);
         const chromaComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
-                this.chromaButtons(skin)
+                this.chromaButtons(skin),
             );
         const chromaVideos = this.chromaVideos(skin);
 
@@ -91,14 +99,14 @@ export default class ValorantSkins {
         };
     }
 
-    collection(skins: IValorantWeaponSkin[]) {
+    collection(client: Kuramisa, skins: ValorantWeaponSkin[]) {
         const collection: ValorantSkinCollection = new Collection<
             string,
             ValorantSkin
         >();
 
         for (const skin of skins) {
-            collection.set(skin.uuid, this.info(skin));
+            collection.set(skin.uuid, this.info(client, skin));
         }
 
         return collection;
@@ -106,9 +114,9 @@ export default class ValorantSkins {
 
     // Level Methods [START]
     levelEmbed = (
-        skin: IValorantWeaponSkin,
-        level: IValorantWeaponSkinLevel,
-        contentTier: IValorantContentTier
+        skin: ValorantWeaponSkin,
+        level: ValorantWeaponSkinLevel,
+        contentTier: ValorantContentTier,
     ) =>
         new Embed()
             .setAuthor({
@@ -118,16 +126,16 @@ export default class ValorantSkins {
             .setImage(level.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
-    levelEmbeds = (skin: IValorantWeaponSkin) =>
+    levelEmbeds = (client: Kuramisa, skin: ValorantWeaponSkin) =>
         skin.levels.map((level) =>
             this.levelEmbed(
                 skin,
                 level,
-                kuramisa.games.valorant.contentTiers.get(skin.contentTierUuid)!
-            )
+                client.games.valorant.contentTiers.get(skin.contentTierUuid)!,
+            ),
         );
 
-    levelSelectMenu = (skin: IValorantWeaponSkin) =>
+    levelSelectMenu = (skin: ValorantWeaponSkin) =>
         new StringSelectMenuBuilder()
             .setCustomId("valorant_weapon_skin_level_select")
             .setPlaceholder("Select a Skin Level")
@@ -137,19 +145,19 @@ export default class ValorantSkins {
                         length: 99,
                     }),
                     value: i.toString(),
-                }))
+                })),
             );
 
-    levelVideos = (skin: IValorantWeaponSkin) =>
+    levelVideos = (skin: ValorantWeaponSkin) =>
         skin.levels.map((level) => level.streamedVideo);
 
     // Level Methods [END]
 
     // Chroma Methods [START]
     chromaEmbed = (
-        skin: IValorantWeaponSkin,
+        skin: ValorantWeaponSkin,
         chroma: Weapons.WeaponSkinChromas<"en-US">,
-        contentTier: ContentTiers.ContentTiers<"en-US">
+        contentTier: ContentTiers.ContentTiers<"en-US">,
     ) =>
         new Embed()
             .setAuthor({
@@ -159,24 +167,24 @@ export default class ValorantSkins {
             .setImage(chroma.fullRender ?? skin.displayIcon)
             .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
 
-    chromaEmbeds = (skin: IValorantWeaponSkin) =>
+    chromaEmbeds = (client: Kuramisa, skin: ValorantWeaponSkin) =>
         skin.chromas.map((chroma) =>
             this.chromaEmbed(
                 skin,
                 chroma,
-                kuramisa.games.valorant.contentTiers.get(skin.contentTierUuid)!
-            )
+                client.games.valorant.contentTiers.get(skin.contentTierUuid)!,
+            ),
         );
 
     chromaButton = (
-        skin: IValorantWeaponSkin,
-        chroma: Weapons.WeaponSkinChromas<"en-US">
+        skin: ValorantWeaponSkin,
+        chroma: Weapons.WeaponSkinChromas<"en-US">,
     ) => {
         const button = new ButtonBuilder()
             .setCustomId(
                 `valorant_skin_chroma_${skin.chromas.findIndex(
-                    (c) => c.uuid === chroma.uuid
-                )}`
+                    (c) => c.uuid === chroma.uuid,
+                )}`,
             )
             .setStyle(ButtonStyle.Secondary);
 
@@ -186,12 +194,12 @@ export default class ValorantSkins {
         return button.setLabel(label);
     };
 
-    chromaButtons = (skin: IValorantWeaponSkin) =>
+    chromaButtons = (skin: ValorantWeaponSkin) =>
         skin.chromas.map((chroma) => this.chromaButton(skin, chroma));
 
     chromaVideo = (chroma: Weapons.WeaponSkinChromas<"en-US">) =>
         chroma.streamedVideo;
-    chromaVideos = (skin: IValorantWeaponSkin) =>
+    chromaVideos = (skin: ValorantWeaponSkin) =>
         skin.chromas.map((chroma) => this.chromaVideo(chroma));
 
     // Chroma Methods [END]

@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { GuildTextBasedChannel, Interaction, Message } from "discord.js";
+import type { GuildTextBasedChannel, Interaction, Message } from "discord.js";
 import truncate from "lodash/truncate";
 
 @Event({
@@ -35,7 +35,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
 
                 if (value.length > 0)
                     channels = channels.filter((ch) =>
-                        ch.name.toLowerCase().includes(value.toLowerCase())
+                        ch.name.toLowerCase().includes(value.toLowerCase()),
                     );
 
                 channels = channels.slice(0, 25);
@@ -46,7 +46,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                             length: 99 - (ch.id.length + 15),
                         })} - ID: ${ch.id}`,
                         value: ch.id,
-                    }))
+                    })),
                 );
             }
             case "sr_message": {
@@ -60,7 +60,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                 if (!channel.isTextBased()) return;
 
                 const dbChannel = db.selfRoles.find(
-                    (sr) => sr.channelId === channel.id
+                    (sr) => sr.channelId === channel.id,
                 );
 
                 if (!dbChannel) return;
@@ -78,7 +78,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
 
                 if (value.length > 0)
                     messages = messages.filter((msg) =>
-                        msg.content.toLowerCase().includes(value.toLowerCase())
+                        msg.content.toLowerCase().includes(value.toLowerCase()),
                     );
 
                 messages = messages.slice(0, 25);
@@ -89,7 +89,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                             length: 99 - (msg.id.length + 15),
                         })} - ID: ${msg.id}`,
                         value: msg.id,
-                    }))
+                    })),
                 );
             }
             case "sr_button": {
@@ -102,7 +102,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                 if (!channel.isTextBased()) return;
 
                 const dbChannel = db.selfRoles.find(
-                    (sr) => sr.channelId === channel.id
+                    (sr) => sr.channelId === channel.id,
                 );
                 if (!dbChannel) return;
 
@@ -114,14 +114,14 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                 if (!message) return;
 
                 const dbMessage = dbChannel.messages.find(
-                    (sr) => sr.id === message.id
+                    (sr) => sr.id === message.id,
                 );
                 if (!dbMessage) return;
 
                 let buttons = dbMessage.buttons;
                 if (value.length > 0)
                     buttons = buttons.filter((btn) =>
-                        btn.name.toLowerCase().includes(value.toLowerCase())
+                        btn.name.toLowerCase().includes(value.toLowerCase()),
                     );
 
                 buttons = buttons.slice(0, 25);
@@ -132,7 +132,7 @@ export default class SelfRolesAutocomplete extends AbstractEvent {
                             length: 99 - (btn.id.length + 15),
                         })} - ID: ${btn.id}`,
                         value: btn.id,
-                    }))
+                    })),
                 );
             }
         }

@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
 
 @Event({
     event: "interactionCreate",
@@ -22,7 +22,7 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
         const value = options.getFocused();
 
         let rolesStr = autorole.filter((role) =>
-            role.toLowerCase().includes(value.toLowerCase())
+            role.toLowerCase().includes(value.toLowerCase()),
         );
 
         if (rolesStr.length < 1) return;
@@ -45,7 +45,7 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
             roles.map((role) => ({
                 name: role.name,
                 value: role.id,
-            }))
+            })),
         );
     }
 }

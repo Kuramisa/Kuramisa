@@ -1,6 +1,6 @@
-import { RoleOption, StringOption } from "@builders";
+import { RoleOption, StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "auto-role",
@@ -33,10 +33,9 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
     async slashAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { guild, options } = interaction;
-        const { managers } = this.client;
+        const { client, guild, options } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         const role = options.getRole("role_to_add", true);
 
@@ -64,10 +63,9 @@ export default class AutoRoleCommand extends AbstractSlashCommand {
     async slashRemove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { guild, options } = interaction;
-        const { managers } = this.client;
+        const { client, guild, options } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         const roleStr = options.getString("role_to_remove", true);
 

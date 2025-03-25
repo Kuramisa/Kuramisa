@@ -1,9 +1,9 @@
-import { BooleanOption, UserOption } from "@builders";
+import { BooleanOption, UserOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
     InteractionContextType,
-    ChatInputCommandInteraction,
     bold,
 } from "discord.js";
 import { nekos } from "utils";

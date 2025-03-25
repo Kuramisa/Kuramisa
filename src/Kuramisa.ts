@@ -1,23 +1,21 @@
+import { pickRandom } from "@sapphire/utilities";
+import dLogs from "discord-logs";
+import type { ApplicationEmoji } from "discord.js";
 import {
     ActivityType,
-    ApplicationEmoji,
     Client,
     Collection,
     Partials,
-    User,
     type PresenceData,
+    type User,
 } from "discord.js";
-import Stores from "./stores";
 
-import Systems from "./systems";
-
-import Managers from "./managers";
-import Kanvas from "./kanvas";
-
-import dLogs from "discord-logs";
-import Games from "./games";
 import Database from "./database";
-import { pickRandom } from "@sapphire/utilities";
+import Games from "./games";
+import Kanvas from "./kanvas";
+import Managers from "./managers";
+import Stores from "./stores";
+import Systems from "./systems";
 
 const { TOKEN, DATABASE } = process.env;
 
@@ -38,7 +36,7 @@ export default class Kuramisa extends Client {
 
     readonly cooldowns = new Collection<string, Collection<string, number>>();
 
-    static readonly kEmojis = new Collection<string, ApplicationEmoji>();
+    readonly kEmojis = new Collection<string, ApplicationEmoji>();
 
     readonly owners: User[] = [];
 
@@ -66,9 +64,9 @@ export default class Kuramisa extends Client {
         this.database = new Database();
 
         this.kanvas = new Kanvas();
-        this.games = new Games();
-        this.managers = new Managers();
-        this.stores = new Stores();
+        this.games = new Games(this);
+        this.managers = new Managers(this);
+        this.stores = new Stores(this);
         this.systems = new Systems(this);
     }
 
@@ -112,7 +110,6 @@ export default class Kuramisa extends Client {
     }
 
     async login() {
-        await this.stores.locales.load();
         await this.database.connect();
 
         await dLogs(this, {
@@ -128,4 +125,27 @@ export default class Kuramisa extends Client {
 
         return super.login(TOKEN);
     }
+
+    mentionCommand = (
+        command: string,
+        subName?: string,
+        group?: string,
+    ): string => {
+        if (!this.isReady()) return "";
+        const appCommand = this.application.commands.cache.find(
+            (c) => c.name === command,
+        );
+        if (!appCommand) {
+            console.error(
+                `Couldn't mention ${command}, since it doesn't exist`,
+            );
+            return "";
+        }
+
+        let commandLiteral = command;
+        if (group) commandLiteral += ` ${group}`;
+        if (subName) commandLiteral += ` ${subName}`;
+
+        return `</${commandLiteral}:${appCommand.id}>`;
+    };
 }

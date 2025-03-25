@@ -1,7 +1,7 @@
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { Embed } from "@builders";
-import { logsChannel } from "utils";
-import { AuditLogEvent, GuildMember, Role } from "discord.js";
+import type { GuildMember, Role } from "discord.js";
+import { AuditLogEvent } from "discord.js";
 
 @Event({
     event: "guildMemberRoleAdd",
@@ -11,7 +11,7 @@ export default class MemberRoleAddEvent extends AbstractEvent {
     async run(member: GuildMember, role: Role) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const audit = await guild

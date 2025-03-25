@@ -1,12 +1,14 @@
-import logger from "Logger";
-import Valorant from "../..";
-import { Embed } from "@builders";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type { ValorantGamemode } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantGamemodes {
-    private readonly data: IValorantGamemode[];
+    private readonly data: ValorantGamemode[];
 
-    constructor(data: IValorantGamemode[]) {
+    constructor(data: ValorantGamemode[]) {
         this.data = data;
     }
 
@@ -29,7 +31,7 @@ export default class ValorantGamemodes {
         return new ValorantGamemodes(data);
     }
 
-    embed = (gamemode: IValorantGamemode) =>
+    embed = (gamemode: ValorantGamemode) =>
         new Embed()
             .setAuthor({
                 name: gamemode.displayName,

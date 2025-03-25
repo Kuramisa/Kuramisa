@@ -1,17 +1,15 @@
 import {
+    ChannelOption,
     Embed,
     Row,
-    ChannelOption,
-    StringOption,
     StringDropdown,
-} from "@builders";
+    StringOption,
+} from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ChannelType,
-    ChatInputCommandInteraction,
-    ComponentType,
-} from "discord.js";
-import { camelCase, startCase } from "lodash";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ChannelType, ComponentType } from "discord.js";
+import camelCase from "lodash/camelCase";
+import startCase from "lodash/startCase";
 
 @SlashCommand({
     name: "logs",
@@ -50,10 +48,9 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashChannel(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = this.client;
-        const { guildId, options } = interaction;
+        const { client, guildId, options } = interaction;
 
-        const db = await managers.guilds.get(guildId);
+        const db = await client.managers.guilds.get(guildId);
 
         const channel = options.getChannel("text_channel", true);
 
@@ -69,10 +66,9 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashToggles(interaction: ChatInputCommandInteraction) {
         if (!interaction.guildId) return;
 
-        const { managers } = this.client;
-        const { guildId, options } = interaction;
+        const { client, guildId, options } = interaction;
 
-        const db = await managers.guilds.get(guildId);
+        const db = await client.managers.guilds.get(guildId);
         const toggle = options.getString("toggle");
 
         if (toggle) {
@@ -114,7 +110,7 @@ export default class LogsCommand extends AbstractSlashCommand {
                 .setOptions(toggles)
                 .setPlaceholder("Event - Current Status")
                 .setMinValues(1)
-                .setMaxValues(toggles.length)
+                .setMaxValues(toggles.length),
         );
 
         const message = await interaction.reply({
@@ -164,10 +160,9 @@ export default class LogsCommand extends AbstractSlashCommand {
     async slashStatus(interaction: ChatInputCommandInteraction) {
         if (!interaction.guild) return;
 
-        const { managers } = this.client;
-        const { guild } = interaction;
+        const { client, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
         if (!db.logs.channel)
             return interaction.reply({
                 content: "Logs channel is not set!",
@@ -186,7 +181,7 @@ export default class LogsCommand extends AbstractSlashCommand {
         const embed = new Embed()
             .setTitle(`${guild.name} Logs Status`)
             .setDescription(
-                `\`Channel\`: ${channel ?? "Not set"}\n\n${toggles.join("\n")}`
+                `\`Channel\`: ${channel ?? "Not set"}\n\n${toggles.join("\n")}`,
             );
 
         await interaction.reply({ embeds: [embed], flags: "Ephemeral" });

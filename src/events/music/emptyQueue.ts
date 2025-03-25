@@ -1,12 +1,12 @@
 import { AbstractEvent, Event } from "classes/Event";
-
-import { GuildQueue } from "discord-player";
+import type { GuildQueue } from "discord-player";
 import logger from "Logger";
+import type { QueueMetadata } from "typings/Music";
 
 @Event({
     event: "emptyQueue",
     description: "Empty queue event",
-    emitter: kuramisa.systems.music.events,
+    emitter: "music-queue",
 })
 export default class EmptyQueueEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {

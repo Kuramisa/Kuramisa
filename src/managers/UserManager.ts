@@ -1,6 +1,5 @@
 import { Collection, type Snowflake, type User } from "discord.js";
 import type Kuramisa from "Kuramisa";
-
 import logger from "Logger";
 import type { UserDocument } from "models/User";
 import userModel from "models/User";
@@ -21,7 +20,7 @@ export default class UserManager {
         });
 
         logger.info(
-            `[User Manager] User added to the database (ID: ${user.id} - Username: ${user.username})`
+            `[User Manager] User added to the database (ID: ${user.id} - Username: ${user.username})`,
         );
 
         return doc;

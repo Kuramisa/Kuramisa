@@ -1,11 +1,12 @@
+import { fetch } from "@sapphire/fetch";
 import Valorant from "games/valorant";
 import logger from "Logger";
-import { fetch } from "@sapphire/fetch";
+import type { ValorantVersion } from "typings/Valorant";
 
-export default class ValorantVersion {
-    private readonly data: IValorantVersion;
+export default class ValorantVersions {
+    private readonly data: ValorantVersion;
 
-    constructor(data: IValorantVersion) {
+    constructor(data: ValorantVersion) {
         this.data = data;
     }
 
@@ -58,6 +59,6 @@ export default class ValorantVersion {
                 };
             });
 
-        return new ValorantVersion(data);
+        return new ValorantVersions(data);
     }
 }

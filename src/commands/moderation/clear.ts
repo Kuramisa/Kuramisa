@@ -1,6 +1,6 @@
-import { IntegerOption, UserOption, Embed } from "@builders";
+import { Embed, IntegerOption, UserOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
 
 @SlashCommand({
     name: "clear",
@@ -39,7 +39,7 @@ export default class ClearCommand extends AbstractSlashCommand {
             const deletedMessages = await channel.bulkDelete(messagesToDelete);
 
             embed.setDescription(
-                `Cleared ${deletedMessages.size} messages from ${user}`
+                `Cleared ${deletedMessages.size} messages from ${user}`,
             );
 
             return interaction.reply({ embeds: [embed], flags: "Ephemeral" });

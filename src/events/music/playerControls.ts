@@ -1,7 +1,9 @@
-import { Row, Button } from "@builders";
+import { Button, Row } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
 import { QueueRepeatMode, useQueue } from "discord-player";
-import { ButtonStyle, ComponentType, Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
+import { ButtonStyle, ComponentType } from "discord.js";
+import type { QueueMetadata } from "typings/Music";
 import { timedDelete } from "utils";
 
 @Event({
@@ -172,7 +174,7 @@ export default class PlayerControlsButtons extends AbstractEvent {
                         new Button()
                             .setCustomId("cancel")
                             .setLabel("Cancel")
-                            .setStyle(ButtonStyle.Secondary)
+                            .setStyle(ButtonStyle.Secondary),
                     );
 
                     const nextInteraction = (

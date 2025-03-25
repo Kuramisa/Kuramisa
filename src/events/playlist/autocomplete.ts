@@ -1,6 +1,8 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { Interaction } from "discord.js";
-import { capitalize, truncate } from "lodash";
+import type { Interaction } from "discord.js";
+
+import capitalize from "lodash/capitalize";
+import truncate from "lodash/truncate";
 
 @Event({
     event: "interactionCreate",
@@ -27,7 +29,7 @@ export default class PlaylistAutocomplete extends AbstractEvent {
 
             if (value.length > 0)
                 playlists = playlists.filter((p) =>
-                    p.name.toLowerCase().includes(value.toLowerCase())
+                    p.name.toLowerCase().includes(value.toLowerCase()),
                 );
 
             playlists = playlists.slice(0, 25);
@@ -36,7 +38,7 @@ export default class PlaylistAutocomplete extends AbstractEvent {
                 playlists.map((playlist) => ({
                     name: `${playlist.name}${playlist.description ? ` - ${truncate(playlist.description, { length: 50 })}` : ""}`,
                     value: playlist.id,
-                }))
+                })),
             );
         } else if (name === "playlist_url") {
             if (value.length < 3) return;

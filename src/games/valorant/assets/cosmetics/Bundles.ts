@@ -1,13 +1,25 @@
-import Valorant from "../..";
-import { Embed } from "@builders";
-import { fetchStoreFeautured } from "..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import type Kuramisa from "Kuramisa";
+import logger from "Logger";
+import type {
+    ValorantBuddy,
+    ValorantBundle,
+    ValorantBundleItem,
+    ValorantFeaturedBundle,
+    ValorantPlayerCard,
+    ValorantPlayerTitle,
+    ValorantSpray,
+    ValorantWeaponSkin,
+} from "typings/Valorant";
+
+import { fetchStoreFeautured } from "..";
+import Valorant from "../..";
 
 export default class ValorantBundles {
-    private readonly data: IValorantBundle[];
+    private readonly data: ValorantBundle[];
 
-    constructor(data: IValorantBundle[]) {
+    constructor(data: ValorantBundle[]) {
         this.data = data;
     }
 
@@ -19,7 +31,7 @@ export default class ValorantBundles {
         this.data.find((b) => b.uuid === bundle) ??
         this.data.find((b) => b.displayName === bundle);
 
-    embed(bundle: IValorantBundle, time?: number) {
+    embed(bundle: ValorantBundle, time?: number) {
         let description = "";
 
         if (time) description += `**Resets in <t:${time}:R>**`;
@@ -41,20 +53,21 @@ export default class ValorantBundles {
     }
 
     async itemEmbed(
-        item: IValorantBundleItem &
+        client: Kuramisa,
+        item: ValorantBundleItem &
             (
-                | (IValorantWeaponSkin & { type: "skin_level" })
-                | (IValorantBuddy & { type: "buddy" })
-                | (IValorantPlayerCard & { type: "player_card" })
-                | (IValorantSpray & { type: "spray" })
-                | (IValorantPlayerTitle & { type: "player_title" })
-            )
+                | (ValorantWeaponSkin & { type: "skin_level" })
+                | (ValorantBuddy & { type: "buddy" })
+                | (ValorantPlayerCard & { type: "player_card" })
+                | (ValorantSpray & { type: "spray" })
+                | (ValorantPlayerTitle & { type: "player_title" })
+            ),
     ) {
         const {
             kanvas,
             kEmojis: emojis,
             games: { valorant },
-        } = kuramisa;
+        } = client;
 
         let description: string;
 
@@ -75,7 +88,7 @@ export default class ValorantBundles {
         switch (item.type) {
             case "skin_level": {
                 const contentTier = valorant.contentTiers.get(
-                    item.contentTierUuid
+                    item.contentTierUuid,
                 )!;
 
                 embed
@@ -90,7 +103,7 @@ export default class ValorantBundles {
             }
             case "buddy": {
                 const color = await kanvas.popularColor(
-                    item.levels[0].displayIcon
+                    item.levels[0].displayIcon,
                 );
 
                 embed
@@ -116,7 +129,7 @@ export default class ValorantBundles {
                     .setThumbnail(
                         item.animationGif
                             ? item.animationGif
-                            : item.fullTransparentIcon
+                            : item.fullTransparentIcon,
                     )
                     .setColor(color);
                 break;
@@ -159,7 +172,7 @@ export default class ValorantBundles {
         return new ValorantBundles(data);
     }
 
-    async fetchFeatured() {
+    async fetchFeatured(client: Kuramisa) {
         const data = await fetchStoreFeautured();
 
         return data.map((bundle: any) => {
@@ -172,13 +185,13 @@ export default class ValorantBundles {
                 price: bundle.bundle_price,
                 wholeSaleOnly: bundle.whole_sale_only,
                 items: bundle.items.map((item: any) => {
-                    const { valorant } = kuramisa.games;
+                    const { valorant } = client.games;
                     let itemData:
-                        | IValorantWeaponSkin
-                        | IValorantBuddy
-                        | IValorantPlayerCard
-                        | IValorantSpray
-                        | IValorantPlayerTitle;
+                        | ValorantWeaponSkin
+                        | ValorantBuddy
+                        | ValorantPlayerCard
+                        | ValorantSpray
+                        | ValorantPlayerTitle;
                     switch (item.type) {
                         case "skin_level":
                             itemData = valorant.skins.get(item.uuid)!;
@@ -214,7 +227,7 @@ export default class ValorantBundles {
                 }),
                 secondsRemaining: bundle.seconds_remaining,
                 expiresAt: bundle.expires_at,
-            } as IValorantFeaturedBundle;
-        }) as IValorantFeaturedBundle[];
+            } as ValorantFeaturedBundle;
+        }) as ValorantFeaturedBundle[];
     }
 }

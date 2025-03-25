@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantContract } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantContracts {
-    private readonly data: IValorantContract[];
+    private readonly data: ValorantContract[];
 
-    constructor(data: IValorantContract[]) {
+    constructor(data: ValorantContract[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantContracts {
 
     get = (contract: string) =>
         this.data.find(
-            (c) => c.displayName.toLowerCase() === contract.toLowerCase()
+            (c) => c.displayName.toLowerCase() === contract.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === contract);
 
     static async init() {

@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { Message } from "discord.js";
+import type { Message } from "discord.js";
 
 @Event({
     event: "messageDelete",

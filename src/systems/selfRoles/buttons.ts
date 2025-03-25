@@ -1,21 +1,15 @@
-import { Button, Row } from "@builders";
-
-import {
-    bold,
-    ChatInputCommandInteraction,
-    ComponentType,
-    messageLink,
-} from "discord.js";
+import { Button, Row } from "Builders";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ComponentType, bold, messageLink } from "discord.js";
 import logger from "Logger";
 
 export default class SelfRolesButtons {
     async buttonAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -39,12 +33,12 @@ export default class SelfRolesButtons {
         if (!channel.isTextBased())
             return interaction.editReply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
             });
 
         const dbChannel = db.selfRoles.find(
-            (sr) => sr.channelId === channel.id
+            (sr) => sr.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.editReply({
@@ -72,7 +66,7 @@ export default class SelfRolesButtons {
         if (buttonCount === 25)
             return interaction.editReply({
                 content: bold(
-                    "You have reached the maximum amount of buttons for this message (25)"
+                    "You have reached the maximum amount of buttons for this message (25)",
                 ),
             });
 
@@ -159,7 +153,7 @@ export default class SelfRolesButtons {
                 content: `Added a button **${buttonName}** to ${messageLink(
                     channel.id,
                     message.id,
-                    guild.id
+                    guild.id,
                 )}`,
             });
         } catch (err: any) {
@@ -179,8 +173,7 @@ export default class SelfRolesButtons {
     async buttonEdit(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
         const newButtonRole = options.getRole("sr_button_role");
         const newButtonName = options.getString("sr_button_name");
@@ -198,7 +191,7 @@ export default class SelfRolesButtons {
                 flags: "Ephemeral",
             });
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -218,13 +211,13 @@ export default class SelfRolesButtons {
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
                 flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
-            (sr) => sr.channelId === channel.id
+            (sr) => sr.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -253,7 +246,7 @@ export default class SelfRolesButtons {
         const dbButton = dbMessage.buttons.find(
             (sr) =>
                 sr.id.toLowerCase() === buttonName.toLowerCase() ||
-                sr.name.toLowerCase() === buttonName.toLowerCase()
+                sr.name.toLowerCase() === buttonName.toLowerCase(),
         );
 
         if (!dbButton)
@@ -328,10 +321,9 @@ export default class SelfRolesButtons {
     async buttonRemove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -351,13 +343,13 @@ export default class SelfRolesButtons {
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
                 flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
-            (sr) => sr.channelId === channel.id
+            (sr) => sr.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -386,7 +378,7 @@ export default class SelfRolesButtons {
         const dbButton = dbMessage.buttons.find(
             (sr) =>
                 sr.id.toLowerCase() === buttonName.toLowerCase() ||
-                sr.name.toLowerCase() === buttonName.toLowerCase()
+                sr.name.toLowerCase() === buttonName.toLowerCase(),
         );
         if (!dbButton)
             return interaction.reply({
@@ -395,10 +387,10 @@ export default class SelfRolesButtons {
             });
 
         dbMessage.buttons = dbMessage.buttons.filter(
-            (sr) => sr.id !== dbButton.id
+            (sr) => sr.id !== dbButton.id,
         );
         dbMessage.buttons = dbMessage.buttons.filter(
-            (sr) => sr.name !== dbButton.name
+            (sr) => sr.name !== dbButton.name,
         );
 
         const rows: Row[] = [];

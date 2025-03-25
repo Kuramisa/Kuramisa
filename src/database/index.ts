@@ -17,7 +17,7 @@ export default class Database {
             .catch((error) =>
                 logger.error("[Database] Error connecting to database", {
                     error,
-                })
+                }),
             );
     disconnect = () =>
         this.connection
@@ -26,6 +26,6 @@ export default class Database {
             .catch((error) =>
                 logger.error("[Database] Error disconnecting from database", {
                     error,
-                })
+                }),
             );
 }

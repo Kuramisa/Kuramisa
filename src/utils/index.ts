@@ -1,25 +1,15 @@
-import logger from "../Logger";
-
-import {
-    ApplicationCommandOptionType,
-    ApplicationCommandType,
-    CDN,
-    Guild,
-    InteractionResponse,
-    Message,
-} from "discord.js";
-
 import crypto from "crypto";
 
 import dayjs from "dayjs";
-
-import Nekos from "nekos.life";
+import type { ApplicationCommandType, InteractionResponse } from "discord.js";
+import { CDN, Message, type ApplicationCommandOptionType } from "discord.js";
 
 import "dayjs/plugin/duration";
+import Nekos from "nekos.life";
+import { convert } from "owospeak";
 
 import { memberActions, statusColor, statusEmoji, statusText } from "./Member";
 import Pagination from "./Pagination";
-import { convert } from "owospeak";
 
 export const cdn = new CDN();
 export const nekos = new Nekos();
@@ -50,7 +40,7 @@ export const commandType = (
     type?:
         | ApplicationCommandType.ChatInput
         | ApplicationCommandType.User
-        | ApplicationCommandType.Message
+        | ApplicationCommandType.Message,
 ) => {
     switch (type) {
         case 1:
@@ -74,7 +64,7 @@ export const optionType = (
         | ApplicationCommandOptionType.Number
         | ApplicationCommandOptionType.Role
         | ApplicationCommandOptionType.String
-        | ApplicationCommandOptionType.User
+        | ApplicationCommandOptionType.User,
 ) => {
     switch (type) {
         case 11:
@@ -99,26 +89,9 @@ export const optionType = (
     }
 };
 
-export const logsChannel = async (guild: Guild) => {
-    const { managers } = kuramisa;
-    const db = await managers.guilds.get(guild.id);
-    if (!db.logs) return null;
-    if (!db.logs.channel) return null;
-    const channel =
-        guild.channels.cache.get(db.logs.channel) ??
-        (await guild.channels.fetch(db.logs.channel).catch(() => null));
-
-    if (!channel) return null;
-    if (!channel.isTextBased()) return null;
-    if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
-        return null;
-
-    return channel;
-};
-
 export const timedDelete = async (
     message: InteractionResponse | Message,
-    time = 5000
+    time = 5000,
 ) => {
     if (message instanceof Message && !message.deletable) return;
     setTimeout(() => message.delete(), time);
@@ -134,14 +107,14 @@ export const mockText = (text: string) =>
     text
         .split("")
         .map((word, index) =>
-            index % 2 === 0 ? word.toLowerCase() : word.toUpperCase()
+            index % 2 === 0 ? word.toLowerCase() : word.toUpperCase(),
         )
         .join("");
 
 export const formatNumber = (
     num: string | number,
     minimumFractionDigits = 0,
-    maximumFractionDigits = 2
+    maximumFractionDigits = 2,
 ) =>
     typeof num === "string"
         ? Number.parseFloat(num).toLocaleString(undefined, {
@@ -198,25 +171,4 @@ export const changeShade = (hexColor: string, magnitude: number) => {
     return hexColor;
 };
 
-export const mentionCommand = (
-    command: string,
-    group?: string,
-    subName?: string
-) => {
-    if (!kuramisa.isReady()) return "";
-    const appCommand = kuramisa.application.commands.cache.find(
-        (c) => c.name === command
-    );
-    if (!appCommand) {
-        logger.error(`Couldn't mention ${command}, since it doesn't exist`);
-        return "";
-    }
-
-    let commandLiteral = command;
-    if (group) commandLiteral += ` ${group}`;
-    if (subName) commandLiteral += ` ${subName}`;
-
-    return `</${commandLiteral}:${appCommand.id}>`;
-};
-
-export { memberActions, statusColor, statusEmoji, statusText, Pagination };
+export { memberActions, Pagination, statusColor, statusEmoji, statusText };

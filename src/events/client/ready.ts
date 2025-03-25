@@ -1,7 +1,8 @@
-import logger from "Logger";
-import { AbstractEvent, Event } from "../../classes/Event";
 import { CronJob } from "cron";
+import logger from "Logger";
 import ms from "ms";
+
+import { AbstractEvent, Event } from "../../classes/Event";
 
 @Event({
     event: "ready",
@@ -15,10 +16,10 @@ export default class ReadyEvent extends AbstractEvent {
 
         client.managers.commands.updateCommands();
 
-        client.user.setPresence(client.getActivities());
+        client.user.setPresence(client.getActivity());
 
         new CronJob("*/1 * * * *", () => {
-            client.user.setPresence(client.getActivities());
+            client.user.setPresence(client.getActivity());
         }).start();
 
         const emojis = await client.application.emojis.fetch();

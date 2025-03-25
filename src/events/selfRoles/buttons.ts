@@ -1,5 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { bold, Interaction, roleMention } from "discord.js";
+import type { Interaction } from "discord.js";
+import { bold, roleMention } from "discord.js";
 
 @Event({
     event: "interactionCreate",
@@ -21,14 +22,12 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
                 flags: "Ephemeral",
             });
 
-        const { managers } = kuramisa;
-
         const { channelId, guildId, message, member } = interaction;
 
-        const guild = await managers.guilds.get(guildId);
+        const guild = await this.client.managers.guilds.get(guildId);
 
         const dbChannel = guild.selfRoles.find(
-            (channel) => channel.channelId === channelId
+            (channel) => channel.channelId === channelId,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -37,7 +36,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
             });
 
         const dbMessage = dbChannel.messages.find(
-            (msg) => msg.id === message.id
+            (msg) => msg.id === message.id,
         );
         if (!dbMessage)
             return interaction.reply({
@@ -46,7 +45,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
             });
 
         const dbButton = dbMessage.buttons.find(
-            (btn) => btn.id === interaction.customId
+            (btn) => btn.id === interaction.customId,
         );
         if (!dbButton)
             return interaction.reply({

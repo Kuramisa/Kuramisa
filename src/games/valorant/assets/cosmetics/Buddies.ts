@@ -1,17 +1,19 @@
-import { Embed, StringDropdown } from "@builders";
-import Valorant from "../..";
 import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "@discordjs/builders";
+import { fetch } from "@sapphire/fetch";
+import { Embed, StringDropdown } from "Builders";
 import truncate from "lodash/truncate";
 import logger from "Logger";
-import { fetch } from "@sapphire/fetch";
+import type { ValorantBuddy, ValorantBuddyLevel } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantBuddies {
-    private readonly data: IValorantBuddy[];
+    private readonly data: ValorantBuddy[];
 
-    constructor(data: IValorantBuddy[]) {
+    constructor(data: ValorantBuddy[]) {
         this.data = data;
     }
 
@@ -21,22 +23,22 @@ export default class ValorantBuddies {
 
     get = (buddy: string) =>
         this.data.find(
-            (b) => b.displayName.toLowerCase() === buddy.toLowerCase()
+            (b) => b.displayName.toLowerCase() === buddy.toLowerCase(),
         ) ??
         this.data.find((b) => b.uuid === buddy) ??
         this.data.find((b) =>
             b.levels.find(
-                (l) => l.displayName.toLowerCase() === buddy.toLowerCase()
-            )
+                (l) => l.displayName.toLowerCase() === buddy.toLowerCase(),
+            ),
         );
 
-    info(buddy: IValorantBuddy) {
+    info(buddy: ValorantBuddy) {
         // Level Information
         const levelNames = buddy.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(buddy);
         const levelComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-                this.levelSelectMenu(buddy)
+                this.levelSelectMenu(buddy),
             );
 
         return {
@@ -50,16 +52,16 @@ export default class ValorantBuddies {
         };
     }
 
-    levelEmbed = (buddy: IValorantBuddy, level: IValorantBuddyLevel) =>
+    levelEmbed = (buddy: ValorantBuddy, level: ValorantBuddyLevel) =>
         new Embed()
             .setAuthor({ name: buddy.displayName })
             .setImage(level.displayIcon ?? buddy.displayIcon)
             .setColor("Random");
 
-    levelEmbeds = (buddy: IValorantBuddy) =>
+    levelEmbeds = (buddy: ValorantBuddy) =>
         buddy.levels.map((level) => this.levelEmbed(buddy, level));
 
-    levelSelectMenu = (buddy: IValorantBuddy) =>
+    levelSelectMenu = (buddy: ValorantBuddy) =>
         new StringDropdown()
             .setCustomId("valorant_buddy_level_select")
             .setPlaceholder("Select a Buddy Level")
@@ -67,7 +69,7 @@ export default class ValorantBuddies {
                 buddy.levels.map((level, i) => ({
                     label: truncate(level.displayName, { length: 99 }),
                     value: i.toString(),
-                }))
+                })),
             );
 
     static async init() {

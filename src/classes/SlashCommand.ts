@@ -1,33 +1,30 @@
-import {
-    ApplicationCommandOptionType,
-    ApplicationIntegrationType,
+import type {
     ChatInputCommandInteraction,
-    InteractionContextType,
-    PermissionsBitField,
     SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
-    SlashCommandBuilder,
     SlashCommandChannelOption,
     SlashCommandIntegerOption,
     SlashCommandMentionableOption,
     SlashCommandNumberOption,
     SlashCommandRoleOption,
     SlashCommandStringOption,
-    SlashCommandSubcommandBuilder,
-    SlashCommandSubcommandGroupBuilder,
     SlashCommandUserOption,
 } from "discord.js";
+import {
+    ApplicationCommandOptionType,
+    ApplicationIntegrationType,
+    InteractionContextType,
+    PermissionsBitField,
+    SlashCommandBuilder,
+    SlashCommandSubcommandBuilder,
+    SlashCommandSubcommandGroupBuilder,
+} from "discord.js";
+
 import {
     AbstractCommand,
     type ICommand,
     type ICommandOptions,
 } from "./Command";
-
-export interface ISlashCommandWithOptions {
-    name: string;
-    description: string;
-    options?: SlashCommandOption[];
-}
 
 type SlashCommandOption =
     | SlashCommandAttachmentOption
@@ -109,7 +106,7 @@ export abstract class AbstractSlashCommand
         if (integrations) this.data.setIntegrationTypes(integrations);
         else
             this.data.setIntegrationTypes(
-                ApplicationIntegrationType.GuildInstall
+                ApplicationIntegrationType.GuildInstall,
             );
 
         if (contexts) this.data.setContexts(contexts);
@@ -122,7 +119,7 @@ export abstract class AbstractSlashCommand
 
         if (userPermissions)
             this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(userPermissions).bitfield
+                new PermissionsBitField(userPermissions).bitfield,
             );
 
         if (options) {
@@ -191,7 +188,7 @@ export abstract class AbstractSlashCommand
 
     private addOption(
         builder: SlashCommandBuilder | SlashCommandSubcommandBuilder,
-        option: SlashCommandOption
+        option: SlashCommandOption,
     ) {
         switch (option.type) {
             case ApplicationCommandOptionType.Boolean:
@@ -257,7 +254,7 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
                     const subcommand = interaction.options.getSubcommand();
                     try {
                         return target.prototype[`slash${subcommand}`](
-                            interaction
+                            interaction,
                         );
                     } catch {
                         return target.prototype.run(interaction);
@@ -269,7 +266,7 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
                     const subcommand = interaction.options.getSubcommand();
                     try {
                         return target.prototype[`slash${group}${subcommand}`](
-                            interaction
+                            interaction,
                         );
                     } catch {
                         return target.prototype.run(interaction);
@@ -280,7 +277,7 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
             }
 
             [key: `slash${string}`]: (
-                interaction: ChatInputCommandInteraction
+                interaction: ChatInputCommandInteraction,
             ) => any;
         };
     } as any;

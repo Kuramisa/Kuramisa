@@ -1,19 +1,20 @@
+import type { Stream } from "stream";
+
 import {
     ActionRowBuilder,
+    AttachmentBuilder,
+    type AttachmentData,
+    type BufferResolvable,
+    ButtonBuilder,
+    ButtonStyle,
+    ChannelSelectMenuBuilder,
+    EmbedBuilder,
+    MentionableSelectMenuBuilder,
     type MessageActionRowComponentBuilder,
     type ModalActionRowComponentBuilder,
-    AttachmentBuilder,
-    type BufferResolvable,
-    type AttachmentData,
-    EmbedBuilder,
-    ButtonBuilder,
-    StringSelectMenuBuilder,
-    UserSelectMenuBuilder,
-    RoleSelectMenuBuilder,
-    ChannelSelectMenuBuilder,
-    MentionableSelectMenuBuilder,
     ModalBuilder,
-    TextInputBuilder,
+    RoleSelectMenuBuilder,
+    SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
     SlashCommandChannelOption,
     SlashCommandIntegerOption,
@@ -22,11 +23,11 @@ import {
     SlashCommandRoleOption,
     SlashCommandStringOption,
     SlashCommandUserOption,
-    SlashCommandAttachmentOption,
+    StringSelectMenuBuilder,
+    TextInputBuilder,
     TextInputStyle,
-    ButtonStyle,
+    UserSelectMenuBuilder,
 } from "discord.js";
-import { Stream } from "stream";
 
 export class Row extends ActionRowBuilder<MessageActionRowComponentBuilder> {
     constructor() {
@@ -101,7 +102,7 @@ export class TextInput extends TextInputBuilder {
     constructor(style: "short" | "long" = "short") {
         super();
         this.setStyle(
-            style === "short" ? TextInputStyle.Short : TextInputStyle.Paragraph
+            style === "short" ? TextInputStyle.Short : TextInputStyle.Paragraph,
         );
         this.setRequired(true);
     }

@@ -1,8 +1,8 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { logsChannel } from "utils";
-import { Message, messageLink } from "discord.js";
-import { isEqual } from "lodash";
+import type { Message } from "discord.js";
+import { messageLink } from "discord.js";
+import isEqual from "lodash/isEqual";
 
 @Event({
     event: "messageUpdate",
@@ -23,7 +23,7 @@ export default class MessageEditedEvent extends AbstractEvent {
 
         const { guild } = newMessage;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const { content: oldContent } = oldMessage;
@@ -47,7 +47,7 @@ export default class MessageEditedEvent extends AbstractEvent {
             .setTitle(`${newMessage.author.displayName} edited a message`)
             .setThumbnail(newMessage.author.displayAvatarURL())
             .setDescription(
-                `**Channel**: ${messageLink(newMessage.channelId, newMessage.id)}\n\n${fromContent}\n${toContent}`
+                `**Channel**: ${messageLink(newMessage.channelId, newMessage.id)}\n\n${fromContent}\n${toContent}`,
             )
             .setFooter({ text: `ID: ${newMessage.id}` });
 

@@ -1,11 +1,12 @@
 import {
     ApplicationIntegrationType,
     ContextMenuCommandBuilder,
-    InteractionContextType,
-    PermissionsBitField,
     type ContextMenuCommandInteraction,
     type ContextMenuCommandType,
+    InteractionContextType,
+    PermissionsBitField,
 } from "discord.js";
+
 import {
     AbstractCommand,
     type ICommand,
@@ -57,7 +58,7 @@ export abstract class AbstractMenuCommand
         if (integrations) this.data.setIntegrationTypes(integrations);
         else
             this.data.setIntegrationTypes(
-                ApplicationIntegrationType.GuildInstall
+                ApplicationIntegrationType.GuildInstall,
             );
 
         if (contexts) this.data.setContexts(contexts);
@@ -65,7 +66,7 @@ export abstract class AbstractMenuCommand
 
         if (userPermissions)
             this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(userPermissions).bitfield
+                new PermissionsBitField(userPermissions).bitfield,
             );
     }
 

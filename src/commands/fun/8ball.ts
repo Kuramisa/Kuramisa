@@ -1,10 +1,10 @@
-import { Attachment, StringOption } from "@builders";
+import { Attachment, StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
-    bold,
-    ChatInputCommandInteraction,
     InteractionContextType,
+    bold,
 } from "discord.js";
 import { nekos } from "utils";
 

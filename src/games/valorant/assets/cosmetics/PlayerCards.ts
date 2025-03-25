@@ -1,12 +1,14 @@
-import { Embed } from "@builders";
-import Valorant from "../..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type { ValorantPlayerCard } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantPlayerCards {
-    private readonly data: IValorantPlayerCard[];
+    private readonly data: ValorantPlayerCard[];
 
-    constructor(data: IValorantPlayerCard[]) {
+    constructor(data: ValorantPlayerCard[]) {
         this.data = data;
     }
 
@@ -18,7 +20,7 @@ export default class ValorantPlayerCards {
         this.data.find((c) => c.uuid === card) ??
         this.data.find((c) => c.displayName === card);
 
-    embed = (playerCard: IValorantPlayerCard) =>
+    embed = (playerCard: ValorantPlayerCard) =>
         new Embed()
             .setAuthor({
                 name: playerCard.displayName,

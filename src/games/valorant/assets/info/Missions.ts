@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantMission } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantMissions {
-    private readonly data: IValorantMission[];
+    private readonly data: ValorantMission[];
 
-    constructor(data: IValorantMission[]) {
+    constructor(data: ValorantMission[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantMissions {
 
     get = (mission: string) =>
         this.data.find(
-            (m) => m.displayName.toLowerCase() === mission.toLowerCase()
+            (m) => m.displayName.toLowerCase() === mission.toLowerCase(),
         ) ?? this.data.find((m) => m.uuid === mission);
 
     static async init() {

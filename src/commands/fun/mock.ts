@@ -1,10 +1,10 @@
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
+import type { ContextMenuCommandInteraction } from "discord.js";
 import {
     ApplicationCommandType,
     ApplicationIntegrationType,
-    bold,
-    ContextMenuCommandInteraction,
     InteractionContextType,
+    bold,
 } from "discord.js";
 import { mockText } from "utils/index";
 

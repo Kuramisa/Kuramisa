@@ -1,12 +1,14 @@
-import { Embed } from "@builders";
-import Valorant from "../..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type { ValorantMap } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantMaps {
-    private readonly data: IValorantMap[];
+    private readonly data: ValorantMap[];
 
-    constructor(data: IValorantMap[]) {
+    constructor(data: ValorantMap[]) {
         this.data = data;
     }
 
@@ -16,7 +18,7 @@ export default class ValorantMaps {
 
     get = (map: string) =>
         this.data.find(
-            (m) => m.displayName.toLowerCase() === map.toLowerCase()
+            (m) => m.displayName.toLowerCase() === map.toLowerCase(),
         ) ?? this.data.find((m) => m.uuid === map);
 
     static async init() {
@@ -30,7 +32,7 @@ export default class ValorantMaps {
         return new ValorantMaps(data);
     }
 
-    embed = (map: IValorantMap) =>
+    embed = (map: ValorantMap) =>
         new Embed()
             .setAuthor({
                 name: map.displayName,
@@ -50,9 +52,9 @@ export default class ValorantMaps {
                     value: map.callouts
                         .map(
                             (callout) =>
-                                `${callout.regionName} - ${callout.superRegionName} (X: ${callout.location.x} - Y: ${callout.location.y})`
+                                `${callout.regionName} - ${callout.superRegionName} (X: ${callout.location.x} - Y: ${callout.location.y})`,
                         )
                         .join("\n"),
-                }
+                },
             );
 }

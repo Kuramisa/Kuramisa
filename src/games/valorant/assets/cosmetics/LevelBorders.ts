@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantLevelBorder } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantLevelBorders {
-    private readonly data: IValorantLevelBorder[];
+    private readonly data: ValorantLevelBorder[];
 
-    constructor(data: IValorantLevelBorder[]) {
+    constructor(data: ValorantLevelBorder[]) {
         this.data = data;
     }
 

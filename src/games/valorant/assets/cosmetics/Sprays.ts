@@ -1,16 +1,18 @@
+import { fetch } from "@sapphire/fetch";
+import { Embed, StringDropdown } from "Builders";
 import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
-import Valorant from "../..";
-import { Embed, StringDropdown } from "@builders";
 import logger from "Logger";
-import { fetch } from "@sapphire/fetch";
+import type { ValorantSpray, ValorantSprayLevel } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantSprays {
-    private readonly data: IValorantSpray[];
+    private readonly data: ValorantSpray[];
 
-    constructor(data: IValorantSpray[]) {
+    constructor(data: ValorantSpray[]) {
         this.data = data;
     }
 
@@ -20,16 +22,16 @@ export default class ValorantSprays {
 
     get = (spray: string) =>
         this.data.find(
-            (s) => s.displayName.toLowerCase() === spray.toLowerCase()
+            (s) => s.displayName.toLowerCase() === spray.toLowerCase(),
         ) ?? this.data.find((s) => s.uuid === spray);
 
-    info(spray: IValorantSpray) {
+    info(spray: ValorantSpray) {
         // Level Information
         const levelNames = spray.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(spray);
         const levelComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-                this.levelSelectMenu(spray)
+                this.levelSelectMenu(spray),
             );
 
         return {
@@ -43,7 +45,7 @@ export default class ValorantSprays {
         };
     }
 
-    levelEmbed = (spray: IValorantSpray, level: IValorantSprayLevel) =>
+    levelEmbed = (spray: ValorantSpray, level: ValorantSprayLevel) =>
         new Embed()
             .setAuthor({
                 name: spray.displayName,
@@ -53,10 +55,10 @@ export default class ValorantSprays {
             .setThumbnail(spray.animationGif ?? spray.fullTransparentIcon)
             .setColor("Random");
 
-    levelEmbeds = (spray: IValorantSpray) =>
+    levelEmbeds = (spray: ValorantSpray) =>
         spray.levels.map((level) => this.levelEmbed(spray, level));
 
-    levelSelectMenu = (spray: IValorantSpray) =>
+    levelSelectMenu = (spray: ValorantSpray) =>
         new StringDropdown()
             .setCustomId("valorant_spray_level_select")
             .setPlaceholder("Select a Spray Level")
@@ -64,7 +66,7 @@ export default class ValorantSprays {
                 spray.levels.map((level, i) => ({
                     label: level.displayName,
                     value: i.toString(),
-                }))
+                })),
             );
 
     static async init() {

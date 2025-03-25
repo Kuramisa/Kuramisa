@@ -1,7 +1,7 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { logsChannel } from "utils";
-import { AuditLogEvent, Message } from "discord.js";
+import type { Message } from "discord.js";
+import { AuditLogEvent } from "discord.js";
 
 @Event({
     event: "messageDelete",
@@ -14,7 +14,7 @@ export default class MessageDeletedEvent extends AbstractEvent {
         if (message.author.bot) return;
 
         const { guild } = message;
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const audit = await guild
@@ -43,7 +43,7 @@ export default class MessageDeletedEvent extends AbstractEvent {
             .setDescription(
                 message.content.length > 0
                     ? `\n\`\`\`${message.content}\`\`\``
-                    : null
+                    : null,
             )
             .setThumbnail(message.author.displayAvatarURL())
             .setFooter({ text: `ID: ${message.id}` });

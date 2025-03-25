@@ -1,12 +1,17 @@
-import { Embed } from "@builders";
-import Valorant from "../..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type {
+    ValorantCompetitiveRank,
+    ValorantCompetitiveTier,
+} from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantCompetitiveTiers {
-    private readonly data: IValorantCompetitiveTier[];
+    private readonly data: ValorantCompetitiveTier[];
 
-    constructor(data: IValorantCompetitiveTier[]) {
+    constructor(data: ValorantCompetitiveTier[]) {
         this.data = data;
     }
 
@@ -18,7 +23,7 @@ export default class ValorantCompetitiveTiers {
         this.data.find((t) => t.tiers.find((t) => t.tierName === tier)) ??
         this.data.find((t) => t.uuid === tier);
 
-    embed = (tier: IValorantCompetitiveRank) =>
+    embed = (tier: ValorantCompetitiveRank) =>
         new Embed()
             .setAuthor({
                 name: tier.tierName,

@@ -1,11 +1,13 @@
-import { Collection } from "discord.js";
-import { AbstractSlashCommand } from "../classes/SlashCommand";
-import { AbstractMenuCommand } from "classes/MenuCommand";
-import logger from "Logger";
 import fs from "fs/promises";
 import path from "path";
 import { pathToFileURL } from "url";
+
+import { AbstractMenuCommand } from "classes/MenuCommand";
+import { Collection } from "discord.js";
+import logger from "Logger";
 import ms from "ms";
+
+import { AbstractSlashCommand } from "../classes/SlashCommand";
 
 export default class CommandStore {
     readonly commands = new Collection<
@@ -27,13 +29,15 @@ export default class CommandStore {
         const startTime = Date.now();
         logger.info("[Command Store] Loading commands...");
 
-        const files = await fs.readdir(path.join(__dirname, "../commands"));
+        const files = await fs.readdir(
+            path.join(import.meta.dirname, "../commands"),
+        );
 
         for (const fileOrDir of files) {
             const deepCommandDir = path.resolve(
-                __dirname,
+                import.meta.dirname,
                 "../commands",
-                fileOrDir
+                fileOrDir,
             );
             const isDir = (await fs.stat(deepCommandDir)).isDirectory();
 
@@ -50,20 +54,20 @@ export default class CommandStore {
                     if (!this.commands.has(commandInstance.name))
                         this.commands.set(
                             commandInstance.name,
-                            commandInstance
+                            commandInstance,
                         );
 
                     if (commandInstance instanceof AbstractSlashCommand) {
                         this.slashCommands.set(
                             commandInstance.name,
-                            commandInstance
+                            commandInstance,
                         );
                     }
 
                     if (commandInstance instanceof AbstractMenuCommand) {
                         this.menuCommands.set(
                             commandInstance.name,
-                            commandInstance
+                            commandInstance,
                         );
                     }
 
@@ -80,7 +84,7 @@ export default class CommandStore {
                             : "Menu Command";
 
                     logger.debug(
-                        `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category ${fileOrDir}`
+                        `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category ${fileOrDir}`,
                     );
                 }
             }
@@ -116,14 +120,14 @@ export default class CommandStore {
                     : "Menu Command";
 
             logger.debug(
-                `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category Uncategorized`
+                `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category Uncategorized`,
             );
         }
 
         logger.info(
             `[Command Store] Loaded ${
                 this.commands.size
-            } commands in ${ms(Date.now() - startTime)}`
+            } commands in ${ms(Date.now() - startTime)}`,
         );
     }
 }

@@ -1,11 +1,10 @@
 import { AbstractEvent, Event } from "classes/Event";
-
 import logger from "Logger";
 
 @Event({
     event: "playerError",
     description: "Event that triggers when a music player error occurs",
-    emitter: kuramisa.systems.music.events,
+    emitter: "music-queue",
 })
 export default class MusicPlayerErrorEvent extends AbstractEvent {
     async run(_: any, error: string) {

@@ -1,15 +1,14 @@
-import { Modal, ModalRow, TextInput } from "@builders";
-
-import { ChatInputCommandInteraction, bold, messageLink } from "discord.js";
+import { Modal, ModalRow, TextInput } from "Builders";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { bold, messageLink } from "discord.js";
 
 export default class SelfRolesMessages {
     async messageAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -30,13 +29,13 @@ export default class SelfRolesMessages {
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
                 flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
-            (selfRole) => selfRole.channelId === channel.id
+            (selfRole) => selfRole.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -73,8 +72,8 @@ export default class SelfRolesMessages {
                 new ModalRow().setComponents(
                     new TextInput("long")
                         .setCustomId("sr_custom_message")
-                        .setLabel("Custom Message")
-                )
+                        .setLabel("Custom Message"),
+                ),
             );
 
         await interaction.showModal(modal);
@@ -106,10 +105,9 @@ export default class SelfRolesMessages {
     async messageEdit(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -129,13 +127,13 @@ export default class SelfRolesMessages {
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
                 flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
-            (selfRole) => selfRole.channelId === channel.id
+            (selfRole) => selfRole.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -161,8 +159,8 @@ export default class SelfRolesMessages {
                     new TextInput("long")
                         .setCustomId("sr_custom_message")
                         .setLabel("New Custom Message")
-                        .setValue(message.content)
-                )
+                        .setValue(message.content),
+                ),
             );
 
         await interaction.showModal(modal);
@@ -185,8 +183,11 @@ export default class SelfRolesMessages {
     async messageRemove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
         const db = await managers.guilds.get(guild.id);
 
@@ -208,13 +209,13 @@ export default class SelfRolesMessages {
         if (!channel.isTextBased())
             return interaction.reply({
                 content: bold(
-                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3"
+                    "The channel is not a text channel, somehow? Are you sure you setup the channel correctly? :3",
                 ),
                 flags: "Ephemeral",
             });
 
         const dbChannel = db.selfRoles.find(
-            (selfRole) => selfRole.channelId === channel.id
+            (selfRole) => selfRole.channelId === channel.id,
         );
         if (!dbChannel)
             return interaction.reply({
@@ -234,7 +235,7 @@ export default class SelfRolesMessages {
 
         await message.delete();
         dbChannel.messages = dbChannel.messages.filter(
-            (msg) => msg.id !== message.id
+            (msg) => msg.id !== message.id,
         );
         db.markModified("selfRoles");
         await db.save();

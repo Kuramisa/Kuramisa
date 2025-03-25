@@ -3,7 +3,6 @@ import {
     InteractionContextType,
     type PermissionResolvable,
 } from "discord.js";
-
 import logger from "Logger";
 
 export interface ICommand {

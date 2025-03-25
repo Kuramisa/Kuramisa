@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantObjective } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantObjectives {
-    private readonly data: IValorantObjective[];
+    private readonly data: ValorantObjective[];
 
-    constructor(data: IValorantObjective[]) {
+    constructor(data: ValorantObjective[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantObjectives {
 
     get = (objective: string) =>
         this.data.find(
-            (o) => o.directive.toLowerCase() === objective.toLowerCase()
+            (o) => o.directive.toLowerCase() === objective.toLowerCase(),
         ) ?? this.data.find((o) => o.uuid === objective);
 
     static async init() {

@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantCurrency } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantCurrencies {
-    private readonly data: IValorantCurrency[];
+    private readonly data: ValorantCurrency[];
 
-    constructor(data: IValorantCurrency[]) {
+    constructor(data: ValorantCurrency[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantCurrencies {
 
     get = (currency: string) =>
         this.data.find(
-            (c) => c.displayName.toLowerCase() === currency.toLowerCase()
+            (c) => c.displayName.toLowerCase() === currency.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === currency);
 
     static async init() {

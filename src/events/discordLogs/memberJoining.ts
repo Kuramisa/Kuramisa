@@ -1,7 +1,6 @@
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { Embed } from "@builders";
-import { logsChannel } from "utils";
-import { GuildMember } from "discord.js";
+import type { GuildMember } from "discord.js";
 
 @Event({
     event: "guildMemberAdd",
@@ -11,7 +10,7 @@ export default class MemberJoinEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()
@@ -24,20 +23,18 @@ export default class MemberJoinEvent extends AbstractEvent {
             .addFields({
                 name: "Joined Discord",
                 value: `<t:${Math.floor(
-                    member.user.createdTimestamp / 1000
+                    member.user.createdTimestamp / 1000,
                 )}:R>`,
                 inline: true,
             })
             .setFooter({ text: `ID: ${member.id}` });
 
-            if (member.joinedTimestamp)
-                embed.addFields({
-                    name: "Joined Server",
-                    value: `<t:${Math.floor(
-                        (member.joinedTimestamp) / 1000
-                    )}:R>`,
-                    inline: true,
-                });
+        if (member.joinedTimestamp)
+            embed.addFields({
+                name: "Joined Server",
+                value: `<t:${Math.floor(member.joinedTimestamp / 1000)}:R>`,
+                inline: true,
+            });
 
         channel.send({ embeds: [embed] });
     }

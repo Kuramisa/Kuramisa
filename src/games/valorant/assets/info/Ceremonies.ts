@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantCeremony } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantCeremonies {
-    private readonly data: IValorantCeremony[];
+    private readonly data: ValorantCeremony[];
 
-    constructor(data: IValorantCeremony[]) {
+    constructor(data: ValorantCeremony[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantCeremonies {
 
     get = (ceremony: string) =>
         this.data.find(
-            (c) => c.displayName.toLowerCase() === ceremony.toLowerCase()
+            (c) => c.displayName.toLowerCase() === ceremony.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === ceremony);
 
     static async init() {

@@ -1,8 +1,6 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-
-import { GuildMember } from "discord.js";
-import { logsChannel } from "utils";
+import type { GuildMember } from "discord.js";
 
 @Event({
     event: "guildMemberBoost",
@@ -12,7 +10,7 @@ export default class MemberBoostEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()

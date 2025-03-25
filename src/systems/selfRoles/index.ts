@@ -1,12 +1,7 @@
-import { Modal, ModalRow, TextInput } from "@builders";
+import { Modal, ModalRow, TextInput } from "Builders";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ChannelType, bold, channelLink, messageLink } from "discord.js";
 
-import {
-    bold,
-    channelLink,
-    ChannelType,
-    ChatInputCommandInteraction,
-    messageLink,
-} from "discord.js";
 import SelfRolesButtons from "./buttons";
 import SelfRolesMessages from "./messages";
 
@@ -22,10 +17,9 @@ export default class SelfRoles {
     async autoSetup(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { options, guild } = interaction;
+        const { client, options, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         const channelName = options.getString("channel_name", true);
         const wantsCustomMessage = options.getBoolean("custom_message", true);
@@ -36,7 +30,7 @@ export default class SelfRoles {
                 type: ChannelType.GuildText,
                 permissionOverwrites: [
                     {
-                        id: guild.members.me?.id ?? kuramisa.user?.id ?? "",
+                        id: client.user.id ?? "",
                         allow: [
                             "ViewChannel",
                             "SendMessages",
@@ -84,8 +78,8 @@ export default class SelfRoles {
                 new ModalRow().setComponents(
                     new TextInput("long")
                         .setCustomId("sr_custom_message")
-                        .setLabel("Custom Message")
-                )
+                        .setLabel("Custom Message"),
+                ),
             );
 
         await interaction.showModal(modal);
@@ -121,10 +115,9 @@ export default class SelfRoles {
     async viewSetups(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = kuramisa;
-        const { guild } = interaction;
+        const { client, guild } = interaction;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await client.managers.guilds.get(guild.id);
 
         const { selfRoles } = db;
 
@@ -156,15 +149,15 @@ export default class SelfRoles {
 
                 messages.push(
                     `${bold(
-                        messageLink(channel.id, message.id, guild.id)
-                    )} - ${message.buttons.length} buttons`
+                        messageLink(channel.id, message.id, guild.id),
+                    )} - ${message.buttons.length} buttons`,
                 );
             }
 
             setups.push(
                 `${bold(channelLink(channel.id, guild.id))} - ${messages.join(
-                    "\n"
-                )}`
+                    "\n",
+                )}`,
             );
         }
 

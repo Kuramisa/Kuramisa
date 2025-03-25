@@ -1,11 +1,7 @@
-import { StringOption } from "@builders";
+import { StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ApplicationIntegrationType,
-    ChatInputCommandInteraction,
-    InteractionContextType,
-} from "discord.js";
-
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
 import { owoify } from "utils";
 
 @SlashCommand({

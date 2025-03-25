@@ -1,7 +1,6 @@
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { Embed } from "@builders";
-import { logsChannel } from "utils";
-import { GuildMember } from "discord.js";
+import type { GuildMember } from "discord.js";
 
 @Event({
     event: "guildMemberNicknameUpdate",
@@ -11,7 +10,7 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
     async run(member: GuildMember, oldNickname: string, newNickname: string) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()
@@ -24,7 +23,7 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
             .setDescription(
                 `\`Old\`: ${oldNickname ?? "None"}\n\`New\`: ${
                     newNickname ?? "None"
-                }`
+                }`,
             );
 
         channel.send({ embeds: [embed] });

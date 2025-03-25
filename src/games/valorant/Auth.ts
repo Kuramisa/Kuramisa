@@ -1,8 +1,9 @@
-import { bold, ChatInputCommandInteraction } from "discord.js";
-import Valorant from ".";
-
-import logger from "Logger";
 import Auth from "@valapi/auth";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { bold } from "discord.js";
+import logger from "Logger";
+
+import type Valorant from ".";
 
 export default class ValorantAuth {
     private readonly valorant: Valorant;
@@ -12,14 +13,13 @@ export default class ValorantAuth {
     }
 
     async login(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
-        const { managers } = kuramisa;
+        const { client, options, user } = interaction;
 
         const accounts = this.valorant.accounts.get(user.id);
 
         if (!accounts) {
             logger.debug(
-                `${user.displayName} Problem with Valorant to not being initialized`
+                `${user.displayName} Problem with Valorant to not being initialized`,
             );
 
             return interaction.reply({
@@ -42,7 +42,7 @@ export default class ValorantAuth {
                 flags: "Ephemeral",
             });
 
-        const db = await managers.users.get(user.id);
+        const db = await client.managers.users.get(user.id);
 
         if (db.valorant?.accounts.find((acc) => acc.username === username))
             return interaction.reply({
@@ -56,7 +56,7 @@ export default class ValorantAuth {
 
         const auth = new Auth();
         const hCaptcha = await auth.captcha();
-        const captchaResponse = await kuramisa.systems.captcha.hcaptcha({
+        const captchaResponse = await client.systems.captcha.hcaptcha({
             pageurl: "https://authenticate.riotgames.com/api/v1/login",
             sitekey: hCaptcha.sitekey,
             data: hCaptcha.rqdata,
@@ -73,14 +73,14 @@ export default class ValorantAuth {
             .then(() => true)
             .catch((err) => {
                 logger.error(
-                    `Failed to login to Valorant with ${username} - ${user.displayName}`
+                    `Failed to login to Valorant with ${username} - ${user.displayName}`,
                 );
                 logger.error(err);
 
                 if (err.data.data.error.includes("captcha"))
                     interaction.editReply({
                         content: bold(
-                            "Failed to login, because of captcha (this happens sometimes). Please try again"
+                            "Failed to login, because of captcha (this happens sometimes). Please try again",
                         ),
                     });
 

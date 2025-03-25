@@ -3,9 +3,10 @@ import {
     IntegerOption,
     RoleOption,
     StringOption,
-} from "@builders";
+} from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ButtonStyle } from "discord.js";
 
 @SlashCommand({
     name: "self-roles",
@@ -54,7 +55,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to add a new message in"
+                                "The name of the channel to add a new message in",
                             )
                             .setAutocomplete(true),
                         new BooleanOption()
@@ -69,7 +70,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to edit a message in"
+                                "The name of the channel to edit a message in",
                             )
                             .setAutocomplete(true),
                         new StringOption()
@@ -85,7 +86,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to remove a message from"
+                                "The name of the channel to remove a message from",
                             )
                             .setAutocomplete(true),
                         new StringOption()
@@ -107,7 +108,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to add a new button in"
+                                "The name of the channel to add a new button in",
                             )
                             .setAutocomplete(true),
                         new StringOption()
@@ -117,7 +118,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new RoleOption()
                             .setName("sr_button_role")
                             .setDescription(
-                                "The role to give when the button is clicked"
+                                "The role to give when the button is clicked",
                             ),
                         new StringOption()
                             .setName("sr_button_name")
@@ -141,7 +142,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                                 {
                                     name: "Red",
                                     value: ButtonStyle.Danger,
-                                }
+                                },
                             ),
                         new StringOption()
                             .setName("sr_button_emoji")
@@ -156,7 +157,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to edit a button in"
+                                "The name of the channel to edit a button in",
                             )
                             .setAutocomplete(true),
                         new StringOption()
@@ -170,7 +171,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new RoleOption()
                             .setName("sr_button_role")
                             .setDescription(
-                                "The role to give when the button is clicked"
+                                "The role to give when the button is clicked",
                             )
                             .setRequired(false),
                         new StringOption()
@@ -196,7 +197,7 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                                 {
                                     name: "Red",
                                     value: ButtonStyle.Danger,
-                                }
+                                },
                             )
                             .setRequired(false),
                         new StringOption()
@@ -212,13 +213,13 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
-                                "The name of the channel to remove a button from"
+                                "The name of the channel to remove a button from",
                             )
                             .setAutocomplete(true),
                         new StringOption()
                             .setName("sr_message")
                             .setDescription(
-                                "The message to remove a button from"
+                                "The message to remove a button from",
                             )
                             .setAutocomplete(true),
                         new StringOption()
@@ -233,34 +234,36 @@ import { ButtonStyle, ChatInputCommandInteraction } from "discord.js";
 })
 export default class SelfRolesCommand extends AbstractSlashCommand {
     slashAutoSetup(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.autoSetup(interaction);
+        interaction.client.systems.selfRoles.autoSetup(interaction);
     }
 
     slashViewSetups(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.viewSetups(interaction);
+        interaction.client.systems.selfRoles.viewSetups(interaction);
     }
 
     slashMessageAdd(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messages.messageAdd(interaction);
+        interaction.client.systems.selfRoles.messages.messageAdd(interaction);
     }
 
     slashMessageEdit(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messages.messageEdit(interaction);
+        interaction.client.systems.selfRoles.messages.messageEdit(interaction);
     }
 
     slashMessageRemove(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.messages.messageRemove(interaction);
+        interaction.client.systems.selfRoles.messages.messageRemove(
+            interaction,
+        );
     }
 
     slashButtonAdd(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.buttons.buttonAdd(interaction);
+        interaction.client.systems.selfRoles.buttons.buttonAdd(interaction);
     }
 
     slashButtonEdit(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.buttons.buttonEdit(interaction);
+        interaction.client.systems.selfRoles.buttons.buttonEdit(interaction);
     }
 
     slashButtonRemove(interaction: ChatInputCommandInteraction) {
-        this.client.systems.selfRoles.buttons.buttonRemove(interaction);
+        interaction.client.systems.selfRoles.buttons.buttonRemove(interaction);
     }
 }

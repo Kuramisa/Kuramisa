@@ -1,11 +1,13 @@
-import logger from "Logger";
-import Valorant from "../..";
 import { fetch } from "@sapphire/fetch";
+import logger from "Logger";
+import type { ValorantEvent } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantEvents {
-    private readonly data: IValorantEvent[];
+    private readonly data: ValorantEvent[];
 
-    constructor(data: IValorantEvent[]) {
+    constructor(data: ValorantEvent[]) {
         this.data = data;
     }
 
@@ -15,7 +17,7 @@ export default class ValorantEvents {
 
     get = (event: string) =>
         this.data.find(
-            (e) => e.displayName.toLowerCase() === event.toLowerCase()
+            (e) => e.displayName.toLowerCase() === event.toLowerCase(),
         ) ?? this.data.find((e) => e.uuid === event);
 
     static async init() {

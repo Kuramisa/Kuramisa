@@ -1,5 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { bold, ComponentType, Interaction } from "discord.js";
+import type { Interaction } from "discord.js";
+import { ComponentType, bold } from "discord.js";
 
 @Event({
     event: "interactionCreate",
@@ -40,7 +41,10 @@ export default class ValorantButtons extends AbstractEvent {
 
             await interaction.deferReply();
 
-            const infoCollection = valorant.skins.collection(skins);
+            const infoCollection = valorant.skins.collection(
+                this.client,
+                skins,
+            );
 
             let page = 0;
             let lvlPage = 0;
@@ -105,7 +109,7 @@ export default class ValorantButtons extends AbstractEvent {
                         i,
                         skin,
                         chromaPage,
-                        true
+                        true,
                     );
                     return;
                 }

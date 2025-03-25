@@ -1,11 +1,7 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ChannelType,
-    ChatInputCommandInteraction,
-    time,
-    TimestampStyles,
-} from "discord.js";
+import type { ChatInputCommandInteraction } from "discord.js";
+import { ChannelType, TimestampStyles, time } from "discord.js";
 import capitalize from "lodash/capitalize";
 
 @SlashCommand({
@@ -47,7 +43,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                                     .toLowerCase()
                                     .split("_")
                                     .map((word) => `**${capitalize(word)}**`)
-                                    .join(" ")
+                                    .join(" "),
                             )
                             .join(", ")}`,
                 },
@@ -62,7 +58,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                             (m) =>
                                 m.presence?.status === "online" ||
                                 m.presence?.status === "idle" ||
-                                m.presence?.status === "dnd"
+                                m.presence?.status === "dnd",
                         ).size
                     }\n\n**Total**: ${members.size}`,
                 },
@@ -70,30 +66,30 @@ export default class ServerCommand extends AbstractSlashCommand {
                     name: "📃 | Channels",
                     value: `- **Text**: ${
                         channels.cache.filter(
-                            (ch) => ch.type === ChannelType.GuildText
+                            (ch) => ch.type === ChannelType.GuildText,
                         ).size
                     }\n- **Voice**: ${
                         channels.cache.filter(
-                            (ch) => ch.type === ChannelType.GuildVoice
+                            (ch) => ch.type === ChannelType.GuildVoice,
                         ).size
                     }\n- **Threads**: ${
                         channels.cache.filter(
                             (ch) =>
                                 ch.type === ChannelType.AnnouncementThread ||
                                 ch.type === ChannelType.PublicThread ||
-                                ch.type === ChannelType.PrivateThread
+                                ch.type === ChannelType.PrivateThread,
                         ).size
                     }\n- Categories: ${
                         channels.cache.filter(
-                            (ch) => ch.type === ChannelType.GuildCategory
+                            (ch) => ch.type === ChannelType.GuildCategory,
                         ).size
                     }\n- Stages: ${
                         channels.cache.filter(
-                            (ch) => ch.type === ChannelType.GuildStageVoice
+                            (ch) => ch.type === ChannelType.GuildStageVoice,
                         ).size
                     }\n- News: ${
                         channels.cache.filter(
-                            (ch) => ch.type === ChannelType.GuildAnnouncement
+                            (ch) => ch.type === ChannelType.GuildAnnouncement,
                         ).size
                     }\n\n**Total**: ${channels.cache.size}`,
                 },

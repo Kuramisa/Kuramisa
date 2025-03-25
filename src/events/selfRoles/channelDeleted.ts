@@ -1,5 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { Channel, ChannelType } from "discord.js";
+import type { Channel } from "discord.js";
+import { ChannelType } from "discord.js";
 
 @Event({
     event: "channelDelete",
@@ -11,13 +12,12 @@ export default class SelfRolesChannelDeleted extends AbstractEvent {
         if (channel.isDMBased()) return;
         if (channel.type !== ChannelType.GuildText) return;
 
-        const { managers } = this.client;
         const { guild } = channel;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await this.client.managers.guilds.get(guild.id);
 
         db.selfRoles = db.selfRoles.filter(
-            (selfRole) => selfRole.channelId !== channel.id
+            (selfRole) => selfRole.channelId !== channel.id,
         );
 
         await db.save();

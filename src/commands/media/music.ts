@@ -1,12 +1,13 @@
-import { Embed, IntegerOption, StringOption } from "@builders";
+import { Embed, IntegerOption, StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import { QueueRepeatMode } from "discord-player";
 import {
+    ChannelType,
     type ChatInputCommandInteraction,
     bold,
-    ChannelType,
 } from "discord.js";
 import startCase from "lodash/startCase";
+import type { QueueMetadata } from "typings/Music";
 import { durationPattern, durationToMs } from "utils";
 
 @SlashCommand({
@@ -69,7 +70,7 @@ import { durationPattern, durationToMs } from "utils";
                         {
                             name: "Off",
                             value: QueueRepeatMode.OFF,
-                        }
+                        },
                     ),
             ],
         },
@@ -153,8 +154,11 @@ import { durationPattern, durationToMs } from "utils";
 export default class MusicCommand extends AbstractSlashCommand {
     async slashPlay(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
-        const { kEmojis: emojis } = this.client;
+        const { client, member, guild } = interaction;
+        const {
+            kEmojis: emojis,
+            systems: { music },
+        } = client;
 
         if (!member.voice.channel)
             return interaction.reply({
@@ -188,9 +192,6 @@ export default class MusicCommand extends AbstractSlashCommand {
 
         await interaction.deferReply({ flags: "Ephemeral" });
 
-        const {
-            systems: { music },
-        } = this.client;
         const search = await music.search(query, {
             requestedBy: interaction.user,
         });
@@ -214,7 +215,7 @@ export default class MusicCommand extends AbstractSlashCommand {
                         name: "Added a playlist to the queue",
                     })
                     .setDescription(
-                        `**${startCase(playlist.source)} ${startCase(playlist.type)} - ${playlist.title} (${playlist.author.name}) [${playlist.tracks.length} Tracks]**`
+                        `**${startCase(playlist.source)} ${startCase(playlist.type)} - ${playlist.title} (${playlist.author.name}) [${playlist.tracks.length} Tracks]**`,
                     )
                     .setThumbnail(playlist.thumbnail)
                     .setURL(playlist.url);
@@ -223,7 +224,7 @@ export default class MusicCommand extends AbstractSlashCommand {
                     await interaction.editReply({
                         embeds: [embed],
                     }),
-                    playlist
+                    playlist,
                 );
             }
 
@@ -266,11 +267,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashPause(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -308,11 +309,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashResume(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -350,11 +351,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashSkip(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -381,7 +382,7 @@ export default class MusicCommand extends AbstractSlashCommand {
             queue.currentTrack.requestedBy &&
             queue.currentTrack.requestedBy.id !== member.id &&
             queue.metadata.voiceChannel.members.get(
-                queue.currentTrack.requestedBy.id
+                queue.currentTrack.requestedBy.id,
             )
         )
             return interaction.reply({
@@ -418,11 +419,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashStop(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -454,11 +455,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashQueue(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { guild } = interaction;
+        const { client, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -473,11 +474,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashLoop(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -519,11 +520,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashShuffle(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -555,11 +556,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashSeek(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -621,11 +622,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashVolume(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -661,11 +662,11 @@ export default class MusicCommand extends AbstractSlashCommand {
 
     async slashLyricsCurrentTrack(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
-        const { member, guild } = interaction;
+        const { client, member, guild } = interaction;
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const queue = music.queues.get<QueueMetadata>(guild);
 
@@ -697,10 +698,10 @@ export default class MusicCommand extends AbstractSlashCommand {
     }
 
     async slashLyricsSearch(interaction: ChatInputCommandInteraction) {
-        const { options } = interaction;
+        const { client, options } = interaction;
         const {
             systems: { music },
-        } = this.client;
+        } = client;
 
         const query = options.getString("track_or_playlist_name_or_url", true);
 

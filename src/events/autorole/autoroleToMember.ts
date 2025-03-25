@@ -1,5 +1,5 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { GuildMember } from "discord.js";
+import type { GuildMember } from "discord.js";
 
 @Event({
     event: "guildMemberAdd",

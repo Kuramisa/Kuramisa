@@ -1,12 +1,12 @@
-import { Embed } from "@builders";
-
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { type GuildQueue, type Track, QueueRepeatMode } from "discord-player";
+import { type GuildQueue, QueueRepeatMode, type Track } from "discord-player";
+import type { QueueMetadata } from "typings/Music";
 
 @Event({
     event: "audioTrackAdd",
     description: "Event when a track is added to the queue",
-    emitter: kuramisa.systems.music.events,
+    emitter: "music-queue",
 })
 export default class AudioTrackAddEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {
@@ -29,7 +29,7 @@ export default class AudioTrackAddEvent extends AbstractEvent {
                         : queue.repeatMode === QueueRepeatMode.QUEUE
                           ? "Queue"
                           : "Off"
-                }`
+                }`,
             )
             .setThumbnail(track.thumbnail)
             .setFooter({
@@ -71,7 +71,7 @@ export default class AudioTrackAddEvent extends AbstractEvent {
                         embeds: [
                             await music.nowPlayingEmbed(
                                 queue,
-                                queue.currentTrack
+                                queue.currentTrack,
                             ),
                         ],
                     });

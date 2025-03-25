@@ -1,11 +1,11 @@
-import { StringOption } from "@builders";
+import { StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
-    bold,
-    ChatInputCommandInteraction,
     ComponentType,
     InteractionContextType,
+    bold,
 } from "discord.js";
 import { Pagination } from "utils";
 
@@ -108,7 +108,9 @@ export default class ValorantCommand extends AbstractSlashCommand {
 
     async slashSkins(interaction: ChatInputCommandInteraction) {
         const { client, options } = interaction;
-        const { games } = client;
+        const {
+            games: { valorant },
+        } = client;
 
         const weaponName = options.getString("valorant_weapon", true);
         const weapon = valorant.weapons.get(weaponName);
@@ -125,7 +127,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
 
         await interaction.deferReply();
 
-        const infoCollection = valorant.skins.collection(skins);
+        const infoCollection = valorant.skins.collection(client, skins);
 
         let page = 0;
         let lvlPage = 0;
@@ -205,10 +207,10 @@ export default class ValorantCommand extends AbstractSlashCommand {
     }
 
     slashWeapons(interaction: ChatInputCommandInteraction) {
-        const { options } = interaction;
+        const { client, options } = interaction;
         const {
             games: { valorant },
-        } = this.client;
+        } = client;
 
         const weaponName = options.getString("valorant_weapon", true);
         const weapon = valorant.weapons.get(weaponName);
@@ -217,7 +219,7 @@ export default class ValorantCommand extends AbstractSlashCommand {
                 content: bold("Ermm... Weapon not found"),
                 flags: "Ephemeral",
             });
-        const weaponEmbed = valorant.weapons.embed(weapon);
+        const weaponEmbed = valorant.weapons.embed(client, weapon);
         const weaponRow = valorant.weapons.row(weapon);
         return interaction.reply({
             embeds: [weaponEmbed],

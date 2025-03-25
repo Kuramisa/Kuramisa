@@ -1,4 +1,11 @@
+import Auth from "@valapi/auth";
+import WebClient from "@valapi/web-client";
+import { Collection, type Snowflake } from "discord.js";
+import type Kuramisa from "Kuramisa";
 import logger from "Logger";
+import ms from "ms";
+import type { ValorantAccount } from "typings/Valorant";
+
 import {
     ValorantAgents,
     ValorantBuddies,
@@ -10,6 +17,7 @@ import {
     ValorantContracts,
     ValorantCurrencies,
     ValorantEvents,
+    ValorantGamemodes,
     ValorantLevelBorders,
     ValorantMaps,
     ValorantMissions,
@@ -20,19 +28,15 @@ import {
     ValorantSkins,
     ValorantSprays,
     ValorantThemes,
-    ValorantVersion,
+    ValorantVersions,
     ValorantWeapons,
 } from "./assets";
-import ms from "ms";
-import ValorantGamemodes from "./assets/info/Gamemodes";
-import ValorantUtil from "./Util";
 import ValorantAuth from "./Auth";
-import { Collection, Snowflake } from "discord.js";
-
-import WebClient from "@valapi/web-client";
-import Auth from "@valapi/auth";
+import ValorantUtil from "./Util";
 
 export default class Valorant {
+    private readonly client: Kuramisa;
+
     initialized = false;
 
     util: ValorantUtil;
@@ -63,13 +67,13 @@ export default class Valorant {
     skins: ValorantSkins;
     sprays: ValorantSprays;
 
-    version?: ValorantVersion;
+    version?: ValorantVersions;
 
     // Authentication
     readonly auth: ValorantAuth;
     readonly accounts = new Collection<
         string,
-        Collection<string, IValorantAccount>
+        Collection<string, ValorantAccount>
     >();
 
     static readonly trackerURL = (gameName: string, tagLine: string) =>
@@ -77,8 +81,10 @@ export default class Valorant {
 
     static readonly assetsURL = "https://valorant-api.com/v1";
 
-    constructor() {
-        this.util = new ValorantUtil();
+    constructor(client: Kuramisa) {
+        this.client = client;
+
+        this.util = new ValorantUtil(client);
 
         this.agents = new ValorantAgents([]);
         this.ceremonies = new ValorantCeremonies([]);
@@ -127,7 +133,7 @@ export default class Valorant {
             logger.debug("[Valorant] Initializing Ceremonies...");
             this.ceremonies = await ValorantCeremonies.init();
             logger.debug(
-                "[Valorant] Ceremonies: " + this.ceremonies.all.length
+                "[Valorant] Ceremonies: " + this.ceremonies.all.length,
             );
             logger.debug(`[Valorant] Initialized Ceremonies`);
 
@@ -135,7 +141,7 @@ export default class Valorant {
             this.competitiveTiers = await ValorantCompetitiveTiers.init();
             logger.debug(
                 "[Valorant] Competitive Tiers: " +
-                    this.competitiveTiers.all.length
+                    this.competitiveTiers.all.length,
             );
             logger.debug(`[Valorant] Initialized Competitive Tiers`);
 
@@ -143,14 +149,14 @@ export default class Valorant {
             this.competitiveSeasons = await ValorantCompetitiveSeasons.init();
             logger.debug(
                 "[Valorant] Competitive Seasons: " +
-                    this.competitiveSeasons.all.length
+                    this.competitiveSeasons.all.length,
             );
             logger.debug(`[Valorant] Initialized Competitive Seasons`);
 
             logger.debug("[Valorant] Initializing Content Tiers...");
             this.contentTiers = await ValorantContentTiers.init();
             logger.debug(
-                "[Valorant] Content Tiers: " + this.contentTiers.all.length
+                "[Valorant] Content Tiers: " + this.contentTiers.all.length,
             );
             logger.debug(`[Valorant] Initialized Content Tiers`);
 
@@ -162,7 +168,7 @@ export default class Valorant {
             logger.debug("[Valorant] Initializing Currencies...");
             this.currencies = await ValorantCurrencies.init();
             logger.debug(
-                "[Valorant] Currencies: " + this.currencies.all.length
+                "[Valorant] Currencies: " + this.currencies.all.length,
             );
             logger.debug(`[Valorant] Initialized Currencies`);
 
@@ -189,7 +195,7 @@ export default class Valorant {
             logger.debug("[Valorant] Initializing Objectives...");
             this.objectives = await ValorantObjectives.init();
             logger.debug(
-                "[Valorant] Objectives: " + this.objectives.all.length
+                "[Valorant] Objectives: " + this.objectives.all.length,
             );
             logger.debug(`[Valorant] Initialized Objectives`);
 
@@ -209,7 +215,7 @@ export default class Valorant {
             logger.debug(`[Valorant] Initialized Weapons`);
 
             logger.debug("[Valorant] Initializing Version...");
-            this.version = await ValorantVersion.init();
+            this.version = await ValorantVersions.init();
             logger.debug(`[Valorant] Initialized Version`);
 
             logger.info("[Valorant] Initialized Information");
@@ -229,21 +235,21 @@ export default class Valorant {
             logger.debug("[Valorant] Initializing Level Borders...");
             this.levelBorders = await ValorantLevelBorders.init();
             logger.debug(
-                "[Valorant] Level Borders: " + this.levelBorders.all.length
+                "[Valorant] Level Borders: " + this.levelBorders.all.length,
             );
             logger.debug("[Valorant] Initialized Level Borders");
 
             logger.debug("[Valorant] Initializing Player Cards...");
             this.playerCards = await ValorantPlayerCards.init();
             logger.debug(
-                "[Valorant] Player Cards: " + this.playerCards.all.length
+                "[Valorant] Player Cards: " + this.playerCards.all.length,
             );
             logger.debug("[Valorant] Initialized Player Cards");
 
             logger.debug("[Valorant] Initializing Player Titles...");
             this.playerTitles = await ValorantPlayerTitles.init();
             logger.debug(
-                "[Valorant] Player Titles: " + this.playerTitles.all.length
+                "[Valorant] Player Titles: " + this.playerTitles.all.length,
             );
             logger.debug("[Valorant] Initialized Player Titles");
 
@@ -268,12 +274,10 @@ export default class Valorant {
     }
 
     async loadAccounts(userId: Snowflake) {
-        const { managers } = kuramisa;
-
-        const dbUser = await managers.users.get(userId);
+        const dbUser = await this.client.managers.users.get(userId);
         const user =
-            kuramisa.users.cache.get(userId) ??
-            (await kuramisa.users.fetch(userId).catch(() => null));
+            this.client.users.cache.get(userId) ??
+            (await this.client.users.fetch(userId).catch(() => null));
 
         if (!user) {
             logger.debug(`[Valorant] User not found for ${userId}`);
@@ -290,14 +294,14 @@ export default class Valorant {
 
         if (!valorant || valorant.accounts.length === 0) {
             logger.debug(
-                `[Valorant] No accounts found for ${user.displayName}`
+                `[Valorant] No accounts found for ${user.displayName}`,
             );
             return;
         }
 
         if (!accounts) {
             logger.debug(
-                `[Valorant] ${user.displayName} failed to create accounts collection`
+                `[Valorant] ${user.displayName} failed to create accounts collection`,
             );
             return;
         }
@@ -316,14 +320,14 @@ export default class Valorant {
                     .reauthorize()
                     .then(() => {
                         logger.debug(
-                            `[Valorant] Reauthorized ${account.username} - ${user.displayName}`
+                            `[Valorant] Reauthorized ${account.username} - ${user.displayName}`,
                         );
 
                         return true;
                     })
                     .catch((err) => {
                         logger.error(
-                            `[Valorant] Failed to reauthorize ${account.username} - ${user.displayName} - Removing account`
+                            `[Valorant] Failed to reauthorize ${account.username} - ${user.displayName} - Removing account`,
                         );
                         logger.error(err);
 
@@ -333,7 +337,7 @@ export default class Valorant {
                 if (!reauthResult) {
                     accounts.delete(account.username);
                     valorant.accounts = valorant.accounts.filter(
-                        (acc) => acc.username !== account.username
+                        (acc) => acc.username !== account.username,
                     );
                     await dbUser.save();
                     deletedCount++;
@@ -349,7 +353,7 @@ export default class Valorant {
             const playerInfo = (
                 await webClient.getUserInfo().catch((err) => {
                     logger.error(
-                        `[Valorant] Failed to get user info for ${account.username} - ${user.displayName}`
+                        `[Valorant] Failed to get user info for ${account.username} - ${user.displayName}`,
                     );
                     logger.error(err);
                     return null;
@@ -359,7 +363,7 @@ export default class Valorant {
             if (!playerInfo) {
                 accounts.delete(account.username);
                 valorant.accounts = valorant.accounts.filter(
-                    (acc) => acc.username !== account.username
+                    (acc) => acc.username !== account.username,
                 );
                 await dbUser.save();
                 deletedCount++;
@@ -374,17 +378,17 @@ export default class Valorant {
                 player: playerInfo,
                 trackerURL: Valorant.trackerURL(
                     playerInfo.acct.game_name,
-                    playerInfo.acct.tag_line
+                    playerInfo.acct.tag_line,
                 ),
             });
 
             logger.debug(
-                `[Valorant] Loaded ${account.username} - ${user.displayName}`
+                `[Valorant] Loaded ${account.username} - ${user.displayName}`,
             );
         }
 
         logger.info(
-            `[Valorant] Loaded ${allAccounts} accounts for ${user.displayName} - Deleted ${deletedCount}`
+            `[Valorant] Loaded ${allAccounts} accounts for ${user.displayName} - Deleted ${deletedCount}`,
         );
 
         return allAccounts === deletedCount;

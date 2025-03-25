@@ -1,12 +1,16 @@
 import eslint from "@eslint/js";
-import tseslint from "typescript-eslint";
+import eslintConfigPrettier from "eslint-config-prettier/flat";
+import eslintPluginPrettier from "eslint-plugin-prettier/recommended";
 import sonarjs from "eslint-plugin-sonarjs";
+import tseslint from "typescript-eslint";
 
 export default tseslint.config(
     eslint.configs.recommended,
     tseslint.configs.recommended,
     tseslint.configs.stylistic,
     sonarjs.configs.recommended,
+    eslintConfigPrettier,
+    eslintPluginPrettier,
     {
         rules: {
             "@typescript-eslint/no-unused-vars": [
@@ -23,6 +27,7 @@ export default tseslint.config(
                 },
             ],
             "@typescript-eslint/no-explicit-any": "off",
+            "@typescript-eslint/consistent-type-imports": "error",
             "sonarjs/cognitive-complexity": "off",
             "sonarjs/no-nested-conditional": "off",
             "sonarjs/no-small-switch": "warn",
@@ -33,5 +38,5 @@ export default tseslint.config(
             "sonarjs/todo-tag": "warn",
             "sonarjs/no-commented-code": "warn",
         },
-    }
+    },
 );

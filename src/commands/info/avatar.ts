@@ -1,12 +1,14 @@
-import { Embed, IntegerOption, StringOption, UserOption } from "@builders";
+import { Embed, IntegerOption, StringOption, UserOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import {
-    ApplicationIntegrationType,
-    bold,
+import type {
     ChatInputCommandInteraction,
     ImageExtension,
     ImageSize,
+} from "discord.js";
+import {
+    ApplicationIntegrationType,
     InteractionContextType,
+    bold,
 } from "discord.js";
 
 @SlashCommand({
@@ -44,7 +46,7 @@ import {
                 {
                     name: "GIF",
                     value: "gif",
-                }
+                },
             ),
         new IntegerOption()
             .setName("size")
@@ -85,7 +87,7 @@ import {
                 {
                     name: "4096",
                     value: 4096,
-                }
+                },
             ),
     ],
 })

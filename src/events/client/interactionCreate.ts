@@ -22,7 +22,7 @@ export default class CommandInteractionManager extends AbstractEvent {
         let command = this.client.stores.commands.get(commandName);
         if (!command) {
             logger.debug(
-                `[Command Interaction Manager] Command ${commandName} not found.`
+                `[Command Interaction Manager] Command ${commandName} not found.`,
             );
 
             return interaction.reply({
@@ -33,12 +33,12 @@ export default class CommandInteractionManager extends AbstractEvent {
 
         if (command.userPermissions && interaction.inCachedGuild()) {
             const missingPerms = interaction.member.permissions.missing(
-                command.userPermissions
+                command.userPermissions,
             );
 
             if (missingPerms.length) {
                 logger.debug(
-                    `[Command Interaction Manager] User ${user.displayAvatarURL} missing permissions to run command ${command.name}.`
+                    `[Command Interaction Manager] User ${user.displayAvatarURL} missing permissions to run command ${command.name}.`,
                 );
 
                 return interaction.reply({
@@ -51,12 +51,12 @@ export default class CommandInteractionManager extends AbstractEvent {
         if (command.botPermissions && interaction.inCachedGuild()) {
             const missingPerms =
                 interaction.guild.members.me?.permissions.missing(
-                    command.botPermissions
+                    command.botPermissions,
                 );
 
             if (missingPerms?.length) {
                 logger.debug(
-                    `[Command Interaction Manager] Bot missing permissions to run command ${command.name}.`
+                    `[Command Interaction Manager] Bot missing permissions to run command ${command.name}.`,
                 );
 
                 return interaction.reply({
@@ -112,7 +112,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                 await command[funcName as any](interaction);
             } catch (error) {
                 logger.error(
-                    `[Command Interaction Manager] Error running command ${command.name}.\n${error}`
+                    `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
                 );
 
                 if (interaction.deferred || interaction.replied)
@@ -141,7 +141,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                 await command[funcName as any](interaction);
             } catch (error) {
                 logger.error(
-                    `[Command Interaction Manager] Error running command ${command.name}.\n${error}`
+                    `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
                 );
 
                 if (interaction.deferred || interaction.replied)
@@ -166,7 +166,7 @@ export default class CommandInteractionManager extends AbstractEvent {
             await command.run(interaction);
         } catch (error) {
             logger.error(
-                `[Command Interaction Manager] Error running command ${command.name}.\n${error}`
+                `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
             );
 
             if (interaction.deferred || interaction.replied)

@@ -1,8 +1,8 @@
-import { createLogger, format, transports, config } from "winston";
-import "winston-daily-rotate-file";
-import "moment-timezone";
 import capitalize from "lodash/capitalize";
 import moment from "moment";
+import "moment-timezone";
+import { config, createLogger, format, transports } from "winston";
+import "winston-daily-rotate-file";
 
 const { combine, timestamp, printf, errors } = format;
 
@@ -12,7 +12,7 @@ const tsFormat = () =>
 const customFormat = printf(({ level, message, timestamp, stack }) =>
     stack
         ? `[${timestamp}] ${capitalize(level)}: ${message}\n${stack}`
-        : `[${timestamp}] ${capitalize(level)}: ${message}`
+        : `[${timestamp}] ${capitalize(level)}: ${message}`,
 );
 
 const rotateOpts = {
@@ -30,7 +30,7 @@ const logger = createLogger({
         timestamp({
             format: tsFormat,
         }),
-        customFormat
+        customFormat,
     ),
     rejectionHandlers: [
         new transports.DailyRotateFile({
@@ -59,7 +59,7 @@ const logger = createLogger({
 
 if (process.env.NODE_ENV !== "production") {
     logger.add(
-        new transports.Console({ format: format.colorize({ all: true }) })
+        new transports.Console({ format: format.colorize({ all: true }) }),
     );
 }
 

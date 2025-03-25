@@ -1,3 +1,5 @@
+import { FetchResultTypes, fetch } from "@sapphire/fetch";
+import bucket from "AssetManagement";
 import {
     Attachment,
     AttachmentOption,
@@ -6,19 +8,17 @@ import {
     ModalRow,
     StringOption,
     TextInput,
-} from "@builders";
-import bucket from "AssetManagement";
+} from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
-    bold,
-    ChatInputCommandInteraction,
     InteractionContextType,
     SnowflakeUtil,
+    bold,
 } from "discord.js";
-import { capitalize } from "lodash";
-import { mentionCommand } from "utils";
-import { fetch, FetchResultTypes } from "@sapphire/fetch";
+import capitalize from "lodash/capitalize";
+import type { Playlist, PlaylistTrack } from "typings/Music";
 
 // TODO: Finish working on the playlist system
 @SlashCommand({
@@ -152,20 +152,20 @@ import { fetch, FetchResultTypes } from "@sapphire/fetch";
 })
 export default class PlaylistCommand extends AbstractSlashCommand {
     async slashCreate(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
 
-        const db = await this.client.managers.users.get(user.id);
+        const db = await client.managers.users.get(user.id);
 
         let playlistName = options.getString("playlist_name", true);
 
         const similarNames = db.playlists.filter((p) =>
-            p.name.toLowerCase().includes(playlistName.toLowerCase())
+            p.name.toLowerCase().includes(playlistName.toLowerCase()),
         );
 
         if (similarNames.length > 0)
             playlistName = `${playlistName} (${similarNames.length + 1})`; // Append a number to the name
 
-        const playlist: UserPlaylist = {
+        const playlist: Playlist = {
             id: SnowflakeUtil.generate().toString(),
             name: playlistName,
             tracks: [],
@@ -192,14 +192,14 @@ export default class PlaylistCommand extends AbstractSlashCommand {
             if (!allowedMimeTypes.includes(playlistCover.contentType))
                 return interaction.reply({
                     content: bold(
-                        "The cover image must be a PNG, JPEG, JPG or GIF file"
+                        "The cover image must be a PNG, JPEG, JPG or GIF file",
                     ),
                     flags: "Ephemeral",
                 });
 
             const buffer = await fetch(
                 playlistCover.url,
-                FetchResultTypes.Buffer
+                FetchResultTypes.Buffer,
             );
             const mimeType = playlistCover.contentType;
 
@@ -231,17 +231,16 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashDelete(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
-        const { managers } = this.client;
+        const { client, options, user } = interaction;
 
-        const db = await managers.users.get(user.id);
+        const db = await client.managers.users.get(user.id);
 
         const playlistIdOrName = options.getString("playlist_name", true);
 
         const playlist = db.playlists.find(
             (p) =>
                 p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
-                p.id === playlistIdOrName
+                p.id === playlistIdOrName,
         );
 
         if (!playlist)
@@ -263,16 +262,16 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashEdit(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
 
-        const db = await this.client.managers.users.get(user.id);
+        const db = await client.managers.users.get(user.id);
 
         const playlistIdOrName = options.getString("playlist_name", true);
 
         const playlist = db.playlists.find(
             (p) =>
                 p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
-                p.id === playlistIdOrName
+                p.id === playlistIdOrName,
         );
 
         if (!playlist)
@@ -283,7 +282,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         const newPlaylistName = options.getString("new_playlist_name");
         const newPlaylistDescription = options.getString(
-            "playlist_description"
+            "playlist_description",
         );
         const newPlaylistCover = options.getAttachment("playlist_cover");
 
@@ -295,7 +294,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         if (newPlaylistName) {
             const similarNames = db.playlists.filter((p) =>
-                p.name.toLowerCase().includes(newPlaylistName.toLowerCase())
+                p.name.toLowerCase().includes(newPlaylistName.toLowerCase()),
             );
 
             if (similarNames.length > 0)
@@ -323,7 +322,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
             if (!allowedMimeTypes.includes(newPlaylistCover.contentType))
                 return interaction.reply({
                     content: bold(
-                        "The cover image must be a PNG, JPEG, JPG or GIF file"
+                        "The cover image must be a PNG, JPEG, JPG or GIF file",
                     ),
                     flags: "Ephemeral",
                 });
@@ -333,7 +332,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
             const buffer = await fetch(
                 newPlaylistCover.url,
-                FetchResultTypes.Buffer
+                FetchResultTypes.Buffer,
             );
             const mimeType = newPlaylistCover.contentType;
 
@@ -365,11 +364,12 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashAddSong(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
         const {
             managers,
+            mentionCommand,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const db = await managers.users.get(user.id);
 
@@ -378,7 +378,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         const playlist = db.playlists.find(
             (p) =>
                 p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
-                p.id === playlistIdOrName
+                p.id === playlistIdOrName,
         );
 
         if (!playlist)
@@ -389,7 +389,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         const trackOrPlaylist = options.getString(
             "track_or_playlist_name_or_url",
-            true
+            true,
         );
 
         const result = await music.search(trackOrPlaylist);
@@ -430,11 +430,11 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashImport(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
         const {
             managers,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const url = options.getString("playlist_url", true);
 
@@ -453,7 +453,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         const { playlists } = db;
 
         const similarNames = playlists.filter((p) =>
-            p.name.toLowerCase().includes(playlist.title.toLowerCase())
+            p.name.toLowerCase().includes(playlist.title.toLowerCase()),
         );
 
         let playlistName = playlist.title;
@@ -475,7 +475,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                 views: track.views,
             }));
 
-        const newPlaylist: UserPlaylist = {
+        const newPlaylist: Playlist = {
             id: SnowflakeUtil.generate().toString(),
             name: playlistName,
             tracks,
@@ -507,11 +507,11 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashImportCombine(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
         const {
             managers,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const db = await managers.users.get(user.id);
 
@@ -520,7 +520,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         const playlist = db.playlists.find(
             (p) =>
                 p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
-                p.id === playlistIdOrName
+                p.id === playlistIdOrName,
         );
 
         if (!playlist)
@@ -575,7 +575,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
     }
 
     async slashImportMultiple(interaction: ChatInputCommandInteraction) {
-        const { options } = interaction;
+        const { client, options } = interaction;
 
         const playlistCount = options.getInteger("playlist_count", true);
 
@@ -586,7 +586,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                 new TextInput()
                     .setLabel(`Playlist ${i} URL`)
                     .setPlaceholder("Enter the URL of the playlist to import")
-                    .setCustomId(`playlist_url_${i}`)
+                    .setCustomId(`playlist_url_${i}`),
             );
 
             rows.push(row);
@@ -616,7 +616,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
 
         for (const field of fields.values()) {
             const url = field.value;
-            const result = await this.client.systems.music.search(url);
+            const result = await client.systems.music.search(url);
 
             if (!result.playlist) {
                 allArePlaylists = false;
@@ -629,19 +629,19 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         if (!allArePlaylists)
             return mInteraction.editReply({
                 content: bold(
-                    "Uh oh, Some of the URLs provided are not playlists"
+                    "Uh oh, Some of the URLs provided are not playlists",
                 ),
             });
 
         const { user } = interaction;
 
-        const db = await this.client.managers.users.get(user.id);
+        const db = await client.managers.users.get(user.id);
 
         const { playlists } = db;
 
         for (const playlist of searchedPlaylists) {
             const similarNames = playlists.filter((p) =>
-                p.name.toLowerCase().includes(playlist.title.toLowerCase())
+                p.name.toLowerCase().includes(playlist.title.toLowerCase()),
             );
 
             let playlistName = playlist.title;
@@ -663,7 +663,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                     views: track.views,
                 }));
 
-            const newPlaylist: UserPlaylist = {
+            const newPlaylist: Playlist = {
                 id: SnowflakeUtil.generate().toString(),
                 name: playlistName,
                 tracks,
@@ -687,18 +687,18 @@ export default class PlaylistCommand extends AbstractSlashCommand {
             content: `**${playlistCount}** playlists have been imported!\n\n${searchedPlaylists
                 .map(
                     (p) =>
-                        `• ${capitalize(p.type)} ${bold(p.title)} from ${capitalize(p.source)}`
+                        `• ${capitalize(p.type)} ${bold(p.title)} from ${capitalize(p.source)}`,
                 )
                 .join("\n")}`,
         });
     }
 
     async slashImportMultipleCombine(interaction: ChatInputCommandInteraction) {
-        const { options, user } = interaction;
+        const { client, options, user } = interaction;
         const {
             managers,
             systems: { music },
-        } = this.client;
+        } = client;
 
         const db = await managers.users.get(user.id);
 
@@ -707,7 +707,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         const playlist = db.playlists.find(
             (p) =>
                 p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
-                p.id === playlistIdOrName
+                p.id === playlistIdOrName,
         );
 
         if (!playlist)
@@ -725,7 +725,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
                 new TextInput()
                     .setLabel(`Playlist ${i} URL`)
                     .setPlaceholder("Enter the URL of the playlist to import")
-                    .setCustomId(`playlist_url_${i}`)
+                    .setCustomId(`playlist_url_${i}`),
             );
 
             rows.push(row);
@@ -768,7 +768,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         if (!allArePlaylists)
             return mInteraction.editReply({
                 content: bold(
-                    "Uh oh, Some of the URLs provided are not playlists"
+                    "Uh oh, Some of the URLs provided are not playlists",
                 ),
             });
 

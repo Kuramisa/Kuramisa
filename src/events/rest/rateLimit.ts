@@ -1,20 +1,20 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { RateLimitError } from "discord.js";
+import type { RateLimitError } from "discord.js";
 import logger from "Logger";
 import ms from "ms";
 
 @Event({
     event: "rateLimited",
     description: "Emits when the bot is rate limited",
-    emitter: kuramisa.rest,
+    emitter: "rest",
 })
 export default class RateLimitEvent extends AbstractEvent {
     run(error: RateLimitError) {
         logger.error(
-            `[REST Rate Limit] ${error.route} | ${error.method} ${error.url}`
+            `[REST Rate Limit] ${error.route} | ${error.method} ${error.url}`,
         );
         logger.error(
-            `[REST Rate Limit] Try again in ${ms(error.retryAfter, { long: true })}`
+            `[REST Rate Limit] Try again in ${ms(error.retryAfter, { long: true })}`,
         );
     }
 }

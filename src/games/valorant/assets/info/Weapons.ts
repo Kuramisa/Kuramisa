@@ -1,13 +1,16 @@
-import { ButtonStyle } from "discord.js";
-import Valorant from "../..";
-import { Button, Embed, Row } from "@builders";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Button, Embed, Row } from "Builders";
+import { ButtonStyle } from "discord.js";
+import type Kuramisa from "Kuramisa";
+import logger from "Logger";
+import type { ValorantWeapon } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantWeapons {
-    private readonly data: IValorantWeapon[];
+    private readonly data: ValorantWeapon[];
 
-    constructor(data: IValorantWeapon[]) {
+    constructor(data: ValorantWeapon[]) {
         this.data = data;
     }
 
@@ -17,7 +20,7 @@ export default class ValorantWeapons {
 
     get = (weapon: string) =>
         this.data.find(
-            (wp) => wp.displayName.toLowerCase() === weapon.toLowerCase()
+            (wp) => wp.displayName.toLowerCase() === weapon.toLowerCase(),
         ) ?? this.data.find((wp) => wp.uuid === weapon);
 
     static async init() {
@@ -31,7 +34,7 @@ export default class ValorantWeapons {
         return new ValorantWeapons(data);
     }
 
-    generateDamagesDescription(weapon: IValorantWeapon) {
+    generateDamagesDescription(weapon: ValorantWeapon) {
         let description = "- ***Damage Values***\n";
 
         for (const range of weapon.weaponStats.damageRanges) {
@@ -41,7 +44,7 @@ export default class ValorantWeapons {
         return description;
     }
 
-    embed(weapon: IValorantWeapon) {
+    embed(client: Kuramisa, weapon: ValorantWeapon) {
         const embed = new Embed()
             .setAuthor({
                 name: `${weapon.displayName} (${
@@ -53,10 +56,10 @@ export default class ValorantWeapons {
 
         if (weapon.shopData)
             embed.setDescription(
-                `${kuramisa.kEmojis.get("val_credits")} **${
+                `${client.kEmojis.get("val_credits")} **${
                     weapon.shopData.cost
                 }**\n\n***Stats***\n${this.generateDamagesDescription(
-                    weapon
+                    weapon,
                 )}- **First Bullet Accuracy:** ${
                     weapon.weaponStats.firstBulletAccuracy
                 }%\n- **Fire Rate:** ${
@@ -79,19 +82,19 @@ export default class ValorantWeapons {
                     weapon.weaponStats.reloadTimeSeconds > 1
                         ? "seconds"
                         : "second"
-                }`
+                }`,
             );
 
         return embed;
     }
 
-    row = (weapon: IValorantWeapon) =>
+    row = (weapon: ValorantWeapon) =>
         new Row().setComponents(
             new Button()
                 .setCustomId(
-                    `valorant_weapon_skins_${weapon.displayName.toLowerCase()}`
+                    `valorant_weapon_skins_${weapon.displayName.toLowerCase()}`,
                 )
                 .setLabel("Skins")
-                .setStyle(ButtonStyle.Success)
+                .setStyle(ButtonStyle.Success),
         );
 }

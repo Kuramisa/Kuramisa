@@ -1,12 +1,13 @@
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-
-import { GuildQueue, QueueRepeatMode, Track } from "discord-player";
-import { Embed } from "@builders";
+import type { GuildQueue, Track } from "discord-player";
+import { QueueRepeatMode } from "discord-player";
+import type { QueueMetadata } from "typings/Music";
 
 @Event({
     event: "audioTrackRemove",
     description: "Fired when an audio track is removed from the queue",
-    emitter: kuramisa.systems.music.events,
+    emitter: "music-queue",
 })
 export default class AudioTrackRemoveEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {
@@ -28,7 +29,7 @@ export default class AudioTrackRemoveEvent extends AbstractEvent {
                         : queue.repeatMode === QueueRepeatMode.QUEUE
                           ? "Queue"
                           : "Off"
-                }`
+                }`,
             )
             .setThumbnail(track.thumbnail)
             .setFooter({
@@ -69,7 +70,7 @@ export default class AudioTrackRemoveEvent extends AbstractEvent {
                         embeds: [
                             await music.nowPlayingEmbed(
                                 queue,
-                                queue.currentTrack
+                                queue.currentTrack,
                             ),
                         ],
                     });

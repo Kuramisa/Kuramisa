@@ -1,8 +1,8 @@
 import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
+import type { ContextMenuCommandInteraction } from "discord.js";
 import {
     ApplicationCommandType,
     ApplicationIntegrationType,
-    ContextMenuCommandInteraction,
     InteractionContextType,
 } from "discord.js";
 import { nekos } from "utils";

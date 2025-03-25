@@ -1,12 +1,14 @@
-import { Embed } from "@builders";
-import Valorant from "../..";
-import logger from "Logger";
 import { fetch } from "@sapphire/fetch";
+import { Embed } from "Builders";
+import logger from "Logger";
+import type { ValorantTheme } from "typings/Valorant";
+
+import Valorant from "../..";
 
 export default class ValorantThemes {
-    private readonly data: IValorantTheme[];
+    private readonly data: ValorantTheme[];
 
-    constructor(data: IValorantTheme[]) {
+    constructor(data: ValorantTheme[]) {
         this.data = data;
     }
 
@@ -16,7 +18,7 @@ export default class ValorantThemes {
 
     get = (theme: string) =>
         this.data.find(
-            (t) => t.displayName.toLowerCase() === theme.toLowerCase()
+            (t) => t.displayName.toLowerCase() === theme.toLowerCase(),
         ) ?? this.data.find((t) => t.uuid === theme);
 
     static async init() {
@@ -30,7 +32,7 @@ export default class ValorantThemes {
         return new ValorantThemes(data);
     }
 
-    embed = (theme: IValorantTheme) =>
+    embed = (theme: ValorantTheme) =>
         new Embed()
             .setAuthor({
                 name: theme.displayName,

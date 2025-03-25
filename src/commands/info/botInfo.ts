@@ -1,9 +1,9 @@
-import { Embed } from "@builders";
+import { Embed } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import type { ChatInputCommandInteraction } from "discord.js";
 import {
-    InteractionContextType,
     ApplicationIntegrationType,
-    ChatInputCommandInteraction,
+    InteractionContextType,
     bold,
     time,
 } from "discord.js";
@@ -23,12 +23,14 @@ import {
 })
 export default class BotInfoCommand extends AbstractSlashCommand {
     async run(interaction: ChatInputCommandInteraction) {
-        if (!this.client.isReady())
+        const { client } = interaction;
+
+        if (!client.isReady())
             return interaction.reply({
                 content: bold("Kuramisa is still starting up..."),
                 ephemeral: true,
             });
-        const { client } = this;
+
         const { database, stores, user: clientUser } = client;
         const application = await client.application.fetch();
 
@@ -85,7 +87,7 @@ export default class BotInfoCommand extends AbstractSlashCommand {
                     name: "Users",
                     value: client.users.cache.size.toString(),
                     inline: true,
-                }
+                },
             );
 
         return interaction.reply({

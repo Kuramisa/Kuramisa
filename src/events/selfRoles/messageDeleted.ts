@@ -1,5 +1,6 @@
 import { AbstractEvent, Event } from "classes/Event";
-import { ChannelType, Message } from "discord.js";
+import type { Message } from "discord.js";
+import { ChannelType } from "discord.js";
 
 @Event({
     event: "messageDelete",
@@ -10,19 +11,18 @@ export default class SelfRolesMessageDeleted extends AbstractEvent {
     async run(message: Message) {
         if (!message.inGuild()) return;
 
-        const { managers } = this.client;
         const { guild, channel } = message;
         if (channel.type !== ChannelType.GuildText) return;
 
-        const db = await managers.guilds.get(guild.id);
+        const db = await this.client.managers.guilds.get(guild.id);
 
         const selfRoleChannel = db.selfRoles.find(
-            (selfRole) => selfRole.channelId === channel.id
+            (selfRole) => selfRole.channelId === channel.id,
         );
         if (!selfRoleChannel) return;
 
         selfRoleChannel.messages = selfRoleChannel.messages.filter(
-            (selfRoleMessage) => selfRoleMessage.id !== message.id
+            (selfRoleMessage) => selfRoleMessage.id !== message.id,
         );
 
         db.markModified("selfRoles");

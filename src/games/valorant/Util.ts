@@ -1,25 +1,33 @@
-import { Attachment, Button, Row } from "@builders";
-
-import ffmpeg from "fluent-ffmpeg";
-
-import {
+import { Attachment, Button, Row } from "Builders";
+import type {
     ActionRowBuilder,
-    MessageActionRowComponentBuilder,
     ButtonInteraction,
     ChatInputCommandInteraction,
-    ComponentType,
     StringSelectMenuInteraction,
-    ButtonStyle,
 } from "discord.js";
+import {
+    ButtonStyle,
+    ComponentType,
+    type MessageActionRowComponentBuilder,
+} from "discord.js";
+import ffmpeg from "fluent-ffmpeg";
+import type Kuramisa from "Kuramisa";
 import logger from "Logger";
+import type { ValorantSkin } from "typings/Valorant";
 
 export default class ValorantUtil {
+    private readonly client: Kuramisa;
+
+    constructor(client: Kuramisa) {
+        this.client = client;
+    }
+
     determineComponents(
         skin: ValorantSkin,
         withNavigation = false,
-        chromaPage = 0
+        chromaPage = 0,
     ) {
-        const { kEmojis: emojis } = kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         const components: ActionRowBuilder<MessageActionRowComponentBuilder>[] =
             [];
@@ -33,7 +41,7 @@ export default class ValorantUtil {
                 new Button()
                     .setCustomId("next_skin")
                     .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
-                    .setStyle(ButtonStyle.Secondary)
+                    .setStyle(ButtonStyle.Secondary),
             );
 
             components.push(navRow);
@@ -43,7 +51,7 @@ export default class ValorantUtil {
             (component: any, i: number) =>
                 i === chromaPage
                     ? component.setDisabled(true)
-                    : component.setDisabled(false)
+                    : component.setDisabled(false),
         );
 
         if (skin.chroma.embeds.length > 1)
@@ -60,7 +68,7 @@ export default class ValorantUtil {
             | StringSelectMenuInteraction
             | ButtonInteraction,
         skin: ValorantSkin,
-        ephemeral = false
+        ephemeral = false,
     ) {
         const message = await interaction
             .reply({
@@ -120,7 +128,7 @@ export default class ValorantUtil {
         interaction: ButtonInteraction,
         skin: ValorantSkin,
         chromaPage: number,
-        withNavigation = false
+        withNavigation = false,
     ) {
         const chromaName = skin.chroma.names[chromaPage]
                 .replaceAll("\r", "")
@@ -150,12 +158,12 @@ export default class ValorantUtil {
                         const percent = Math.round(progress.percent ?? 0);
                         if (isNaN(percent)) return;
                         logger.debug(
-                            `[Valorant Skin Video] Processing ${chromaName} video: ${percent}% done`
+                            `[Valorant Skin Video] Processing ${chromaName} video: ${percent}% done`,
                         );
                     })
                     .on("end", async () => {
                         logger.debug(
-                            `[Valorant Skin Video] Finished processing ${chromaName} video`
+                            `[Valorant Skin Video] Finished processing ${chromaName} video`,
                         );
                         await interaction.editReply({
                             content: `**Loading \`${chromaName}\` - Complete**`,
@@ -167,7 +175,7 @@ export default class ValorantUtil {
                     .pipe();
 
                 const chromaAttachment = new Attachment(chromaStream).setName(
-                    `${chromaName.replaceAll(" ", "_")}.mp4`
+                    `${chromaName.replaceAll(" ", "_")}.mp4`,
                 );
 
                 await interaction.editReply({
@@ -176,7 +184,7 @@ export default class ValorantUtil {
                     components: this.determineComponents(
                         skin,
                         withNavigation,
-                        chromaPage
+                        chromaPage,
                     ),
                     files:
                         skin.chroma.videos.length > 0 ? [chromaAttachment] : [],
@@ -191,7 +199,7 @@ export default class ValorantUtil {
                 components: this.determineComponents(
                     skin,
                     withNavigation,
-                    chromaPage
+                    chromaPage,
                 ),
                 files: [],
             });
@@ -208,7 +216,7 @@ export default class ValorantUtil {
                     components: this.determineComponents(
                         skin,
                         withNavigation,
-                        chromaPage
+                        chromaPage,
                     ),
                     files: [],
                 })
@@ -219,7 +227,7 @@ export default class ValorantUtil {
                         components: this.determineComponents(
                             skin,
                             withNavigation,
-                            chromaPage
+                            chromaPage,
                         ),
                         files: [],
                     });
@@ -231,7 +239,7 @@ export default class ValorantUtil {
         interaction: ButtonInteraction | StringSelectMenuInteraction,
         skin: ValorantSkin,
         levelPage: number,
-        withNavigation = false
+        withNavigation = false,
     ) {
         const skinName = skin.level.names[levelPage]
                 .replaceAll("\r", "")
@@ -260,12 +268,12 @@ export default class ValorantUtil {
                     .on("progress", async (progress) => {
                         const percent = Math.round(progress.percent ?? 0);
                         logger.debug(
-                            `[Valorant Skin Video] Processing ${skinName} video: ${percent}% done`
+                            `[Valorant Skin Video] Processing ${skinName} video: ${percent}% done`,
                         );
                     })
                     .on("end", async () => {
                         logger.debug(
-                            `[Valorant Skin Video] Finished processing ${skinName} video`
+                            `[Valorant Skin Video] Finished processing ${skinName} video`,
                         );
                         await interaction.editReply({
                             content: `**Loading \`${skinName}\` - Complete**`,
@@ -277,7 +285,7 @@ export default class ValorantUtil {
                     .pipe();
 
                 const skinAttachment = new Attachment(skinStream).setName(
-                    `${skinName.replaceAll(" ", "_")}.mp4`
+                    `${skinName.replaceAll(" ", "_")}.mp4`,
                 );
 
                 await interaction.editReply({
@@ -315,7 +323,7 @@ export default class ValorantUtil {
                         embeds: [skinEmbed],
                         components: this.determineComponents(
                             skin,
-                            withNavigation
+                            withNavigation,
                         ),
                         files: [],
                     });

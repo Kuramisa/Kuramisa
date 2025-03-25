@@ -1,24 +1,20 @@
-import { Button, Embed, Row, StringDropdown } from "@builders";
 import { DefaultExtractors } from "@discord-player/extractor";
-
+import { Button, Embed, Row, StringDropdown } from "Builders";
+import type { GuildQueue, Playlist, Track } from "discord-player";
 import {
-    GuildQueue,
     Player,
-    Playlist,
-    QueueRepeatMode,
-    Track,
     type PlayerNodeInitializationResult,
     type PlayerNodeInitializerOptions,
+    QueueRepeatMode,
     type TrackLike,
 } from "discord-player";
 import { YoutubeiExtractor } from "discord-player-youtubei";
+import type { ActionRowBuilder, InteractionResponse } from "discord.js";
 import {
-    ActionRowBuilder,
-    ButtonStyle,
-    ComponentType,
-    InteractionResponse,
     type ButtonInteraction,
+    ButtonStyle,
     type ChatInputCommandInteraction,
+    ComponentType,
     type GuildVoiceChannelResolvable,
     type Message,
     type MessageActionRowComponentBuilder,
@@ -27,20 +23,16 @@ import type Kuramisa from "Kuramisa";
 import chunk from "lodash/chunk";
 import startCase from "lodash/startCase";
 import truncate from "lodash/truncate";
-
 import logger from "Logger";
 import ms from "ms";
+import type { QueueMetadata } from "typings/Music";
 import { Pagination, timedDelete } from "utils";
 
 export default class Music extends Player {
-    private readonly kuramisa: Kuramisa;
-
-    constructor(kuramisa: Kuramisa) {
-        super(kuramisa, {
+    constructor(client: Kuramisa) {
+        super(client, {
             skipFFmpeg: false,
         });
-
-        this.kuramisa = kuramisa;
     }
 
     async init() {
@@ -50,14 +42,14 @@ export default class Music extends Player {
             .loadMulti(DefaultExtractors)
             .then(() => logger.debug("[Music] Default Extractors loaded"))
             .catch((error) =>
-                logger.error("[Music] Error loading extractors", error)
+                logger.error("[Music] Error loading extractors", error),
             );
 
         await this.extractors
             .register(YoutubeiExtractor, {})
             .then(() => logger.debug("[Music] YoutubeiExtractor loaded"))
             .catch((error) =>
-                logger.error("[Music] Error loading YoutubeiExtractor", error)
+                logger.error("[Music] Error loading YoutubeiExtractor", error),
             );
 
         logger.debug(`[Music] Loaded ${this.extractors.size} extractors`);
@@ -70,7 +62,7 @@ export default class Music extends Player {
     async play<T = unknown>(
         channel: GuildVoiceChannelResolvable,
         query: TrackLike,
-        options?: PlayerNodeInitializerOptions<T>
+        options?: PlayerNodeInitializerOptions<T>,
     ): Promise<PlayerNodeInitializationResult<T>> {
         return super.play(channel, query, {
             ...options,
@@ -87,11 +79,11 @@ export default class Music extends Player {
 
     async showLyrics(
         interaction: ChatInputCommandInteraction | ButtonInteraction,
-        _track: string | Track
+        _track: string | Track,
     ) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
-        let track;
+        let track: Track<unknown> | null = null;
 
         if (typeof _track === "string")
             track = await this.search(_track).then((x) => x.tracks[0]);
@@ -129,14 +121,14 @@ export default class Music extends Player {
                 .setDescription(chunk.join("\n"))
                 .setFooter({
                     text: `Page ${index + 1} / ${chunked.length}`,
-                })
+                }),
         );
 
         Pagination.embeds(interaction, embeds);
     }
 
     async showPlaylistTracks(message: Message, playlist: Playlist) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         const tracksChunk = chunk(playlist.tracks, 20);
 
@@ -144,7 +136,7 @@ export default class Music extends Player {
             new Button()
                 .setCustomId("list_tracks")
                 .setLabel("List Tracks")
-                .setStyle(ButtonStyle.Success)
+                .setStyle(ButtonStyle.Success),
         );
 
         await message.edit({
@@ -170,7 +162,7 @@ export default class Music extends Player {
 
             for (const track of tracks) {
                 description.push(
-                    `**${trackNumber}.** [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
+                    `**${trackNumber}.** [${track.title}](${track.url}) - ${track.author} [${track.duration}]`,
                 );
 
                 trackNumber++;
@@ -194,7 +186,9 @@ export default class Music extends Player {
 
                     new Button()
                         .setCustomId("next_page")
-                        .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
+                        .setEmoji(
+                            emojis.get("right_arrow")?.toString() ?? "➡️",
+                        ),
                 );
 
                 navIR = await i.reply({
@@ -226,7 +220,7 @@ export default class Music extends Player {
     }
 
     volumeEmoji(volume: number) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         let speakerEmoji = emojis.get("player_muted") ?? "🔇";
         if (volume <= 100 && volume >= 80)
@@ -240,7 +234,7 @@ export default class Music extends Player {
     }
 
     loopEmoji(loopMode: QueueRepeatMode) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         switch (loopMode) {
             case QueueRepeatMode.TRACK:
@@ -255,7 +249,7 @@ export default class Music extends Player {
     }
 
     playerControls(paused = false) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         return [
             new Row().setComponents(
@@ -265,21 +259,21 @@ export default class Music extends Player {
                 new Button()
                     .setCustomId("player_previous")
                     .setEmoji(
-                        emojis.get("player_previous")?.toString() ?? "⏪"
+                        emojis.get("player_previous")?.toString() ?? "⏪",
                     ),
                 new Button()
                     .setCustomId("player_playpause")
                     .setEmoji(
                         paused
                             ? (emojis.get("player_play")?.toString() ?? "▶️")
-                            : (emojis.get("player_pause")?.toString() ?? "⏸️")
+                            : (emojis.get("player_pause")?.toString() ?? "⏸️"),
                     ),
                 new Button()
                     .setCustomId("player_next")
                     .setEmoji(emojis.get("player_skip")?.toString() ?? "⏩"),
                 new Button()
                     .setCustomId("player_skip_to")
-                    .setEmoji(emojis.get("player_skip_to")?.toString() ?? "⏭️")
+                    .setEmoji(emojis.get("player_skip_to")?.toString() ?? "⏭️"),
             ),
             new Row().setComponents(
                 new Button()
@@ -304,13 +298,13 @@ export default class Music extends Player {
 
                 new Button()
                     .setCustomId("player_lyrics")
-                    .setEmoji(emojis.get("genius")?.toString() ?? "📝")
+                    .setEmoji(emojis.get("genius")?.toString() ?? "📝"),
             ),
             new Row().setComponents(
                 new Button()
                     .setCustomId("player_volume_down")
                     .setEmoji(
-                        emojis.get("player_low_volume")?.toString() ?? "🔉"
+                        emojis.get("player_low_volume")?.toString() ?? "🔉",
                     ),
 
                 new Button()
@@ -320,13 +314,13 @@ export default class Music extends Player {
                 new Button()
                     .setCustomId("player_volume_up")
                     .setEmoji(
-                        emojis.get("player_high_volume")?.toString() ?? "🔊"
+                        emojis.get("player_high_volume")?.toString() ?? "🔊",
                     ),
 
                 new Button()
                     .setCustomId("player_progress")
                     //.setLabel("Progress")
-                    .setEmoji(emojis.get("time")?.toString() ?? "🕰️")
+                    .setEmoji(emojis.get("time")?.toString() ?? "🕰️"),
             ),
         ];
     }
@@ -343,7 +337,7 @@ export default class Music extends Player {
                         : queue.repeatMode === QueueRepeatMode.QUEUE
                           ? "Queue"
                           : "Off"
-                }`
+                }`,
             );
 
         if (track) {
@@ -375,9 +369,9 @@ export default class Music extends Player {
 
     async showQueue(
         interaction: ChatInputCommandInteraction | ButtonInteraction,
-        queue: GuildQueue<QueueMetadata>
+        queue: GuildQueue<QueueMetadata>,
     ) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         const tracksChunk = chunk(queue.tracks.toArray(), 10);
 
@@ -401,7 +395,7 @@ export default class Music extends Player {
 
             for (const track of tracks) {
                 description.push(
-                    `**${trackNumber}.** [${track.title}](${track.url}) - ${track.author} [${track.duration}]`
+                    `**${trackNumber}.** [${track.title}](${track.url}) - ${track.author} [${track.duration}]`,
                 );
 
                 trackNumber++;
@@ -419,7 +413,7 @@ export default class Music extends Player {
 
             new Button()
                 .setCustomId("next_page")
-                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
+                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️"),
         );
 
         let page = 0;
@@ -451,30 +445,30 @@ export default class Music extends Player {
 
     async askForLoopMode(
         interaction: ButtonInteraction,
-        queue: GuildQueue<QueueMetadata>
+        queue: GuildQueue<QueueMetadata>,
     ) {
         const row = new Row().setComponents(
             new Button()
                 .setCustomId("loop_track")
                 .setLabel("Track")
                 .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.TRACK)?.toString() ?? "🎵"
+                    this.loopEmoji(QueueRepeatMode.TRACK)?.toString() ?? "🎵",
                 ),
 
             new Button()
                 .setCustomId("loop_queue")
                 .setLabel("Queue")
                 .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.QUEUE)?.toString() ?? "🎶"
+                    this.loopEmoji(QueueRepeatMode.QUEUE)?.toString() ?? "🎶",
                 ),
 
             new Button()
                 .setCustomId("loop_none")
                 .setLabel("Off")
                 .setEmoji(
-                    this.loopEmoji(QueueRepeatMode.OFF)?.toString() ?? "🚫"
+                    this.loopEmoji(QueueRepeatMode.OFF)?.toString() ?? "🚫",
                 )
-                .setStyle(ButtonStyle.Danger)
+                .setStyle(ButtonStyle.Danger),
         );
 
         const iResponse = (
@@ -534,9 +528,9 @@ export default class Music extends Player {
 
     async askForSkipTo(
         interaction: ButtonInteraction,
-        queue: GuildQueue<QueueMetadata>
+        queue: GuildQueue<QueueMetadata>,
     ) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         const tracksChunk = chunk(queue.tracks.toArray(), 25);
 
@@ -576,7 +570,7 @@ export default class Music extends Player {
 
             new Button()
                 .setCustomId("next_page")
-                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
+                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️"),
         );
 
         let page = 0;
@@ -634,9 +628,9 @@ export default class Music extends Player {
 
     async askForGoBackTo(
         interaction: ButtonInteraction,
-        queue: GuildQueue<QueueMetadata>
+        queue: GuildQueue<QueueMetadata>,
     ) {
-        const { kEmojis: emojis } = this.kuramisa;
+        const { kEmojis: emojis } = this.client;
 
         const tracksChunk = chunk(queue.history.tracks.toArray(), 25);
 
@@ -676,7 +670,7 @@ export default class Music extends Player {
 
             new Button()
                 .setCustomId("next_page")
-                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️")
+                .setEmoji(emojis.get("right_arrow")?.toString() ?? "➡️"),
         );
 
         let page = 0;

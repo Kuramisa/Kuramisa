@@ -1,7 +1,6 @@
+import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
-import { Embed } from "@builders";
-import { logsChannel } from "utils";
-import { GuildMember } from "discord.js";
+import type { GuildMember } from "discord.js";
 
 @Event({
     event: "guildMemberRemove",
@@ -11,7 +10,7 @@ export default class MemberLeaveEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 
-        const channel = await logsChannel(guild);
+        const channel = await this.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()
@@ -24,7 +23,7 @@ export default class MemberLeaveEvent extends AbstractEvent {
             .addFields({
                 name: "Joined Discord",
                 value: `<t:${Math.floor(
-                    member.user.createdTimestamp / 1000
+                    member.user.createdTimestamp / 1000,
                 )}:R>`,
                 inline: true,
             })
