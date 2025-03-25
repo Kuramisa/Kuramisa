@@ -48,19 +48,21 @@ export abstract class AbstractEvent implements IEvent {
 
     readonly emitter: Emitters = "client";
 
-    constructor({ client, event, description, once }: IEventOptions) {
+    constructor({ client, event, description, emitter, once }: IEventOptions) {
         if (!client) throw new Error("No client provided");
         if (!event) throw new Error("No event provided");
         if (!description) throw new Error("No description provided");
         this.client = client;
         this.event = event;
         this.description = description;
+        this.emitter = emitter ?? this.emitter;
         this.once = once;
 
         this.init();
     }
 
     init() {
+        console.log(this.emitter, this.event);
         switch (this.emitter) {
             case "client":
                 if (this.once) this.client.once(this.event as string, this.run);
