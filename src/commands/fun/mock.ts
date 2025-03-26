@@ -57,7 +57,7 @@ export default class MockCommand extends AbstractMenuCommand {
             content: `${message.author} ${mockText(message.content)}`,
             username: user.displayName,
             avatarURL: user.displayAvatarURL(),
-            flags: ["SuppressNotifications"],
+            flags: "SuppressNotifications",
         });
 
         await webhook.delete();

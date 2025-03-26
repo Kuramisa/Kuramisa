@@ -43,13 +43,13 @@ export default class EightBallCommand extends AbstractSlashCommand {
             return interaction.reply({
                 content: `${interaction.user}: ${bold(question)}`,
                 files: [attachment],
-                flags: ["SuppressNotifications"],
+                flags: "SuppressNotifications",
             });
         }
 
         return interaction.reply({
             content: `${interaction.user}: ${bold(question)}\n${response}`,
-            flags: ["SuppressNotifications"],
+            flags: "SuppressNotifications",
         });
     }
 }
