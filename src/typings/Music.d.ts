@@ -5,6 +5,7 @@ export interface QueueMetadata {
     textChannel: GuildTextBasedChannel;
     voiceChannel: VoiceChannel;
 }
+
 export interface PlaylistTrack {
     id: string;
     title: string;
