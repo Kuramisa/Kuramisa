@@ -65,7 +65,7 @@ export default tseslint.config(
             "sonarjs/unused-import": "warn",
             "sonarjs/todo-tag": "warn",
             "sonarjs/no-commented-code": "warn",
-            "import/no-cycle": "warn",
+            "import/no-cycle": "error",
         },
     },
 );
