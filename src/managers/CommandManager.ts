@@ -11,7 +11,12 @@ export default class CommandManager {
     }
 
     async updateCommands() {
-        if (!this.client.isReady()) throw new Error("Kuramisa is not ready!");
+        if (!this.client.isReady()) {
+            logger.warn(
+                `[Command Manager] Client is not ready, skipping command update...`,
+            );
+            return;
+        }
         const startTime = Date.now();
 
         const commands = Array.from(
