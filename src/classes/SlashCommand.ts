@@ -220,8 +220,6 @@ export abstract class AbstractSlashCommand
             case ApplicationCommandOptionType.Number:
                 builder.addNumberOption(option);
                 break;
-            default:
-                throw new Error("Invalid option type.");
         }
     }
 }

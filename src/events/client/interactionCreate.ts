@@ -116,10 +116,9 @@ export default class CommandInteractionManager extends AbstractEvent {
                     interaction: ChatInputCommandInteraction,
                 ) => Promise<unknown>;
 
-                if (typeof commandFunc === "function") {
+                if (typeof commandFunc === "function")
                     await commandFunc(interaction);
-                } else
-                    throw new Error(`Command function ${funcName} not found.`);
+                else throw new Error(`Command function ${funcName} not found.`);
             } catch (error) {
                 logger.error(
                     `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,
@@ -154,10 +153,9 @@ export default class CommandInteractionManager extends AbstractEvent {
                     interaction: ChatInputCommandInteraction,
                 ) => Promise<unknown>;
 
-                if (typeof commandFunc === "function") {
+                if (typeof commandFunc === "function")
                     await commandFunc(interaction);
-                } else
-                    throw new Error(`Command function ${funcName} not found.`);
+                else throw new Error(`Command function ${funcName} not found.`);
             } catch (error) {
                 logger.error(
                     `[Command Interaction Manager] Error running command ${command.name}.\n${error}`,

@@ -48,11 +48,6 @@ export default class ValorantSkins {
     }
 
     info(client: Kuramisa, skin: APIValorantSkin): ValorantSkinInfo {
-        const contentTier = client.games.valorant.contentTiers.get(
-            skin.contentTierUuid,
-        );
-        if (!contentTier) throw new Error("Content Tier not found");
-
         // Level Information
         const levelNames = skin.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(client, skin);

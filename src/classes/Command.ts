@@ -56,7 +56,6 @@ export abstract class AbstractCommand implements ICommand {
         contexts,
         integrations,
     }: ICommandOptions) {
-        if (!name) throw new Error("No name provided");
         this.name = name;
         this.description = description;
         this.detailedDescription = detailedDescription ?? undefined;

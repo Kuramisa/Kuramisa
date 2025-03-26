@@ -39,7 +39,6 @@ export abstract class AbstractEvent implements IEvent {
     readonly emitter: Emitters = "client";
 
     constructor({ client, event, description, emitter, once }: IEventOptions) {
-        if (!description) throw new Error("No description provided");
         this.client = client;
         this.event = event;
         this.description = description;
@@ -101,8 +100,6 @@ export abstract class AbstractEvent implements IEvent {
                         this.run.bind(this),
                     );
                 break;
-            default:
-                throw new Error("Invalid emitter provided");
         }
     }
 
