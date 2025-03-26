@@ -1,5 +1,4 @@
-import crypto from "crypto";
-
+import { pickRandom } from "@sapphire/utilities";
 import { Embed } from "Builders";
 import { fetch } from "games/valorant/API";
 import type { APIValorantAgent } from "typings/APIValorant";
@@ -47,9 +46,7 @@ export default class ValorantAgents {
             )
             .setImage(agent.fullPortraitV2)
             .setColor(
-                `#${agent.backgroundGradientColors[
-                    crypto.randomInt(0, agent.backgroundGradientColors.length)
-                ].slice(0, 6)}`,
+                `#${pickRandom(agent.backgroundGradientColors).slice(0, 6)}`,
             );
 
     static async init() {
