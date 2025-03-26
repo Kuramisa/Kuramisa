@@ -18,10 +18,12 @@ import Managers from "./managers";
 import Stores from "./stores";
 import Systems from "./systems";
 
-const { TOKEN, DATABASE } = process.env;
+const { TOKEN } = process.env;
 
-if (!TOKEN) throw new Error("No bot token provided");
-if (!DATABASE) throw new Error("No database connection string provided");
+if (!TOKEN) {
+    logger.error("Bot Token is not provided");
+    process.exit(1);
+}
 
 export default class Kuramisa extends Client {
     initialized = false;

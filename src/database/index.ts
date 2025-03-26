@@ -2,6 +2,10 @@ import logger from "Logger";
 import mongoose from "mongoose";
 
 const { DATABASE } = process.env;
+if (!DATABASE) {
+    logger.error("Database URL is not provided");
+    process.exit(1);
+}
 
 export default class Database {
     readonly connection: typeof mongoose;

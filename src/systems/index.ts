@@ -1,11 +1,15 @@
 import { Solver } from "@2captcha/captcha-solver";
 import type Kuramisa from "Kuramisa";
 
+import logger from "Logger";
 import Music from "./Music";
 import SelfRoles from "./selfRoles";
 
-if (!process.env.TWOCAPTCHA_KEY)
-    throw new Error("2Captcha key is not provided");
+if (!process.env.TWOCAPTCHA_KEY) {
+    logger.error("2Captcha key is not provided");
+    process.exit(1);
+}
+
 export default class Systems {
     readonly captcha: Solver;
     readonly music: Music;
