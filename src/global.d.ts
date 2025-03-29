@@ -1,11 +1,11 @@
 import type { Collection } from "discord.js";
 
-import type Database from "../database";
-import type Games from "../games";
-import type Kanvas from "../kanvas";
-import type Managers from "../managers";
-import type Stores from "../stores";
-import type Systems from "../systems";
+import type Database from "./database";
+import type Games from "./games";
+import type Kanvas from "./kanvas";
+import type Managers from "./managers";
+import type Stores from "./stores";
+import type Systems from "./systems";
 
 declare module "discord.js" {
     export interface Client {
@@ -24,7 +24,7 @@ declare module "discord.js" {
 
         readonly kEmojis: Collection<string, ApplicationEmoji>;
 
-        readonly owners: User[];
+        readonly owners: Collection<string, User>;
 
         getActivities(): PresenceData[];
         getActivity(): PresenceData;

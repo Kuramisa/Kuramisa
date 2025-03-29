@@ -32,6 +32,12 @@ export default class CommandInteractionManager extends AbstractEvent {
             });
         }
 
+        if (command.ownerOnly && !this.client.owners.has(user.id))
+            return interaction.reply({
+                content: "This command is only available to the bot owners.",
+                flags: "Ephemeral",
+            });
+
         if (command.userPermissions && interaction.inCachedGuild()) {
             const missingPerms = interaction.member.permissions.missing(
                 command.userPermissions,

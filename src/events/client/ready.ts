@@ -34,7 +34,9 @@ export default class ReadyEvent extends AbstractEvent {
         const stealthUser =
             client.users.cache.get("401269337924829186") ??
             (await client.users.fetch("401269337924829186"));
-        client.owners.push(ashUser, stealthUser);
+
+        client.owners.set(ashUser.id, ashUser);
+        client.owners.set(stealthUser.id, stealthUser);
 
         await client.application.commands.fetch();
 

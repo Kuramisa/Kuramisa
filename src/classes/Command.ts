@@ -3,7 +3,6 @@ import {
     InteractionContextType,
     type PermissionResolvable,
 } from "discord.js";
-import logger from "Logger";
 
 export interface ICommand {
     readonly name: string;
@@ -16,6 +15,8 @@ export interface ICommand {
 
     readonly contexts: InteractionContextType[];
     readonly integrations: ApplicationIntegrationType[];
+
+    readonly ownerOnly: boolean;
 }
 
 export interface ICommandOptions {
@@ -30,11 +31,11 @@ export interface ICommandOptions {
 
     contexts?: InteractionContextType[];
     integrations?: ApplicationIntegrationType[];
+
+    ownerOnly?: boolean;
 }
 
 export abstract class AbstractCommand implements ICommand {
-    readonly logger = logger;
-
     readonly name: string;
     readonly description: string = "No description provided.";
     readonly cooldown: number;
@@ -46,6 +47,8 @@ export abstract class AbstractCommand implements ICommand {
     readonly contexts: InteractionContextType[];
     readonly integrations: ApplicationIntegrationType[];
 
+    readonly ownerOnly: boolean;
+
     constructor({
         name,
         description,
@@ -55,6 +58,7 @@ export abstract class AbstractCommand implements ICommand {
         userPermissions,
         contexts,
         integrations,
+        ownerOnly,
     }: ICommandOptions) {
         this.name = name;
         this.description = description;
@@ -68,5 +72,7 @@ export abstract class AbstractCommand implements ICommand {
         this.integrations = integrations ?? [
             ApplicationIntegrationType.GuildInstall,
         ];
+
+        this.ownerOnly = ownerOnly ?? false;
     }
 }

@@ -41,7 +41,7 @@ export default class Kuramisa extends Client {
 
     readonly kEmojis = new Collection<string, ApplicationEmoji>();
 
-    readonly owners: User[] = [];
+    readonly owners = new Collection<string, User>();
 
     constructor() {
         super({

@@ -17,7 +17,7 @@ export default class MusicMessageDeletedEvent extends AbstractEvent {
 
         const { message: msg } = queue.metadata;
 
-        if (msg && message.author.id === this.client.user.id) {
+        if (msg && msg.author.id === this.client.user.id) {
             queue.metadata.message = null;
             queue.delete();
         }
