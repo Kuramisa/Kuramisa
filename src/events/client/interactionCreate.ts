@@ -1,8 +1,8 @@
 import { AbstractEvent, Event } from "classes/Event";
-import type { AbstractMenuCommand } from "classes/MenuCommand";
+import type { AbstractMessageMenuCommand } from "classes/MessageMenuCommand";
 import type { AbstractSlashCommand } from "classes/SlashCommand";
+import type { AbstractUserMenuCommand } from "classes/UserMenuCommand";
 import {
-    ApplicationCommandType,
     ChatInputCommandInteraction,
     Collection,
     type Interaction,
@@ -18,7 +18,7 @@ export default class CommandInteractionManager extends AbstractEvent {
     async run(interaction: Interaction) {
         if (!interaction.isCommand()) return;
 
-        const { commandName, commandType, user } = interaction;
+        const { commandName, user } = interaction;
 
         let command = this.client.stores.commands.get(commandName);
         if (!command) {
@@ -92,8 +92,14 @@ export default class CommandInteractionManager extends AbstractEvent {
         setTimeout(() => timestamps.delete(user.id), cooldownAmount);
 
         // The interaction is a menu command
-        if (commandType !== ApplicationCommandType.ChatInput) {
-            command = command as AbstractMenuCommand;
+        if (interaction.isUserContextMenuCommand()) {
+            command = command as AbstractUserMenuCommand;
+            command.run(interaction);
+            return;
+        }
+
+        if (interaction.isMessageContextMenuCommand()) {
+            command = command as AbstractMessageMenuCommand;
             command.run(interaction);
             return;
         }

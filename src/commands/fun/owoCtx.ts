@@ -1,14 +1,16 @@
-import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
-import type { ContextMenuCommandInteraction } from "discord.js";
 import {
-    ApplicationCommandType,
+    AbstractMessageMenuCommand,
+    MessageMenuCommand,
+} from "classes/MessageMenuCommand";
+import type { MessageContextMenuCommandInteraction } from "discord.js";
+import {
     ApplicationIntegrationType,
     InteractionContextType,
     bold,
 } from "discord.js";
 import { owoify } from "utils";
 
-@MenuCommand({
+@MessageMenuCommand({
     name: "OwOify",
     description: "OwOify a message",
     contexts: [
@@ -19,11 +21,9 @@ import { owoify } from "utils";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    type: ApplicationCommandType.Message,
 })
-export default class OwOCtxCommand extends AbstractMenuCommand {
-    async run(interaction: ContextMenuCommandInteraction) {
-        if (!interaction.isMessageContextMenuCommand()) return;
+export default class OwOCtxCommand extends AbstractMessageMenuCommand {
+    async run(interaction: MessageContextMenuCommandInteraction) {
         const { targetMessage: message } = interaction;
 
         if (message.content.length < 1)

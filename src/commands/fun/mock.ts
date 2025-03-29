@@ -1,14 +1,16 @@
-import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
-import type { ContextMenuCommandInteraction } from "discord.js";
 import {
-    ApplicationCommandType,
+    AbstractMessageMenuCommand,
+    MessageMenuCommand,
+} from "classes/MessageMenuCommand";
+import type { MessageContextMenuCommandInteraction } from "discord.js";
+import {
     ApplicationIntegrationType,
     InteractionContextType,
     bold,
 } from "discord.js";
 import { mockText } from "utils/index";
 
-@MenuCommand({
+@MessageMenuCommand({
     name: "Mock",
     description: "Mock someone's message",
     contexts: [
@@ -19,11 +21,9 @@ import { mockText } from "utils/index";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    type: ApplicationCommandType.Message,
 })
-export default class MockCommand extends AbstractMenuCommand {
-    async run(interaction: ContextMenuCommandInteraction) {
-        if (!interaction.isMessageContextMenuCommand()) return;
+export default class MockCommand extends AbstractMessageMenuCommand {
+    async run(interaction: MessageContextMenuCommandInteraction) {
         const { targetMessage: message, user } = interaction;
 
         if (message.webhookId != null)

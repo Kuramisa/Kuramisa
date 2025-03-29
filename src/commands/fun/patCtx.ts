@@ -1,13 +1,12 @@
-import { AbstractMenuCommand, MenuCommand } from "classes/MenuCommand";
-import type { ContextMenuCommandInteraction } from "discord.js";
 import {
-    ApplicationCommandType,
-    ApplicationIntegrationType,
-    InteractionContextType,
-} from "discord.js";
+    AbstractUserMenuCommand,
+    UserMenuCommand,
+} from "classes/UserMenuCommand";
+import type { UserContextMenuCommandInteraction } from "discord.js";
+import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
 import { nekos } from "utils";
 
-@MenuCommand({
+@UserMenuCommand({
     name: "Pat",
     description: "Pat 'em!",
     contexts: [
@@ -18,12 +17,9 @@ import { nekos } from "utils";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    type: ApplicationCommandType.User,
 })
-export default class PatCommand extends AbstractMenuCommand {
-    async run(interaction: ContextMenuCommandInteraction) {
-        if (!interaction.isUserContextMenuCommand()) return;
-
+export default class PatCommand extends AbstractUserMenuCommand {
+    async run(interaction: UserContextMenuCommandInteraction) {
         const { targetUser, user } = interaction;
 
         if (targetUser.id === user.id)

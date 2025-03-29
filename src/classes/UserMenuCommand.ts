@@ -1,10 +1,10 @@
 import {
+    ApplicationCommandType,
     ApplicationIntegrationType,
     ContextMenuCommandBuilder,
-    type ContextMenuCommandInteraction,
-    type ContextMenuCommandType,
     InteractionContextType,
     PermissionsBitField,
+    type UserContextMenuCommandInteraction,
 } from "discord.js";
 
 import {
@@ -13,19 +13,15 @@ import {
     type ICommandOptions,
 } from "./Command";
 
-export interface IMenuCommand extends ICommand {
-    type: ContextMenuCommandType;
+export interface IUserMenuCommand extends ICommand {
+    type: ApplicationCommandType.User;
 }
 
-export interface IMenuCommandOptions extends ICommandOptions {
-    type: ContextMenuCommandType;
-}
-
-export abstract class AbstractMenuCommand
+export abstract class AbstractUserMenuCommand
     extends AbstractCommand
-    implements IMenuCommand
+    implements IUserMenuCommand
 {
-    readonly type: ContextMenuCommandType;
+    readonly type: ApplicationCommandType.User;
 
     readonly data: ContextMenuCommandBuilder;
 
@@ -38,8 +34,7 @@ export abstract class AbstractMenuCommand
         userPermissions,
         contexts,
         integrations,
-        type,
-    }: IMenuCommandOptions) {
+    }: ICommandOptions) {
         super({
             name,
             description,
@@ -51,9 +46,11 @@ export abstract class AbstractMenuCommand
             integrations,
         });
 
-        this.type = type;
+        this.type = ApplicationCommandType.User;
 
-        this.data = new ContextMenuCommandBuilder().setName(name).setType(type);
+        this.data = new ContextMenuCommandBuilder()
+            .setName(name)
+            .setType(this.type);
 
         if (integrations) this.data.setIntegrationTypes(integrations);
         else
@@ -70,19 +67,19 @@ export abstract class AbstractMenuCommand
             );
     }
 
-    abstract run(interaction: ContextMenuCommandInteraction): unknown;
+    abstract run(interaction: UserContextMenuCommandInteraction): unknown;
 }
 
-export function MenuCommand(options: IMenuCommandOptions) {
+export function UserMenuCommand(options: ICommandOptions) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return function (target: typeof AbstractMenuCommand) {
+    return function (target: typeof AbstractUserMenuCommand) {
         return class extends target {
             constructor() {
                 super(options);
                 target.prototype.run = target.prototype.run.bind(this);
             }
 
-            run(interaction: ContextMenuCommandInteraction) {
+            run(interaction: UserContextMenuCommandInteraction) {
                 return target.prototype.run(interaction);
             }
         };

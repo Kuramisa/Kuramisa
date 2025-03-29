@@ -2,7 +2,8 @@ import fs from "fs/promises";
 import path from "path";
 import { pathToFileURL } from "url";
 
-import { AbstractMenuCommand } from "classes/MenuCommand";
+import { AbstractMessageMenuCommand } from "classes/MessageMenuCommand";
+import { AbstractUserMenuCommand } from "classes/UserMenuCommand";
 import { Collection } from "discord.js";
 import logger from "Logger";
 import ms from "ms";
@@ -12,15 +13,25 @@ import { AbstractSlashCommand } from "../classes/SlashCommand";
 export default class CommandStore {
     readonly commands = new Collection<
         string,
-        AbstractSlashCommand | AbstractMenuCommand
+        | AbstractSlashCommand
+        | AbstractMessageMenuCommand
+        | AbstractUserMenuCommand
     >();
 
     readonly slashCommands = new Collection<string, AbstractSlashCommand>();
-    readonly menuCommands = new Collection<string, AbstractMenuCommand>();
+    readonly menuCommands = new Collection<
+        string,
+        AbstractMessageMenuCommand | AbstractUserMenuCommand
+    >();
 
     readonly categories = new Collection<
         string,
-        Collection<string, AbstractSlashCommand | AbstractMenuCommand>
+        Collection<
+            string,
+            | AbstractSlashCommand
+            | AbstractMessageMenuCommand
+            | AbstractUserMenuCommand
+        >
     >();
 
     get = (name: string) => this.commands.get(name);
@@ -64,74 +75,88 @@ export default class CommandStore {
                         );
                     }
 
-                    if (commandInstance instanceof AbstractMenuCommand) {
-                        this.menuCommands.set(
-                            commandInstance.name,
-                            commandInstance,
+                    if (
+                        commandInstance instanceof AbstractUserMenuCommand ||
+                        commandInstance instanceof AbstractMessageMenuCommand
+                    ) {
+                        {
+                            this.menuCommands.set(
+                                commandInstance.name,
+                                commandInstance,
+                            );
+                        }
+
+                        if (!this.categories.has(fileOrDir))
+                            this.categories.set(fileOrDir, new Collection());
+
+                        this.categories
+                            .get(fileOrDir)
+                            ?.set(commandInstance.name, commandInstance);
+
+                        const commandType =
+                            commandInstance instanceof AbstractSlashCommand
+                                ? "Slash Command"
+                                : "Menu Command";
+
+                        logger.debug(
+                            `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category ${fileOrDir}`,
                         );
                     }
+                }
 
-                    if (!this.categories.has(fileOrDir))
-                        this.categories.set(fileOrDir, new Collection());
+                const isFile = (await fs.stat(deepCommandDir)).isFile();
+                if (!isFile) continue;
 
-                    this.categories
-                        .get(fileOrDir)
-                        ?.set(commandInstance.name, commandInstance);
+                const command = (await import(
+                    pathToFileURL(deepCommandDir).href
+                )) as {
+                    default: new () => AbstractSlashCommand;
+                };
+                const commandInstance = new command.default();
 
-                    const commandType =
-                        commandInstance instanceof AbstractSlashCommand
-                            ? "Slash Command"
-                            : "Menu Command";
+                if (!this.categories.has("Uncategorized")) {
+                    this.categories.set("Uncategorized", new Collection());
+                }
 
-                    logger.debug(
-                        `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category ${fileOrDir}`,
+                this.categories
+                    .get("Uncategorized")
+                    ?.set(commandInstance.name, commandInstance);
+
+                if (!this.commands.has(commandInstance.name))
+                    this.commands.set(commandInstance.name, commandInstance);
+
+                if (commandInstance instanceof AbstractSlashCommand) {
+                    this.slashCommands.set(
+                        commandInstance.name,
+                        commandInstance,
                     );
                 }
+
+                if (
+                    commandInstance instanceof AbstractUserMenuCommand ||
+                    commandInstance instanceof AbstractMessageMenuCommand
+                ) {
+                    this.menuCommands.set(
+                        commandInstance.name,
+                        commandInstance,
+                    );
+                }
+
+                const commandType =
+                    commandInstance instanceof AbstractSlashCommand
+                        ? "Slash Command"
+                        : "Menu Command";
+
+                logger.debug(
+                    `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category Uncategorized`,
+                );
             }
 
-            const isFile = (await fs.stat(deepCommandDir)).isFile();
-            if (!isFile) continue;
-
-            const command = (await import(
-                pathToFileURL(deepCommandDir).href
-            )) as {
-                default: new () => AbstractSlashCommand;
-            };
-            const commandInstance = new command.default();
-
-            if (!this.categories.has("Uncategorized")) {
-                this.categories.set("Uncategorized", new Collection());
-            }
-
-            this.categories
-                .get("Uncategorized")
-                ?.set(commandInstance.name, commandInstance);
-
-            if (!this.commands.has(commandInstance.name))
-                this.commands.set(commandInstance.name, commandInstance);
-
-            if (commandInstance instanceof AbstractSlashCommand) {
-                this.slashCommands.set(commandInstance.name, commandInstance);
-            }
-
-            if (commandInstance instanceof AbstractMenuCommand) {
-                this.menuCommands.set(commandInstance.name, commandInstance);
-            }
-
-            const commandType =
-                commandInstance instanceof AbstractSlashCommand
-                    ? "Slash Command"
-                    : "Menu Command";
-
-            logger.debug(
-                `[Command Store] Loaded command: ${commandInstance.name} - ${commandType} (${commandInstance.description}) in category Uncategorized`,
+            logger.info(
+                `[Command Store] Loaded ${
+                    this.commands.size
+                } commands in ${ms(Date.now() - startTime)}`,
             );
         }
-
-        logger.info(
-            `[Command Store] Loaded ${
-                this.commands.size
-            } commands in ${ms(Date.now() - startTime)}`,
-        );
     }
 }
