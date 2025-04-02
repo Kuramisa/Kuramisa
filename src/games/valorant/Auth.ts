@@ -1,4 +1,4 @@
-import Auth from "@valapi/auth";
+import { Auth } from "@valapi/auth";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { bold } from "discord.js";
 import logger from "Logger";
@@ -56,7 +56,7 @@ export default class ValorantAuth {
 
         const auth = new Auth();
         const hCaptcha = await auth.captcha();
-        const captchaResponse = await client.systems.captcha.hcaptcha({
+        const { data: captcha } = await client.systems.captcha.hcaptcha({
             pageurl: "https://authenticate.riotgames.com/api/v1/login",
             sitekey: hCaptcha.sitekey,
             data: hCaptcha.rqdata,
@@ -68,7 +68,7 @@ export default class ValorantAuth {
             .login({
                 username,
                 password,
-                captcha: captchaResponse.data,
+                captcha,
             })
             .then(() => true)
             .catch((err) => {
