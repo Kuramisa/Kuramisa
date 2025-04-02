@@ -14,7 +14,7 @@ export default class SelfRolesMessageDeleted extends AbstractEvent {
         const { guild, channel } = message;
         if (channel.type !== ChannelType.GuildText) return;
 
-        const db = await this.client.managers.guilds.get(guild.id);
+        const db = await this.container.client.managers.guilds.get(guild.id);
 
         const selfRoleChannel = db.selfRoles.find(
             (selfRole) => selfRole.channelId === channel.id,

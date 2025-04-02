@@ -11,7 +11,8 @@ export default class MemberRoleRemovedEvent extends AbstractEvent {
     async run(member: GuildMember, role: Role) {
         const { guild } = member;
 
-        const channel = await this.client.managers.guilds.logsChannel(guild);
+        const channel =
+            await this.container.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const audit = await guild

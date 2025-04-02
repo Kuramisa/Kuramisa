@@ -11,7 +11,7 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
         if (interaction.commandName !== "autorole") return;
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = this.client;
+        const { managers } = this.container.client;
         const { options, guild } = interaction;
 
         const db = await managers.guilds.get(guild.id);

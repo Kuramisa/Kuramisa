@@ -24,7 +24,7 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
 
         const { channelId, guildId, message, member } = interaction;
 
-        const guild = await this.client.managers.guilds.get(guildId);
+        const guild = await this.container.client.managers.guilds.get(guildId);
 
         const dbChannel = guild.selfRoles.find(
             (channel) => channel.channelId === channelId,

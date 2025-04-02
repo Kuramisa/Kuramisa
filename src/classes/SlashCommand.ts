@@ -20,6 +20,7 @@ import {
     SlashCommandSubcommandGroupBuilder,
 } from "discord.js";
 
+import type { Command } from "@sapphire/framework";
 import {
     AbstractCommand,
     type ICommand,
@@ -40,7 +41,7 @@ type SlashCommandOption =
 export interface ISlashCommandWithOptions {
     name: string;
     description: string;
-    options?: SlashCommandOption[];
+    opts?: SlashCommandOption[];
 }
 
 export interface ISlashCommandSubcommandOptions {
@@ -54,88 +55,74 @@ export interface ISlashCommandSubcommandGroupOptions {
 }
 
 export interface ISlashCommandOptionsAll extends ICommandOptions {
-    options?: SlashCommandOption[];
+    opts?: SlashCommandOption[];
     subcommands?: ISlashCommandWithOptions[];
     groups?: ISlashCommandSubcommandOptions[];
 }
 
 export interface ISlashCommand extends ICommand {
     readonly data: SlashCommandBuilder;
-    run(interaction: ChatInputCommandInteraction): any;
-    [key: `slash${string}`]: (interaction: ChatInputCommandInteraction) => any;
+    run(interaction: ChatInputCommandInteraction): unknown;
+    [key: `slash${string}`]: (
+        interaction: ChatInputCommandInteraction,
+    ) => unknown;
 }
 
 export abstract class AbstractSlashCommand
     extends AbstractCommand
     implements ISlashCommand
 {
-    readonly options: SlashCommandOption[] = [];
+    readonly opts: SlashCommandOption[] = [];
     readonly subcommands: ISlashCommandWithOptions[] = [];
     readonly groups: ISlashCommandSubcommandOptions[] = [];
 
     readonly data: SlashCommandBuilder;
 
-    constructor({
-        name,
-        description,
-        detailedDescription,
-        cooldown,
-        botPermissions,
-        userPermissions,
-        contexts,
-        integrations,
-        options,
-        subcommands,
-        groups,
-    }: ISlashCommandOptionsAll) {
-        super({
-            name,
-            description,
-            detailedDescription,
-            cooldown,
-            botPermissions,
-            userPermissions,
-            contexts,
-            integrations,
-        });
+    constructor(
+        context: Command.LoaderContext,
+        options: ISlashCommandOptionsAll,
+    ) {
+        super(context, { ...options });
 
         this.data = new SlashCommandBuilder()
-            .setName(name)
-            .setDescription(description);
+            .setName(this.name)
+            .setDescription(this.description);
 
-        if (integrations) this.data.setIntegrationTypes(integrations);
+        if (options.integrations)
+            this.data.setIntegrationTypes(options.integrations);
         else
             this.data.setIntegrationTypes(
                 ApplicationIntegrationType.GuildInstall,
             );
 
-        if (contexts) this.data.setContexts(contexts);
+        if (options.contexts) this.data.setContexts(options.contexts);
         else this.data.setContexts(InteractionContextType.Guild);
 
-        if (options && subcommands)
+        if (options.opts && options.subcommands)
             throw new Error("Cannot have both options and subcommands");
-        if (options && groups)
+        if (options.opts && options.groups)
             throw new Error("Cannot have both options and groups");
 
-        if (userPermissions)
+        if (options.requiredUserPermissions)
             this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(userPermissions).bitfield,
+                new PermissionsBitField(options.requiredUserPermissions)
+                    .bitfield,
             );
 
-        if (options) {
-            this.options = options;
-            for (const option of options) {
+        if (options.opts) {
+            this.opts = options.opts;
+            for (const option of options.opts) {
                 this.addOption(this.data, option);
             }
         }
 
-        if (subcommands) {
-            this.subcommands = subcommands;
+        if (options.subcommands) {
+            this.subcommands = options.subcommands;
             this.initSubcommands();
         }
 
-        if (groups) {
-            this.groups = groups;
+        if (options.groups) {
+            this.groups = options.groups;
             this.initGroups();
         }
     }
@@ -146,8 +133,8 @@ export abstract class AbstractSlashCommand
                 .setName(subcommand.name)
                 .setDescription(subcommand.description);
 
-            if (subcommand.options) {
-                for (const option of subcommand.options) {
+            if (subcommand.opts) {
+                for (const option of subcommand.opts) {
                     this.addOption(command, option);
                 }
             }
@@ -167,8 +154,8 @@ export abstract class AbstractSlashCommand
                     .setName(subcommand.name)
                     .setDescription(subcommand.description);
 
-                if (subcommand.options) {
-                    for (const option of subcommand.options) {
+                if (subcommand.opts) {
+                    for (const option of subcommand.opts) {
                         this.addOption(sub, option);
                     }
                 }
@@ -228,8 +215,8 @@ export function SlashCommand(options: ISlashCommandOptionsAll) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractSlashCommand) {
         return class extends target {
-            constructor() {
-                super(options);
+            constructor(context: Command.LoaderContext) {
+                super(context, { ...options });
                 target.prototype.run = target.prototype.run.bind(this);
 
                 if (options.subcommands) {

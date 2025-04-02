@@ -13,7 +13,7 @@ export default class YourValorantAutocomplete extends AbstractEvent {
 
         const {
             games: { valorant },
-        } = this.client;
+        } = this.container.client;
 
         const { options } = interaction;
 

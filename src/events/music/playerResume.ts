@@ -11,7 +11,7 @@ export default class PlayerResumeEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {
         const {
             systems: { music },
-        } = this.client;
+        } = this.container.client;
 
         await music.updateMessage(queue, {
             content: "",

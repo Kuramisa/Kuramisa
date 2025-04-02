@@ -20,7 +20,7 @@ export default class ValorantUtil {
     private readonly client: Kuramisa;
 
     constructor(client: Kuramisa) {
-        this.client = client;
+        this.container.client = client;
     }
 
     determineComponents(

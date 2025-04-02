@@ -9,7 +9,7 @@ export default class GuildManager {
     readonly cache: Collection<string, GuildDocument>;
 
     constructor(client: Kuramisa) {
-        this.client = client;
+        this.container.client = client;
         this.cache = new Collection();
     }
 
@@ -30,8 +30,8 @@ export default class GuildManager {
 
     async fetch(id: Snowflake) {
         const guild =
-            this.client.guilds.cache.get(id) ??
-            (await this.client.guilds.fetch(id));
+            this.container.client.guilds.cache.get(id) ??
+            (await this.container.client.guilds.fetch(id));
         const doc =
             (await guildModel.findOne({ id })) ?? (await this.create(guild));
 

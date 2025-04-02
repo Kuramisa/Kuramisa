@@ -2,11 +2,7 @@ import { AbstractEvent, Event } from "classes/Event";
 import type { AbstractMessageMenuCommand } from "classes/MessageMenuCommand";
 import type { AbstractSlashCommand } from "classes/SlashCommand";
 import type { AbstractUserMenuCommand } from "classes/UserMenuCommand";
-import {
-    ChatInputCommandInteraction,
-    Collection,
-    type Interaction,
-} from "discord.js";
+import { ChatInputCommandInteraction, type Interaction } from "discord.js";
 import camelCase from "lodash/camelCase";
 import logger from "Logger";
 
@@ -20,7 +16,9 @@ export default class CommandInteractionManager extends AbstractEvent {
 
         const { commandName, user } = interaction;
 
-        let command = this.client.stores.commands.get(commandName);
+        let command = this.container.client.stores
+            .get("commands")
+            .get(commandName);
         if (!command) {
             logger.debug(
                 `[Command Interaction Manager] Command ${commandName} not found.`,
@@ -32,13 +30,13 @@ export default class CommandInteractionManager extends AbstractEvent {
             });
         }
 
-        if (command.ownerOnly && !this.client.owners.has(user.id))
+        /*if (command.ownerOnly && !this.container.client.owners.has(user.id))
             return interaction.reply({
                 content: "This command is only available to the bot owners.",
                 flags: "Ephemeral",
-            });
+            });*/
 
-        if (command.userPermissions && interaction.inCachedGuild()) {
+        /*if (command.userPermissions && interaction.inCachedGuild()) {
             const missingPerms = interaction.member.permissions.missing(
                 command.userPermissions,
             );
@@ -71,31 +69,7 @@ export default class CommandInteractionManager extends AbstractEvent {
                     flags: "Ephemeral",
                 });
             }
-        }
-
-        const { cooldowns } = this.client;
-
-        if (!cooldowns.has(command.name))
-            cooldowns.set(command.name, new Collection());
-
-        const now = Date.now();
-        const timestamps = cooldowns.get(command.name)!;
-        const cooldownAmount = command.cooldown * 1000;
-
-        if (timestamps.has(user.id)) {
-            const expirationTime = timestamps.get(user.id)! + cooldownAmount;
-
-            if (now < expirationTime) {
-                const timeLeft = (expirationTime - now) / 1000;
-                return interaction.reply({
-                    content: `Please wait ${timeLeft.toFixed(1)} more second(s) before reusing the \`${command.name}\` command.`,
-                    flags: "Ephemeral",
-                });
-            }
-        }
-
-        timestamps.set(user.id, now);
-        setTimeout(() => timestamps.delete(user.id), cooldownAmount);
+        }*/
 
         // The interaction is a menu command
         if (interaction.isUserContextMenuCommand()) {

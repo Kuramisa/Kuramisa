@@ -10,7 +10,8 @@ export default class MemberJoinEvent extends AbstractEvent {
     async run(member: GuildMember) {
         const { guild } = member;
 
-        const channel = await this.client.managers.guilds.logsChannel(guild);
+        const channel =
+            await this.container.client.managers.guilds.logsChannel(guild);
         if (!channel) return;
 
         const embed = new Embed()

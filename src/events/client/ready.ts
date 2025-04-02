@@ -11,7 +11,7 @@ import { AbstractEvent, Event } from "../../classes/Event";
 })
 export default class ReadyEvent extends AbstractEvent {
     async run() {
-        if (!this.client.isReady()) return;
+        if (!this.container.client.isReady()) return;
         const { client } = this;
 
         await client.managers.commands.updateCommands();

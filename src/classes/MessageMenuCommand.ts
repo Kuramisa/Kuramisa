@@ -2,18 +2,21 @@ import {
     ApplicationCommandType,
     ApplicationIntegrationType,
     ContextMenuCommandBuilder,
-    type ContextMenuCommandInteraction,
-    type ContextMenuCommandType,
     InteractionContextType,
     type MessageContextMenuCommandInteraction,
     PermissionsBitField,
 } from "discord.js";
 
+import type { Command } from "@sapphire/framework";
 import {
     AbstractCommand,
     type ICommand,
     type ICommandOptions,
 } from "./Command";
+
+export interface IMessageMenuCommandOptions extends ICommandOptions {
+    type: ApplicationCommandType.Message;
+}
 
 export interface IMessageMenuCommand extends ICommand {
     type: ApplicationCommandType.Message;
@@ -21,63 +24,56 @@ export interface IMessageMenuCommand extends ICommand {
 
 export abstract class AbstractMessageMenuCommand
     extends AbstractCommand
-    implements ICommandOptions
+    implements IMessageMenuCommand
 {
-    readonly type: ContextMenuCommandType;
+    readonly type: ApplicationCommandType.Message;
 
     readonly data: ContextMenuCommandBuilder;
 
-    constructor({
-        name,
-        description,
-        detailedDescription,
-        cooldown,
-        botPermissions,
-        userPermissions,
-        contexts,
-        integrations,
-    }: ICommandOptions) {
-        super({
-            name,
-            description,
-            detailedDescription,
-            cooldown,
-            botPermissions,
-            userPermissions,
-            contexts,
-            integrations,
-        });
+    constructor(
+        context: Command.LoaderContext,
+        options: IMessageMenuCommandOptions,
+    ) {
+        super(context, { ...options });
 
         this.type = ApplicationCommandType.Message;
 
         this.data = new ContextMenuCommandBuilder()
-            .setName(name)
+            .setName(this.name)
             .setType(this.type);
 
-        if (integrations) this.data.setIntegrationTypes(integrations);
+        if (options.integrations)
+            this.data.setIntegrationTypes(options.integrations);
         else
             this.data.setIntegrationTypes(
                 ApplicationIntegrationType.GuildInstall,
             );
 
-        if (contexts) this.data.setContexts(contexts);
+        if (options.contexts) this.data.setContexts(options.contexts);
         else this.data.setContexts(InteractionContextType.Guild);
 
-        if (userPermissions)
+        if (options.requiredUserPermissions)
             this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(userPermissions).bitfield,
+                new PermissionsBitField(options.requiredUserPermissions)
+                    .bitfield,
             );
     }
 
-    abstract run(interaction: ContextMenuCommandInteraction): unknown;
+    override registerApplicationCommands(registry: Command.Registry) {
+        registry.registerContextMenuCommand(this.data);
+    }
+
+    abstract run(interaction: MessageContextMenuCommandInteraction): unknown;
 }
 
-export function MessageMenuCommand(options: ICommandOptions) {
+export function MessageMenuCommand(options: IMessageMenuCommandOptions) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractMessageMenuCommand) {
         return class extends target {
-            constructor() {
-                super(options);
+            constructor(context: Command.LoaderContext) {
+                super(context, {
+                    ...options,
+                });
                 target.prototype.run = target.prototype.run.bind(this);
             }
 

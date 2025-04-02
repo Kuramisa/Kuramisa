@@ -12,7 +12,7 @@ export default class PlayerStartEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {
         const {
             systems: { music },
-        } = this.client;
+        } = this.container.client;
 
         await music.updateMessage(queue, {
             content: "",

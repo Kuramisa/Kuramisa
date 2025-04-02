@@ -18,7 +18,7 @@ export default class PlaylistAutocomplete extends AbstractEvent {
         const {
             managers,
             systems: { music },
-        } = this.client;
+        } = this.container.client;
 
         const db = await managers.users.get(user.id);
 

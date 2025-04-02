@@ -19,7 +19,7 @@ export default class VolumeChangeEvent extends AbstractEvent {
 
         const {
             systems: { music },
-        } = this.client;
+        } = this.container.client;
 
         if (!message) return;
 

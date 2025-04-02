@@ -12,7 +12,7 @@ export default class EventStore {
     private readonly client: Kuramisa;
 
     constructor(client: Kuramisa) {
-        this.client = client;
+        this.container.client = client;
     }
 
     readonly events = new Collection<string, AbstractEvent[]>();
@@ -34,7 +34,9 @@ export default class EventStore {
                         pathToFileURL(path.resolve(deepEventDir, deepFile)).href
                     )) as { default: new (client: Kuramisa) => AbstractEvent };
 
-                    const eventInstance = new event.default(this.client);
+                    const eventInstance = new event.default(
+                        this.container.client,
+                    );
                     if (!this.events.has(eventInstance.event))
                         this.events.set(eventInstance.event, []);
                     this.events.get(eventInstance.event)?.push(eventInstance);
@@ -52,7 +54,7 @@ export default class EventStore {
             const event = (await import(pathToFileURL(eventPath).href)) as {
                 default: new (client: Kuramisa) => AbstractEvent;
             };
-            const eventInstance = new event.default(this.client);
+            const eventInstance = new event.default(this.container.client);
 
             if (!this.events.has(eventInstance.event))
                 this.events.set(eventInstance.event, []);

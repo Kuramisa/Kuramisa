@@ -82,7 +82,7 @@ export default class Valorant {
     static readonly assetsURL = "https://valorant-api.com/v1";
 
     constructor(client: Kuramisa) {
-        this.client = client;
+        this.container.client = client;
 
         this.util = new ValorantUtil(client);
 
@@ -274,10 +274,10 @@ export default class Valorant {
     }
 
     async loadAccounts(userId: Snowflake) {
-        const dbUser = await this.client.managers.users.get(userId);
+        const dbUser = await this.container.client.managers.users.get(userId);
         const user =
-            this.client.users.cache.get(userId) ??
-            (await this.client.users.fetch(userId).catch(() => null));
+            this.container.client.users.cache.get(userId) ??
+            (await this.container.client.users.fetch(userId).catch(() => null));
 
         if (!user) {
             logger.debug(`[Valorant] User not found for ${userId}`);

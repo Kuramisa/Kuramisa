@@ -8,7 +8,7 @@ import type { QueueMetadata } from "typings/Music";
 })
 export default class EmptyQueueEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {
-        await this.client.systems.music.updateMessage(queue, {
+        await this.container.client.systems.music.updateMessage(queue, {
             embeds: [],
             components: [],
             content: "> 😊 The queue is empty",

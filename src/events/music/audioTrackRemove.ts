@@ -14,7 +14,7 @@ export default class AudioTrackRemoveEvent extends AbstractEvent {
         const {
             kEmojis: emojis,
             systems: { music },
-        } = this.client;
+        } = this.container.client;
 
         const embed = new Embed()
             .setAuthor({ name: "Removed from queue" })

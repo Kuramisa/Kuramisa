@@ -7,6 +7,7 @@ import {
     type UserContextMenuCommandInteraction,
 } from "discord.js";
 
+import type { Command } from "@sapphire/framework";
 import {
     AbstractCommand,
     type ICommand,
@@ -14,6 +15,10 @@ import {
 } from "./Command";
 
 export interface IUserMenuCommand extends ICommand {
+    type: ApplicationCommandType.User;
+}
+
+export interface IUserMenuCommandOptions extends ICommandOptions {
     type: ApplicationCommandType.User;
 }
 
@@ -25,57 +30,44 @@ export abstract class AbstractUserMenuCommand
 
     readonly data: ContextMenuCommandBuilder;
 
-    constructor({
-        name,
-        description,
-        detailedDescription,
-        cooldown,
-        botPermissions,
-        userPermissions,
-        contexts,
-        integrations,
-    }: ICommandOptions) {
-        super({
-            name,
-            description,
-            detailedDescription,
-            cooldown,
-            botPermissions,
-            userPermissions,
-            contexts,
-            integrations,
-        });
+    constructor(
+        context: Command.LoaderContext,
+        options: IUserMenuCommandOptions,
+    ) {
+        super(context, { ...options });
 
         this.type = ApplicationCommandType.User;
 
         this.data = new ContextMenuCommandBuilder()
-            .setName(name)
+            .setName(this.name)
             .setType(this.type);
 
-        if (integrations) this.data.setIntegrationTypes(integrations);
+        if (options.integrations)
+            this.data.setIntegrationTypes(options.integrations);
         else
             this.data.setIntegrationTypes(
                 ApplicationIntegrationType.GuildInstall,
             );
 
-        if (contexts) this.data.setContexts(contexts);
+        if (options.contexts) this.data.setContexts(options.contexts);
         else this.data.setContexts(InteractionContextType.Guild);
 
-        if (userPermissions)
+        if (options.requiredUserPermissions)
             this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(userPermissions).bitfield,
+                new PermissionsBitField(options.requiredUserPermissions)
+                    .bitfield,
             );
     }
 
     abstract run(interaction: UserContextMenuCommandInteraction): unknown;
 }
 
-export function UserMenuCommand(options: ICommandOptions) {
+export function UserMenuCommand(options: IUserMenuCommandOptions) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractUserMenuCommand) {
         return class extends target {
-            constructor() {
-                super(options);
+            constructor(context: Command.LoaderContext) {
+                super(context, { ...options });
                 target.prototype.run = target.prototype.run.bind(this);
             }
 

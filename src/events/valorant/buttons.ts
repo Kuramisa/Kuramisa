@@ -13,7 +13,7 @@ export default class ValorantButtons extends AbstractEvent {
 
         const {
             games: { valorant },
-        } = this.client;
+        } = this.container.client;
 
         if (!valorant.initialized)
             return interaction.reply({
@@ -42,7 +42,7 @@ export default class ValorantButtons extends AbstractEvent {
             await interaction.deferReply();
 
             const infoCollection = valorant.skins.collection(
-                this.client,
+                this.container.client,
                 skins,
             );
 

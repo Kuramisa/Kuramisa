@@ -9,7 +9,7 @@ export default class UserManager {
     readonly cache: Collection<string, UserDocument>;
 
     constructor(client: Kuramisa) {
-        this.client = client;
+        this.container.client = client;
         this.cache = new Collection();
     }
 
@@ -30,8 +30,8 @@ export default class UserManager {
 
     async fetch(id: Snowflake) {
         const user =
-            this.client.users.cache.get(id) ??
-            (await this.client.users.fetch(id));
+            this.container.client.users.cache.get(id) ??
+            (await this.container.client.users.fetch(id));
         const doc =
             (await userModel.findOne({
                 id,

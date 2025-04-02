@@ -3,19 +3,18 @@ import dLogs from "discord-logs";
 import type { ApplicationEmoji } from "discord.js";
 import {
     ActivityType,
-    Client,
     Collection,
     Partials,
     type PresenceData,
     type User,
 } from "discord.js";
 
+import { SapphireClient } from "@sapphire/framework";
 import logger from "Logger";
 import Database from "./database";
 import Games from "./games";
 import Kanvas from "./kanvas";
 import Managers from "./managers";
-import Stores from "./stores";
 import Systems from "./systems";
 
 const { TOKEN } = process.env;
@@ -25,7 +24,7 @@ if (!TOKEN) {
     process.exit(1);
 }
 
-export default class Kuramisa extends Client {
+export default class Kuramisa extends SapphireClient {
     initialized = false;
     startTime = Date.now();
 
@@ -34,7 +33,6 @@ export default class Kuramisa extends Client {
     readonly kanvas: Kanvas;
     readonly games: Games;
     readonly managers: Managers;
-    readonly stores: Stores;
     readonly systems: Systems;
 
     readonly cooldowns = new Collection<string, Collection<string, number>>();
@@ -69,7 +67,6 @@ export default class Kuramisa extends Client {
         this.kanvas = new Kanvas();
         this.games = new Games(this);
         this.managers = new Managers(this);
-        this.stores = new Stores(this);
         this.systems = new Systems(this);
     }
 
@@ -120,9 +117,6 @@ export default class Kuramisa extends Client {
         });
 
         await this.systems.music.init();
-
-        await this.stores.commands.load();
-        await this.stores.events.load();
 
         await this.games.valorant.init();
 

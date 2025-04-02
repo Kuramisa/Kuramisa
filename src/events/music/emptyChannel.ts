@@ -12,7 +12,7 @@ export default class EmptyChannelEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {
         const { message } = queue.metadata;
 
-        await this.client.systems.music.updateMessage(queue, {
+        await this.container.client.systems.music.updateMessage(queue, {
             embeds: [],
             components: [],
             content: "> 🥲 The voice channel got lonely, so I left the channel",
