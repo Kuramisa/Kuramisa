@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { sleep } from "@sapphire/utilities";
 import { AbstractEvent, Event } from "classes/Event";
 import type { GuildQueue } from "discord-player";
@@ -6,7 +7,7 @@ import type { QueueMetadata } from "typings/Music";
 @Event({
     event: "emptyChannel",
     description: "Empty channel event",
-    emitter: "music-queue",
+    emitter: container.client.systems.music.events,
 })
 export default class EmptyChannelEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>) {

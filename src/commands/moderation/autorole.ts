@@ -5,13 +5,13 @@ import type { ChatInputCommandInteraction } from "discord.js";
 @SlashCommand({
     name: "auto-role",
     description: "Set the Auto role for the server",
-    userPermissions: ["ManageRoles"],
-    botPermissions: ["ManageRoles"],
+    requiredClientPermissions: ["ManageRoles"],
+    requiredUserPermissions: ["ManageRoles"],
     subcommands: [
         {
             name: "add",
             description: "Add an autorole",
-            options: [
+            opts: [
                 new RoleOption()
                     .setName("role_to_add")
                     .setDescription("The role to add as an autorole"),
@@ -20,7 +20,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
         {
             name: "remove",
             description: "Remove an autorole",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("role_to_remove")
                     .setDescription("The role to remove as an autorole")

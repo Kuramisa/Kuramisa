@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
 import { type GuildQueue, QueueRepeatMode, type Track } from "discord-player";
@@ -6,7 +7,7 @@ import type { QueueMetadata } from "typings/Music";
 @Event({
     event: "audioTrackAdd",
     description: "Event when a track is added to the queue",
-    emitter: "music-queue",
+    emitter: container.client.systems.music.events,
 })
 export default class AudioTrackAddEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {

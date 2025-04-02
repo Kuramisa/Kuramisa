@@ -1,10 +1,9 @@
 import { AbstractEvent, Event } from "classes/Event";
 import type { AbstractMessageMenuCommand } from "classes/MessageMenuCommand";
 import type { AbstractSlashCommand } from "classes/SlashCommand";
-import type { AbstractUserMenuCommand } from "classes/UserMenuCommand";
+import { AbstractUserMenuCommand } from "classes/UserMenuCommand";
 import { ChatInputCommandInteraction, type Interaction } from "discord.js";
 import camelCase from "lodash/camelCase";
-import logger from "Logger";
 
 @Event({
     event: "interactionCreate",
@@ -14,13 +13,18 @@ export default class CommandInteractionManager extends AbstractEvent {
     async run(interaction: Interaction) {
         if (!interaction.isCommand()) return;
 
-        const { commandName, user } = interaction;
+        const { logger, stores } = this.container;
 
-        let command = this.container.client.stores
-            .get("commands")
-            .get(commandName);
+        const { commandName } = interaction;
+
+        const command = stores.get("commands").get(commandName) as
+            | AbstractSlashCommand
+            | AbstractMessageMenuCommand
+            | AbstractUserMenuCommand
+            | undefined;
+
         if (!command) {
-            logger.debug(
+            logger.error(
                 `[Command Interaction Manager] Command ${commandName} not found.`,
             );
 
@@ -72,19 +76,24 @@ export default class CommandInteractionManager extends AbstractEvent {
         }*/
 
         // The interaction is a menu command
-        if (interaction.isUserContextMenuCommand()) {
-            command = command as AbstractUserMenuCommand;
+        if (
+            command.isUserMenuCommand() &&
+            interaction.isUserContextMenuCommand()
+        ) {
             command.run(interaction);
             return;
         }
 
-        if (interaction.isMessageContextMenuCommand()) {
-            command = command as AbstractMessageMenuCommand;
+        if (
+            interaction.isMessageContextMenuCommand() &&
+            command.isMessageMenuCommand()
+        ) {
             command.run(interaction);
             return;
         }
 
-        command = command as AbstractSlashCommand;
+        if (!command.isSlashCommand() || !interaction.isChatInputCommand())
+            return;
 
         const { options } = interaction;
 

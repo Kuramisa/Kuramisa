@@ -1,5 +1,5 @@
 import { fetch as sapphireFetch } from "@sapphire/fetch";
-import logger from "Logger";
+import { container } from "@sapphire/framework";
 import type { Response } from "typings";
 import type {
     APIValorant,
@@ -28,7 +28,6 @@ import type {
     APIValorantVersion,
     APIValorantWeapon,
 } from "typings/APIValorant";
-
 // Fetch Cosmetics
 export async function fetch(endpoint: "buddies"): Promise<APIValorantBuddy[]>;
 export async function fetch(endpoint: "bundles"): Promise<APIValorantBundle[]>;
@@ -92,7 +91,7 @@ export async function fetch(
         if (res.error) throw new Error(res.error);
         return res.data ?? [];
     } catch (err) {
-        logger.error(err);
+        container.logger.error(err);
         return [];
     }
 }

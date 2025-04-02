@@ -75,7 +75,7 @@ export default class BotInfoCommand extends AbstractSlashCommand {
                 },
                 {
                     name: "Commands",
-                    value: stores.commands.commands.size.toString(),
+                    value: stores.get("commands").size.toString(),
                     inline: true,
                 },
                 {

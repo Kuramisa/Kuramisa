@@ -1,3 +1,5 @@
+import "@sapphire/plugin-logger/register";
+
 import { pickRandom } from "@sapphire/utilities";
 import dLogs from "discord-logs";
 import type { ApplicationEmoji } from "discord.js";
@@ -9,8 +11,10 @@ import {
     type User,
 } from "discord.js";
 
-import { SapphireClient } from "@sapphire/framework";
-import logger from "Logger";
+import { LogLevel, SapphireClient } from "@sapphire/framework";
+
+import { getRootData } from "@sapphire/pieces";
+import path from "path";
 import Database from "./database";
 import Games from "./games";
 import Kanvas from "./kanvas";
@@ -18,11 +22,6 @@ import Managers from "./managers";
 import Systems from "./systems";
 
 const { TOKEN } = process.env;
-
-if (!TOKEN) {
-    logger.error("Bot Token is not provided");
-    process.exit(1);
-}
 
 export default class Kuramisa extends SapphireClient {
     initialized = false;
@@ -60,6 +59,12 @@ export default class Kuramisa extends SapphireClient {
             ],
             partials: [Partials.Channel, Partials.Message, Partials.User],
             shards: "auto",
+            logger: {
+                level:
+                    process.env.NODE_ENV === "development"
+                        ? LogLevel.Debug
+                        : LogLevel.Info,
+            },
         });
 
         this.database = new Database();
@@ -68,6 +73,10 @@ export default class Kuramisa extends SapphireClient {
         this.games = new Games(this);
         this.managers = new Managers(this);
         this.systems = new Systems(this);
+
+        this.stores
+            .get("listeners")
+            .registerPath(path.join(getRootData().root, "events"));
     }
 
     getActivities(): PresenceData[] {
@@ -135,7 +144,9 @@ export default class Kuramisa extends SapphireClient {
             (c) => c.name === command,
         );
         if (!appCommand) {
-            logger.error(`Couldn't mention ${command}, since it doesn't exist`);
+            this.logger.error(
+                `Couldn't mention ${command}, since it doesn't exist`,
+            );
             return "";
         }
 

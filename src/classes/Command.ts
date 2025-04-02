@@ -1,5 +1,8 @@
 import { Command, type CommandOptions } from "@sapphire/framework";
 import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
+import type { IMessageMenuCommand } from "./MessageMenuCommand";
+import { AbstractSlashCommand, type ISlashCommand } from "./SlashCommand";
+import type { IUserMenuCommand } from "./UserMenuCommand";
 
 export interface ICommandOptions extends CommandOptions {
     contexts?: InteractionContextType[];
@@ -22,5 +25,15 @@ export abstract class AbstractCommand extends Command implements ICommand {
         this.integrations = options.integrations ?? [
             ApplicationIntegrationType.GuildInstall,
         ];
+    }
+
+    isSlashCommand(): this is ISlashCommand {
+        return this instanceof AbstractSlashCommand;
+    }
+    isMessageMenuCommand(): this is IMessageMenuCommand {
+        return this instanceof AbstractSlashCommand;
+    }
+    isUserMenuCommand(): this is IUserMenuCommand {
+        return this instanceof AbstractSlashCommand;
     }
 }

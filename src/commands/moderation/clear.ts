@@ -5,9 +5,9 @@ import type { ChatInputCommandInteraction } from "discord.js";
 @SlashCommand({
     name: "clear",
     description: "Clear messages in a channel",
-    botPermissions: ["ManageMessages"],
-    userPermissions: ["ManageMessages"],
-    options: [
+    requiredClientPermissions: ["ManageMessages"],
+    requiredUserPermissions: ["ManageMessages"],
+    opts: [
         new IntegerOption()
             .setName("amount")
             .setDescription("The amount of messages to clear")

@@ -15,7 +15,7 @@ import { owoify } from "utils";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    options: [
+    opts: [
         new StringOption().setName("text").setDescription("The text to OwOify"),
     ],
 })

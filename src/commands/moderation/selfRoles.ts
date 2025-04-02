@@ -11,14 +11,14 @@ import { ButtonStyle } from "discord.js";
 @SlashCommand({
     name: "self-roles",
     description: "Configure self roles for this server",
-    userPermissions: [
+    requiredUserPermissions: [
         "ManageChannels",
         "ManageRoles",
         "ManageMessages",
         "SendMessages",
         "ReadMessageHistory",
     ],
-    botPermissions: [
+    requiredClientPermissions: [
         "ManageChannels",
         "ManageRoles",
         "ManageMessages",
@@ -29,7 +29,7 @@ import { ButtonStyle } from "discord.js";
         {
             name: "auto-setup",
             description: "Automatically set up self roles for this server",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("channel_name")
                     .setDescription("The name of the channel to create"),
@@ -51,7 +51,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "add",
                     description: "Add a message for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
@@ -66,7 +66,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "edit",
                     description: "Edit a message for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
@@ -82,7 +82,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "remove",
                     description: "Remove a message for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
@@ -104,7 +104,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "add",
                     description: "Add a button for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
@@ -153,7 +153,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "edit",
                     description: "Edit a button for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(
@@ -209,7 +209,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "remove",
                     description: "Remove a button for self roles",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("sr_channel")
                             .setDescription(

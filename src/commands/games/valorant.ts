@@ -25,7 +25,7 @@ import { Pagination } from "utils";
         {
             name: "login",
             description: "Login to your VALORANT account",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("valorant_username")
                     .setDescription("Your VALORANT username"),
@@ -37,7 +37,7 @@ import { Pagination } from "utils";
         {
             name: "agents",
             description: "Get information about VALORANT agents",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("valorant_agent")
                     .setDescription("Choose a VALORANT Agent")
@@ -48,7 +48,7 @@ import { Pagination } from "utils";
         {
             name: "skins",
             description: "Get information about VALORANT skins",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("valorant_weapon")
                     .setDescription("Choose a VALORANT weapon")
@@ -58,7 +58,7 @@ import { Pagination } from "utils";
         {
             name: "weapons",
             description: "Get information about VALORANT weapons",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("valorant_weapon")
                     .setDescription("Choose a VALORANT Weapon")

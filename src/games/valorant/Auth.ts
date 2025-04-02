@@ -1,7 +1,6 @@
 import { Auth } from "@valapi/auth";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { bold } from "discord.js";
-import logger from "Logger";
 
 import type Valorant from ".";
 
@@ -14,6 +13,7 @@ export default class ValorantAuth {
 
     async login(interaction: ChatInputCommandInteraction) {
         const { client, options, user } = interaction;
+        const { logger } = client;
 
         const accounts = this.valorant.accounts.get(user.id);
 

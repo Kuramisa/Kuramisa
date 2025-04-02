@@ -1,13 +1,12 @@
+import { container } from "@sapphire/framework";
 import { AbstractEvent, Event } from "classes/Event";
-import logger from "Logger";
-
 @Event({
     event: "error",
     description: "Error event for music system",
-    emitter: "music-player",
+    emitter: container.client.systems.music,
 })
 export default class MusicErrorEvent extends AbstractEvent {
     run(error: string) {
-        logger.error(`[Music] ${error}`);
+        this.container.logger.error(`[Music] ${error}`);
     }
 }

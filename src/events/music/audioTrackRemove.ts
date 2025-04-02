@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { Embed } from "Builders";
 import { AbstractEvent, Event } from "classes/Event";
 import type { GuildQueue, Track } from "discord-player";
@@ -7,7 +8,7 @@ import type { QueueMetadata } from "typings/Music";
 @Event({
     event: "audioTrackRemove",
     description: "Fired when an audio track is removed from the queue",
-    emitter: "music-queue",
+    emitter: container.client.systems.music.events,
 })
 export default class AudioTrackRemoveEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {

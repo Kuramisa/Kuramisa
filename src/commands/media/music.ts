@@ -28,7 +28,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "play",
             description: "Play a song",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("track_or_playlist_name_or_url")
                     .setDescription("The track or playlist Name or URL")
@@ -46,7 +46,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "skip",
             description: "Skip the current song or to a specific song",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("track_in_queue")
                     .setDescription("Track to skip to")
@@ -65,7 +65,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "loop",
             description: "Loop modes",
-            options: [
+            opts: [
                 new IntegerOption()
                     .setName("loop_mode")
                     .setDescription("How to loop?")
@@ -92,7 +92,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "volume",
             description: "Change the volume",
-            options: [
+            opts: [
                 new IntegerOption()
                     .setName("volume")
                     .setDescription("The volume to set")
@@ -103,7 +103,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "seek",
             description: "Seek to a specific time in the track",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("seek_time")
                     .setDescription("The time to seek to")
@@ -117,7 +117,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "remove",
             description: "Remove a song from the queue",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("track_in_queue")
                     .setDescription("The track to remove")
@@ -131,7 +131,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "search",
             description: "Search for a song",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("track_or_playlist_name_or_url")
                     .setDescription("The track or playlist Name or URL")
@@ -147,7 +147,7 @@ import { durationPattern, durationToMs } from "utils";
                 {
                     name: "search",
                     description: "Search for lyrics",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("track_or_playlist_name_or_url")
                             .setDescription("The track or playlist Name or URL")
@@ -167,7 +167,7 @@ import { durationPattern, durationToMs } from "utils";
                 {
                     name: "toggle",
                     description: "Toggle a filter",
-                    options: [
+                    opts: [
                         new StringOption()
                             .setName("player_filters")
                             .setDescription("The filters to toggle")

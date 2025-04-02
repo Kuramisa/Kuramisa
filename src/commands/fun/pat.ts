@@ -19,7 +19,7 @@ import { nekos } from "utils";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    options: [
+    opts: [
         new UserOption().setName("user").setDescription("The user to pat"),
         new BooleanOption()
             .setName("notify_them")

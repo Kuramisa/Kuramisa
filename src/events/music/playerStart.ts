@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { AbstractEvent, Event } from "classes/Event";
 import type { GuildQueue, Track } from "discord-player";
 import type { QueueMetadata } from "typings/Music";
@@ -6,7 +7,7 @@ import type { QueueMetadata } from "typings/Music";
     event: "playerStart",
     description:
         "Event that triggers when a music player starts playing a song",
-    emitter: "music-queue",
+    emitter: container.client.systems.music.events,
 })
 export default class PlayerStartEvent extends AbstractEvent {
     async run(queue: GuildQueue<QueueMetadata>, track: Track) {

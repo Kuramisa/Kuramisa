@@ -1,11 +1,7 @@
-import logger from "Logger";
+import { container } from "@sapphire/framework";
 import mongoose from "mongoose";
 
 const { DATABASE } = process.env;
-if (!DATABASE) {
-    logger.error("Database URL is not provided");
-    process.exit(1);
-}
 
 export default class Database {
     readonly connection: typeof mongoose;
@@ -17,18 +13,22 @@ export default class Database {
     connect = () =>
         this.connection
             .connect(DATABASE ?? "")
-            .then(() => logger.info("[Database] Connected to database"))
+            .then(() =>
+                container.logger.info("[Database] Connected to database"),
+            )
             .catch((error) =>
-                logger.error(
+                container.logger.error(
                     `[Database] Error connecting to database: ${error}`,
                 ),
             );
     disconnect = () =>
         this.connection
             .disconnect()
-            .then(() => logger.info("[Database] Disconnected from database"))
+            .then(() =>
+                container.logger.info("[Database] Disconnected from database"),
+            )
             .catch((error) =>
-                logger.error(
+                container.logger.error(
                     `[Database] Error disconnecting from database ${error}`,
                 ),
             );

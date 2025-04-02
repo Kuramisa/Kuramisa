@@ -20,7 +20,7 @@ import { nekos } from "utils";
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    options: [
+    opts: [
         new StringOption()
             .setName("question")
             .setDescription("The question to ask the 8ball"),

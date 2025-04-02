@@ -13,14 +13,12 @@ import {
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
 import type Kuramisa from "Kuramisa";
-import logger from "Logger";
 import type { ValorantSkinInfo } from "typings/Valorant";
-
 export default class ValorantUtil {
     private readonly client: Kuramisa;
 
     constructor(client: Kuramisa) {
-        this.container.client = client;
+        this.client = client;
     }
 
     determineComponents(
@@ -131,6 +129,8 @@ export default class ValorantUtil {
         chromaPage: number,
         withNavigation = false,
     ) {
+        const { logger } = this.client;
+
         const chromaName = skin.chroma.names[chromaPage]
                 .replaceAll("\r", "")
                 .replaceAll("\n", " "),
@@ -244,6 +244,8 @@ export default class ValorantUtil {
         levelPage: number,
         withNavigation = false,
     ) {
+        const { logger } = this.client;
+
         const skinName = skin.level.names[levelPage]
                 .replaceAll("\r", "")
                 .replaceAll("\n", " "),

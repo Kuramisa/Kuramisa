@@ -29,11 +29,9 @@ import type Kuramisa from "Kuramisa";
 import chunk from "lodash/chunk";
 import startCase from "lodash/startCase";
 import truncate from "lodash/truncate";
-import logger from "Logger";
 import ms from "ms";
 import type { QueueMetadata } from "typings/Music";
 import { Pagination, timedDelete } from "utils";
-
 export default class Music extends Player {
     constructor(client: Kuramisa) {
         super(client, {
@@ -42,6 +40,8 @@ export default class Music extends Player {
     }
 
     async init() {
+        const { logger } = this.client;
+
         const startTime = Date.now();
 
         await this.extractors
@@ -781,6 +781,7 @@ export default class Music extends Player {
         },
         waitBeforeEdit = 5000,
     ) {
+        const { logger } = this.client;
         const { message, textChannel } = queue.metadata;
 
         if (!message) {

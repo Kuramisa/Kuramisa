@@ -14,13 +14,17 @@ import startCase from "lodash/startCase";
 @SlashCommand({
     name: "logs",
     description: "Configure the logging system for the server",
-    userPermissions: ["ViewAuditLog"],
-    botPermissions: ["ReadMessageHistory", "SendMessages", "ViewAuditLog"],
+    requiredUserPermissions: ["ViewAuditLog"],
+    requiredClientPermissions: [
+        "ReadMessageHistory",
+        "SendMessages",
+        "ViewAuditLog",
+    ],
     subcommands: [
         {
             name: "channel",
             description: "Set the logging channel",
-            options: [
+            opts: [
                 new ChannelOption()
                     .setName("text_channel")
                     .setDescription("The channel to set as the logging channel")
@@ -30,7 +34,7 @@ import startCase from "lodash/startCase";
         {
             name: "toggles",
             description: "Toggle logging events",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("toggle")
                     .setDescription("The event to toggle")

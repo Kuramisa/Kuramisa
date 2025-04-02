@@ -23,7 +23,7 @@ import {
         ApplicationIntegrationType.GuildInstall,
         ApplicationIntegrationType.UserInstall,
     ],
-    options: [
+    opts: [
         new UserOption()
             .setName("user")
             .setDescription("The user to get the avatar of"),

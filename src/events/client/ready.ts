@@ -1,7 +1,5 @@
 import { CronJob } from "cron";
-import logger from "Logger";
 import ms from "ms";
-
 import { AbstractEvent, Event } from "../../classes/Event";
 
 @Event({
@@ -12,9 +10,7 @@ import { AbstractEvent, Event } from "../../classes/Event";
 export default class ReadyEvent extends AbstractEvent {
     async run() {
         if (!this.container.client.isReady()) return;
-        const { client } = this;
-
-        await client.managers.commands.updateCommands();
+        const { client, logger } = this.container;
 
         client.user.setPresence(client.getActivity());
 

@@ -2,10 +2,8 @@ import Auth from "@valapi/auth";
 import WebClient from "@valapi/web-client";
 import { Collection, type Snowflake } from "discord.js";
 import type Kuramisa from "Kuramisa";
-import logger from "Logger";
 import ms from "ms";
 import type { ValorantAccount } from "typings/Valorant";
-
 import {
     ValorantAgents,
     ValorantBuddies,
@@ -82,7 +80,7 @@ export default class Valorant {
     static readonly assetsURL = "https://valorant-api.com/v1";
 
     constructor(client: Kuramisa) {
-        this.container.client = client;
+        this.client = client;
 
         this.util = new ValorantUtil(client);
 
@@ -114,6 +112,8 @@ export default class Valorant {
     }
 
     async init() {
+        const { logger } = this.client;
+
         if (this.initialized) {
             logger.info("[Valorant] Already Initialized!");
             return;
@@ -274,10 +274,12 @@ export default class Valorant {
     }
 
     async loadAccounts(userId: Snowflake) {
-        const dbUser = await this.container.client.managers.users.get(userId);
+        const { logger } = this.client;
+
+        const dbUser = await this.client.managers.users.get(userId);
         const user =
-            this.container.client.users.cache.get(userId) ??
-            (await this.container.client.users.fetch(userId).catch(() => null));
+            this.client.users.cache.get(userId) ??
+            (await this.client.users.fetch(userId).catch(() => null));
 
         if (!user) {
             logger.debug(`[Valorant] User not found for ${userId}`);

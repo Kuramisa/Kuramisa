@@ -4,6 +4,7 @@ import {
     ContextMenuCommandBuilder,
     InteractionContextType,
     PermissionsBitField,
+    type UserApplicationCommandData,
     type UserContextMenuCommandInteraction,
 } from "discord.js";
 
@@ -18,10 +19,6 @@ export interface IUserMenuCommand extends ICommand {
     type: ApplicationCommandType.User;
 }
 
-export interface IUserMenuCommandOptions extends ICommandOptions {
-    type: ApplicationCommandType.User;
-}
-
 export abstract class AbstractUserMenuCommand
     extends AbstractCommand
     implements IUserMenuCommand
@@ -30,10 +27,7 @@ export abstract class AbstractUserMenuCommand
 
     readonly data: ContextMenuCommandBuilder;
 
-    constructor(
-        context: Command.LoaderContext,
-        options: IUserMenuCommandOptions,
-    ) {
+    constructor(context: Command.LoaderContext, options: ICommandOptions) {
         super(context, { ...options });
 
         this.type = ApplicationCommandType.User;
@@ -59,10 +53,16 @@ export abstract class AbstractUserMenuCommand
             );
     }
 
+    override registerApplicationCommands(registry: Command.Registry) {
+        registry.registerContextMenuCommand(
+            this.data.toJSON() as UserApplicationCommandData,
+        );
+    }
+
     abstract run(interaction: UserContextMenuCommandInteraction): unknown;
 }
 
-export function UserMenuCommand(options: IUserMenuCommandOptions) {
+export function UserMenuCommand(options: ICommandOptions) {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-return
     return function (target: typeof AbstractUserMenuCommand) {
         return class extends target {

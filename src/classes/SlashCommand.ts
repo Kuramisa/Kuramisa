@@ -1,4 +1,5 @@
 import type {
+    ChatInputApplicationCommandData,
     ChatInputCommandInteraction,
     SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
@@ -165,6 +166,12 @@ export abstract class AbstractSlashCommand
 
             this.data.addSubcommandGroup(command);
         }
+    }
+
+    override registerApplicationCommands(registry: Command.Registry) {
+        registry.registerChatInputCommand(
+            this.data.toJSON() as ChatInputApplicationCommandData,
+        );
     }
 
     run(_interaction: ChatInputCommandInteraction): unknown {

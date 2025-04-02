@@ -1,6 +1,4 @@
 import { AbstractEvent, Event } from "classes/Event";
-import logger from "Logger";
-
 @Event({
     event: "restDebug",
     description: "REST Debug Event",
@@ -8,6 +6,6 @@ import logger from "Logger";
 })
 export default class RestDebugEvent extends AbstractEvent {
     run(debug: string) {
-        logger.debug(debug);
+        this.container.logger.debug(debug);
     }
 }

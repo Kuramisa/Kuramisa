@@ -4,13 +4,12 @@ import type {
     MessageActionRowComponentBuilder,
 } from "discord.js";
 import { ComponentType, DiscordAPIError, bold, messageLink } from "discord.js";
-import logger from "Logger";
-
 export default class SelfRolesButtons {
     async buttonAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
         const { client, options, guild } = interaction;
+        const { logger } = client;
 
         const db = await client.managers.guilds.get(guild.id);
 

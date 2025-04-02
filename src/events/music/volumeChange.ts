@@ -1,3 +1,4 @@
+import { container } from "@sapphire/framework";
 import { AbstractEvent, Event } from "classes/Event";
 import type { GuildQueue } from "discord-player";
 import { EmbedBuilder } from "discord.js";
@@ -7,7 +8,7 @@ import type { QueueMetadata } from "typings/Music";
     event: "volumeChange",
     description:
         "Event that triggers when the volume of a music player changes",
-    emitter: "music-queue",
+    emitter: container.client.systems.music.events,
 })
 export default class VolumeChangeEvent extends AbstractEvent {
     async run(

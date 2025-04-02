@@ -37,7 +37,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "create",
             description: "Create a new playlist",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist"),
@@ -54,7 +54,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "delete",
             description: "Delete a playlist",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist")
@@ -64,7 +64,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "edit",
             description: "Edit a playlist metadata",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist")
@@ -86,7 +86,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "add-track",
             description: "Add a track to a playlist",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist")
@@ -100,7 +100,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import",
             description: "Import a playlist from a URL",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_url")
                     .setDescription("The URL of the playlist")
@@ -111,7 +111,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
             name: "import-combine",
             description:
                 "Import a playlist and combine it with an existing playlist",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist to combine with")
@@ -125,7 +125,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import-multiple",
             description: "Import multiple playlists from URLs",
-            options: [
+            opts: [
                 new IntegerOption()
                     .setName("playlist_count")
                     .setDescription("The number of playlists to import (max 5)")
@@ -136,7 +136,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import-multiple-combine",
             description: "Import multiple playlists and combine them",
-            options: [
+            opts: [
                 new StringOption()
                     .setName("playlist_name")
                     .setDescription("The name of the playlist to combine with")
