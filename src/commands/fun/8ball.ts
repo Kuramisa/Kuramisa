@@ -3,8 +3,8 @@ import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
-    InteractionContextType,
     bold,
+    InteractionContextType,
 } from "discord.js";
 import { nekos } from "utils";
 
@@ -27,7 +27,7 @@ import { nekos } from "utils";
     ],
 })
 export default class EightBallCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         let question = interaction.options.getString("question", true);
         if (!question.includes("?")) question += "?";
 

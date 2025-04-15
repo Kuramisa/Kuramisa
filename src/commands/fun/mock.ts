@@ -23,7 +23,7 @@ import { mockText } from "utils/index";
     ],
 })
 export default class MockCommand extends AbstractMessageMenuCommand {
-    async run(interaction: MessageContextMenuCommandInteraction) {
+    async contextMenuRun(interaction: MessageContextMenuCommandInteraction) {
         const { targetMessage: message, user } = interaction;
 
         if (message.webhookId != null)

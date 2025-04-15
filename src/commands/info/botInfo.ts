@@ -22,7 +22,7 @@ import {
     ],
 })
 export default class BotInfoCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         const { client } = interaction;
 
         if (!client.isReady())

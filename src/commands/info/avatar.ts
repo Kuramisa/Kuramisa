@@ -92,7 +92,7 @@ import {
     ],
 })
 export default class AvatarCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const user = options.getUser("user") ?? interaction.user;

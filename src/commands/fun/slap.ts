@@ -27,7 +27,7 @@ import { nekos } from "utils";
     ],
 })
 export default class SlapCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const user = options.getUser("user", true);

@@ -20,7 +20,7 @@ import { owoify } from "utils";
     ],
 })
 export default class OwOCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         const text = interaction.options.getString("text", true);
         const owo = owoify(text);
 

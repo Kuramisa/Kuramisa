@@ -1,10 +1,14 @@
-import type { Collection } from "discord.js";
+import type {
+    ApplicationIntegrationType,
+    Collection,
+    InteractionContextType,
+} from "discord.js";
 
+import type { SlashCommandOption } from "typings";
 import type Database from "./database";
 import type Games from "./games";
 import type Kanvas from "./kanvas";
 import type Managers from "./managers";
-import type Stores from "./stores";
 import type Systems from "./systems";
 
 declare module "discord.js" {
@@ -17,7 +21,6 @@ declare module "discord.js" {
         readonly kanvas: Kanvas;
         readonly games: Games;
         readonly managers: Managers;
-        readonly stores: Stores;
         readonly systems: Systems;
 
         readonly cooldowns: Collection<string, Collection<string, number>>;
@@ -36,5 +39,24 @@ declare module "discord.js" {
                 group?: string;
             },
         ): string;
+    }
+}
+
+declare module "@sapphire/plugin-subcommands" {
+    export interface SubcommandMappingMethod {
+        description: string;
+        opts?: SlashCommandOption[];
+    }
+
+    export interface SubcommandMappingGroup {
+        description: string;
+    }
+}
+
+declare module "@sapphire/framework" {
+    export interface CommandOptions {
+        contexts?: InteractionContextType[];
+        integrations?: ApplicationIntegrationType[];
+        opts?: SlashCommandOption[];
     }
 }

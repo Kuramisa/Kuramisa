@@ -5,13 +5,16 @@ import {
     StringDropdown,
     StringOption,
 } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { ChannelType, ComponentType } from "discord.js";
 import camelCase from "lodash/camelCase";
 import startCase from "lodash/startCase";
 
-@SlashCommand({
+@SlashSubcommand({
     name: "logs",
     description: "Configure the logging system for the server",
     requiredUserPermissions: ["ViewAuditLog"],
@@ -24,6 +27,7 @@ import startCase from "lodash/startCase";
         {
             name: "channel",
             description: "Set the logging channel",
+            chatInputRun: "slashChannel",
             opts: [
                 new ChannelOption()
                     .setName("text_channel")
@@ -34,6 +38,7 @@ import startCase from "lodash/startCase";
         {
             name: "toggles",
             description: "Toggle logging events",
+            chatInputRun: "slashToggles",
             opts: [
                 new StringOption()
                     .setName("toggle")
@@ -45,10 +50,11 @@ import startCase from "lodash/startCase";
         {
             name: "status",
             description: "Check current status of your logs",
+            chatInputRun: "slashStatus",
         },
     ],
 })
-export default class LogsCommand extends AbstractSlashCommand {
+export default class LogsCommand extends AbstractSlashSubcommand {
     async slashChannel(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

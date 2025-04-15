@@ -4,11 +4,13 @@ import {
     RoleOption,
     StringOption,
 } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import type { ChatInputCommandInteraction } from "discord.js";
-import { ButtonStyle } from "discord.js";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
+import { ButtonStyle, type ChatInputCommandInteraction } from "discord.js";
 
-@SlashCommand({
+@SlashSubcommand({
     name: "self-roles",
     description: "Configure self roles for this server",
     requiredUserPermissions: [
@@ -29,6 +31,7 @@ import { ButtonStyle } from "discord.js";
         {
             name: "auto-setup",
             description: "Automatically set up self roles for this server",
+            chatInputRun: "slashAutoSetup",
             opts: [
                 new StringOption()
                     .setName("channel_name")
@@ -41,16 +44,17 @@ import { ButtonStyle } from "discord.js";
         {
             name: "view-setups",
             description: "View self roles setups for this server",
+            chatInputRun: "slashViewSetups",
         },
-    ],
-    groups: [
         {
             name: "message",
             description: "Add/Remove/Edit message(s) for self roles",
-            subcommands: [
+            type: "group",
+            entries: [
                 {
                     name: "add",
                     description: "Add a message for self roles",
+                    chatInputRun: "slashMessageAdd",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -66,6 +70,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "edit",
                     description: "Edit a message for self roles",
+                    chatInputRun: "slashMessageEdit",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -82,6 +87,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "remove",
                     description: "Remove a message for self roles",
+                    chatInputRun: "slashMessageRemove",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -100,10 +106,12 @@ import { ButtonStyle } from "discord.js";
         {
             name: "button",
             description: "Add/Remove/Edit buttons for self roles",
-            subcommands: [
+            type: "group",
+            entries: [
                 {
                     name: "add",
                     description: "Add a button for self roles",
+                    chatInputRun: "slashButtonAdd",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -153,6 +161,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "edit",
                     description: "Edit a button for self roles",
+                    chatInputRun: "slashButtonEdit",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -209,6 +218,7 @@ import { ButtonStyle } from "discord.js";
                 {
                     name: "remove",
                     description: "Remove a button for self roles",
+                    chatInputRun: "slashButtonRemove",
                     opts: [
                         new StringOption()
                             .setName("sr_channel")
@@ -232,7 +242,7 @@ import { ButtonStyle } from "discord.js";
         },
     ],
 })
-export default class SelfRolesCommand extends AbstractSlashCommand {
+export default class SelfRolesCommand extends AbstractSlashSubcommand {
     async slashAutoSetup(interaction: ChatInputCommandInteraction) {
         await interaction.client.systems.selfRoles.autoSetup(interaction);
     }

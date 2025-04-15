@@ -1,13 +1,18 @@
-import { Command } from "@sapphire/framework";
+import {
+    Subcommand,
+    type SubcommandMappingMethod,
+} from "@sapphire/plugin-subcommands";
 import {
     ApplicationCommandOptionType,
     ApplicationIntegrationType,
     InteractionContextType,
     SlashCommandBuilder,
+    SlashCommandSubcommandBuilder,
+    SlashCommandSubcommandGroupBuilder,
 } from "discord.js";
 import type { SlashCommandOption } from "typings";
 
-export class AbstractSlashCommand extends Command {
+export class AbstractSlashSubcommand extends Subcommand {
     readonly data: SlashCommandBuilder;
 
     readonly contexts: InteractionContextType[];
@@ -15,7 +20,10 @@ export class AbstractSlashCommand extends Command {
 
     readonly opts: SlashCommandOption[] = [];
 
-    constructor(content: Command.LoaderContext, options: Command.Options) {
+    public constructor(
+        content: Subcommand.LoaderContext,
+        options: Subcommand.Options,
+    ) {
         super(content, options);
 
         this.contexts = options.contexts ?? [InteractionContextType.Guild];
@@ -29,16 +37,67 @@ export class AbstractSlashCommand extends Command {
             .setContexts(this.contexts)
             .setIntegrationTypes(this.integrations);
 
+        if (options.subcommands && options.opts)
+            throw new Error(
+                "You cannot use subcommands and options at the same time.",
+            );
+
         if (options.opts) {
             this.opts = options.opts;
             for (const opt of this.opts) {
                 this.addOption(this.data, opt);
             }
         }
+
+        if (options.subcommands) {
+            const subcommands = options.subcommands.filter(
+                (cmd) => cmd.type === "method",
+            ) as SubcommandMappingMethod[];
+            const groups = options.subcommands.filter(
+                (cmd) => cmd.type === "group",
+            );
+
+            for (const subcommand of subcommands) {
+                const subcommandBuilder = new SlashCommandSubcommandBuilder()
+                    .setName(subcommand.name)
+                    .setDescription(subcommand.description);
+
+                if (subcommand.opts) {
+                    for (const opt of subcommand.opts) {
+                        this.addOption(subcommandBuilder, opt);
+                    }
+                }
+
+                this.data.addSubcommand(subcommandBuilder);
+            }
+
+            for (const group of groups) {
+                const groupBuilder = new SlashCommandSubcommandGroupBuilder()
+                    .setName(group.name)
+                    .setDescription(group.description);
+
+                for (const subcommand of group.entries) {
+                    const subcommandBuilder =
+                        new SlashCommandSubcommandBuilder()
+                            .setName(subcommand.name)
+                            .setDescription(subcommand.description);
+
+                    if (subcommand.opts) {
+                        for (const opt of subcommand.opts) {
+                            this.addOption(subcommandBuilder, opt);
+                        }
+                    }
+
+                    groupBuilder.addSubcommand(subcommandBuilder);
+                }
+
+                this.data.addSubcommandGroup(groupBuilder);
+            }
+        }
     }
 
     private addOption(
-        builder: SlashCommandBuilder,
+        builder: SlashCommandBuilder | SlashCommandSubcommandBuilder,
         option: SlashCommandOption,
     ) {
         switch (option.type) {
@@ -72,8 +131,8 @@ export class AbstractSlashCommand extends Command {
         }
     }
 }
-export function SlashCommand(options: Command.Options) {
-    return function <T extends new (...args: any[]) => AbstractSlashCommand>(
+export function SlashSubcommand(options: Subcommand.Options) {
+    return function <T extends new (...args: any[]) => AbstractSlashSubcommand>(
         Base: T,
     ): T {
         return class extends Base {

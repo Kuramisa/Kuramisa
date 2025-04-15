@@ -1,8 +1,11 @@
 import { RoleOption, StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 
-@SlashCommand({
+@SlashSubcommand({
     name: "auto-role",
     description: "Set the Auto role for the server",
     requiredClientPermissions: ["ManageRoles"],
@@ -11,6 +14,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
         {
             name: "add",
             description: "Add an autorole",
+            chatInputRun: "slashAdd",
             opts: [
                 new RoleOption()
                     .setName("role_to_add")
@@ -20,6 +24,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
         {
             name: "remove",
             description: "Remove an autorole",
+            chatInputRun: "slashRemove",
             opts: [
                 new StringOption()
                     .setName("role_to_remove")
@@ -29,7 +34,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
         },
     ],
 })
-export default class AutoRoleCommand extends AbstractSlashCommand {
+export default class AutoRoleCommand extends AbstractSlashSubcommand {
     async slashAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

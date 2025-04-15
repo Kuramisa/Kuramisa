@@ -27,7 +27,7 @@ import { nekos } from "utils";
     ],
 })
 export default class PatCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 
         const user = options.getUser("user", true);

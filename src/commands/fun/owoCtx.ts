@@ -23,7 +23,7 @@ import { owoify } from "utils";
     ],
 })
 export default class OwOCtxCommand extends AbstractMessageMenuCommand {
-    async run(interaction: MessageContextMenuCommandInteraction) {
+    async contextMenuRun(interaction: MessageContextMenuCommandInteraction) {
         const { targetMessage: message } = interaction;
 
         if (message.content.length < 1)

@@ -9,7 +9,7 @@ import capitalize from "lodash/capitalize";
     description: "Server information",
 })
 export default class ServerCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
         const { guild } = interaction;

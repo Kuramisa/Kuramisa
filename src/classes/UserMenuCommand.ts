@@ -1,79 +1,41 @@
+import { Command } from "@sapphire/framework";
 import {
     ApplicationCommandType,
     ApplicationIntegrationType,
     ContextMenuCommandBuilder,
     InteractionContextType,
-    PermissionsBitField,
-    type UserApplicationCommandData,
-    type UserContextMenuCommandInteraction,
 } from "discord.js";
 
-import type { Command } from "@sapphire/framework";
-import {
-    AbstractCommand,
-    type ICommand,
-    type ICommandOptions,
-} from "./Command";
-
-export interface IUserMenuCommand extends ICommand {
-    type: ApplicationCommandType.User;
-}
-
-export abstract class AbstractUserMenuCommand
-    extends AbstractCommand
-    implements IUserMenuCommand
-{
-    readonly type: ApplicationCommandType.User;
-
+export class AbstractUserMenuCommand extends Command {
     readonly data: ContextMenuCommandBuilder;
 
-    constructor(context: Command.LoaderContext, options: ICommandOptions) {
-        super(context, { ...options });
+    readonly contexts: InteractionContextType[];
+    readonly integrations: ApplicationIntegrationType[];
 
-        this.type = ApplicationCommandType.User;
+    readonly type = ApplicationCommandType.User;
+
+    constructor(context: Command.LoaderContext, options: Command.Options) {
+        super(context, options);
 
         this.data = new ContextMenuCommandBuilder()
             .setName(this.name)
             .setType(this.type);
 
-        if (options.integrations)
-            this.data.setIntegrationTypes(options.integrations);
-        else
-            this.data.setIntegrationTypes(
-                ApplicationIntegrationType.GuildInstall,
-            );
-
-        if (options.contexts) this.data.setContexts(options.contexts);
-        else this.data.setContexts(InteractionContextType.Guild);
-
-        if (options.requiredUserPermissions)
-            this.data.setDefaultMemberPermissions(
-                new PermissionsBitField(options.requiredUserPermissions)
-                    .bitfield,
-            );
+        this.contexts = options.contexts ?? [InteractionContextType.Guild];
+        this.integrations = options.integrations ?? [
+            ApplicationIntegrationType.GuildInstall,
+        ];
     }
-
-    override registerApplicationCommands(registry: Command.Registry) {
-        registry.registerContextMenuCommand(
-            this.data.toJSON() as UserApplicationCommandData,
-        );
-    }
-
-    abstract run(interaction: UserContextMenuCommandInteraction): unknown;
 }
 
-export function UserMenuCommand(options: ICommandOptions) {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-    return function (target: typeof AbstractUserMenuCommand) {
-        return class extends target {
-            constructor(context: Command.LoaderContext) {
-                super(context, { ...options });
-                target.prototype.run = target.prototype.run.bind(this);
+export function UserMenuCommand(options: Command.Options) {
+    return function <T extends new (...args: any[]) => AbstractUserMenuCommand>(
+        Base: T,
+    ): T {
+        return class extends Base {
+            constructor(...args: any[]) {
+                super(args[0], options);
             }
-
-            run(interaction: UserContextMenuCommandInteraction) {
-                return target.prototype.run(interaction);
-            }
-        };
-    } as any;
+        } as T;
+    };
 }

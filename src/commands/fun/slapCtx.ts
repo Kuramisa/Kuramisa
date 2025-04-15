@@ -19,7 +19,7 @@ import { nekos } from "utils";
     ],
 })
 export default class SlapCommand extends AbstractUserMenuCommand {
-    async run(interaction: UserContextMenuCommandInteraction) {
+    async contextMenuRun(interaction: UserContextMenuCommandInteraction) {
         const { targetUser, user } = interaction;
 
         if (targetUser.id === user.id)

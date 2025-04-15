@@ -20,7 +20,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
     ],
 })
 export default class ClearCommand extends AbstractSlashCommand {
-    async run(interaction: ChatInputCommandInteraction) {
+    async chatInputRun(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         if (!interaction.channel) return;
 

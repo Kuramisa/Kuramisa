@@ -9,7 +9,10 @@ import {
     StringOption,
     TextInput,
 } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
@@ -20,8 +23,8 @@ import {
 import capitalize from "lodash/capitalize";
 import type { Playlist, PlaylistTrack } from "typings/Music";
 
-// TODO: Finish working on the playlist system
-@SlashCommand({
+// TODO: Finish working on the playlist system ( add play command, add multiple tracks, remove track(s) )
+@SlashSubcommand({
     name: "playlist",
     description: "Create/Manage playlists hosted by the bot",
     integrations: [
@@ -37,6 +40,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "create",
             description: "Create a new playlist",
+            chatInputRun: "slashCreate",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -54,6 +58,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "delete",
             description: "Delete a playlist",
+            chatInputRun: "slashDelete",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -64,6 +69,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "edit",
             description: "Edit a playlist metadata",
+            chatInputRun: "slashEdit",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -86,6 +92,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "add-track",
             description: "Add a track to a playlist",
+            chatInputRun: "slashAddTrack",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -100,6 +107,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import",
             description: "Import a playlist from a URL",
+            chatInputRun: "slashImport",
             opts: [
                 new StringOption()
                     .setName("playlist_url")
@@ -111,6 +119,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
             name: "import-combine",
             description:
                 "Import a playlist and combine it with an existing playlist",
+            chatInputRun: "slashImportCombine",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -125,6 +134,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import-multiple",
             description: "Import multiple playlists from URLs",
+            chatInputRun: "slashImportMultiple",
             opts: [
                 new IntegerOption()
                     .setName("playlist_count")
@@ -136,6 +146,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         {
             name: "import-multiple-combine",
             description: "Import multiple playlists and combine them",
+            chatInputRun: "slashImportMultipleCombine",
             opts: [
                 new StringOption()
                     .setName("playlist_name")
@@ -150,7 +161,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
         },
     ],
 })
-export default class PlaylistCommand extends AbstractSlashCommand {
+export default class PlaylistCommand extends AbstractSlashSubcommand {
     async slashCreate(interaction: ChatInputCommandInteraction) {
         const { client, options, user } = interaction;
 
@@ -363,7 +374,7 @@ export default class PlaylistCommand extends AbstractSlashCommand {
         });
     }
 
-    async slashAddSong(interaction: ChatInputCommandInteraction) {
+    async slashAddTrack(interaction: ChatInputCommandInteraction) {
         const { client, options, user } = interaction;
         const {
             managers,

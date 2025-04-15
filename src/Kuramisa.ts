@@ -2,14 +2,8 @@ import "@sapphire/plugin-logger/register";
 
 import { pickRandom } from "@sapphire/utilities";
 import dLogs from "discord-logs";
-import type { ApplicationEmoji } from "discord.js";
-import {
-    ActivityType,
-    Collection,
-    Partials,
-    type PresenceData,
-    type User,
-} from "discord.js";
+import type { ApplicationEmoji, PresenceData } from "discord.js";
+import { ActivityType, Collection, Partials, type User } from "discord.js";
 
 import { LogLevel, SapphireClient } from "@sapphire/framework";
 
@@ -114,9 +108,7 @@ export default class Kuramisa extends SapphireClient {
         ];
     }
 
-    getActivity(): PresenceData {
-        return pickRandom(this.getActivities());
-    }
+    getActivity = () => pickRandom(this.getActivities());
 
     async login() {
         await this.database.connect();

@@ -1,5 +1,8 @@
 import { StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
@@ -9,7 +12,7 @@ import {
 } from "discord.js";
 import { Pagination } from "utils";
 
-@SlashCommand({
+@SlashSubcommand({
     name: "valorant",
     description: "VALORANT Commands",
     contexts: [
@@ -25,6 +28,7 @@ import { Pagination } from "utils";
         {
             name: "login",
             description: "Login to your VALORANT account",
+            chatInputRun: "slashLogin",
             opts: [
                 new StringOption()
                     .setName("valorant_username")
@@ -37,6 +41,7 @@ import { Pagination } from "utils";
         {
             name: "agents",
             description: "Get information about VALORANT agents",
+            chatInputRun: "slashAgents",
             opts: [
                 new StringOption()
                     .setName("valorant_agent")
@@ -48,6 +53,7 @@ import { Pagination } from "utils";
         {
             name: "skins",
             description: "Get information about VALORANT skins",
+            chatInputRun: "slashSkins",
             opts: [
                 new StringOption()
                     .setName("valorant_weapon")
@@ -58,6 +64,7 @@ import { Pagination } from "utils";
         {
             name: "weapons",
             description: "Get information about VALORANT weapons",
+            chatInputRun: "slashWeapons",
             opts: [
                 new StringOption()
                     .setName("valorant_weapon")
@@ -67,7 +74,7 @@ import { Pagination } from "utils";
         },
     ],
 })
-export default class ValorantCommand extends AbstractSlashCommand {
+export default class ValorantCommand extends AbstractSlashSubcommand {
     async slashLogin(interaction: ChatInputCommandInteraction) {
         const { client, user } = interaction;
         const {

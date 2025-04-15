@@ -7,7 +7,10 @@ import {
     StringDropdown,
     StringOption,
 } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import {
+    AbstractSlashSubcommand,
+    SlashSubcommand,
+} from "classes/SlashSubcommand";
 import { QueueRepeatMode, type QueueFilters } from "discord-player";
 import {
     ActionRowBuilder,
@@ -21,13 +24,14 @@ import startCase from "lodash/startCase";
 import type { QueueMetadata } from "typings/Music";
 import { durationPattern, durationToMs } from "utils";
 
-@SlashCommand({
+@SlashSubcommand({
     name: "music",
     description: "Music commands",
     subcommands: [
         {
             name: "play",
             description: "Play a song",
+            chatInputRun: "slashPlay",
             opts: [
                 new StringOption()
                     .setName("track_or_playlist_name_or_url")
@@ -38,14 +42,17 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "pause",
             description: "Pause the current song",
+            chatInputRun: "slashPause",
         },
         {
             name: "resume",
             description: "Resume the current song",
+            chatInputRun: "slashResume",
         },
         {
             name: "skip",
             description: "Skip the current song or to a specific song",
+            chatInputRun: "slashSkip",
             opts: [
                 new StringOption()
                     .setName("track_in_queue")
@@ -57,14 +64,17 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "stop",
             description: "Stop the current song",
+            chatInputRun: "slashStop",
         },
         {
             name: "queue",
             description: "Show the queue",
+            chatInputRun: "slashQueue",
         },
         {
             name: "loop",
             description: "Loop modes",
+            chatInputRun: "slashLoop",
             opts: [
                 new IntegerOption()
                     .setName("loop_mode")
@@ -88,10 +98,12 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "shuffle",
             description: "Shuffle the queue",
+            chatInputRun: "slashShuffle",
         },
         {
             name: "volume",
             description: "Change the volume",
+            chatInputRun: "slashVolume",
             opts: [
                 new IntegerOption()
                     .setName("volume")
@@ -103,6 +115,7 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "seek",
             description: "Seek to a specific time in the track",
+            chatInputRun: "slashSeek",
             opts: [
                 new StringOption()
                     .setName("seek_time")
@@ -111,12 +124,14 @@ import { durationPattern, durationToMs } from "utils";
             ],
         },
         {
-            name: "nowplaying",
+            name: "now-playing",
             description: "Get the current song",
+            chatInputRun: "slashNowPlaying",
         },
         {
             name: "remove",
             description: "Remove a song from the queue",
+            chatInputRun: "slashRemove",
             opts: [
                 new StringOption()
                     .setName("track_in_queue")
@@ -127,10 +142,12 @@ import { durationPattern, durationToMs } from "utils";
         {
             name: "clear",
             description: "Clear the queue",
+            chatInputRun: "slashClear",
         },
         {
             name: "search",
             description: "Search for a song",
+            chatInputRun: "slashSearch",
             opts: [
                 new StringOption()
                     .setName("track_or_playlist_name_or_url")
@@ -138,15 +155,15 @@ import { durationPattern, durationToMs } from "utils";
                     .setAutocomplete(true),
             ],
         },
-    ],
-    groups: [
         {
             name: "lyrics",
             description: "Lyrics commands",
-            subcommands: [
+            type: "group",
+            entries: [
                 {
                     name: "search",
                     description: "Search for lyrics",
+                    chatInputRun: "slashLyricsSearch",
                     opts: [
                         new StringOption()
                             .setName("track_or_playlist_name_or_url")
@@ -157,16 +174,19 @@ import { durationPattern, durationToMs } from "utils";
                 {
                     name: "current-track",
                     description: "Get the lyrics of the current track",
+                    chatInputRun: "slashLyricsCurrentTrack",
                 },
             ],
         },
         {
             name: "filters",
             description: "Toggle the filters",
-            subcommands: [
+            type: "group",
+            entries: [
                 {
                     name: "toggle",
                     description: "Toggle a filter",
+                    chatInputRun: "slashFiltersToggle",
                     opts: [
                         new StringOption()
                             .setName("player_filters")
@@ -179,7 +199,7 @@ import { durationPattern, durationToMs } from "utils";
         },
     ],
 })
-export default class MusicCommand extends AbstractSlashCommand {
+export default class MusicCommand extends AbstractSlashSubcommand {
     async slashPlay(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
         if (!interaction.channel) return;
@@ -818,15 +838,19 @@ export default class MusicCommand extends AbstractSlashCommand {
         });
 
         filterCollector.on("collect", async (i) => {
-            const filter = i.values[0] as keyof QueueFilters;
+            const filters = i.values as unknown as (keyof QueueFilters)[];
 
-            await queue.filters.ffmpeg.toggle(filter);
+            await queue.filters.ffmpeg.toggle(filters);
 
             await i.update({
-                content: `${emojis.get("yes") ?? "✅"} **Toggled ${filter} filter ${
-                    queue.filters.ffmpeg.isEnabled(filter) ? "on" : "off"
+                content: `${emojis.get("yes") ?? "✅"} **Toggled ${filters.join(
+                    ", ",
+                )} filter ${
+                    filters.every((f) => queue.filters.ffmpeg.isEnabled(f))
+                        ? "on"
+                        : "off"
                 }**`,
-                components: [menus[page], navButtons],
+                components: [],
             });
         });
     }
