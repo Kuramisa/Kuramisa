@@ -1,6 +1,3 @@
-import type { AbstractMessageMenuCommand } from "classes/MessageMenuCommand";
-import type { AbstractSlashCommand } from "classes/SlashSubcommand";
-import type { AbstractUserMenuCommand } from "classes/UserMenuCommand";
 import type {
     SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
@@ -18,11 +15,6 @@ export interface Response<T> {
     data?: T;
     error?: string;
 }
-
-export type AbstractAllCommands =
-    | AbstractSlashCommand
-    | AbstractMessageMenuCommand
-    | AbstractUserMenuCommand;
 
 export type SlashCommandOption =
     | SlashCommandAttachmentOption
