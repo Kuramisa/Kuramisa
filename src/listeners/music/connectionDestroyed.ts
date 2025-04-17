@@ -8,6 +8,7 @@ export default class ConnectionDestroyedEvent extends Listener {
         super(context, {
             ...options,
             event: "connectionDestroyed",
+            name: "connection-destroyed",
             description: "When a connection is destroyed",
             emitter: container.client.systems.music.events,
         });

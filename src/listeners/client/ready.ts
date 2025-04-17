@@ -9,6 +9,7 @@ export default class ReadyEvent extends Listener {
             ...options,
             once: true,
             event: "ready",
+            name: "client-ready",
             description: "Determines if the client is ready.",
         });
     }

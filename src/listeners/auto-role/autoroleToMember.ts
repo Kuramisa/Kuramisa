@@ -6,6 +6,7 @@ export default class AutoroleToMemberEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberAdd",
+            name: "autorole-to-member",
             description: "Adds autorole to new members.",
         });
     }

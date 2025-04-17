@@ -7,6 +7,7 @@ export default class MusicPlayerErrorEvent extends Listener {
         super(context, {
             ...options,
             event: "playerError",
+            name: "music-player-error",
             description: "Event that triggers when a music player error occurs",
             emitter: container.client.systems.music.events,
         });

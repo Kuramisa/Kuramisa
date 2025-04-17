@@ -7,6 +7,7 @@ import { bold, ComponentType, type ButtonInteraction } from "discord.js";
 export default class ValorantButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "valorant-buttons",
             interactionHandlerType: InteractionHandlerTypes.Button,
         });
     }

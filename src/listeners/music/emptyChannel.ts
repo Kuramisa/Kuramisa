@@ -8,6 +8,7 @@ export default class EmptyChannelEvent extends Listener {
         super(context, {
             ...options,
             event: "emptyChannel",
+            name: "empty-channel",
             description: "When a user leaves the voice channel",
             emitter: container.client.systems.music.events,
         });

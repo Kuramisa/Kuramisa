@@ -7,6 +7,7 @@ export default class PlayerStartEvent extends Listener {
         super(context, {
             ...options,
             event: "playerStart",
+            name: "music-player-start",
             description:
                 "Event that triggers when a music player starts playing a song",
             emitter: container.client.systems.music.events,

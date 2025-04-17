@@ -8,6 +8,7 @@ export default class MusicMessageDeletedEvent extends Listener {
         super(context, {
             ...options,
             event: "messageDelete",
+            name: "music-message-deleted",
             description: "Event that triggers when a music message is deleted",
         });
     }

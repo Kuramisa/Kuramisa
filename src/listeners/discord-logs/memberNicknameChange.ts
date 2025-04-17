@@ -7,6 +7,7 @@ export default class MemberNicknameChangeEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberNicknameUpdate",
+            name: "member-nickname-change",
             description: "Logs when member changes nickname",
         });
     }

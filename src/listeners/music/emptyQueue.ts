@@ -7,6 +7,7 @@ export default class EmptyQueueEvent extends Listener {
         super(context, {
             ...options,
             event: "emptyQueue",
+            name: "empty-queue",
             description: "Event when the queue is empty",
             emitter: container.client.systems.music.events,
         });

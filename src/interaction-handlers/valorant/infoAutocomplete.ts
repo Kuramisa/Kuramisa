@@ -7,6 +7,7 @@ import type { AutocompleteInteraction } from "discord.js";
 export default class InfoValorantAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "valorant-autocomplete",
             interactionHandlerType: InteractionHandlerTypes.Autocomplete,
         });
     }

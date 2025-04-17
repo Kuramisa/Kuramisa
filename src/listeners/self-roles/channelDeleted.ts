@@ -7,6 +7,7 @@ export default class SelfRolesChannelDeleted extends Listener {
         super(context, {
             ...options,
             event: "channelDelete",
+            name: "self-roles-channel-deleted",
             description:
                 "Event that triggers when a channel is deleted for self roles",
         });

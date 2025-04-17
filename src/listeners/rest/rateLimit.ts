@@ -8,6 +8,7 @@ export default class RateLimitEvent extends Listener {
         super(context, {
             ...options,
             event: "rateLimited",
+            name: "rest-rate-limit",
             description: "Emits when the bot is rate limited",
             emitter: container.client.rest,
         });

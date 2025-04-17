@@ -5,6 +5,7 @@ export default class MusicDebugEvent extends Listener {
         super(context, {
             ...options,
             event: "debug",
+            name: "music-debug",
             description: "Debug event for music system",
             emitter: container.client.systems.music,
         });

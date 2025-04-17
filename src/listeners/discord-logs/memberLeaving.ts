@@ -7,6 +7,7 @@ export default class MemberLeaveEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberRemove",
+            name: "member-leave",
             description: "Logs when a member leaves the server",
         });
     }

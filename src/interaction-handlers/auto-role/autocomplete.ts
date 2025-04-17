@@ -7,6 +7,7 @@ import type { AutocompleteInteraction } from "discord.js";
 export default class AutoRoleAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "auto-role-autocomplete",
             interactionHandlerType: InteractionHandlerTypes.Autocomplete,
         });
     }

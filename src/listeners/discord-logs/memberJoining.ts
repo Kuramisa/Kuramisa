@@ -7,6 +7,7 @@ export default class MemberJoinEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberAdd",
+            name: "member-join",
             description: "Logs when a member joins the server",
         });
     }

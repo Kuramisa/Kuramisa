@@ -7,6 +7,7 @@ export default class PlayerPauseEvent extends Listener {
         super(context, {
             ...options,
             event: "playerPause",
+            name: "music-player-pause",
             description: "Event that triggers when the music player is paused",
             emitter: container.client.systems.music.events,
         });

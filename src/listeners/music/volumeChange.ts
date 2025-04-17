@@ -8,6 +8,7 @@ export default class VolumeChangeEvent extends Listener {
         super(context, {
             ...options,
             event: "volumeChange",
+            name: "music-volume-change",
             description:
                 "Event that triggers when the volume of a music player changes",
             emitter: container.client.systems.music.events,

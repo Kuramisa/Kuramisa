@@ -9,6 +9,7 @@ import startCase from "lodash/startCase";
 export default class LogsAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "logs-autocomplete",
             interactionHandlerType: InteractionHandlerTypes.Autocomplete,
         });
     }

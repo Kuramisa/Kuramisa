@@ -8,6 +8,7 @@ export default class MemberRoleRemovedEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberRoleRemove",
+            name: "member-role-remove",
             description: "Logs when member has a role removed",
         });
     }

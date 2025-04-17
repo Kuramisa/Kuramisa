@@ -9,6 +9,7 @@ export default class AudioTrackRemoveEvent extends Listener {
         super(context, {
             ...options,
             event: "audioTrackRemove",
+            name: "audio-track-remove",
             description: "Event when a track is removed from the queue",
             emitter: container.client.systems.music.events,
         });

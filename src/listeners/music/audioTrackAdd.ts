@@ -8,6 +8,7 @@ export default class AudioTrackAddEvent extends Listener {
         super(context, {
             ...options,
             event: "audioTrackAdd",
+            name: "audio-track-add",
             description: "Event when a track is added to the queue",
             emitter: container.client.systems.music.events,
         });

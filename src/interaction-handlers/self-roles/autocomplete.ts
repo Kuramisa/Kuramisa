@@ -12,6 +12,7 @@ import truncate from "lodash/truncate";
 export default class SelfRoleAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "self-role-autocomplete",
             interactionHandlerType: InteractionHandlerTypes.Autocomplete,
         });
     }

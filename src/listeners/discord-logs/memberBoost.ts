@@ -7,6 +7,7 @@ export default class MemberBoostEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberBoost",
+            name: "member-boost",
             description: "Logs when member boosts the server",
         });
     }

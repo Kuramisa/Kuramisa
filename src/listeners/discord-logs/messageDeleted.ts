@@ -8,6 +8,7 @@ export default class MessageDeletedEvent extends Listener {
         super(context, {
             ...options,
             event: "messageDelete",
+            name: "message-deleted",
             description: "Logs when a message is deleted",
         });
     }

@@ -8,6 +8,7 @@ export default class MemberRoleAddEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberRoleAdd",
+            name: "member-role-add",
             description: "Logs when member has a role added",
         });
     }

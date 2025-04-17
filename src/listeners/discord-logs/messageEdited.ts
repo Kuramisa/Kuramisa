@@ -9,6 +9,7 @@ export default class MessageEditedEvent extends Listener {
         super(context, {
             ...options,
             event: "messageUpdate",
+            name: "message-edited",
             description: "Logs when a message is edited",
         });
     }

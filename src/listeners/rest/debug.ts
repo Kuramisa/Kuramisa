@@ -6,6 +6,7 @@ export default class RestDebugEvent extends Listener {
         super(context, {
             ...options,
             event: "restDebug",
+            name: "rest-debug",
             description:
                 "Event that triggers when a REST debug message is received",
             emitter: container.client.rest,

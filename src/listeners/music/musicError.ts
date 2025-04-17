@@ -5,6 +5,7 @@ export default class MusicErrorEvent extends Listener {
         super(context, {
             ...options,
             event: "error",
+            name: "music-error",
             description: "Error event for music system",
             emitter: container.client.systems.music,
         });

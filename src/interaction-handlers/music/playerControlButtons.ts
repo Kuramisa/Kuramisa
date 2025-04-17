@@ -11,6 +11,7 @@ import { timedDelete } from "utils";
 export default class PlayerControlButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "player-control-buttons",
             interactionHandlerType: InteractionHandlerTypes.Button,
         });
     }

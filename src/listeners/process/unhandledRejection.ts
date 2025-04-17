@@ -5,6 +5,7 @@ export default class UnhandledRejectionEvent extends Listener {
         super(context, {
             ...options,
             event: "unhandledRejection",
+            name: "unhandled-rejection",
             description: "Event that triggers when a promise is rejected",
             emitter: process,
         });

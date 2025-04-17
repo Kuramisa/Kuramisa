@@ -7,6 +7,7 @@ export default class QueueErrorEvent extends Listener {
         super(context, {
             ...options,
             event: "queueError",
+            name: "music-queue-error",
             description: "Event that triggers when a music queue error occurs",
             emitter: container.client.systems.music.events,
         });

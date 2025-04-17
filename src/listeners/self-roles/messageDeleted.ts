@@ -7,6 +7,7 @@ export default class SelfRolesMessageDeleted extends Listener {
         super(context, {
             ...options,
             event: "messageDelete",
+            name: "self-roles-message-deleted",
             description:
                 "Event that triggers when a message is deleted for self roles",
         });

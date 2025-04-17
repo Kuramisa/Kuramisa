@@ -7,6 +7,7 @@ import type { AutocompleteInteraction } from "discord.js";
 export default class PlaylistAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "playlist-autocomplete",
             interactionHandlerType: InteractionHandlerTypes.Autocomplete,
         });
     }

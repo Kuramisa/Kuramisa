@@ -7,6 +7,7 @@ import { bold, roleMention, type ButtonInteraction } from "discord.js";
 export default class SelfRoleButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
         super(context, {
+            name: "self-role-buttons",
             interactionHandlerType: InteractionHandlerTypes.Button,
         });
     }

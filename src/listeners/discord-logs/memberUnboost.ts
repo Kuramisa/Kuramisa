@@ -7,6 +7,7 @@ export default class MemberUnboostEvent extends Listener {
         super(context, {
             ...options,
             event: "guildMemberUnboost",
+            name: "member-unboost",
             description: "Logs when a member unboosts the server",
         });
     }
