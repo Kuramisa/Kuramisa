@@ -12,19 +12,26 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
             !interaction.isButton() ||
             !interaction.inGuild() ||
             !interaction.customId.includes("_sr") ||
-            !interaction.inCachedGuild()
+            !interaction.inCachedGuild() ||
+            !interaction.guild.members.me
         )
             return;
 
-        if (!interaction.guild.members.me?.permissions.has("ManageRoles"))
+        if (!interaction.guild.members.me.permissions.has("ManageRoles"))
             return interaction.reply({
                 content: bold("I don't have the permission to manage roles"),
                 flags: "Ephemeral",
             });
 
-        const { channelId, guildId, message, member } = interaction;
+        const {
+            client: { managers },
+            channelId,
+            guildId,
+            message,
+            member,
+        } = interaction;
 
-        const guild = await this.container.client.managers.guilds.get(guildId);
+        const guild = await managers.guilds.get(guildId);
 
         const dbChannel = guild.selfRoles.find(
             (channel) => channel.channelId === channelId,
@@ -54,14 +61,17 @@ export default class SelfRoleButtonsEvent extends AbstractEvent {
             });
 
         if (member.roles.cache.has(dbButton.roleId)) {
-            await member.roles.remove(dbButton.roleId);
+            await member.roles.remove(
+                dbButton.roleId,
+                "Removed by self role button",
+            );
             return interaction.reply({
                 content: `**Removed role** ${roleMention(dbButton.roleId)}`,
                 flags: "Ephemeral",
             });
         }
 
-        await member.roles.add(dbButton.roleId);
+        await member.roles.add(dbButton.roleId, "Added by self role button");
         return interaction.reply({
             content: `**Added role** ${roleMention(dbButton.roleId)}`,
             flags: "Ephemeral",

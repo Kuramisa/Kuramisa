@@ -1,10 +1,11 @@
+import { container } from "@sapphire/pieces";
 import { AbstractEvent, Event } from "classes/Event";
 import type { RateLimitError } from "discord.js";
 import ms from "ms";
 @Event({
     event: "rateLimited",
     description: "Emits when the bot is rate limited",
-    emitter: "rest",
+    emitter: container.client.rest,
 })
 export default class RateLimitEvent extends AbstractEvent {
     run(error: RateLimitError) {

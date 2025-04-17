@@ -7,6 +7,6 @@ import { AbstractEvent, Event } from "classes/Event";
 })
 export default class MusicErrorEvent extends AbstractEvent {
     run(error: string) {
-        this.container.logger.error(`[Music] ${error}`);
+        container.logger.error(`[Music] ${error}`);
     }
 }

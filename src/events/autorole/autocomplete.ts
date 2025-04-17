@@ -3,7 +3,7 @@ import type { Interaction } from "discord.js";
 
 @Event({
     event: "interactionCreate",
-    description: "Managee Autorole autocomplete",
+    description: "Manage Autorole autocomplete",
 })
 export default class AutoRoleAutocomplete extends AbstractEvent {
     async run(interaction: Interaction) {
@@ -11,8 +11,11 @@ export default class AutoRoleAutocomplete extends AbstractEvent {
         if (interaction.commandName !== "autorole") return;
         if (!interaction.inCachedGuild()) return;
 
-        const { managers } = this.container.client;
-        const { options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
         const db = await managers.guilds.get(guild.id);
 

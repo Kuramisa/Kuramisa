@@ -11,7 +11,7 @@ export default class QueueErrorEvent extends AbstractEvent {
     run(queue: GuildQueue<QueueMetadata>, error: string) {
         const { guild } = queue;
 
-        this.container.logger.error(
+        container.logger.error(
             `[Music Queue] Guild: ${guild.name} (${guild.id}) ${error}`,
         );
     }

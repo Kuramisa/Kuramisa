@@ -76,10 +76,12 @@ import { Pagination } from "utils";
 })
 export default class ValorantCommand extends AbstractSlashSubcommand {
     async slashLogin(interaction: ChatInputCommandInteraction) {
-        const { client, user } = interaction;
         const {
-            games: { valorant },
-        } = client;
+            client: {
+                games: { valorant },
+            },
+            user,
+        } = interaction;
 
         if (!valorant.accounts.get(user.id))
             await valorant.loadAccounts(user.id);
@@ -88,10 +90,12 @@ export default class ValorantCommand extends AbstractSlashSubcommand {
     }
 
     async slashAgents(interaction: ChatInputCommandInteraction) {
-        const { client, options } = interaction;
         const {
-            games: { valorant },
-        } = client;
+            client: {
+                games: { valorant },
+            },
+            options,
+        } = interaction;
 
         const agentName = options.getString("valorant_agent");
         if (!agentName) {
@@ -114,10 +118,12 @@ export default class ValorantCommand extends AbstractSlashSubcommand {
     }
 
     async slashSkins(interaction: ChatInputCommandInteraction) {
-        const { client, options } = interaction;
         const {
-            games: { valorant },
-        } = client;
+            client: {
+                games: { valorant },
+            },
+            options,
+        } = interaction;
 
         const weaponName = options.getString("valorant_weapon", true);
         const weapon = valorant.weapons.get(weaponName);
@@ -134,7 +140,7 @@ export default class ValorantCommand extends AbstractSlashSubcommand {
 
         await interaction.deferReply();
 
-        const infoCollection = valorant.skins.collection(client, skins);
+        const infoCollection = valorant.skins.collection(skins);
 
         let page = 0;
         let lvlPage = 0;
@@ -214,10 +220,12 @@ export default class ValorantCommand extends AbstractSlashSubcommand {
     }
 
     slashWeapons(interaction: ChatInputCommandInteraction) {
-        const { client, options } = interaction;
         const {
-            games: { valorant },
-        } = client;
+            client: {
+                games: { valorant },
+            },
+            options,
+        } = interaction;
 
         const weaponName = options.getString("valorant_weapon", true);
         const weapon = valorant.weapons.get(weaponName);
@@ -226,7 +234,7 @@ export default class ValorantCommand extends AbstractSlashSubcommand {
                 content: bold("Ermm... Weapon not found"),
                 flags: "Ephemeral",
             });
-        const weaponEmbed = valorant.weapons.embed(client, weapon);
+        const weaponEmbed = valorant.weapons.embed(weapon);
         const weaponRow = valorant.weapons.row(weapon);
         return interaction.reply({
             embeds: [weaponEmbed],

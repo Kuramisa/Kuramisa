@@ -7,6 +7,6 @@ import { AbstractEvent, Event } from "classes/Event";
 })
 export default class MusicDebugEvent extends AbstractEvent {
     run(debug: string) {
-        this.container.logger.debug(`[Music] ${debug}`);
+        container.logger.debug(`[Music] ${debug}`);
     }
 }

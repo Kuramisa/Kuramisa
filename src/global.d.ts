@@ -59,4 +59,8 @@ declare module "@sapphire/framework" {
         integrations?: ApplicationIntegrationType[];
         opts?: SlashCommandOption[];
     }
+
+    export interface ListenerOptions {
+        description: string;
+    }
 }

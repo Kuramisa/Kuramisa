@@ -13,12 +13,14 @@ export default class PlaylistAutocomplete extends AbstractEvent {
         if (!interaction.isAutocomplete()) return;
         if (interaction.commandName !== "playlist") return;
 
-        const { options, user } = interaction;
-
         const {
-            managers,
-            systems: { music },
-        } = this.container.client;
+            client: {
+                managers,
+                systems: { music },
+            },
+            options,
+            user,
+        } = interaction;
 
         const db = await managers.users.get(user.id);
 

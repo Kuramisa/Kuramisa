@@ -44,7 +44,6 @@ export default class ValorantVersions {
         return new Date(this.data.buildDate).getTime();
     }
 
-    static async init() {
-        return new ValorantVersions(await fetch("version"));
-    }
+    static readonly init = async () =>
+        new ValorantVersions(await fetch("version"));
 }

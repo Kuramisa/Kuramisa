@@ -12,16 +12,17 @@ export default class ValorantButtons extends AbstractEvent {
         if (!interaction.customId.startsWith("valorant_weapon_")) return;
 
         const {
-            games: { valorant },
-        } = this.container.client;
+            customId,
+            client: {
+                games: { valorant },
+            },
+        } = interaction;
 
         if (!valorant.initialized)
             return interaction.reply({
                 content: "**😞 Valorant is not initialized yet!**",
                 flags: "Ephemeral",
             });
-
-        const { customId } = interaction;
 
         const { weapons } = valorant;
 
@@ -41,10 +42,7 @@ export default class ValorantButtons extends AbstractEvent {
 
             await interaction.deferReply();
 
-            const infoCollection = valorant.skins.collection(
-                this.container.client,
-                skins,
-            );
+            const infoCollection = valorant.skins.collection(skins);
 
             let page = 0;
             let lvlPage = 0;

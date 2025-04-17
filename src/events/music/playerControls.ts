@@ -14,6 +14,7 @@ import { timedDelete } from "utils";
 export default class PlayerControlsButtons extends AbstractEvent {
     async run(interaction: Interaction) {
         if (!interaction.isButton()) return;
+        if (!interaction.inCachedGuild()) return;
         if (
             ![
                 "player_goback_to",
@@ -34,14 +35,13 @@ export default class PlayerControlsButtons extends AbstractEvent {
         )
             return;
 
-        if (!interaction.inCachedGuild()) return;
-
         const {
-            kEmojis: emojis,
-            systems: { music },
-        } = this.container.client;
-
-        const { guild } = interaction;
+            client: {
+                kEmojis: emojis,
+                systems: { music },
+            },
+            guild,
+        } = interaction;
 
         const queue = useQueue<QueueMetadata>(guild);
         if (!queue)

@@ -17,14 +17,19 @@ export default class MessageEditedEvent extends AbstractEvent {
             isEqual(oldMessage.attachments, newMessage.attachments)
         )
             return;
-        if (newMessage.author.id === this.container.client.user?.id) return;
+        if (newMessage.author.id === newMessage.client.user.id) return;
         if (newMessage.author.bot) return;
 
-        const { guild } = newMessage;
+        const {
+            client: { managers },
+            guild,
+        } = newMessage;
 
-        const channel =
-            await this.container.client.managers.guilds.logsChannel(guild);
+        const channel = await managers.guilds.logsChannel(guild);
         if (!channel) return;
+
+        const db = await managers.guilds.get(guild.id);
+        if (!db.logs.types.messageEdited) return;
 
         const { content: oldContent } = oldMessage;
         const { content: newContent } = newMessage;

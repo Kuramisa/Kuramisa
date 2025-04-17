@@ -16,11 +16,10 @@ export default class VolumeChangeEvent extends AbstractEvent {
         oldVolume: number,
         newVolume: number,
     ) {
-        const { message } = queue.metadata;
-
         const {
             systems: { music },
-        } = this.container.client;
+        } = container.client;
+        const { message } = queue.metadata;
 
         if (!message) return;
 

@@ -19,9 +19,7 @@ export default class ValorantMaps {
             (m) => m.displayName.toLowerCase() === map.toLowerCase(),
         ) ?? this.data.find((m) => m.uuid === map);
 
-    static async init() {
-        return new ValorantMaps(await fetch("maps"));
-    }
+    static readonly init = async () => new ValorantMaps(await fetch("maps"));
 
     embed = (map: APIValorantMap) =>
         new Embed()

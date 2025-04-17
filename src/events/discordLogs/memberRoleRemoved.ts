@@ -9,11 +9,16 @@ import { AuditLogEvent } from "discord.js";
 })
 export default class MemberRoleRemovedEvent extends AbstractEvent {
     async run(member: GuildMember, role: Role) {
-        const { guild } = member;
+        const {
+            client: { managers },
+            guild,
+        } = member;
 
-        const channel =
-            await this.container.client.managers.guilds.logsChannel(guild);
+        const channel = await managers.guilds.logsChannel(guild);
         if (!channel) return;
+
+        const db = await managers.guilds.get(guild.id);
+        if (!db.logs.types.memberRoleRemoved) return;
 
         const audit = await guild
             .fetchAuditLogs({

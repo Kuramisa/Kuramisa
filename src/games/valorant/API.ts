@@ -28,6 +28,7 @@ import type {
     APIValorantVersion,
     APIValorantWeapon,
 } from "typings/APIValorant";
+
 // Fetch Cosmetics
 export async function fetch(endpoint: "buddies"): Promise<APIValorantBuddy[]>;
 export async function fetch(endpoint: "bundles"): Promise<APIValorantBundle[]>;

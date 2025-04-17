@@ -12,11 +12,17 @@ export default class MemberNicknameChangeEvent extends AbstractEvent {
         oldNickname: string | null,
         newNickname: string | null,
     ) {
-        const { guild } = member;
+        if (oldNickname === newNickname) return;
+        const {
+            client: { managers },
+            guild,
+        } = member;
 
-        const channel =
-            await this.container.client.managers.guilds.logsChannel(guild);
+        const channel = await managers.guilds.logsChannel(guild);
         if (!channel) return;
+
+        const db = await managers.guilds.get(guild.id);
+        if (!db.logs.types.memberNicknameChange) return;
 
         const embed = new Embed()
             .setAuthor({

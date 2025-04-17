@@ -1,5 +1,4 @@
 import { Embed } from "Builders";
-import type Kuramisa from "Kuramisa";
 import type {
     APIValorantBuddy,
     APIValorantBundle,
@@ -9,6 +8,7 @@ import type {
     APIValorantSpray,
 } from "typings/APIValorant";
 
+import { container } from "@sapphire/pieces";
 import { fetch } from "games/valorant/API";
 import type { ValorantBundleItem } from "typings/Valorant";
 
@@ -49,7 +49,6 @@ export default class ValorantBundles {
     }
 
     async itemEmbed(
-        client: Kuramisa,
         item: ValorantBundleItem &
             (
                 | (APIValorantSkin & { type: "skin_level" })
@@ -63,7 +62,7 @@ export default class ValorantBundles {
             kanvas,
             kEmojis: emojis,
             games: { valorant },
-        } = client;
+        } = container.client;
 
         let description: string;
 
@@ -157,7 +156,6 @@ export default class ValorantBundles {
         return embed;
     }
 
-    static async init() {
-        return new ValorantBundles(await fetch("bundles"));
-    }
+    static readonly init = async () =>
+        new ValorantBundles(await fetch("bundles"));
 }

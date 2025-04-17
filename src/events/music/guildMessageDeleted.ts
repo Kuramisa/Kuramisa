@@ -9,7 +9,6 @@ import type { QueueMetadata } from "typings/Music";
 })
 export default class MusicMessageDeletedEvent extends AbstractEvent {
     run(message: Message) {
-        if (!this.container.client.isReady()) return;
         if (!message.inGuild()) return;
 
         const queue = useQueue<QueueMetadata>(message.guild);
@@ -17,7 +16,7 @@ export default class MusicMessageDeletedEvent extends AbstractEvent {
 
         const { message: msg } = queue.metadata;
 
-        if (msg && msg.author.id === this.container.client.user.id) {
+        if (msg && msg.author.id === message.client.user.id) {
             queue.metadata.message = null;
             queue.delete();
         }

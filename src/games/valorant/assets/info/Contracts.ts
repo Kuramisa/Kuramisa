@@ -17,7 +17,6 @@ export default class ValorantContracts {
             (c) => c.displayName.toLowerCase() === contract.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === contract);
 
-    static async init() {
-        return new ValorantContracts(await fetch("contracts"));
-    }
+    static readonly init = async () =>
+        new ValorantContracts(await fetch("contracts"));
 }

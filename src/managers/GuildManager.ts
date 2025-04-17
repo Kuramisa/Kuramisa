@@ -47,7 +47,8 @@ export default class GuildManager {
 
         if (!channel) return null;
         if (!channel.isTextBased()) return null;
-        if (!guild.members.me?.permissionsIn(channel).has("SendMessages"))
+        if (!guild.members.me) return null;
+        if (!channel.permissionsFor(guild.members.me).has("SendMessages"))
             return null;
 
         return channel;

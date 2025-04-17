@@ -1,12 +1,12 @@
+import { ContextMenuCommandBuilder } from "@discordjs/builders";
 import { Command } from "@sapphire/framework";
 import {
     ApplicationCommandType,
     ApplicationIntegrationType,
-    ContextMenuCommandBuilder,
     InteractionContextType,
 } from "discord.js";
 
-export class AbstractMessageMenuCommand extends Command {
+export abstract class AbstractMessageMenuCommand extends Command {
     readonly data: ContextMenuCommandBuilder;
 
     readonly contexts: InteractionContextType[];
@@ -17,14 +17,20 @@ export class AbstractMessageMenuCommand extends Command {
     constructor(context: Command.LoaderContext, options: Command.Options) {
         super(context, options);
 
-        this.data = new ContextMenuCommandBuilder()
-            .setName(this.name)
-            .setType(this.type);
-
         this.contexts = options.contexts ?? [InteractionContextType.Guild];
         this.integrations = options.integrations ?? [
             ApplicationIntegrationType.GuildInstall,
         ];
+
+        this.data = new ContextMenuCommandBuilder()
+            .setName(this.rawName)
+            .setType(this.type)
+            .setContexts(this.contexts)
+            .setIntegrationTypes(this.integrations);
+    }
+
+    override registerApplicationCommands(registry: Command.Registry) {
+        registry.registerContextMenuCommand(this.data);
     }
 }
 

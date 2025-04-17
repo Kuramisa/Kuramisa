@@ -163,9 +163,13 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
 })
 export default class PlaylistCommand extends AbstractSlashSubcommand {
     async slashCreate(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
+        const {
+            client: { managers },
+            options,
+            user,
+        } = interaction;
 
-        const db = await client.managers.users.get(user.id);
+        const db = await managers.users.get(user.id);
 
         let playlistName = options.getString("playlist_name", true);
 
@@ -242,9 +246,13 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
     }
 
     async slashDelete(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
+        const {
+            client: { managers },
+            options,
+            user,
+        } = interaction;
 
-        const db = await client.managers.users.get(user.id);
+        const db = await managers.users.get(user.id);
 
         const playlistIdOrName = options.getString("playlist_name", true);
 
@@ -273,9 +281,13 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
     }
 
     async slashEdit(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
+        const {
+            client: { managers },
+            options,
+            user,
+        } = interaction;
 
-        const db = await client.managers.users.get(user.id);
+        const db = await managers.users.get(user.id);
 
         const playlistIdOrName = options.getString("playlist_name", true);
 
@@ -375,11 +387,15 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
     }
 
     async slashAddTrack(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
         const {
-            managers,
-            systems: { music },
-        } = client;
+            client: {
+                managers,
+                systems: { music },
+                ...client
+            },
+            options,
+            user,
+        } = interaction;
 
         const db = await managers.users.get(user.id);
 
@@ -445,11 +461,14 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
     }
 
     async slashImport(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
         const {
-            managers,
-            systems: { music },
-        } = client;
+            client: {
+                managers,
+                systems: { music },
+            },
+            options,
+            user,
+        } = interaction;
 
         const url = options.getString("playlist_url", true);
 
@@ -522,11 +541,14 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
     }
 
     async slashImportCombine(interaction: ChatInputCommandInteraction) {
-        const { client, options, user } = interaction;
         const {
-            managers,
-            systems: { music },
-        } = client;
+            client: {
+                managers,
+                systems: { music },
+            },
+            options,
+            user,
+        } = interaction;
 
         const db = await managers.users.get(user.id);
 

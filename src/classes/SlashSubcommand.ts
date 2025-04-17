@@ -1,26 +1,27 @@
 import {
-    Subcommand,
-    type SubcommandMappingMethod,
-} from "@sapphire/plugin-subcommands";
-import {
-    ApplicationCommandOptionType,
-    ApplicationIntegrationType,
-    InteractionContextType,
     SlashCommandBuilder,
     SlashCommandSubcommandBuilder,
     SlashCommandSubcommandGroupBuilder,
-} from "discord.js";
+} from "@discordjs/builders";
+import {
+    Subcommand,
+    type SubcommandMappingArray,
+    type SubcommandMappingMethod,
+} from "@sapphire/plugin-subcommands";
+import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
 import type { SlashCommandOption } from "typings";
+import { addOption } from "utils";
 
-export class AbstractSlashSubcommand extends Subcommand {
+export abstract class AbstractSlashSubcommand extends Subcommand {
     readonly data: SlashCommandBuilder;
 
     readonly contexts: InteractionContextType[];
     readonly integrations: ApplicationIntegrationType[];
 
-    readonly opts: SlashCommandOption[] = [];
+    readonly opts?: SlashCommandOption[];
+    readonly subcommands?: SubcommandMappingArray;
 
-    public constructor(
+    constructor(
         content: Subcommand.LoaderContext,
         options: Subcommand.Options,
     ) {
@@ -32,7 +33,7 @@ export class AbstractSlashSubcommand extends Subcommand {
         ];
 
         this.data = new SlashCommandBuilder()
-            .setName(this.name)
+            .setName(this.rawName)
             .setDescription(this.description)
             .setContexts(this.contexts)
             .setIntegrationTypes(this.integrations);
@@ -43,9 +44,8 @@ export class AbstractSlashSubcommand extends Subcommand {
             );
 
         if (options.opts) {
-            this.opts = options.opts;
-            for (const opt of this.opts) {
-                this.addOption(this.data, opt);
+            for (const opt of options.opts) {
+                addOption(this.data, opt);
             }
         }
 
@@ -64,7 +64,7 @@ export class AbstractSlashSubcommand extends Subcommand {
 
                 if (subcommand.opts) {
                     for (const opt of subcommand.opts) {
-                        this.addOption(subcommandBuilder, opt);
+                        addOption(subcommandBuilder, opt);
                     }
                 }
 
@@ -84,7 +84,7 @@ export class AbstractSlashSubcommand extends Subcommand {
 
                     if (subcommand.opts) {
                         for (const opt of subcommand.opts) {
-                            this.addOption(subcommandBuilder, opt);
+                            addOption(subcommandBuilder, opt);
                         }
                     }
 
@@ -96,41 +96,11 @@ export class AbstractSlashSubcommand extends Subcommand {
         }
     }
 
-    private addOption(
-        builder: SlashCommandBuilder | SlashCommandSubcommandBuilder,
-        option: SlashCommandOption,
-    ) {
-        switch (option.type) {
-            case ApplicationCommandOptionType.Boolean:
-                builder.addBooleanOption(option);
-                break;
-            case ApplicationCommandOptionType.Attachment:
-                builder.addAttachmentOption(option);
-                break;
-            case ApplicationCommandOptionType.String:
-                builder.addStringOption(option);
-                break;
-            case ApplicationCommandOptionType.Integer:
-                builder.addIntegerOption(option);
-                break;
-            case ApplicationCommandOptionType.User:
-                builder.addUserOption(option);
-                break;
-            case ApplicationCommandOptionType.Channel:
-                builder.addChannelOption(option);
-                break;
-            case ApplicationCommandOptionType.Role:
-                builder.addRoleOption(option);
-                break;
-            case ApplicationCommandOptionType.Mentionable:
-                builder.addMentionableOption(option);
-                break;
-            case ApplicationCommandOptionType.Number:
-                builder.addNumberOption(option);
-                break;
-        }
+    override registerApplicationCommands(registry: Subcommand.Registry) {
+        registry.registerChatInputCommand(this.data);
     }
 }
+
 export function SlashSubcommand(options: Subcommand.Options) {
     return function <T extends new (...args: any[]) => AbstractSlashSubcommand>(
         Base: T,

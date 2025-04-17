@@ -9,9 +9,9 @@ export default class SelfRolesButtons {
         if (!interaction.inCachedGuild()) return;
 
         const { client, options, guild } = interaction;
-        const { logger } = client;
+        const { logger, managers } = client;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -181,7 +181,11 @@ export default class SelfRolesButtons {
     async buttonEdit(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
         const newButtonRole = options.getRole("sr_button_role");
         const newButtonName = options.getString("sr_button_name");
@@ -199,7 +203,7 @@ export default class SelfRolesButtons {
                 flags: "Ephemeral",
             });
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -328,9 +332,13 @@ export default class SelfRolesButtons {
     async buttonRemove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({

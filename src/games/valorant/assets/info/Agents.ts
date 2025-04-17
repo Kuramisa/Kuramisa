@@ -49,7 +49,6 @@ export default class ValorantAgents {
                 `#${pickRandom(agent.backgroundGradientColors).slice(0, 6)}`,
             );
 
-    static async init() {
-        return new ValorantAgents(await fetch("agents"));
-    }
+    static readonly init = async () =>
+        new ValorantAgents(await fetch("agents"));
 }

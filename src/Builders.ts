@@ -14,6 +14,12 @@ import {
     type ModalActionRowComponentBuilder,
     ModalBuilder,
     RoleSelectMenuBuilder,
+    TextInputBuilder,
+    TextInputStyle,
+    UserSelectMenuBuilder,
+} from "discord.js";
+
+import {
     SlashCommandAttachmentOption,
     SlashCommandBooleanOption,
     SlashCommandChannelOption,
@@ -24,10 +30,7 @@ import {
     SlashCommandStringOption,
     SlashCommandUserOption,
     StringSelectMenuBuilder,
-    TextInputBuilder,
-    TextInputStyle,
-    UserSelectMenuBuilder,
-} from "discord.js";
+} from "@discordjs/builders";
 
 export class Row extends ActionRowBuilder<MessageActionRowComponentBuilder> {
     constructor() {

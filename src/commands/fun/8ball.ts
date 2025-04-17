@@ -28,7 +28,9 @@ import { nekos } from "utils";
 })
 export default class EightBallCommand extends AbstractSlashCommand {
     async chatInputRun(interaction: ChatInputCommandInteraction) {
-        let question = interaction.options.getString("question", true);
+        const { options, user } = interaction;
+
+        let question = options.getString("question", true);
         if (!question.includes("?")) question += "?";
 
         const { url, response } = await nekos.eightBall({
@@ -41,14 +43,14 @@ export default class EightBallCommand extends AbstractSlashCommand {
             });
 
             return interaction.reply({
-                content: `${interaction.user}: ${bold(question)}`,
+                content: `${user}: ${bold(question)}`,
                 files: [attachment],
                 flags: "SuppressNotifications",
             });
         }
 
         return interaction.reply({
-            content: `${interaction.user}: ${bold(question)}\n${response}`,
+            content: `${user}: ${bold(question)}\n${response}`,
             flags: "SuppressNotifications",
         });
     }

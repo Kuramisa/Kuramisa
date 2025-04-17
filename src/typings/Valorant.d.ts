@@ -16,7 +16,7 @@ import type {
     APIValorantSpray,
 } from "./APIValorant";
 
-export interface ValorantFeaturedBundle extends ValorantBundle {
+export interface ValorantFeaturedBundle extends ValorantBundleItem {
     uuid: string;
     price: number;
     wholeSaleOnly: boolean;

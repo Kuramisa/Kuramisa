@@ -17,7 +17,6 @@ export default class ValorantLevelBorders {
             ? this.data.find((border) => border.uuid === level)
             : this.data.find((border) => border.startingLevel === level);
 
-    static async init() {
-        return new ValorantLevelBorders(await fetch("levelborders"));
-    }
+    static readonly init = async () =>
+        new ValorantLevelBorders(await fetch("levelborders"));
 }

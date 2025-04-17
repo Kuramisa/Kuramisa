@@ -12,10 +12,16 @@ export default class MessageDeletedEvent extends AbstractEvent {
         if (!message.inGuild()) return;
         if (message.author.bot) return;
 
-        const { guild } = message;
-        const channel =
-            await this.container.client.managers.guilds.logsChannel(guild);
+        const {
+            client: { managers },
+            guild,
+        } = message;
+
+        const channel = await managers.guilds.logsChannel(guild);
         if (!channel) return;
+
+        const db = await managers.guilds.get(guild.id);
+        if (!db.logs.types.messageDeleted) return;
 
         const audit = await guild
             .fetchAuditLogs({

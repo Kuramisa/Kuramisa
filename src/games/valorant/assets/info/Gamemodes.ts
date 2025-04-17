@@ -17,9 +17,8 @@ export default class ValorantGamemodes {
         this.data.find((g) => g.displayName === gamemode) ??
         this.data.find((g) => g.uuid === gamemode);
 
-    static async init() {
-        return new ValorantGamemodes(await fetch("gamemodes"));
-    }
+    static readonly init = async () =>
+        new ValorantGamemodes(await fetch("gamemodes"));
 
     embed = (gamemode: APIValorantGamemode) =>
         new Embed()

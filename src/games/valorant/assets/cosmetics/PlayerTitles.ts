@@ -26,7 +26,6 @@ export default class ValorantPlayerTitles {
             })
             .setTitle(playerTitle.titleText);
 
-    static async init() {
-        return new ValorantPlayerTitles(await fetch("playertitles"));
-    }
+    static readonly init = async () =>
+        new ValorantPlayerTitles(await fetch("playertitles"));
 }

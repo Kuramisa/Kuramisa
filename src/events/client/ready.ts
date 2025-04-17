@@ -1,4 +1,5 @@
 import { CronJob } from "cron";
+import type { Client } from "discord.js";
 import ms from "ms";
 import { AbstractEvent, Event } from "../../classes/Event";
 
@@ -8,9 +9,8 @@ import { AbstractEvent, Event } from "../../classes/Event";
     once: true,
 })
 export default class ReadyEvent extends AbstractEvent {
-    async run() {
-        if (!this.container.client.isReady()) return;
-        const { client, logger } = this.container;
+    async run(client: Client<true>) {
+        const { logger } = this.container;
 
         client.user.setPresence(client.getActivity());
 

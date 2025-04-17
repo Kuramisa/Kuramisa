@@ -21,7 +21,6 @@ export default class ValorantSeasons {
         this.data.find((s) => s.displayName === season) ??
         this.data.find((s) => s.uuid === season);
 
-    static async init() {
-        return new ValorantSeasons(await fetch("seasons"));
-    }
+    static readonly init = async () =>
+        new ValorantSeasons(await fetch("seasons"));
 }

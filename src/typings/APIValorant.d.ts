@@ -517,7 +517,7 @@ export type APIValorantCosmetics =
     | APIValorantLevelBorder[]
     | APIValorantPlayerCard[]
     | APIValorantPlayerTitle[]
-    | APIValorantSkins[]
+    | APIValorantSkin[]
     | APIValorantSpray[];
 
 export type APIValorantInfo =

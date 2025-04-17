@@ -17,7 +17,6 @@ export default class ValorantCurrencies {
             (c) => c.displayName.toLowerCase() === currency.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === currency);
 
-    static async init() {
-        return new ValorantCurrencies(await fetch("currencies"));
-    }
+    static readonly init = async () =>
+        new ValorantCurrencies(await fetch("currencies"));
 }

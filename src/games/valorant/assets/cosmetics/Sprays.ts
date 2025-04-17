@@ -69,7 +69,6 @@ export default class ValorantSprays {
                 })),
             );
 
-    static async init() {
-        return new ValorantSprays(await fetch("sprays"));
-    }
+    static readonly init = async () =>
+        new ValorantSprays(await fetch("sprays"));
 }

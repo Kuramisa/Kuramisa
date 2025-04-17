@@ -27,7 +27,6 @@ export default class ValorantPlayerCards {
             .setImage(playerCard.wideArt)
             .setColor("Orange");
 
-    static async init() {
-        return new ValorantPlayerCards(await fetch("playercards"));
-    }
+    static readonly init = async () =>
+        new ValorantPlayerCards(await fetch("playercards"));
 }

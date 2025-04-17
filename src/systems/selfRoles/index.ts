@@ -17,9 +17,13 @@ export default class SelfRoles {
     async autoSetup(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, options, guild } = interaction;
+        const {
+            client: { managers, user: client },
+            options,
+            guild,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const channelName = options.getString("channel_name", true);
         const wantsCustomMessage = options.getBoolean("custom_message", true);
@@ -30,7 +34,7 @@ export default class SelfRoles {
                 type: ChannelType.GuildText,
                 permissionOverwrites: [
                     {
-                        id: client.user.id,
+                        id: client.id,
                         allow: [
                             "ViewChannel",
                             "SendMessages",
@@ -115,9 +119,12 @@ export default class SelfRoles {
     async viewSetups(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, guild } = interaction;
+        const {
+            client: { managers },
+            guild,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const { selfRoles } = db;
 

@@ -12,10 +12,11 @@ export default class YourValorantAutocomplete extends AbstractEvent {
         if (!interaction.inCachedGuild()) return;
 
         const {
-            games: { valorant },
-        } = this.container.client;
-
-        const { options } = interaction;
+            client: {
+                games: { valorant },
+            },
+            options,
+        } = interaction;
 
         const { name, value } = options.getFocused(true);
 

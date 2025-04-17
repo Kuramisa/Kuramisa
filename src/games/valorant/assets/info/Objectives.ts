@@ -17,7 +17,6 @@ export default class ValorantObjectives {
             (o) => o.directive.toLowerCase() === objective.toLowerCase(),
         ) ?? this.data.find((o) => o.uuid === objective);
 
-    static async init() {
-        return new ValorantObjectives(await fetch("objectives"));
-    }
+    static readonly init = async () =>
+        new ValorantObjectives(await fetch("objectives"));
 }

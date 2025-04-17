@@ -30,7 +30,7 @@ export default class ValorantCompetitiveTiers {
             .setThumbnail(tier.largeIcon)
             .setColor(`#${tier.color}`);
 
-    static async init() {
+    static readonly init = async () => {
         return new ValorantCompetitiveTiers(await fetch("competitivetiers"));
-    }
+    };
 }

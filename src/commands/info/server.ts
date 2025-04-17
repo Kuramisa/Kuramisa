@@ -1,7 +1,7 @@
 import { Embed } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import type { ChatInputCommandInteraction } from "discord.js";
-import { ChannelType, TimestampStyles, time } from "discord.js";
+import { ChannelType, time } from "discord.js";
 import capitalize from "lodash/capitalize";
 
 @SlashCommand({
@@ -30,7 +30,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                 {
                     name: "General",
                     value: `**Name** - ${guild.name}
-                        **Created** - ${time(createdAt, TimestampStyles.RelativeTime)}
+                        **Created** - ${time(createdAt, "R")}
                         **Owner** - ${guild.members.cache.get(guild.ownerId) ?? (await guild.fetchOwner().catch(() => null)) ?? "Unknown"}
 
                         **Description** - ${description ?? "None"}

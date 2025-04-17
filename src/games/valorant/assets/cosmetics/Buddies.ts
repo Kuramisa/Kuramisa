@@ -73,7 +73,6 @@ export default class ValorantBuddies {
                 })),
             );
 
-    static async init() {
-        return new ValorantBuddies(await fetch("buddies"));
-    }
+    static readonly init = async () =>
+        new ValorantBuddies(await fetch("buddies"));
 }

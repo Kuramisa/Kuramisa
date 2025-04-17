@@ -13,8 +13,10 @@ export default class LogsAutocomplete extends AbstractEvent {
         if (interaction.commandName !== "logs") return;
         if (!interaction.guildId) return;
 
-        const { managers } = this.container.client;
-        const { options } = interaction;
+        const {
+            client: { managers },
+            options,
+        } = interaction;
 
         const guild = await managers.guilds.get(interaction.guildId);
         const focused = options.getFocused();

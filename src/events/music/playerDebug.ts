@@ -10,7 +10,7 @@ import type { QueueMetadata } from "typings/Music";
 export default class MusicPlayerDebugEvent extends AbstractEvent {
     run(queue: GuildQueue<QueueMetadata>, debug: string) {
         const { guild } = queue;
-        this.container.logger.debug(
+        container.logger.debug(
             `[Music Player] Guild: ${guild.name} - ${guild.id} ${debug}`,
         );
     }

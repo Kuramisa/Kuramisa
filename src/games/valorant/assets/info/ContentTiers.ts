@@ -27,7 +27,6 @@ export default class ValorantContentTiers {
             (t) => t.displayName.toLowerCase() === tier.toLowerCase(),
         ) ?? this.data.find((t) => t.uuid === tier);
 
-    static async init() {
-        return new ValorantContentTiers(await fetch("contenttiers"));
-    }
+    static readonly init = async () =>
+        new ValorantContentTiers(await fetch("contenttiers"));
 }

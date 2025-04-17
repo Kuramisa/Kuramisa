@@ -18,7 +18,6 @@ export default class ValorantEvents {
             (e) => e.displayName.toLowerCase() === event.toLowerCase(),
         ) ?? this.data.find((e) => e.uuid === event);
 
-    static async init() {
-        return new ValorantEvents(await fetch("events"));
-    }
+    static readonly init = async () =>
+        new ValorantEvents(await fetch("events"));
 }

@@ -38,9 +38,13 @@ export default class AutoRoleCommand extends AbstractSlashSubcommand {
     async slashAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, guild, options } = interaction;
+        const {
+            client: { managers },
+            guild,
+            options,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const role = options.getRole("role_to_add", true);
 
@@ -68,9 +72,13 @@ export default class AutoRoleCommand extends AbstractSlashSubcommand {
     async slashRemove(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, guild, options } = interaction;
+        const {
+            client: { managers },
+            guild,
+            options,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         const roleStr = options.getString("role_to_remove", true);
 

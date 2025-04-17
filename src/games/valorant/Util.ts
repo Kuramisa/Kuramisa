@@ -1,3 +1,4 @@
+import { container } from "@sapphire/pieces";
 import { Attachment, Button, Row } from "Builders";
 import type {
     ActionRowBuilder,
@@ -12,21 +13,14 @@ import {
     type MessageActionRowComponentBuilder,
 } from "discord.js";
 import ffmpeg from "fluent-ffmpeg";
-import type Kuramisa from "Kuramisa";
 import type { ValorantSkinInfo } from "typings/Valorant";
 export default class ValorantUtil {
-    private readonly client: Kuramisa;
-
-    constructor(client: Kuramisa) {
-        this.client = client;
-    }
-
     determineComponents(
         skin: ValorantSkinInfo,
         withNavigation = false,
         chromaPage = 0,
     ) {
-        const { kEmojis: emojis } = this.client;
+        const { kEmojis: emojis } = container.client;
 
         const components: ActionRowBuilder<MessageActionRowComponentBuilder>[] =
             [];
@@ -129,7 +123,7 @@ export default class ValorantUtil {
         chromaPage: number,
         withNavigation = false,
     ) {
-        const { logger } = this.client;
+        const { logger } = container.client;
 
         const chromaName = skin.chroma.names[chromaPage]
                 .replaceAll("\r", "")
@@ -244,7 +238,7 @@ export default class ValorantUtil {
         levelPage: number,
         withNavigation = false,
     ) {
-        const { logger } = this.client;
+        const { logger } = container.client;
 
         const skinName = skin.level.names[levelPage]
                 .replaceAll("\r", "")

@@ -15,9 +15,9 @@ import type {
     APIValorantSkinLevel,
 } from "typings/APIValorant";
 
+import { container } from "@sapphire/pieces";
 import { fetch } from "games/valorant/API";
 import type { ValorantSkinInfo } from "typings/Valorant";
-import type Kuramisa from "../../../../Kuramisa";
 
 export default class ValorantSkins {
     private readonly data: APIValorantSkin[];
@@ -43,14 +43,13 @@ export default class ValorantSkins {
                 ) ?? s.levels.find((level) => level.uuid === skin),
         );
 
-    static async init() {
-        return new ValorantSkins(await fetch("weapons/skins"));
-    }
+    static readonly init = async () =>
+        new ValorantSkins(await fetch("weapons/skins"));
 
-    info(client: Kuramisa, skin: APIValorantSkin): ValorantSkinInfo {
+    info(skin: APIValorantSkin): ValorantSkinInfo {
         // Level Information
         const levelNames = skin.levels.map((level) => level.displayName);
-        const levelEmbeds = this.levelEmbeds(client, skin);
+        const levelEmbeds = this.levelEmbeds(skin);
         const levelComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
                 this.levelSelectMenu(skin),
@@ -59,7 +58,7 @@ export default class ValorantSkins {
 
         // Chroma Information
         const chromaNames = skin.chromas.map((chroma) => chroma.displayName);
-        const chromaEmbeds = this.chromaEmbeds(client, skin);
+        const chromaEmbeds = this.chromaEmbeds(skin);
         const chromaComponents =
             new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
                 this.chromaButtons(skin),
@@ -84,11 +83,11 @@ export default class ValorantSkins {
         };
     }
 
-    collection(client: Kuramisa, skins: APIValorantSkin[]) {
+    collection(skins: APIValorantSkin[]) {
         const collection = new Collection<string, ValorantSkinInfo>();
 
         for (const skin of skins) {
-            collection.set(skin.uuid, this.info(client, skin));
+            collection.set(skin.uuid, this.info(skin));
         }
 
         return collection;
@@ -108,12 +107,14 @@ export default class ValorantSkins {
             .setImage(level?.displayIcon ?? skin.displayIcon)
             .setColor(`#${contentTier?.highlightColor.slice(0, 6)}`);
 
-    levelEmbeds = (client: Kuramisa, skin: APIValorantSkin) =>
+    levelEmbeds = (skin: APIValorantSkin) =>
         skin.levels.map((level) =>
             this.levelEmbed(
                 skin,
                 level,
-                client.games.valorant.contentTiers.get(skin.contentTierUuid),
+                container.client.games.valorant.contentTiers.get(
+                    skin.contentTierUuid,
+                ),
             ),
         );
 
@@ -139,22 +140,24 @@ export default class ValorantSkins {
     chromaEmbed = (
         skin: APIValorantSkin,
         chroma: APIValorantSkinChroma,
-        contentTier: APIValorantContentTier,
+        contentTier?: APIValorantContentTier,
     ) =>
         new Embed()
             .setAuthor({
                 name: chroma.displayName,
-                iconURL: contentTier.displayIcon,
+                iconURL: contentTier?.displayIcon,
             })
             .setImage(chroma.fullRender ?? skin.displayIcon)
-            .setColor(`#${contentTier.highlightColor.slice(0, 6)}`);
+            .setColor(`#${contentTier?.highlightColor.slice(0, 6)}`);
 
-    chromaEmbeds = (client: Kuramisa, skin: APIValorantSkin) =>
+    chromaEmbeds = (skin: APIValorantSkin) =>
         skin.chromas.map((chroma) =>
             this.chromaEmbed(
                 skin,
                 chroma,
-                client.games.valorant.contentTiers.get(skin.contentTierUuid)!,
+                container.client.games.valorant.contentTiers.get(
+                    skin.contentTierUuid,
+                ),
             ),
         );
 

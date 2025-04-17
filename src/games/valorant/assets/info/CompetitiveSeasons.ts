@@ -20,9 +20,6 @@ export default class ValorantCompetitiveSeasons {
         this.data.find((s) => s.seasonUuid === season) ??
         this.data.find((s) => s.uuid === season);
 
-    static async init() {
-        return new ValorantCompetitiveSeasons(
-            await fetch("seasons/competitive"),
-        );
-    }
+    static readonly init = async () =>
+        new ValorantCompetitiveSeasons(await fetch("seasons/competitive"));
 }

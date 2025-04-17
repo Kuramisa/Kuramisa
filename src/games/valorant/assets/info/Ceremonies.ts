@@ -17,7 +17,6 @@ export default class ValorantCeremonies {
             (c) => c.displayName.toLowerCase() === ceremony.toLowerCase(),
         ) ?? this.data.find((c) => c.uuid === ceremony);
 
-    static async init() {
-        return new ValorantCeremonies(await fetch("ceremonies"));
-    }
+    static readonly init = async () =>
+        new ValorantCeremonies(await fetch("ceremonies"));
 }

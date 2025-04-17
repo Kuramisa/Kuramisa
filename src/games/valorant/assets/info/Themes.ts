@@ -19,9 +19,8 @@ export default class ValorantThemes {
             (t) => t.displayName.toLowerCase() === theme.toLowerCase(),
         ) ?? this.data.find((t) => t.uuid === theme);
 
-    static async init() {
-        return new ValorantThemes(await fetch("themes"));
-    }
+    static readonly init = async () =>
+        new ValorantThemes(await fetch("themes"));
 
     embed = (theme: APIValorantTheme) =>
         new Embed()

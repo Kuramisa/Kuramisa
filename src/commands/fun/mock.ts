@@ -38,13 +38,13 @@ export default class MockCommand extends AbstractMessageMenuCommand {
                 flags: "Ephemeral",
             });
 
-        const { channel } = message;
+        const { author, channel } = message;
 
         if (channel.isThread() || channel.isDMBased())
             return interaction.reply({ content: mockText(message.content) });
 
         await interaction.reply({
-            content: `**Mocked ${message.author}**`,
+            content: `**Mocked ${author}**`,
             flags: "Ephemeral",
         });
 
@@ -54,7 +54,7 @@ export default class MockCommand extends AbstractMessageMenuCommand {
         });
 
         await webhook.send({
-            content: `${message.author} ${mockText(message.content)}`,
+            content: `${author} ${mockText(message.content)}`,
             username: user.displayName,
             avatarURL: user.displayAvatarURL(),
             flags: "SuppressNotifications",

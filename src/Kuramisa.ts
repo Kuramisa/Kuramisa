@@ -5,7 +5,12 @@ import dLogs from "discord-logs";
 import type { ApplicationEmoji, PresenceData } from "discord.js";
 import { ActivityType, Collection, Partials, type User } from "discord.js";
 
-import { LogLevel, SapphireClient } from "@sapphire/framework";
+import {
+    ApplicationCommandRegistries,
+    LogLevel,
+    RegisterBehavior,
+    SapphireClient,
+} from "@sapphire/framework";
 
 import { getRootData } from "@sapphire/pieces";
 import path from "path";
@@ -64,7 +69,7 @@ export default class Kuramisa extends SapphireClient {
         this.database = new Database();
 
         this.kanvas = new Kanvas();
-        this.games = new Games(this);
+        this.games = new Games();
         this.managers = new Managers(this);
         this.systems = new Systems(this);
 
@@ -111,6 +116,10 @@ export default class Kuramisa extends SapphireClient {
     getActivity = () => pickRandom(this.getActivities());
 
     async login() {
+        ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(
+            RegisterBehavior.BulkOverwrite,
+        );
+
         await this.database.connect();
 
         await dLogs(this, {

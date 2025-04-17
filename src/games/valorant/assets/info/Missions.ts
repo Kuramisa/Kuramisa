@@ -18,7 +18,6 @@ export default class ValorantMissions {
             (m) => m.displayName.toLowerCase() === mission.toLowerCase(),
         ) ?? this.data.find((m) => m.uuid === mission);
 
-    static async init() {
-        return new ValorantMissions(await fetch("missions"));
-    }
+    static readonly init = async () =>
+        new ValorantMissions(await fetch("missions"));
 }

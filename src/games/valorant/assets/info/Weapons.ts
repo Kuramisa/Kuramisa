@@ -1,7 +1,7 @@
 import { Button, Embed, Row } from "Builders";
 import { ButtonStyle } from "discord.js";
-import type Kuramisa from "Kuramisa";
 
+import { container } from "@sapphire/pieces";
 import { fetch } from "games/valorant/API";
 import type { APIValorantWeapon } from "typings/APIValorant";
 
@@ -21,9 +21,8 @@ export default class ValorantWeapons {
             (wp) => wp.displayName.toLowerCase() === weapon.toLowerCase(),
         ) ?? this.data.find((wp) => wp.uuid === weapon);
 
-    static async init() {
-        return new ValorantWeapons(await fetch("weapons"));
-    }
+    static readonly init = async () =>
+        new ValorantWeapons(await fetch("weapons"));
 
     generateDamagesDescription(weapon: APIValorantWeapon) {
         let description = "- ***Damage Values***\n";
@@ -35,7 +34,7 @@ export default class ValorantWeapons {
         return description;
     }
 
-    embed(client: Kuramisa, weapon: APIValorantWeapon) {
+    embed(weapon: APIValorantWeapon) {
         const embed = new Embed()
             .setAuthor({
                 name: `${weapon.displayName} (${
@@ -47,7 +46,7 @@ export default class ValorantWeapons {
 
         if (weapon.shopData)
             embed.setDescription(
-                `${client.kEmojis.get("val_credits")} **${
+                `${container.client.kEmojis.get("val_credits")} **${
                     weapon.shopData.cost
                 }**\n\n***Stats***\n${this.generateDamagesDescription(
                     weapon,

@@ -6,9 +6,13 @@ export default class SelfRolesMessages {
     async messageAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({
@@ -105,9 +109,13 @@ export default class SelfRolesMessages {
     async messageEdit(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
-        const { client, options, guild } = interaction;
+        const {
+            client: { managers },
+            options,
+            guild,
+        } = interaction;
 
-        const db = await client.managers.guilds.get(guild.id);
+        const db = await managers.guilds.get(guild.id);
 
         if (db.selfRoles.length === 0)
             return interaction.reply({

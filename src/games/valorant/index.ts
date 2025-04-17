@@ -1,7 +1,7 @@
+import { container } from "@sapphire/pieces";
 import Auth from "@valapi/auth";
 import WebClient from "@valapi/web-client";
 import { Collection, type Snowflake } from "discord.js";
-import type Kuramisa from "Kuramisa";
 import ms from "ms";
 import type { ValorantAccount } from "typings/Valorant";
 import {
@@ -33,8 +33,6 @@ import ValorantAuth from "./Auth";
 import ValorantUtil from "./Util";
 
 export default class Valorant {
-    private readonly client: Kuramisa;
-
     initialized = false;
 
     util: ValorantUtil;
@@ -79,10 +77,8 @@ export default class Valorant {
 
     static readonly assetsURL = "https://valorant-api.com/v1";
 
-    constructor(client: Kuramisa) {
-        this.client = client;
-
-        this.util = new ValorantUtil(client);
+    constructor() {
+        this.util = new ValorantUtil();
 
         this.agents = new ValorantAgents([]);
         this.ceremonies = new ValorantCeremonies([]);
@@ -108,11 +104,11 @@ export default class Valorant {
         this.skins = new ValorantSkins([]);
         this.sprays = new ValorantSprays([]);
 
-        this.auth = new ValorantAuth(this);
+        this.auth = new ValorantAuth();
     }
 
     async init() {
-        const { logger } = this.client;
+        const { logger } = container.client;
 
         if (this.initialized) {
             logger.info("[Valorant] Already Initialized!");
@@ -274,12 +270,12 @@ export default class Valorant {
     }
 
     async loadAccounts(userId: Snowflake) {
-        const { logger } = this.client;
+        const { logger, managers, users } = container.client;
 
-        const dbUser = await this.client.managers.users.get(userId);
+        const dbUser = await managers.users.get(userId);
         const user =
-            this.client.users.cache.get(userId) ??
-            (await this.client.users.fetch(userId).catch(() => null));
+            users.cache.get(userId) ??
+            (await users.fetch(userId).catch(() => null));
 
         if (!user) {
             logger.debug(`[Valorant] User not found for ${userId}`);

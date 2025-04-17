@@ -5,6 +5,8 @@ import {
     CDN,
     Message,
     type InteractionResponse,
+    type SlashCommandBuilder,
+    type SlashCommandSubcommandBuilder,
 } from "discord.js";
 
 import "dayjs/plugin/duration";
@@ -13,6 +15,7 @@ import { convert } from "owospeak";
 
 import { sleep } from "@sapphire/utilities";
 import random from "lodash/random";
+import type { SlashCommandOption } from "typings";
 import { memberActions, statusColor, statusEmoji, statusText } from "./Member";
 import Pagination from "./Pagination";
 
@@ -29,6 +32,41 @@ export const validateHex = (hex: string) =>
 
 export const containsUrl = (str: string) => urlPattern.test(str);
 export const extractUrls = (str: string) => RegExp(urlPattern).exec(str);
+
+export const addOption = (
+    builder: SlashCommandBuilder | SlashCommandSubcommandBuilder,
+    option: SlashCommandOption,
+) => {
+    switch (option.type) {
+        case ApplicationCommandOptionType.Boolean:
+            builder.addBooleanOption(option);
+            break;
+        case ApplicationCommandOptionType.Attachment:
+            builder.addAttachmentOption(option);
+            break;
+        case ApplicationCommandOptionType.String:
+            builder.addStringOption(option);
+            break;
+        case ApplicationCommandOptionType.Integer:
+            builder.addIntegerOption(option);
+            break;
+        case ApplicationCommandOptionType.User:
+            builder.addUserOption(option);
+            break;
+        case ApplicationCommandOptionType.Channel:
+            builder.addChannelOption(option);
+            break;
+        case ApplicationCommandOptionType.Role:
+            builder.addRoleOption(option);
+            break;
+        case ApplicationCommandOptionType.Mentionable:
+            builder.addMentionableOption(option);
+            break;
+        case ApplicationCommandOptionType.Number:
+            builder.addNumberOption(option);
+            break;
+    }
+};
 
 export const owoify = (text: string) =>
     convert(text, {
