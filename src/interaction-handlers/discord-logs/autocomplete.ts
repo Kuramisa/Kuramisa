@@ -3,7 +3,7 @@ import {
     InteractionHandlerTypes,
 } from "@sapphire/framework";
 import type { AutocompleteInteraction } from "discord.js";
-import { camelCase } from "lodash";
+import camelCase from "lodash/camelCase";
 import startCase from "lodash/startCase";
 
 export default class LogsAutocomplete extends InteractionHandler {
