@@ -2,18 +2,7 @@ import {
     InteractionHandler,
     InteractionHandlerTypes,
 } from "@sapphire/framework";
-import {
-    bold,
-    roleMention,
-    type ButtonInteraction,
-    type GuildMember,
-} from "discord.js";
-import type { SelfRoleChannel } from "typings";
-
-interface SelfRoleButtonInteraction {
-    channel: SelfRoleChannel;
-    member: GuildMember;
-}
+import { bold, roleMention, type ButtonInteraction } from "discord.js";
 
 export default class SelfRoleButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
@@ -24,7 +13,7 @@ export default class SelfRoleButtons extends InteractionHandler {
 
     async run(
         interaction: ButtonInteraction,
-        { channel, member }: SelfRoleButtonInteraction,
+        { channel, member }: InteractionHandler.ParseResult<this>,
     ) {
         const { message } = interaction;
 

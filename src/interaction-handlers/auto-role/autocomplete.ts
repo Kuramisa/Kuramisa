@@ -2,7 +2,7 @@ import {
     InteractionHandler,
     InteractionHandlerTypes,
 } from "@sapphire/framework";
-import type { AutocompleteInteraction, Role } from "discord.js";
+import type { AutocompleteInteraction } from "discord.js";
 
 export default class AutoRoleAutocomplete extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
@@ -11,7 +11,10 @@ export default class AutoRoleAutocomplete extends InteractionHandler {
         });
     }
 
-    async run(interaction: AutocompleteInteraction, roles: Role[]) {
+    async run(
+        interaction: AutocompleteInteraction,
+        roles: InteractionHandler.ParseResult<this>,
+    ) {
         await interaction.respond(
             roles.map((role) => ({
                 name: role.name,

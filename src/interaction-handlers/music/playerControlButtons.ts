@@ -3,20 +3,10 @@ import {
     InteractionHandlerTypes,
 } from "@sapphire/framework";
 import { Button, Row } from "Builders";
-import { QueueRepeatMode, useQueue, type GuildQueue } from "discord-player";
-import {
-    ButtonStyle,
-    ComponentType,
-    type ButtonInteraction,
-    type GuildMember,
-} from "discord.js";
+import { QueueRepeatMode, useQueue } from "discord-player";
+import { ButtonStyle, ComponentType, type ButtonInteraction } from "discord.js";
 import type { QueueMetadata } from "typings/Music";
 import { timedDelete } from "utils";
-
-interface PlayerControlButtonsData {
-    queue: GuildQueue<QueueMetadata>;
-    member: GuildMember;
-}
 
 export default class PlayerControlButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {
@@ -27,7 +17,7 @@ export default class PlayerControlButtons extends InteractionHandler {
 
     async run(
         interaction: ButtonInteraction,
-        { queue, member }: PlayerControlButtonsData,
+        { queue, member }: InteractionHandler.ParseResult<this>,
     ) {
         const {
             client: {

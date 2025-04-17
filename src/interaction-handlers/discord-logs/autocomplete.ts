@@ -13,7 +13,10 @@ export default class LogsAutocomplete extends InteractionHandler {
         });
     }
 
-    async run(interaction: AutocompleteInteraction, toggles: string[]) {
+    async run(
+        interaction: AutocompleteInteraction,
+        toggles: InteractionHandler.ParseResult<this>,
+    ) {
         await interaction.respond(
             toggles.map((toggle) => ({
                 name: toggle,
