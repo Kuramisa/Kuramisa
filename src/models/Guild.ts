@@ -1,47 +1,13 @@
 import { Schema, model } from "mongoose";
+import type { Logs, SelfRoleChannel, VotePoll } from "typings";
 
 export interface IGuild {
     id: string;
     name: string;
     autorole: string[];
-    votePolls: {
-        memberId: string;
-        channelId: string;
-        messageId: string;
-        createdBy: string;
-        duration: number;
-        pollDuration: number;
-        reason: string;
-        voteType: string;
-    }[];
-    logs: {
-        channel: string;
-        types: {
-            memberWarned: boolean;
-            memberJoin: boolean;
-            memberLeave: boolean;
-            memberBoost: boolean;
-            memberUnboost: boolean;
-            memberRoleAdded: boolean;
-            memberRoleRemoved: boolean;
-            memberNicknameChange: boolean;
-            messageDeleted: boolean;
-            messageEdited: boolean;
-        };
-    };
-    selfRoles: {
-        channelId: string;
-        messages: {
-            id: string;
-            buttons: {
-                id: string;
-                name: string;
-                roleId: string;
-                emoji?: string | null;
-                style: number;
-            }[];
-        }[];
-    }[];
+    votePolls: VotePoll[];
+    logs: Logs;
+    selfRoles: SelfRoleChannel[];
 }
 
 export const guildSchema = new Schema<IGuild>({

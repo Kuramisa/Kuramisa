@@ -12,8 +12,6 @@ import {
     SapphireClient,
 } from "@sapphire/framework";
 
-import { getRootData } from "@sapphire/pieces";
-import path from "path";
 import Database from "./database";
 import Games from "./games";
 import Kanvas from "./kanvas";
@@ -72,10 +70,6 @@ export default class Kuramisa extends SapphireClient {
         this.games = new Games();
         this.managers = new Managers(this);
         this.systems = new Systems(this);
-
-        this.stores
-            .get("listeners")
-            .registerPath(path.join(getRootData().root, "events"));
     }
 
     getActivities(): PresenceData[] {

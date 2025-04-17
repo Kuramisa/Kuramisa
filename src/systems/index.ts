@@ -3,7 +3,7 @@ import type Kuramisa from "Kuramisa";
 
 import { ElevenLabsClient } from "elevenlabs";
 import Music from "./Music";
-import SelfRoles from "./selfRoles";
+import SelfRoles from "./self-roles";
 
 export default class Systems {
     readonly captcha: Solver;

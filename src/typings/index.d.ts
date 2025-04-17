@@ -36,3 +36,48 @@ export type SlashCommandOption =
     | SlashCommandRoleOption
     | SlashCommandStringOption
     | SlashCommandUserOption;
+
+export interface VotePoll {
+    memberId: string;
+    channelId: string;
+    messageId: string;
+    createdBy: string;
+    duration: number;
+    pollDuration: number;
+    reason: string;
+    voteType: string;
+}
+
+export interface Logs {
+    channel: string;
+    types: {
+        memberWarned: boolean;
+        memberJoin: boolean;
+        memberLeave: boolean;
+        memberBoost: boolean;
+        memberUnboost: boolean;
+        memberRoleAdded: boolean;
+        memberRoleRemoved: boolean;
+        memberNicknameChange: boolean;
+        messageDeleted: boolean;
+        messageEdited: boolean;
+    };
+}
+
+export interface SelfRoleButton {
+    id: string;
+    name: string;
+    roleId: string;
+    emoji?: string | null;
+    style: number;
+}
+
+export interface SelfRoleMessage {
+    id: string;
+    buttons: SelfRoleButton[];
+}
+
+export interface SelfRoleChannel {
+    channelId: string;
+    messages: SelfRoleMessage[];
+}
