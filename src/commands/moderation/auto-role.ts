@@ -1,9 +1,10 @@
+import type { Args } from "@sapphire/framework";
 import { RoleOption, StringOption } from "Builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
 } from "classes/SlashSubcommand";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 @SlashSubcommand({
     name: "auto-role",
@@ -15,6 +16,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
             name: "add",
             description: "Add an autorole",
             chatInputRun: "slashAdd",
+            messageRun: "messageAdd",
             opts: [
                 new RoleOption()
                     .setName("role_to_add")
@@ -25,6 +27,7 @@ import type { ChatInputCommandInteraction } from "discord.js";
             name: "remove",
             description: "Remove an autorole",
             chatInputRun: "slashRemove",
+            messageRun: "messageRemove",
             opts: [
                 new StringOption()
                     .setName("role_to_remove")
@@ -35,6 +38,73 @@ import type { ChatInputCommandInteraction } from "discord.js";
     ],
 })
 export default class AutoRoleCommand extends AbstractSlashSubcommand {
+    async messageAdd(message: Message, args: Args) {
+        if (!message.inGuild()) return;
+
+        const {
+            client: { managers },
+            guild,
+        } = message;
+
+        const db = await managers.guilds.get(guild.id);
+
+        const role = await args.pick("role").catch(() => null);
+
+        if (!role)
+            return message.reply({
+                content: "Please provide a role to add as an autorole",
+            });
+
+        if (role.id === guild.roles.everyone.id)
+            return message.reply({
+                content: "You cannot add the everyone role as an autorole",
+            });
+
+        if (db.autorole.includes(role.id))
+            return message.reply({
+                content: `${role} is already an autorole`,
+            });
+
+        db.autorole.push(role.id);
+        await db.save();
+
+        await message.reply({
+            content: `${role} has been added as an autorole`,
+        });
+    }
+
+    async messageRemove(message: Message, args: Args) {
+        if (!message.inGuild()) return;
+
+        const {
+            client: { managers },
+            guild,
+        } = message;
+
+        const role = await args.pick("role").catch(() => null);
+        if (!role)
+            return message.reply({
+                content: "Please provide a role to remove as an autorole",
+            });
+
+        if (role.id === guild.roles.everyone.id)
+            return message.reply({
+                content: "You cannot remove the everyone role as an autorole",
+            });
+
+        const db = await managers.guilds.get(guild.id);
+        if (!db.autorole.includes(role.id))
+            return message.reply({
+                content: `${role} is not an autorole`,
+            });
+
+        db.autorole = db.autorole.filter((r) => r !== role.id);
+        await db.save();
+        await message.reply({
+            content: `${role} has been removed as an autorole`,
+        });
+    }
+
     async slashAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 

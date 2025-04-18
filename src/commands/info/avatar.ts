@@ -1,9 +1,11 @@
+import type { Args } from "@sapphire/framework";
 import { Embed, IntegerOption, StringOption, UserOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import type {
     ChatInputCommandInteraction,
     ImageExtension,
     ImageSize,
+    Message,
 } from "discord.js";
 import {
     ApplicationIntegrationType,
@@ -13,6 +15,7 @@ import {
 
 @SlashCommand({
     name: "avatar",
+    aliases: ["pfp"],
     description: "Get the avatar of a user",
     contexts: [
         InteractionContextType.Guild,
@@ -92,6 +95,39 @@ import {
     ],
 })
 export default class AvatarCommand extends AbstractSlashCommand {
+    async messageRun(message: Message, args: Args) {
+        const user = await args.pick("user").catch(() => message.author);
+        const extension = (await args
+            .pick("enum", {
+                name: "format",
+                choices: ["png", "jpg", "webp", "gif"],
+            })
+            .catch(() => "png")) as ImageExtension;
+        const size = (await args
+            .pick("enum", {
+                name: "size",
+                choices: [16, 32, 64, 128, 256, 512, 1024, 2048, 4096],
+            })
+            .then(parseInt)
+            .catch(() => 1024)) as ImageSize;
+
+        const avatar = user.avatarURL({
+            extension,
+            size,
+        });
+
+        if (!avatar)
+            return message.reply({
+                content: bold("This user has no avatar"),
+            });
+
+        const embed = new Embed()
+            .setTitle(`${user.displayName}'s avatar`)
+            .setImage(avatar);
+
+        return message.reply({ embeds: [embed] });
+    }
+
     async chatInputRun(interaction: ChatInputCommandInteraction) {
         const { options } = interaction;
 

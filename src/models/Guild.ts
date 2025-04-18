@@ -4,6 +4,7 @@ import type { Logs, SelfRoleChannel, VotePoll } from "typings";
 export interface IGuild {
     id: string;
     name: string;
+    prefix: string;
     autorole: string[];
     votePolls: VotePoll[];
     logs: Logs;
@@ -19,6 +20,10 @@ export const guildSchema = new Schema<IGuild>({
     name: {
         type: String,
         required: true,
+    },
+    prefix: {
+        type: String,
+        default: "k!",
     },
     autorole: [],
     votePolls: [

@@ -3,7 +3,7 @@ import {
     AbstractSlashSubcommand,
     SlashSubcommand,
 } from "classes/SlashSubcommand";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, Message } from "discord.js";
 import {
     ApplicationIntegrationType,
     ComponentType,
@@ -75,6 +75,14 @@ import { Pagination } from "utils";
     ],
 })
 export default class ValorantCommand extends AbstractSlashSubcommand {
+    async messageRun(message: Message) {
+        await message.reply({
+            content: bold(
+                "This command is only available in slash commands for security reasons",
+            ),
+        });
+    }
+
     async slashLogin(interaction: ChatInputCommandInteraction) {
         const {
             client: {

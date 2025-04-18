@@ -41,14 +41,14 @@ export default class SelfRoleButtons extends InteractionHandler {
             );
             return interaction.reply({
                 content: `Removed the role ${roleMention(srButton.roleId)}`,
-                ephemeral: true,
+                flags: "Ephemeral",
             });
         }
 
         await member.roles.add(srButton.roleId, "Added by self role button");
         return interaction.reply({
             content: `Added the role ${roleMention(srButton.roleId)}`,
-            ephemeral: true,
+            flags: "Ephemeral",
         });
     }
 

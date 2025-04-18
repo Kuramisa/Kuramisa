@@ -2,7 +2,7 @@ import "@sapphire/plugin-logger/register";
 
 import { pickRandom } from "@sapphire/utilities";
 import dLogs from "discord-logs";
-import type { ApplicationEmoji, PresenceData } from "discord.js";
+import type { ApplicationEmoji, Message, PresenceData } from "discord.js";
 import { ActivityType, Collection, Partials, type User } from "discord.js";
 
 import {
@@ -61,6 +61,19 @@ export default class Kuramisa extends SapphireClient {
                     process.env.NODE_ENV === "development"
                         ? LogLevel.Debug
                         : LogLevel.Info,
+            },
+            loadMessageCommandListeners: true,
+            loadApplicationCommandRegistriesStatusListeners: true,
+            loadDefaultErrorListeners: true,
+            loadSubcommandErrorListeners: true,
+
+            fetchPrefix: async (message: Message) => {
+                if (message.author.bot) return null;
+                if (!message.inGuild()) return "k!";
+
+                const guild = await this.managers.guilds.get(message.guildId);
+                if (guild.prefix) return guild.prefix;
+                return "k!";
             },
         });
 
