@@ -1,6 +1,7 @@
+import type { Args } from "@sapphire/framework";
 import { StringOption } from "Builders";
 import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
-import type { ChatInputCommandInteraction } from "discord.js";
+import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 @SlashCommand({
     name: "prefix",
@@ -13,6 +14,46 @@ import type { ChatInputCommandInteraction } from "discord.js";
     ],
 })
 export default class PrefixCommand extends AbstractSlashCommand {
+    async messageRun(message: Message, args: Args) {
+        if (!message.inGuild()) return;
+        if (!message.member) return;
+
+        const {
+            client: { managers },
+            member,
+        } = message;
+
+        const guild = await managers.guilds.get(message.guildId);
+
+        const prefix = await args.pick("string").catch(() => null);
+        if (!prefix)
+            return message.reply({
+                content: `The current prefix is \`${guild.prefix}\``,
+            });
+
+        if (!member.permissions.has("ManageGuild"))
+            return message.reply({
+                content:
+                    "You don't have the permission to set prefix for this server",
+            });
+
+        if (prefix.length > 2)
+            return message.reply({
+                content: "The prefix must be 2 characters or less",
+            });
+
+        if (prefix === guild.prefix)
+            return message.reply({
+                content: `The prefix is already set to \`${prefix}\``,
+            });
+
+        guild.prefix = prefix;
+        await guild.save();
+        return message.reply({
+            content: `The prefix has been set to \`${prefix}\`\n\n**Note: We recommend using Slash commands instead of prefixes, as they are more user-friendly and easier to use, but if you prefer using commands this way, feel free.**`,
+        });
+    }
+
     async chatInputRun(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;
 
