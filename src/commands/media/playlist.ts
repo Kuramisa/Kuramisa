@@ -20,6 +20,7 @@ import {
     SnowflakeUtil,
     bold,
 } from "discord.js";
+import { chunk } from "lodash";
 import capitalize from "lodash/capitalize";
 import type { Playlist, PlaylistTrack } from "typings/Music";
 
@@ -105,6 +106,21 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
             ],
         },
         {
+            name: "add-tracks",
+            description: "Add multiple tracks to a playlist",
+            chatInputRun: "slashAddTracks",
+            opts: [
+                new StringOption()
+                    .setName("playlist_name")
+                    .setDescription("The name of the playlist")
+                    .setAutocomplete(true),
+                new IntegerOption()
+                    .setName("track_count")
+                    .setMinValue(2)
+                    .setDescription("The number of tracks to add (no limit)"),
+            ],
+        },
+        {
             name: "import",
             description: "Import a playlist from a URL",
             chatInputRun: "slashImport",
@@ -139,7 +155,7 @@ import type { Playlist, PlaylistTrack } from "typings/Music";
                 new IntegerOption()
                     .setName("playlist_count")
                     .setDescription("The number of playlists to import (max 5)")
-                    .setMinValue(1)
+                    .setMinValue(2)
                     .setMaxValue(5),
             ],
         },
@@ -458,6 +474,56 @@ export default class PlaylistCommand extends AbstractSlashSubcommand {
             content: `Track ${bold(track.title)} has been added to ${bold(playlist.name)}!`,
             flags: "Ephemeral",
         });
+    }
+
+    async slashAddTracks(interaction: ChatInputCommandInteraction) {
+        const {
+            client: {
+                managers,
+                systems: { music },
+                ...client
+            },
+            options,
+            user,
+        } = interaction;
+
+        const db = await managers.users.get(user.id);
+
+        const playlistIdOrName = options.getString("playlist_name", true);
+
+        const playlist = db.playlists.find(
+            (p) =>
+                p.name.toLowerCase() === playlistIdOrName.toLowerCase() ||
+                p.id === playlistIdOrName,
+        );
+
+        if (!playlist)
+            return interaction.reply({
+                content: bold("Playlist not found"),
+                flags: "Ephemeral",
+            });
+
+        const trackCount = options.getInteger("track_count", true);
+
+        const rows = [];
+
+        for (let i = 1; i <= trackCount; i++) {
+            const row = new ModalRow().setComponents(
+                new TextInput()
+                    .setCustomId(`track_url_${i}`)
+                    .setLabel(`Track ${i} URL`)
+                    .setPlaceholder("Enter the URL of the track to add")
+                    .setCustomId(`track_url_${i}`),
+            );
+
+            rows.push(row);
+        }
+
+        const modals = chunk(rows, 5).map((row, i) =>
+            new Modal().setCustomId(`add_tracks_${i}`).setComponents(row),
+        );
+
+        const repeatModals = () => {};
     }
 
     async slashImport(interaction: ChatInputCommandInteraction) {
