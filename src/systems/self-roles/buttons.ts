@@ -58,6 +58,7 @@ export default class SelfRolesButtons {
 
         let buttonCount = 0;
         for (const component of message.components) {
+            if (component.type !== ComponentType.ActionRow) continue;
             for (const button of component.components) {
                 if (button.type === ComponentType.Button) {
                     buttonCount++;
@@ -128,6 +129,8 @@ export default class SelfRolesButtons {
                     content: `Added a button **${buttonName}** to ${messageLink(channel.id, message.id, guild.id)}`,
                 });
             }
+
+            if (latestRow.type !== ComponentType.ActionRow) return;
 
             if (latestRow.components.length === 5) {
                 const newRow = new Row().addComponents(button);
@@ -302,6 +305,7 @@ export default class SelfRolesButtons {
         const rows: Row[] = [];
 
         for (const row of message.components) {
+            if (row.type !== ComponentType.ActionRow) continue;
             if (row.components.length === 0) continue;
             const newRow = Row.from<MessageActionRowComponentBuilder>(row);
             for (const component of row.components) {
@@ -411,6 +415,7 @@ export default class SelfRolesButtons {
         const rows: Row[] = [];
 
         for (const row of message.components) {
+            if (row.type !== ComponentType.ActionRow) continue;
             if (row.components.length === 0) continue;
             const newRow = Row.from<MessageActionRowComponentBuilder>(row);
             for (const component of row.components) {
