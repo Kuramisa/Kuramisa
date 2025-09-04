@@ -2,17 +2,14 @@ import { Attachment, Button, Row } from "@builders";
 import { container } from "@sapphire/pieces";
 import type { ValorantSkinInfo } from "@typings/Valorant";
 import { transcodeToMp4Stream } from "@utils/Ffmpeg";
-import type {
-    ActionRowBuilder,
-    ButtonInteraction,
-    ChatInputCommandInteraction,
-    StringSelectMenuInteraction,
-} from "discord.js";
 import {
     ButtonStyle,
     ComponentType,
     DiscordAPIError,
+    type ButtonInteraction,
+    type ChatInputCommandInteraction,
     type MessageActionRowComponentBuilder,
+    type StringSelectMenuInteraction,
 } from "discord.js";
 export default class ValorantUtil {
     determineComponents(
@@ -22,8 +19,7 @@ export default class ValorantUtil {
     ) {
         const { kEmojis: emojis } = container.client;
 
-        const components: ActionRowBuilder<MessageActionRowComponentBuilder>[] =
-            [];
+        const components: Row[] = [];
 
         if (withNavigation) {
             const navRow = new Row().setComponents(

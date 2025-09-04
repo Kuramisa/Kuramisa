@@ -1,10 +1,8 @@
-import { Embed } from "Builders";
+import { Embed, Row } from "Builders";
 import {
-    ActionRowBuilder,
     ButtonBuilder,
     ButtonStyle,
     Collection,
-    type MessageActionRowComponentBuilder,
     StringSelectMenuBuilder,
 } from "discord.js";
 import truncate from "lodash/truncate";
@@ -50,19 +48,17 @@ export default class ValorantSkins {
         // Level Information
         const levelNames = skin.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(skin);
-        const levelComponents =
-            new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
-                this.levelSelectMenu(skin),
-            );
+        const levelComponents = new Row().setComponents(
+            this.levelSelectMenu(skin),
+        );
         const levelVideos = this.levelVideos(skin);
 
         // Chroma Information
         const chromaNames = skin.chromas.map((chroma) => chroma.displayName);
         const chromaEmbeds = this.chromaEmbeds(skin);
-        const chromaComponents =
-            new ActionRowBuilder<MessageActionRowComponentBuilder>().setComponents(
-                this.chromaButtons(skin),
-            );
+        const chromaComponents = new Row().setComponents(
+            this.chromaButtons(skin),
+        );
         const chromaVideos = this.chromaVideos(skin);
 
         return {

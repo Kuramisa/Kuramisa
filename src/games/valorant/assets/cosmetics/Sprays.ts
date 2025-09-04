@@ -1,13 +1,9 @@
-import { Embed, StringDropdown } from "@builders";
+import { Embed, Row, StringDropdown } from "@builders";
 import { fetch } from "@games/valorant/API";
 import type {
     APIValorantSpray,
     APIValorantSprayLevel,
 } from "@typings/APIValorant";
-import {
-    ActionRowBuilder,
-    type MessageActionRowComponentBuilder,
-} from "discord.js";
 
 export default class ValorantSprays {
     private readonly data: APIValorantSpray[];
@@ -29,10 +25,9 @@ export default class ValorantSprays {
         // Level Information
         const levelNames = spray.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(spray);
-        const levelComponents =
-            new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-                this.levelSelectMenu(spray),
-            );
+        const levelComponents = new Row().addComponents(
+            this.levelSelectMenu(spray),
+        );
 
         return {
             name: spray.displayName,

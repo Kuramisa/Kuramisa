@@ -2,12 +2,7 @@ import type { Embed } from "@builders";
 import type Auth from "@valapi/auth";
 import type WebClient from "@valapi/web-client";
 import type { UserInfoResponse } from "@valapi/web-client";
-import type {
-    ActionRowBuilder,
-    Collection,
-    MessageActionRowComponentBuilder,
-    User,
-} from "discord.js";
+import type { Collection, User } from "discord.js";
 import type {
     APIValorantBuddy,
     APIValorantPlayerCard,
@@ -39,13 +34,13 @@ export interface ValorantSkinInfo {
     level: {
         names: string[];
         embeds: Embed[];
-        components: ActionRowBuilder<MessageActionRowComponentBuilder>;
+        components: Row;
         videos: string[];
     };
     chroma: {
         names: string[];
         embeds: Embed[];
-        components: ActionRowBuilder<MessageActionRowComponentBuilder>;
+        components: Row;
         videos: string[];
     };
 }

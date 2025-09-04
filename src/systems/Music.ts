@@ -15,7 +15,6 @@ import {
 import { SpotifyExtractor } from "discord-player-spotify";
 import { YoutubeiExtractor } from "discord-player-youtubei";
 import {
-    ActionRowBuilder,
     ButtonInteraction,
     ButtonStyle,
     Client,
@@ -24,7 +23,6 @@ import {
     type ChatInputCommandInteraction,
     type GuildVoiceChannelResolvable,
     type Message,
-    type MessageActionRowComponentBuilder,
 } from "discord.js";
 import chunk from "lodash/chunk";
 import startCase from "lodash/startCase";
@@ -575,7 +573,7 @@ export default class Music extends Player {
                 flags: "Ephemeral",
             });
 
-        const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
+        const menus: Row[] = [];
 
         let trackNumber = 1;
 
@@ -677,7 +675,7 @@ export default class Music extends Player {
                 flags: "Ephemeral",
             });
 
-        const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
+        const menus: Row[] = [];
 
         let trackNumber = queue.history.tracks.size;
 

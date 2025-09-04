@@ -15,12 +15,10 @@ import type { QueueMetadata } from "@typings/Music";
 import { durationPattern, durationToMs } from "@utils";
 import { QueueRepeatMode, type QueueFilters } from "discord-player";
 import {
-    ActionRowBuilder,
     bold,
     ChannelType,
     ComponentType,
     type ChatInputCommandInteraction,
-    type MessageActionRowComponentBuilder,
 } from "discord.js";
 import startCase from "lodash/startCase";
 
@@ -806,7 +804,7 @@ export default class MusicCommand extends AbstractSlashSubcommand {
 
         const filtersChunk = chunk(filters, 25);
 
-        const menus: ActionRowBuilder<MessageActionRowComponentBuilder>[] = [];
+        const menus: Row[] = [];
 
         for (let i = 0; i < filtersChunk.length; i++) {
             const filters = filtersChunk[i];

@@ -1,13 +1,9 @@
-import { Embed, StringDropdown } from "@builders";
+import { Embed, Row, StringDropdown } from "@builders";
 import { fetch } from "@games/valorant/API";
 import type {
     APIValorantBuddy,
     APIValorantBuddyLevel,
 } from "@typings/APIValorant";
-import {
-    ActionRowBuilder,
-    type MessageActionRowComponentBuilder,
-} from "discord.js";
 import truncate from "lodash/truncate";
 
 export default class ValorantBuddies {
@@ -36,10 +32,9 @@ export default class ValorantBuddies {
         // Level Information
         const levelNames = buddy.levels.map((level) => level.displayName);
         const levelEmbeds = this.levelEmbeds(buddy);
-        const levelComponents =
-            new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-                this.levelSelectMenu(buddy),
-            );
+        const levelComponents = new Row().addComponents(
+            this.levelSelectMenu(buddy),
+        );
 
         return {
             name: buddy.displayName,
