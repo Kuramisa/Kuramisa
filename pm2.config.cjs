@@ -2,7 +2,9 @@ module.exports = {
     apps: [
         {
             name: "Kuramisa",
-            script: "./dist/index.js",
+            script: "pnpm",
+            args: "start",
+            autorestart: true,
             watch: true,
             env: {
                 NODE_ENV: "production",
