@@ -5,6 +5,7 @@
     "scripts": {
         "prestart": "eslint ./src --fix && tsc --noEmit",
         "start": "node ./dist/index.ts",
+        "build": "tsdown",
         "dev": "tsdown --on-success \"tsx -r dotenv/config ./dist/index.js\" --watch --env.NODE_ENV development"
     },
     "devDependencies": {
