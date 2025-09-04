@@ -1,7 +1,7 @@
 import { container, Listener } from "@sapphire/framework";
 import { sleep } from "@sapphire/utilities";
+import type { QueueMetadata } from "@typings/Music";
 import type { GuildQueue } from "discord-player";
-import type { QueueMetadata } from "typings/Music";
 
 export default class EmptyChannelEvent extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

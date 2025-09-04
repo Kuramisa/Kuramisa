@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantCurrency } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantCurrency } from "@typings/APIValorant";
 
 export default class ValorantCurrencies {
     private readonly data: APIValorantCurrency[];

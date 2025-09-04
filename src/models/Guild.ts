@@ -1,5 +1,5 @@
+import type { Logs, SelfRoleChannel, VotePoll } from "@typings";
 import { Schema, model } from "mongoose";
-import type { Logs, SelfRoleChannel, VotePoll } from "typings";
 
 export interface IGuild {
     id: string;

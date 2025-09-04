@@ -8,7 +8,7 @@ export default class ReadyEvent extends Listener {
         super(context, {
             ...options,
             once: true,
-            event: "ready",
+            event: "clientReady",
             name: "client-ready",
             description: "Determines if the client is ready.",
         });

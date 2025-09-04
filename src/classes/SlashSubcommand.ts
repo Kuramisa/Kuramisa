@@ -8,9 +8,9 @@ import {
     type SubcommandMappingArray,
     type SubcommandMappingMethod,
 } from "@sapphire/plugin-subcommands";
+import type { SlashCommandOption } from "@typings";
+import { addOption } from "@utils";
 import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
-import type { SlashCommandOption } from "typings";
-import { addOption } from "utils";
 
 export abstract class AbstractSlashSubcommand extends Subcommand {
     readonly data: SlashCommandBuilder;

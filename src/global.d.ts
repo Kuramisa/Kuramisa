@@ -1,10 +1,9 @@
+import type { SlashCommandOption } from "@typings";
 import type {
     ApplicationIntegrationType,
     Collection,
     InteractionContextType,
 } from "discord.js";
-
-import type { SlashCommandOption } from "typings";
 import type Database from "./database";
 import type Games from "./games";
 import type Kanvas from "./kanvas";

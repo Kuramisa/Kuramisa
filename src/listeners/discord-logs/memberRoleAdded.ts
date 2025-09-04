@@ -1,5 +1,5 @@
+import { Embed } from "@builders";
 import { Listener } from "@sapphire/framework";
-import { Embed } from "Builders";
 import type { GuildMember, Role } from "discord.js";
 import { AuditLogEvent } from "discord.js";
 

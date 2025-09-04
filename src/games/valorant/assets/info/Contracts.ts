@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantContract } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantContract } from "@typings/APIValorant";
 
 export default class ValorantContracts {
     private readonly data: APIValorantContract[];

@@ -1,6 +1,6 @@
 import { fetch as sapphireFetch } from "@sapphire/fetch";
 import { container } from "@sapphire/framework";
-import type { Response } from "typings";
+import type { Response } from "@typings";
 import type {
     APIValorant,
     APIValorantAgent,
@@ -27,7 +27,7 @@ import type {
     APIValorantTheme,
     APIValorantVersion,
     APIValorantWeapon,
-} from "typings/APIValorant";
+} from "@typings/APIValorant";
 
 // Fetch Cosmetics
 export async function fetch(endpoint: "buddies"): Promise<APIValorantBuddy[]>;

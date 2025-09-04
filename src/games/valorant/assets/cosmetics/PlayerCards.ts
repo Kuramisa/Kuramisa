@@ -1,6 +1,6 @@
-import { Embed } from "Builders";
-import { fetch } from "games/valorant/API";
-import type { APIValorantPlayerCard } from "typings/APIValorant";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantPlayerCard } from "@typings/APIValorant";
 
 export default class ValorantPlayerCards {
     private readonly data: APIValorantPlayerCard[];

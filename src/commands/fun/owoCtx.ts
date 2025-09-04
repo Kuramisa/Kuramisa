@@ -1,14 +1,14 @@
 import {
     AbstractMessageMenuCommand,
     MessageMenuCommand,
-} from "classes/MessageMenuCommand";
+} from "@classes/MessageMenuCommand";
+import { owoify } from "@utils";
 import type { MessageContextMenuCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
     InteractionContextType,
     bold,
 } from "discord.js";
-import { owoify } from "utils";
 
 @MessageMenuCommand({
     name: "OwOify",

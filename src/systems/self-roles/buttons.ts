@@ -1,9 +1,13 @@
-import { Button, Row } from "Builders";
-import type {
+import { Button, Row } from "@builders";
+import {
     ChatInputCommandInteraction,
-    MessageActionRowComponentBuilder,
+    ComponentType,
+    DiscordAPIError,
+    type MessageActionRowComponentBuilder,
+    bold,
+    messageLink,
 } from "discord.js";
-import { ComponentType, DiscordAPIError, bold, messageLink } from "discord.js";
+
 export default class SelfRolesButtons {
     async buttonAdd(interaction: ChatInputCommandInteraction) {
         if (!interaction.inCachedGuild()) return;

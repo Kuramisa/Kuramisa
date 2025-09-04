@@ -1,7 +1,7 @@
 import { container, Listener } from "@sapphire/framework";
+import type { QueueMetadata } from "@typings/Music";
 import type { GuildQueue } from "discord-player";
 import { EmbedBuilder } from "discord.js";
-import type { QueueMetadata } from "typings/Music";
 
 export default class VolumeChangeEvent extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

@@ -1,4 +1,4 @@
-import { Modal, ModalRow, TextInput } from "Builders";
+import { Modal, ModalRow, TextInput } from "@builders";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { bold, messageLink } from "discord.js";
 

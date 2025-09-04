@@ -1,7 +1,7 @@
 import { Listener } from "@sapphire/framework";
+import type { QueueMetadata } from "@typings/Music";
 import { useQueue } from "discord-player";
 import type { Message } from "discord.js";
-import type { QueueMetadata } from "typings/Music";
 
 export default class MusicMessageDeletedEvent extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

@@ -1,6 +1,5 @@
-import type { APIValorantEvent } from "typings/APIValorant";
-
-import { fetch } from "games/valorant/API";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantEvent } from "@typings/APIValorant";
 
 export default class ValorantEvents {
     private readonly data: APIValorantEvent[];

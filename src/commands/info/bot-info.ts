@@ -1,5 +1,5 @@
-import { Embed } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import { Embed } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 import {
     ApplicationIntegrationType,

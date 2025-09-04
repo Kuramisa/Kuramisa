@@ -1,12 +1,12 @@
+import { Button, Row } from "@builders";
 import {
     InteractionHandler,
     InteractionHandlerTypes,
 } from "@sapphire/framework";
-import { Button, Row } from "Builders";
+import type { QueueMetadata } from "@typings/Music";
+import { timedDelete } from "@utils";
 import { QueueRepeatMode, useQueue } from "discord-player";
 import { ButtonStyle, ComponentType, type ButtonInteraction } from "discord.js";
-import type { QueueMetadata } from "typings/Music";
-import { timedDelete } from "utils";
 
 export default class PlayerControlButtons extends InteractionHandler {
     constructor(context: InteractionHandler.LoaderContext) {

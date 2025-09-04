@@ -1,5 +1,4 @@
-import { FetchResultTypes, fetch } from "@sapphire/fetch";
-import bucket from "AssetManagement";
+import bucket from "@asset-management";
 import {
     Attachment,
     AttachmentOption,
@@ -8,11 +7,13 @@ import {
     ModalRow,
     StringOption,
     TextInput,
-} from "Builders";
+} from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
+import { FetchResultTypes, fetch } from "@sapphire/fetch";
+import type { Playlist, PlaylistTrack } from "@typings/Music";
 import type { ChatInputCommandInteraction } from "discord.js";
 import {
     ApplicationIntegrationType,
@@ -20,9 +21,8 @@ import {
     SnowflakeUtil,
     bold,
 } from "discord.js";
-import { chunk } from "lodash";
 import capitalize from "lodash/capitalize";
-import type { Playlist, PlaylistTrack } from "typings/Music";
+import chunk from "lodash/chunk";
 
 // TODO: Finish working on the playlist system ( add play command, add multiple tracks, remove track(s) )
 @SlashSubcommand({

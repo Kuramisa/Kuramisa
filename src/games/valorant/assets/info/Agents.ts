@@ -1,7 +1,7 @@
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
 import { pickRandom } from "@sapphire/utilities";
-import { Embed } from "Builders";
-import { fetch } from "games/valorant/API";
-import type { APIValorantAgent } from "typings/APIValorant";
+import type { APIValorantAgent } from "@typings/APIValorant";
 
 export default class ValorantAgents {
     private readonly data: APIValorantAgent[];

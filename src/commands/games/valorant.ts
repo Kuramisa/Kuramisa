@@ -1,8 +1,9 @@
-import { StringOption } from "Builders";
+import { StringOption } from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
+import { Pagination } from "@utils";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 import {
     ApplicationIntegrationType,
@@ -10,7 +11,6 @@ import {
     InteractionContextType,
     bold,
 } from "discord.js";
-import { Pagination } from "utils";
 
 @SlashSubcommand({
     name: "valorant",

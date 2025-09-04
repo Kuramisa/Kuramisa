@@ -1,6 +1,5 @@
 import { Listener } from "@sapphire/framework";
-import type { Message } from "discord.js";
-import { ChannelType } from "discord.js";
+import { ChannelType, type Message } from "discord.js";
 
 export default class SelfRolesMessageDeleted extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

@@ -1,6 +1,5 @@
-import type { APIValorantSeason } from "typings/APIValorant";
-
-import { fetch } from "games/valorant/API";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantSeason } from "@typings/APIValorant";
 
 export default class ValorantSeasons {
     private readonly data: APIValorantSeason[];

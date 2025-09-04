@@ -1,5 +1,5 @@
+import { Embed } from "@builders";
 import { Listener } from "@sapphire/framework";
-import { Embed } from "Builders";
 import type { GuildMember } from "discord.js";
 
 export default class MemberBoostEvent extends Listener {

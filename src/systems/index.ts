@@ -1,7 +1,6 @@
 import { Solver } from "@2captcha/captcha-solver";
-import type Kuramisa from "Kuramisa";
-
-import { ElevenLabsClient } from "elevenlabs";
+import { ElevenLabsClient } from "@elevenlabs/elevenlabs-js";
+import type Kuramisa from "@kuramisa";
 import Music from "./Music";
 import SelfRoles from "./self-roles";
 

@@ -1,18 +1,15 @@
+import type Kuramisa from "@kuramisa";
+import GuildModel, { type GuildDocument } from "@models/Guild";
 import { Collection, type Guild, type Snowflake } from "discord.js";
-import type Kuramisa from "Kuramisa";
-import type { GuildDocument } from "models/Guild";
-import guildModel from "models/Guild";
 export default class GuildManager {
-    private readonly client: Kuramisa;
     readonly cache: Collection<string, GuildDocument>;
 
-    constructor(client: Kuramisa) {
-        this.client = client;
+    constructor(private readonly client: Kuramisa) {
         this.cache = new Collection();
     }
 
     async create(guild: Guild) {
-        const doc = await guildModel.create({
+        const doc = await GuildModel.create({
             id: guild.id,
             name: guild.name,
         });
@@ -31,7 +28,7 @@ export default class GuildManager {
             this.client.guilds.cache.get(id) ??
             (await this.client.guilds.fetch(id));
         const doc =
-            (await guildModel.findOne({ id })) ?? (await this.create(guild));
+            (await GuildModel.findOne({ id })) ?? (await this.create(guild));
 
         this.cache.set(id, doc);
 

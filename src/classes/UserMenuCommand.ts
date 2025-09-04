@@ -5,6 +5,7 @@ import {
     ApplicationIntegrationType,
     InteractionContextType,
 } from "discord.js";
+
 export abstract class AbstractUserMenuCommand extends Command {
     readonly data: ContextMenuCommandBuilder;
 

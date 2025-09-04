@@ -1,15 +1,14 @@
-import {
-    ActionRowBuilder,
-    type MessageActionRowComponentBuilder,
-} from "@discordjs/builders";
-
-import { Embed, StringDropdown } from "Builders";
-import { fetch } from "games/valorant/API";
-import truncate from "lodash/truncate";
+import { Embed, StringDropdown } from "@builders";
+import { fetch } from "@games/valorant/API";
 import type {
     APIValorantBuddy,
     APIValorantBuddyLevel,
-} from "typings/APIValorant";
+} from "@typings/APIValorant";
+import {
+    ActionRowBuilder,
+    type MessageActionRowComponentBuilder,
+} from "discord.js";
+import truncate from "lodash/truncate";
 
 export default class ValorantBuddies {
     private readonly data: APIValorantBuddy[];

@@ -1,6 +1,9 @@
+import { Button, Embed, Row, StringDropdown } from "@builders";
 import { DefaultExtractors } from "@discord-player/extractor";
+import type Kuramisa from "@kuramisa";
 import { sleep } from "@sapphire/utilities";
-import { Button, Embed, Row, StringDropdown } from "Builders";
+import type { QueueMetadata } from "@typings/Music";
+import { Pagination, timedDelete } from "@utils";
 import type { GuildQueue, Playlist, Track } from "discord-player";
 import {
     Player,
@@ -9,32 +12,27 @@ import {
     type PlayerNodeInitializerOptions,
     type TrackLike,
 } from "discord-player";
-
 import { SpotifyExtractor } from "discord-player-spotify";
 import { YoutubeiExtractor } from "discord-player-youtubei";
-import type {
+import {
     ActionRowBuilder,
     ButtonInteraction,
-    InteractionResponse,
-} from "discord.js";
-import {
     ButtonStyle,
+    Client,
     ComponentType,
+    InteractionResponse,
     type ChatInputCommandInteraction,
     type GuildVoiceChannelResolvable,
     type Message,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
-import type Kuramisa from "Kuramisa";
 import chunk from "lodash/chunk";
 import startCase from "lodash/startCase";
 import truncate from "lodash/truncate";
 import ms from "ms";
-import type { QueueMetadata } from "typings/Music";
-import { Pagination, timedDelete } from "utils";
 export default class Music extends Player {
     constructor(client: Kuramisa) {
-        super(client, {
+        super(client as Client, {
             skipFFmpeg: false,
         });
     }

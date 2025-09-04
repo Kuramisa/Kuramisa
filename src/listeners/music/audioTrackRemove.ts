@@ -1,8 +1,8 @@
+import { Embed } from "@builders";
 import { container, Listener } from "@sapphire/framework";
-import { Embed } from "Builders";
+import type { QueueMetadata } from "@typings/Music";
 import type { GuildQueue, Track } from "discord-player";
 import { QueueRepeatMode } from "discord-player";
-import type { QueueMetadata } from "typings/Music";
 
 export default class AudioTrackRemoveEvent extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

@@ -1,4 +1,6 @@
-import { Embed } from "Builders";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import { container } from "@sapphire/pieces";
 import type {
     APIValorantBuddy,
     APIValorantBundle,
@@ -6,11 +8,8 @@ import type {
     APIValorantPlayerTitle,
     APIValorantSkin,
     APIValorantSpray,
-} from "typings/APIValorant";
-
-import { container } from "@sapphire/pieces";
-import { fetch } from "games/valorant/API";
-import type { ValorantBundleItem } from "typings/Valorant";
+} from "@typings/APIValorant";
+import type { ValorantBundleItem } from "@typings/Valorant";
 
 export default class ValorantBundles {
     private readonly data: APIValorantBundle[];

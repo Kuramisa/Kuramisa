@@ -1,4 +1,4 @@
-import { Button, Embed, Row } from "Builders";
+import { Button, Embed, Row } from "@builders";
 import {
     type ButtonInteraction,
     type ChatInputCommandInteraction,

@@ -1,7 +1,7 @@
+import type Kuramisa from "@kuramisa";
+import type { UserDocument } from "@models/User";
+import userModel from "@models/User";
 import { Collection, type Snowflake, type User } from "discord.js";
-import type Kuramisa from "Kuramisa";
-import type { UserDocument } from "models/User";
-import userModel from "models/User";
 export default class UserManager {
     private readonly client: Kuramisa;
     readonly cache: Collection<string, UserDocument>;

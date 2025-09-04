@@ -1,4 +1,4 @@
-import type Kuramisa from "Kuramisa";
+import type Kuramisa from "@kuramisa";
 import GuildManager from "./GuildManager";
 import UserManager from "./UserManager";
 

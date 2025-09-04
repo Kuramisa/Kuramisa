@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantCeremony } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantCeremony } from "@typings/APIValorant";
 
 export default class ValorantCeremonies {
     private readonly data: APIValorantCeremony[];

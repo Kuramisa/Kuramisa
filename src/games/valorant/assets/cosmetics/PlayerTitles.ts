@@ -1,6 +1,6 @@
-import { Embed } from "Builders";
-import { fetch } from "games/valorant/API";
-import type { APIValorantPlayerTitle } from "typings/APIValorant";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantPlayerTitle } from "@typings/APIValorant";
 
 export default class ValorantPlayerTitles {
     private readonly data: APIValorantPlayerTitle[];

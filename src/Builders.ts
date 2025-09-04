@@ -1,5 +1,14 @@
-import type { Stream } from "stream";
-
+import {
+    SlashCommandAttachmentOption,
+    SlashCommandBooleanOption,
+    SlashCommandChannelOption,
+    SlashCommandIntegerOption,
+    SlashCommandMentionableOption,
+    SlashCommandNumberOption,
+    SlashCommandRoleOption,
+    SlashCommandStringOption,
+    SlashCommandUserOption,
+} from "@discordjs/builders";
 import {
     ActionRowBuilder,
     AttachmentBuilder,
@@ -19,18 +28,7 @@ import {
     TextInputStyle,
     UserSelectMenuBuilder,
 } from "discord.js";
-
-import {
-    SlashCommandAttachmentOption,
-    SlashCommandBooleanOption,
-    SlashCommandChannelOption,
-    SlashCommandIntegerOption,
-    SlashCommandMentionableOption,
-    SlashCommandNumberOption,
-    SlashCommandRoleOption,
-    SlashCommandStringOption,
-    SlashCommandUserOption,
-} from "@discordjs/builders";
+import type { Stream } from "stream";
 
 export class Row extends ActionRowBuilder<MessageActionRowComponentBuilder> {
     constructor() {

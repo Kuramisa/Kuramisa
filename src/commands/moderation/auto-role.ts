@@ -1,9 +1,9 @@
-import type { Args } from "@sapphire/framework";
-import { RoleOption, StringOption } from "Builders";
+import { RoleOption, StringOption } from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
+import type { Args } from "@sapphire/framework";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 @SlashSubcommand({

@@ -1,6 +1,5 @@
-import type { APIValorantMission } from "typings/APIValorant";
-
-import { fetch } from "games/valorant/API";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantMission } from "@typings/APIValorant";
 
 export default class ValorantMissions {
     private readonly data: APIValorantMission[];

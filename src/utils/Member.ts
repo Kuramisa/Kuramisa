@@ -1,4 +1,4 @@
-import { Button, Row } from "Builders";
+import { Button, Row } from "@builders";
 import { ButtonStyle, type GuildMember, type PresenceStatus } from "discord.js";
 
 export const memberActions = (executor: GuildMember, target: GuildMember) => {

@@ -1,10 +1,10 @@
 import {
     AbstractUserMenuCommand,
     UserMenuCommand,
-} from "classes/UserMenuCommand";
+} from "@classes/UserMenuCommand";
+import { nekos } from "@utils";
 import type { UserContextMenuCommandInteraction } from "discord.js";
 import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
-import { nekos } from "utils";
 
 @UserMenuCommand({
     name: "Pat",

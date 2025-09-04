@@ -1,6 +1,6 @@
-import { Embed } from "Builders";
-import { fetch } from "games/valorant/API";
-import type { APIValorantGamemode } from "typings/APIValorant";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantGamemode } from "@typings/APIValorant";
 
 export default class ValorantGamemodes {
     private readonly data: APIValorantGamemode[];

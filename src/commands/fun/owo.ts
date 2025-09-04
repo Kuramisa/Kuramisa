@@ -1,9 +1,9 @@
+import { StringOption } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { Args } from "@sapphire/framework";
-import { StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import { owoify } from "@utils";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
-import { owoify } from "utils";
 
 @SlashCommand({
     name: "owo",

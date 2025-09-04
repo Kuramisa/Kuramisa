@@ -1,8 +1,8 @@
 import { SlashCommandBuilder } from "@discordjs/builders";
 import { Command } from "@sapphire/framework";
+import type { SlashCommandOption } from "@typings";
+import { addOption } from "@utils";
 import { ApplicationIntegrationType, InteractionContextType } from "discord.js";
-import type { SlashCommandOption } from "typings";
-import { addOption } from "utils";
 
 export abstract class AbstractSlashCommand extends Command {
     readonly data: SlashCommandBuilder;

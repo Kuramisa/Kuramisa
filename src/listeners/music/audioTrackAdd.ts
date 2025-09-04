@@ -1,5 +1,5 @@
+import { Embed } from "@builders";
 import { container, Listener } from "@sapphire/framework";
-import { Embed } from "Builders";
 import { type GuildQueue, QueueRepeatMode, type Track } from "discord-player";
 import type { QueueMetadata } from "typings/Music";
 

@@ -1,6 +1,6 @@
+import { StringOption } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { Args } from "@sapphire/framework";
-import { StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 
 @SlashCommand({

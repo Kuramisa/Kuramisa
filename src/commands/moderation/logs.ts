@@ -4,11 +4,11 @@ import {
     Row,
     StringDropdown,
     StringOption,
-} from "Builders";
+} from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { ChannelType, ComponentType } from "discord.js";
 import camelCase from "lodash/camelCase";

@@ -1,13 +1,13 @@
-import { Embed, StringDropdown } from "Builders";
+import { Embed, StringDropdown } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type {
+    APIValorantSpray,
+    APIValorantSprayLevel,
+} from "@typings/APIValorant";
 import {
     ActionRowBuilder,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
-import { fetch } from "games/valorant/API";
-import type {
-    APIValorantSpray,
-    APIValorantSprayLevel,
-} from "typings/APIValorant";
 
 export default class ValorantSprays {
     private readonly data: APIValorantSpray[];

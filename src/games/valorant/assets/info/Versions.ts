@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantVersion } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantVersion } from "@typings/APIValorant";
 
 export default class ValorantVersions {
     private readonly data: APIValorantVersion;

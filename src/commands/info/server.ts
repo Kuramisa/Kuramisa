@@ -1,5 +1,5 @@
-import { Embed } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import { Embed } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 import { ChannelType, time } from "discord.js";
 import capitalize from "lodash/capitalize";
@@ -95,7 +95,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                 {
                     name: "😯 | Emojis & Stickers",
                     value: `- **Animated**: ${
-                        emojis.cache.filter((e) => e.animated === true).size
+                        emojis.cache.filter((e) => e.animated).size
                     }\n- **Static**: ${
                         emojis.cache.filter((e) => !e.animated).size
                     }\n- **Stickers**: ${stickers.cache.size}\n\n**Total** - ${
@@ -200,7 +200,7 @@ export default class ServerCommand extends AbstractSlashCommand {
                 {
                     name: "😯 | Emojis & Stickers",
                     value: `- **Animated**: ${
-                        emojis.cache.filter((e) => e.animated === true).size
+                        emojis.cache.filter((e) => e.animated).size
                     }\n- **Static**: ${
                         emojis.cache.filter((e) => !e.animated).size
                     }\n- **Stickers**: ${stickers.cache.size}\n\n**Total** - ${

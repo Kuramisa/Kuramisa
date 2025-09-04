@@ -1,13 +1,13 @@
+import { Attachment, StringOption } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { Args } from "@sapphire/framework";
-import { Attachment, StringOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
+import { nekos } from "@utils";
 import type { ChatInputCommandInteraction, Message } from "discord.js";
 import {
     ApplicationIntegrationType,
     bold,
     InteractionContextType,
 } from "discord.js";
-import { nekos } from "utils";
 
 @SlashCommand({
     name: "8ball",

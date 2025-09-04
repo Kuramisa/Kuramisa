@@ -3,11 +3,11 @@ import {
     IntegerOption,
     RoleOption,
     StringOption,
-} from "Builders";
+} from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
 import { ButtonStyle, type ChatInputCommandInteraction } from "discord.js";
 
 @SlashSubcommand({

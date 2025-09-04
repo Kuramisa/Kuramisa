@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantObjective } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantObjective } from "@typings/APIValorant";
 
 export default class ValorantObjectives {
     private readonly data: APIValorantObjective[];

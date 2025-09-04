@@ -1,9 +1,9 @@
-import { Embed } from "Builders";
-import { fetch } from "games/valorant/API";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
 import type {
     APIValorantCompetitiveRank,
     APIValorantCompetitiveTier,
-} from "typings/APIValorant";
+} from "@typings/APIValorant";
 
 export default class ValorantCompetitiveTiers {
     private readonly data: APIValorantCompetitiveTier[];

@@ -1,4 +1,3 @@
-import { chunk } from "@sapphire/utilities";
 import {
     Button,
     Embed,
@@ -6,11 +5,14 @@ import {
     Row,
     StringDropdown,
     StringOption,
-} from "Builders";
+} from "@builders";
 import {
     AbstractSlashSubcommand,
     SlashSubcommand,
-} from "classes/SlashSubcommand";
+} from "@classes/SlashSubcommand";
+import { chunk } from "@sapphire/utilities";
+import type { QueueMetadata } from "@typings/Music";
+import { durationPattern, durationToMs } from "@utils";
 import { QueueRepeatMode, type QueueFilters } from "discord-player";
 import {
     ActionRowBuilder,
@@ -21,8 +23,6 @@ import {
     type MessageActionRowComponentBuilder,
 } from "discord.js";
 import startCase from "lodash/startCase";
-import type { QueueMetadata } from "typings/Music";
-import { durationPattern, durationToMs } from "utils";
 
 @SlashSubcommand({
     name: "music",

@@ -1,9 +1,8 @@
-import { Button, Embed, Row } from "Builders";
-import { ButtonStyle } from "discord.js";
-
+import { Button, Embed, Row } from "@builders";
+import { fetch } from "@games/valorant/API";
 import { container } from "@sapphire/pieces";
-import { fetch } from "games/valorant/API";
-import type { APIValorantWeapon } from "typings/APIValorant";
+import type { APIValorantWeapon } from "@typings/APIValorant";
+import { ButtonStyle } from "discord.js";
 
 export default class ValorantWeapons {
     private readonly data: APIValorantWeapon[];

@@ -1,6 +1,6 @@
+import { Embed, IntegerOption, StringOption, UserOption } from "@builders";
+import { AbstractSlashCommand, SlashCommand } from "@classes/SlashCommand";
 import type { Args } from "@sapphire/framework";
-import { Embed, IntegerOption, StringOption, UserOption } from "Builders";
-import { AbstractSlashCommand, SlashCommand } from "classes/SlashCommand";
 import type {
     ChatInputCommandInteraction,
     ImageExtension,

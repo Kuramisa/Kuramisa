@@ -1,7 +1,6 @@
-import { Modal, ModalRow, TextInput } from "Builders";
+import { Modal, ModalRow, TextInput } from "@builders";
 import type { ChatInputCommandInteraction } from "discord.js";
 import { ChannelType, bold, channelLink, messageLink } from "discord.js";
-
 import SelfRolesButtons from "./buttons";
 import SelfRolesMessages from "./messages";
 

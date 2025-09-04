@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantContentTier } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantContentTier } from "@typings/APIValorant";
 
 export default class ValorantContentTiers {
     private readonly data: APIValorantContentTier[];

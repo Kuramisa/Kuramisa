@@ -4,7 +4,6 @@
         "module": "ESNext",
         "moduleResolution": "node",
         "outDir": "./dist", // Just in case if we want to use the dist folder
-        "rootDir": "./src",
         "baseUrl": "./src",
         "strict": true,
         "esModuleInterop": true,
@@ -12,7 +11,20 @@
         "forceConsistentCasingInFileNames": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
-        "verbatimModuleSyntax": true
+        "verbatimModuleSyntax": true,
+        "paths": {
+            "@asset-management": ["AssetManagement"],
+            "@builders": ["Builders"],
+            "@classes/*": ["classes/*"],
+            "@kuramisa": ["Kuramisa"],
+            "@games/*": ["games/*"],
+            "@games": ["games/index"],
+            "@models/*": ["models/*"],
+            "@utils": ["utils/index"],
+            "@utils/*": ["utils/*"],
+            "@typings": ["typings/index"],
+            "@typings/*": ["typings/*"]
+        }
     },
     "include": ["src/**/*.ts", "eslint.config.mjs"],
     "exclude": ["node_modules", "dist", "**/node_modules/*"]

@@ -1,6 +1,6 @@
+import type { Playlist } from "@typings/Music";
 import type { AuthUserInfo } from "@valapi/auth";
 import { Schema, model } from "mongoose";
-import type { Playlist } from "typings/Music";
 
 export interface IUser {
     id: string;
@@ -82,8 +82,8 @@ export const userSchema = new Schema({
     ],
 });
 
-const userModel = model<IUser>("users", userSchema);
+const UserModel = model<IUser>("users", userSchema);
 
-export type UserDocument = ReturnType<(typeof userModel)["hydrate"]>;
+export type UserDocument = ReturnType<(typeof UserModel)["hydrate"]>;
 
-export default userModel;
+export default UserModel;

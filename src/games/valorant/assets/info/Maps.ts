@@ -1,7 +1,6 @@
-import { Embed } from "Builders";
-import type { APIValorantMap } from "typings/APIValorant";
-
-import { fetch } from "games/valorant/API";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantMap } from "@typings/APIValorant";
 
 export default class ValorantMaps {
     private readonly data: APIValorantMap[];

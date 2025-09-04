@@ -1,5 +1,7 @@
+import { Attachment, Button, Row } from "@builders";
 import { container } from "@sapphire/pieces";
-import { Attachment, Button, Row } from "Builders";
+import type { ValorantSkinInfo } from "@typings/Valorant";
+import { transcodeToMp4Stream } from "@utils/Ffmpeg";
 import type {
     ActionRowBuilder,
     ButtonInteraction,
@@ -12,8 +14,6 @@ import {
     DiscordAPIError,
     type MessageActionRowComponentBuilder,
 } from "discord.js";
-import ffmpeg from "fluent-ffmpeg";
-import type { ValorantSkinInfo } from "typings/Valorant";
 export default class ValorantUtil {
     determineComponents(
         skin: ValorantSkinInfo,
@@ -140,34 +140,18 @@ export default class ValorantUtil {
                     files: [],
                 });
 
-                const chromaStream = ffmpeg(chromaVideo)
-                    .videoCodec("libx264")
-                    .format("mp4")
-                    .size("1280x720")
-                    .on("error", (err, stdout, stderr) => {
-                        logger.error(err.message, err);
-                        logger.error(stdout);
-                        logger.error(stderr);
-                    })
-                    .on("progress", (progress) => {
-                        const percent = Math.round(progress.percent ?? 0);
-                        if (isNaN(percent)) return;
-                        logger.debug(
-                            `[Valorant Skin Video] Processing ${chromaName} video: ${percent}% done`,
-                        );
-                    })
-                    .on("end", async () => {
-                        logger.debug(
-                            `[Valorant Skin Video] Finished processing ${chromaName} video`,
-                        );
-                        await interaction.editReply({
-                            content: `**Loading \`${chromaName}\` - Complete**`,
-                            embeds: [],
-                            components: [],
-                        });
-                    })
-                    .outputOptions("-movflags frag_keyframe+empty_moov")
-                    .pipe();
+                const chromaStream = transcodeToMp4Stream(
+                    chromaVideo,
+                    { width: 1280, height: 720, vcodec: "libx264" },
+                    (percent) => {
+                        const { logger } = container.client;
+                        if (!Number.isNaN(percent)) {
+                            logger.debug(
+                                `[Valorant Skin Video] Processing ${chromaName} video: ${percent}% done`,
+                            );
+                        }
+                    },
+                );
 
                 const chromaAttachment = new Attachment(chromaStream).setName(
                     `${chromaName.replaceAll(" ", "_")}.mp4`,
@@ -255,33 +239,16 @@ export default class ValorantUtil {
                     files: [],
                 });
 
-                const skinStream = ffmpeg(skinVideo)
-                    .videoCodec("libx264")
-                    .format("mp4")
-                    .size("1280x720")
-                    .on("error", (err, stdout, stderr) => {
-                        logger.error(err.message, err);
-                        logger.error(stdout);
-                        logger.error(stderr);
-                    })
-                    .on("progress", (progress) => {
-                        const percent = Math.round(progress.percent ?? 0);
+                const skinStream = transcodeToMp4Stream(
+                    skinVideo,
+                    { width: 1280, height: 720, vcodec: "libx264" },
+                    (percent) => {
+                        const { logger } = container.client;
                         logger.debug(
                             `[Valorant Skin Video] Processing ${skinName} video: ${percent}% done`,
                         );
-                    })
-                    .on("end", async () => {
-                        logger.debug(
-                            `[Valorant Skin Video] Finished processing ${skinName} video`,
-                        );
-                        await interaction.editReply({
-                            content: `**Loading \`${skinName}\` - Complete**`,
-                            embeds: [],
-                            components: [],
-                        });
-                    })
-                    .outputOptions("-movflags frag_keyframe+empty_moov")
-                    .pipe();
+                    },
+                );
 
                 const skinAttachment = new Attachment(skinStream).setName(
                     `${skinName.replaceAll(" ", "_")}.mp4`,

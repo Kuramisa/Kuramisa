@@ -1,9 +1,9 @@
 import { container } from "@sapphire/pieces";
+import type { ValorantAccount } from "@typings/Valorant";
 import Auth from "@valapi/auth";
 import WebClient from "@valapi/web-client";
 import { Collection, type Snowflake } from "discord.js";
 import ms from "ms";
-import type { ValorantAccount } from "typings/Valorant";
 import {
     ValorantAgents,
     ValorantBuddies,

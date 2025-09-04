@@ -1,5 +1,5 @@
-import { fetch } from "games/valorant/API";
-import type { APIValorantLevelBorder } from "typings/APIValorant";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantLevelBorder } from "@typings/APIValorant";
 
 export default class ValorantLevelBorders {
     private readonly data: APIValorantLevelBorder[];

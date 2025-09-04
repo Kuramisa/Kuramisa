@@ -1,7 +1,6 @@
-import { Embed } from "Builders";
-
-import { fetch } from "games/valorant/API";
-import type { APIValorantTheme } from "typings/APIValorant";
+import { Embed } from "@builders";
+import { fetch } from "@games/valorant/API";
+import type { APIValorantTheme } from "@typings/APIValorant";
 
 export default class ValorantThemes {
     private readonly data: APIValorantTheme[];

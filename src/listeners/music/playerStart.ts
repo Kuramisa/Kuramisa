@@ -1,6 +1,6 @@
 import { container, Listener } from "@sapphire/framework";
+import type { QueueMetadata } from "@typings/Music";
 import type { GuildQueue, Track } from "discord-player";
-import type { QueueMetadata } from "typings/Music";
 
 export default class PlayerStartEvent extends Listener {
     constructor(context: Listener.LoaderContext, options: Listener.Options) {

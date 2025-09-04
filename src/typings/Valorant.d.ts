@@ -1,7 +1,7 @@
+import type { Embed } from "@builders";
 import type Auth from "@valapi/auth";
 import type WebClient from "@valapi/web-client";
 import type { UserInfoResponse } from "@valapi/web-client";
-import type { Embed } from "Builders";
 import type {
     ActionRowBuilder,
     Collection,
